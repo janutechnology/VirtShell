@@ -15,4 +15,4 @@ Here are the documentation overview for each version of this service:
 
 ### VirtShell API [v1](doc/api-spec/v1/overview.md) ###
 
-### VirtShell Architecture[v1](doc/architecture/v1/overview.md) ###
+### VirtShell Architecture [v1](doc/architecture/v1/overview.md) ###
