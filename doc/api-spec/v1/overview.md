@@ -69,7 +69,8 @@ API Resources
 Below is a list of resources provided by this API. Click on the heading for
 more details.
 
-* [Hosts][hosts] - `/api/virtsh/v1/hosts`
+* [Hosts][hosts]
+ - `/api/virtsh/v1/hosts`
 
 * [ISOS][isos] - `/api/virtsh/v1/isos`
 
