@@ -1,9 +1,9 @@
-Hosts
-=====
-For Accounts Resource details, see the resource representation page.
+Hosts API Reference
+===================
 
-Note:
-URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
+Host
+====
+Represents an individual host on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
@@ -12,6 +12,9 @@ URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise
 | create | POST | /hosts/id | Inserts a new host configuration. | 
 | delete | DELETE | /hosts/id | Deletes an existing host. |
 | update | PUT | /hosts/id | Updates an existing host. |
+
+Note:
+URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
 
 Resource representations
 ========================
@@ -33,12 +36,32 @@ Resource representations
 Create a new host.
 
 ```sh
-curl -sv -X PUT -d '{ "ip": "Jack", "last": "Sparrow" }' \
+curl -sv -X PUT -d '{ "ip": "192.168.56.77", "user": "janu", "password": "janu", "type": "GeneralPurpose" }' \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
    'http://localhost:8080/api/virtshell/v1/hosts?id=robot'
 ```
 
+
+Response:
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```json
+{ "create": "success" }
+```
+
+```sh
+curl -sv -X PUT \
+	-H 'accept: application/json' \
+	-H 'X-VirtShell-Authorization: UserId:Signature' \
+	-d '{ "ip": "192.168.56.77", 
+		  "user": "janu", 
+		  "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABA...", 
+		  "type": "StorageOptimized" }' \
+   'http://localhost:8080/api/virtshell/v1/hosts?id=robot2'
+```
 
 Response:
 ```
@@ -55,8 +78,8 @@ Content-Type: application/json
 `GET /api/virtsh/v1/hosts/`
 ----------------------------------------------
 
-`PUT /api/notify/v2/alerts/:id`
+`PUT /api/notify/v2/hosts/:id`
 ----------------------------------------------
 
-`DELETE /api/notify/v2/alerts/:id`
+`DELETE /api/notify/v2/hosts/:id`
 ----------------------------------------------
