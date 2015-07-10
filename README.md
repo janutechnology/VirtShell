@@ -11,8 +11,8 @@ Documentation
 =============
 Here are the documentation overview for each version of this service:
 
-### VirtShell Command-Line [v1](doc/command-spec/v1/overview.md) ###
+### Command-Line [v1](doc/command-spec/v1/overview.md) ###
 
-### VirtShell API [v1](doc/api-spec/v1/overview.md) ###
+### API Reference[v1](doc/api-spec/v1/overview.md) ###
 
-### VirtShell Architecture [v1](doc/architecture/v1/overview.md) ###
+### Architecture [v1](doc/architecture/v1/overview.md) ###

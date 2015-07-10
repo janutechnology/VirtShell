@@ -3,6 +3,30 @@ Manage Virtual Machines and Containers via Shell's commands
 
 Commands specification (Under Construction)
 
+virtsh user
+===========
+	synopsis
+	========
+		virtsh user add <user> [--role <role>]
+		virtsh host disable <user>
+		virtsh host list
+
+	description
+	===========
+		Manage the set of users that have access to virtshell.
+
+		Examples of the options are as follows:
+			role: Administrator | user
+
+		Note:
+			The default value for role is user.
+
+	commands
+	========
+		- add: Adds a new user in the repository.
+		- disable: Disable a user of the repository.
+		- list: shows a list of existing users
+
 virtsh host
 ===========
 	synopsis
