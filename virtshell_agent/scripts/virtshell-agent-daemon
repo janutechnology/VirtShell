@@ -1,0 +1,100 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides: virtshell-agent-daemon
+# Required-Start: $syslog
+# Required-Stop: $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: VirtShell Agent Daemon
+# Description: Handle request for containers and virtual machines
+### END INIT INFO
+
+# Get function from functions library
+. /lib/lsb/init-functions
+DESC="VirtShell Agent Service"
+CONF="/var/janu/etc/virtshell_agent.conf"
+DAEMON="/usr/bin/python /usr/local/bin/virtshell_agent"
+NAME="virtshellagent"
+PIDFILE=/var/run/$NAME
+LOCKFILE=/var/lock/$NAME
+LOGFILE=/var/log/syslog
+
+if [ $(id -u) -ne $(id -u root) ]; then
+    echo "ERROR: Please run this script as root"
+    exit 1
+fi
+
+is_running() {
+    if [ -f $PIDFILE ]; then
+        PID=`cat $PIDFILE`
+        if [ -n "$PID" ]; then
+            return 0
+        else
+            return 1
+        fi
+    else
+        return 1
+    fi
+}
+
+start_daemon() {
+    if ! is_running; then
+        echo "Starting $DESC"
+        if [ ! -d $(dirname $LOGFILE) ]; then
+         mkdir -p $(dirname $LOGFILE)
+        fi
+        
+        nohup $DAEMON 1>>$LOGFILE 2>&1 &
+        RETVAL=$?
+        PID=$!
+        touch $LOCKFILE
+        echo $PID > $PIDFILE
+        sleep 1
+        if ! [ -d /proc/$PID ]; then
+            rm -f $PIDFILE
+            rm -f $LOCKFILE
+            echo "Problem starting $DESC. Please check the system log"
+            exit 1
+        fi
+        echo "$DESC: Started correctly"
+
+    else
+        echo "$DESC: already running (pid $PID)"
+        exit 1
+    fi
+}
+
+stop_daemon() {
+    if is_running; then
+        echo "Stopping $DESC"
+        if [ -f $PIDFILE ]; then
+            PID=`cat $PIDFILE`
+            kill $PID
+            rm -f $PIDFILE
+            rm -f $LOCKFILE
+        fi
+    else
+        [ -f $PIDFILE ] && rm -f $PIDFILE
+        echo "$DESC: not running"
+    fi
+}
+
+case "$1" in
+  start)
+    start_daemon
+    ;;
+  stop)
+    stop_daemon
+    ;;
+  restart)
+   stop_daemon
+   start_daemon
+   ;;
+  *)
+    echo "usage: /etc/init.d/virtshell_agent {start|restart|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
