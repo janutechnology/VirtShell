@@ -1,5 +1,5 @@
 from instance import Instance
 
-class Container(Instance):
+class Machine(Instance):
     def __init__(self):
-        self._price = 10.5
+        self._price = 8.5

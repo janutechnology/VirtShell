@@ -1,12 +1,13 @@
 #!/usr/bin/python
 
-""" Filename: VirtShell-agent
+""" Filename: agent
     Description: Agent for handle containers and virtual machines in a host
     moduleauthor: Carlos Alberto Llano R. <carlos_llano@hotmail.com> 
 """
 
 __version__ = '0.1'
 
+import logging
 import simplejson
 import datetime
 import tornado.httpserver
@@ -14,6 +15,7 @@ import tornado.websocket
 import tornado.ioloop
 import tornado.web
 from logging.handlers import SysLogHandler
+from instance_factory import InstanceFactory
 
 ################################################################################
 # Global Variables
@@ -27,14 +29,14 @@ class CreateInstanceHandler(tornado.websocket.WebSocketHandler):
     clients = []
     def open(self):
         main_logger.info("new connection")
-        self.write_message("Connection stablished")
+        main_logger.info("Connection stablished")
         CreateInstanceHandler.clients.append(self)
 
     def on_message(self, json_message):
         main_logger.info("message received %s" % json_message)
         message = simplejson.loads(json_message)
-
         instance = InstanceFactory.create_instance(message['type'])
+        instance.create_instance()
 
     def on_close(self):
         main_logger.info("connection closed")
@@ -80,7 +82,7 @@ def init_logger(LoggerName):
 if __name__ == "__main__":
     main_logger = init_logger('virtshell-agent')
     http_server = tornado.httpserver.HTTPServer(application)
-    http_server.listen(8888)
+    http_server.listen(8080)
+    main_logger.info("VirtShell-agent started...")
     #tornado.ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=15), WSHandler.write_to_clients)
     tornado.ioloop.IOLoop.instance().start()
-    main_logger.info("VirtShell-agent started...")
