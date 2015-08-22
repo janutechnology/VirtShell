@@ -12,7 +12,6 @@ import imp
 import signal
 import os.path
 import logging
-import sqlite3
 import datetime
 import simplejson
 import tornado.web
