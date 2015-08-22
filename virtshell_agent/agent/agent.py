@@ -9,16 +9,18 @@ __version__ = '0.1'
 
 import os
 import imp
+import signal
 import os.path
 import logging
+import sqlite3
 import datetime
 import simplejson
 import tornado.web
 import tornado.ioloop
 import tornado.websocket
 import tornado.httpserver
+from database import Database
 from logging.handlers import SysLogHandler
-# from instance_factory import InstanceFactory
 
 ################################################################################
 # Global Variables
@@ -27,6 +29,31 @@ main_logger = None
 plugin_folder = "./plugins"
 special_method = "__init__.py"
 plugins = {}
+database = None
+
+################################################################################
+# Signals
+################################################################################
+signals =  {
+    signal.SIGINT: 'SIGINT',
+    signal.SIGTERM: 'SIGTERM'
+}
+
+def cleanup(name, child, signum, frame):
+    """Stop the sub-process *child* if *signum* is SIGTERM. Then terminate."""
+    try:
+        print('%s got a %s' % (name, SIGNALS[signum]))
+        if child and signum != signal.SIGINT:
+            term(child)
+    except:
+        traceback.print_exc()
+    finally:
+        sys.exit()
+
+def term(proc):
+    """Send a SIGTERM to *proc* and wait for it to terminate."""
+    proc.terminate()  # Sends SIGTERM
+    proc.wait()
 
 ################################################################################
 # CreateInstanceHandler Class
@@ -41,9 +68,12 @@ class CreateInstanceHandler(tornado.websocket.WebSocketHandler):
     def on_message(self, json_message):
         main_logger.info("message received %s" % json_message)
         message = simplejson.loads(json_message)
-        if message['action'] == 'create':
-            plugin = load_plugin(message['type'])
-            plugin.run()
+        print message
+        database.insert_new_request(message)
+        # if message['action'] == 'create':
+        #     plugin = load_plugin(message['type'])
+        #     plugin.run()
+        self.write_message("received")
 
     def on_close(self):
         main_logger.info("connection closed")
@@ -105,6 +135,7 @@ def init_logger(LoggerName):
 
 if __name__ == "__main__":
     main_logger = init_logger('virtshell-agent')
+    database = Database(main_logger)
     get_plugins()
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(8080)
