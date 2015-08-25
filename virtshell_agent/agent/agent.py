@@ -8,14 +8,18 @@
 __version__ = '0.1'
 
 import os
+import sys
 import imp
+import time
+import json
 import signal
+import psutil
 import os.path
 import logging
 import datetime
-import simplejson
 import tornado.web
 import tornado.ioloop
+import multiprocessing
 import tornado.websocket
 import tornado.httpserver
 from database import Database
@@ -25,34 +29,61 @@ from logging.handlers import SysLogHandler
 # Global Variables
 ################################################################################
 main_logger = None
-plugin_folder = "./plugins"
-special_method = "__init__.py"
-plugins = {}
 database = None
 
 ################################################################################
 # Signals
 ################################################################################
-signals =  {
-    signal.SIGINT: 'SIGINT',
-    signal.SIGTERM: 'SIGTERM'
-}
+def signal_handler(signal, frame):
+    pid = os.getpid()
+    parent = psutil.Process(pid)
+    for child in parent.children(recursive=True):
+        main_logger.info("agent-service with pid [%d] terminated.", child.pid)
+        child.kill()
+    main_logger.info("agent with pid [%d] terminated.", pid)
+    sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
 
-def cleanup(name, child, signum, frame):
-    """Stop the sub-process *child* if *signum* is SIGTERM. Then terminate."""
-    try:
-        print('%s got a %s' % (name, SIGNALS[signum]))
-        if child and signum != signal.SIGINT:
-            term(child)
-    except:
-        traceback.print_exc()
-    finally:
-        sys.exit()
+################################################################################
+# AgentService Class
+################################################################################
+class AgentService(multiprocessing.Process):
+    def run(self):
+        self.logger = init_logger('virtshell-agent-service')
+        self.plugins = {}
+        self.plugin_folder = "./plugins"
+        self.special_method = "__init__.py"
+        self.database = Database(self.logger)
+        self.logger.info("started...")
+        self.get_plugins()
 
-def term(proc):
-    """Send a SIGTERM to *proc* and wait for it to terminate."""
-    proc.terminate()  # Sends SIGTERM
-    proc.wait()
+        while True:
+            request = self.database.get_request()
+            if request != None:
+                message = request.message
+                plugin = self.load_plugin(message['type'])
+                result = plugin.run(self.logger, message)
+                if result == 0:
+                    request.status = 1
+                    self.database.update_request(request)
+            else:
+                time.sleep(10)
+            self.logger.info("en el hilo....")
+            
+    def get_plugins(self):
+        self.logger.info("finding plugins")
+        possible_plugins = os.listdir(self.plugin_folder)
+        possible_plugins.remove(self.special_method)
+        for module in possible_plugins:
+            if not module.endswith(".pyc"):
+                module = os.path.splitext(module)[0]
+                info = imp.find_module(module, [self.plugin_folder])
+                self.plugins[module] = info
+                self.logger.info("plugin %s.py found" % module)
+
+    def load_plugin(self, name):
+        return imp.load_module(name, *(self.plugins[name]))
 
 ################################################################################
 # CreateInstanceHandler Class
@@ -66,12 +97,9 @@ class CreateInstanceHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, json_message):
         main_logger.info("message received %s" % json_message)
-        message = simplejson.loads(json_message)
-        print message
+        #message = simplejson.loads(json_message)
+        message = json.load(json_message)
         database.insert_new_request(message)
-        # if message['action'] == 'create':
-        #     plugin = load_plugin(message['type'])
-        #     plugin.run()
         self.write_message("received")
 
     def on_close(self):
@@ -80,30 +108,12 @@ class CreateInstanceHandler(tornado.websocket.WebSocketHandler):
 
     @classmethod
     def write_to_clients(cls):
-        print "Writing to clients"
         for client in cls.clients:
             client.write_message("Hi there!")
 
 application = tornado.web.Application([
   (r'/create_instance', CreateInstanceHandler)
 ])
-
-################################################################################
-# Functions for finding and loads plugins
-################################################################################
-def get_plugins():
-    main_logger.info("finding plugins")
-    possible_plugins = os.listdir(plugin_folder)
-    possible_plugins.remove(special_method)
-    for module in possible_plugins:
-        if not module.endswith(".pyc"):
-            module = os.path.splitext(module)[0]
-            info = imp.find_module(module, [plugin_folder])
-            plugins[module] = info
-            main_logger.info("plugin %s.py found" % module)
-
-def load_plugin(name):
-    return imp.load_module(name, *(plugins[name]))
 
 ################################################################################
 # Logging plumbing
@@ -135,9 +145,10 @@ def init_logger(LoggerName):
 if __name__ == "__main__":
     main_logger = init_logger('virtshell-agent')
     database = Database(main_logger)
-    get_plugins()
+    agent_service = AgentService()
+    agent_service.start()
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(8080)
-    main_logger.info("VirtShell-agent started...")
+    main_logger.info("started...")
     #tornado.ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=15), WSHandler.write_to_clients)
     tornado.ioloop.IOLoop.instance().start()

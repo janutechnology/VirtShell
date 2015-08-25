@@ -1,8 +1,4 @@
-# from instance import Instance
-
-# class Container(Instance):
-#     def __init__(self):
-#         self._price = 10.5
-
-def run():
-    print("Hello from a container plugin!!!!!!!!!!!!!!!")
+def run(logger, message):
+    logger.info("Hello from a container plugin!!!!!!!!!!!!!!!")
+    logger.info(message)
+    return 0    

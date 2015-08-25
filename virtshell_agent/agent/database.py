@@ -1,15 +1,14 @@
 #!/usr/bin/python
 
 """ Filename: database
-    Description: Agent for handle containers and virtual machines in a host
+    Description: handle database access
     moduleauthor: Carlos Alberto Llano R. <carlos_llano@hotmail.com> 
 """
 
-__version__ = '0.1'
-
 import os
+import json
 import sqlite3
-import simplejson
+from entities import Request
 
 ################################################################################
 # Global Variables
@@ -25,7 +24,9 @@ class Database(object):
         self.database_conn = None
 
         if not os.path.exists(database_file):
-            self.database_conn = sqlite3.connect(database_file)
+            self.database_conn = sqlite3.connect(database_file,
+                                                 timeout=5,
+                                                 check_same_thread = False)
             self.logger.info("Database %s doesn't exists..." % database_file)
             cursor = self.database_conn.cursor()
             cursor.execute('''
@@ -43,9 +44,30 @@ class Database(object):
             self.logger.info("Connected database successfully...")
 
     def insert_new_request(self, json_message):
-        self.logger.info("new request: %s", json_message)
-        str_message = simplejson.dumps(json_message)
+        str_message = json.dumps(json_message)
         cursor = self.database_conn.cursor()
         cursor.execute("INSERT INTO requests(message) VALUES(?)", (str_message,))
         self.database_conn.commit()
         cursor.close()
+        self.logger.info("new request inserted %s.", json_message)
+
+    def update_request(self, request):
+        cursor = self.database_conn.cursor()
+        cursor.execute("UPDATE requests SET status = ? WHERE id = ?", 
+                                                                (request.status,
+                                                                 request.id,))
+        self.database_conn.commit()
+        cursor.close()
+        self.logger.info("request id=%d updated.", request.id)
+
+    def get_request(self):
+        cursor = self.database_conn.execute("SELECT id, message, date \
+                                             FROM requests \
+                                             WHERE status = 0 LIMIT 1")
+        data = cursor.fetchone()
+        if data is not None:
+            request = Request(data[0], json.loads(data[1]), 0, data[2])
+        else:
+            request = None
+        return request
+
