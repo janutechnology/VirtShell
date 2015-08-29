@@ -1,5 +1,7 @@
+# VirtShell Installation
+
 Prerequisites
-----------------------------------------------
+===============
 python 3.2.3
 sqlite3
 tornado 4.2.1
@@ -7,7 +9,7 @@ lxc
 python3-lxc
 
 Install python 3.2.3
-----------------------------------------------
+====================
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y install software-properties-common libssl-dev openssl wget
@@ -22,12 +24,12 @@ sudo update-alternatives --config python
 sudo update-alternatives --config python3
 
 Intall sqlite3
-----------------------------------------------
+==============
 sudo apt-get install sqlite3
 sudo apt-get install libsqlite3-dev
 
 Install tornado
-----------------------------------------------
+==============
 wget https://pypi.python.org/packages/source/t/tornado/tornado-4.2.1.tar.gz
 tar xvzf tornado-4.2.1.tar.gz
 cd tornado-4.2.1
