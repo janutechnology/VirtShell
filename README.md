@@ -6,6 +6,7 @@ Features
 
 Installation
 ============
+Here are the documentation of how to install the dependencies [v1](doc/install/v1/install.md)
 
 Documentation
 =============

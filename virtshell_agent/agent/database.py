@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 """ Filename: database
     Description: handle database access
     moduleauthor: Carlos Alberto Llano R. <carlos_llano@hotmail.com> 
@@ -43,13 +41,12 @@ class Database(object):
             self.database_conn = sqlite3.connect(database_file)
             self.logger.info("Connected database successfully...")
 
-    def insert_new_request(self, json_message):
-        str_message = json.dumps(json_message)
+    def insert_new_request(self, message):
         cursor = self.database_conn.cursor()
-        cursor.execute("INSERT INTO requests(message) VALUES(?)", (str_message,))
+        cursor.execute("INSERT INTO requests(message) VALUES(?)", (message,))
         self.database_conn.commit()
         cursor.close()
-        self.logger.info("new request inserted %s.", json_message)
+        self.logger.info("new request inserted %s.", message)
 
     def update_request(self, request):
         cursor = self.database_conn.cursor()
