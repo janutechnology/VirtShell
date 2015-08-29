@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 """ Filename: entities
     Description: Different entities of the agent
     moduleauthor: Carlos Alberto Llano R. <carlos_llano@hotmail.com> 

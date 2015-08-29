@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 """ Filename: agent
     Description: Agent for handle containers and virtual machines in a host
     moduleauthor: Carlos Alberto Llano R. <carlos_llano@hotmail.com> 
@@ -62,21 +60,19 @@ class AgentService(multiprocessing.Process):
             request = self.database.get_request()
             if request != None:
                 message = request.message
-                plugin = self.load_plugin(message['type'])
-                result = plugin.run(self.logger, message)
-                if result == 0:
-                    request.status = 1
-                    self.database.update_request(request)
+                plugin = self.load_plugin(message['drive'])
+                status = plugin.run(self.logger, request)
+                request.status = status
+                self.database.update_request(request)
             else:
                 time.sleep(10)
-            self.logger.info("en el hilo....")
             
     def get_plugins(self):
         self.logger.info("finding plugins")
         possible_plugins = os.listdir(self.plugin_folder)
         possible_plugins.remove(self.special_method)
         for module in possible_plugins:
-            if not module.endswith(".pyc"):
+            if not module.endswith(".pyc") and not os.path.isdir(module):
                 module = os.path.splitext(module)[0]
                 info = imp.find_module(module, [self.plugin_folder])
                 self.plugins[module] = info
@@ -97,9 +93,7 @@ class CreateInstanceHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, json_message):
         main_logger.info("message received %s" % json_message)
-        #message = simplejson.loads(json_message)
-        message = json.load(json_message)
-        database.insert_new_request(message)
+        database.insert_new_request(json_message)
         self.write_message("received")
 
     def on_close(self):
