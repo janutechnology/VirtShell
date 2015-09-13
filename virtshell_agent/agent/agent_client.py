@@ -13,6 +13,7 @@ if __name__ == "__main__":
             'release':'trusty',
             'arch':'amd64',
             'launch':1,
+            'cpus':1,
             'user':'callanor',
             'password':'callanor',            
             'memory':1024}

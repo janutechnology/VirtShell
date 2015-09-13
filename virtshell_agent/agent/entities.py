@@ -12,6 +12,7 @@ class Request(object):
         self._message = message
         self._status = status
         self._date = date
+        self._message_log = None
 
     @property
     def id(self):
@@ -40,3 +41,10 @@ class Request(object):
     @date.setter
     def date(self, value):
         self._date = value
+
+    @property
+    def message_log(self):
+        return self._message_log
+    @date.setter
+    def message_log(self, value):
+        self._message_log = message_log

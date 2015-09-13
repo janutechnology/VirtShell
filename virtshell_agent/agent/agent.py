@@ -21,6 +21,7 @@ import multiprocessing
 import tornado.websocket
 import tornado.httpserver
 from database import Database
+from exceptions import PluginException
 from logging.handlers import SysLogHandler
 
 ################################################################################
@@ -60,9 +61,12 @@ class AgentService(multiprocessing.Process):
             request = self.database.get_request()
             if request != None:
                 message = request.message
-                plugin = self.load_plugin(message['drive'])
-                status = plugin.run(self.logger, request)
-                request.status = status
+                try:
+                    plugin = self.load_plugin(message['drive'])
+                    request = plugin.run(self.logger, request)
+                except PluginException as plugin_exception:
+                    request.status = 2
+                    request.message_log = plugin_exception
                 self.database.update_request(request)
             else:
                 time.sleep(10)
