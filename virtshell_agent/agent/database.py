@@ -32,7 +32,9 @@ class Database(object):
                     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
                     message JSON NOT NULL,
                     status INTEGER DEFAULT 0 NOT NULL, 
-                    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL)
+                    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                    message_log TEXT NULL,
+                    status_date TIMESTAMP NULL)
             ''')
             self.database_conn.commit()
             cursor.close()
@@ -50,9 +52,13 @@ class Database(object):
 
     def update_request(self, request):
         cursor = self.database_conn.cursor()
-        cursor.execute("UPDATE requests SET status = ? WHERE id = ?", 
-                                                                (request.status,
-                                                                 request.id,))
+        cursor.execute("UPDATE requests\
+                        SET status = ?,\
+                        status_date = date('now'),\
+                        message_log = ?\
+                        WHERE id = ?", (request.status,
+                                        request.message_log,
+                                        request.id,))
         self.database_conn.commit()
         cursor.close()
         self.logger.info("request id=%d updated.", request.id)
