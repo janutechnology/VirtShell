@@ -29,6 +29,7 @@ from logging.handlers import SysLogHandler
 ################################################################################
 main_logger = None
 database = None
+listener_handler = None
 
 ################################################################################
 # Signals
@@ -47,32 +48,37 @@ signal.signal(signal.SIGTERM, signal_handler)
 ################################################################################
 # AgentService Class
 ################################################################################
-class AgentService(multiprocessing.Process):
-    def run(self):
-        self.logger = init_logger('virtshell-agent-service')
+class ListenerHandler(object):
+    def __init__(self):
+        self.listeners = {}
         self.plugins = {}
         self.plugin_folder = "./plugins"
         self.special_method = "__init__.py"
-        self.database = Database(self.logger)
-        self.logger.info("started...")
         self.get_plugins()
+        self.register_plugin_actions()
 
-        while True:
-            request = self.database.get_request()
-            if request != None:
-                message = request.message
-                try:
-                    plugin = self.load_plugin(message['drive'])
-                    request = plugin.run(self.logger, request)
-                except PluginException as plugin_exception:
-                    request.status = 2
-                    request.message_log = plugin_exception
-                self.database.update_request(request)
-            else:
-                time.sleep(10)
+    def register_plugin_actions(self):
+        for plugin_name in self.plugins:            
+            plugin_class = self.load_plugin(plugin_name)
+            # Asignar aqui el logger para no pasarlo mas
+            plugin_methods = plugin_class.catalogue()
+            for plugin_method_name in plugin_methods:
+                plugin_method = getattr(plugin_class, plugin_method_name)
+                plugin_key = plugin_name + '-' + plugin_method_name
+                self.register(plugin_key, (plugin_class, plugin_method))
+        print(self.listeners)
+
+    def register(self, listener, action):            
+        self.listeners[action] = listener
+
+    def dispatch(self, request):
+        message = json.loads(request)
+        action = message['drive'] + '-' + message['action']
+        plugin, method = self.listeners[action]
+        return method(request)                  
             
     def get_plugins(self):
-        self.logger.info("finding plugins")
+        main_logger.info("finding plugins")
         possible_plugins = os.listdir(self.plugin_folder)
         possible_plugins.remove(self.special_method)
         for module in possible_plugins:
@@ -80,51 +86,42 @@ class AgentService(multiprocessing.Process):
                 module = os.path.splitext(module)[0]
                 info = imp.find_module(module, [self.plugin_folder])
                 self.plugins[module] = info
-                self.logger.info("plugin %s.py found" % module)
+                main_logger.info("plugin %s.py found" % module)
 
     def load_plugin(self, name):
         return imp.load_module(name, *(self.plugins[name]))
 
 ################################################################################
-# CreateInstanceHandler Class
+# RequestHandler Class
 ################################################################################
-class CreateInstanceHandler(tornado.websocket.WebSocketHandler):
+class RequestHandler(tornado.websocket.WebSocketHandler):
     clients = []
     def open(self):
         main_logger.info("new connection")
         main_logger.info("Connection stablished")
-        CreateInstanceHandler.clients.append(self)
+        RequestHandler.clients.append(self)
 
     def on_message(self, json_message):
+        print(json_message)
         main_logger.info("message received %s" % json_message)
-        database.insert_new_request(json_message)
-        self.write_message("received")
+        response = listener_handler.dispatch(json_message)
+        self.write_message(response)
 
     def on_close(self):
         main_logger.info("connection closed")
-        CreateInstanceHandler.clients.remove(self)
+        RequestHandler.clients.remove(self)
 
     @classmethod
     def write_to_clients(cls):
         for client in cls.clients:
             client.write_message("Hi there!")
 
-application = tornado.web.Application([
-  (r'/create_instance', CreateInstanceHandler)
-])
+application = tornado.web.Application([(r'/', RequestHandler)])
 
 ################################################################################
 # Logging plumbing
 ################################################################################
 def init_logger(LoggerName):
-    """ 
-    This function handle the messages for SysLog
-    
-    @param LoggerName: The name of the logger
-
-    @return: a logger instance
-    """
-
     # Create logger
     logger = logging.getLogger(LoggerName)
     logger.setLevel(logging.INFO)
@@ -143,10 +140,11 @@ def init_logger(LoggerName):
 if __name__ == "__main__":
     main_logger = init_logger('virtshell-agent')
     database = Database(main_logger)
-    agent_service = AgentService()
-    agent_service.start()
+    listener_handler = ListenerHandler()
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(8080)
     main_logger.info("started...")
     #tornado.ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=15), WSHandler.write_to_clients)
     tornado.ioloop.IOLoop.instance().start()
+
+# sudo python3 agent.py
