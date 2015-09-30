@@ -1,0 +1,165 @@
+\documentclass[a4paper,bsc,spanish]{csthesis}
+\usepackage{t1enc}
+\usepackage[spanish,activeacute]{babel}
+\usepackage{latexsym}
+%\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{makeidx}
+\usepackage{listings}
+\usepackage{ltablex}
+\usepackage{appendix} 
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{array}
+\usepackage{colortbl}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+\definecolor{cornflowerblue}{rgb}{0,0.4,0.8}
+\definecolor{blueapi}{RGB}{97, 153, 223}
+
+\lstdefinelanguage{Json}{
+%  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+%  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{"},
+%  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstdefinelanguage{Python}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+   language=Python,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{0.4cm}
+
+\addto\captionsspanish{%
+\def\tablename{Tabla}%
+\def\tableofcontentsname{Índice de Tablas}%
+}
+
+\makeindex
+\begin{document}
+
+\pagenumbering{roman}
+%%%%%%%%%%%%%% Titulo del trabajo %%%%%%%%%%%%%%%%%%%%
+\include{titulo}
+
+%%%%%%%%%%%%%% Agradecimientos %%%%%%%%%%%%%%%%%%%%%%%
+\include{agradecimientos}
+
+\setcounter{page}{9} % ojo no es general
+
+\tableofcontents
+\listoftables
+\listoffigures
+\listofanexos
+
+%%%%%%%%%%%%%% Configuracion del documento de tesis %%%
+\include{configuracion}
+
+%%%%%%%%%%%%%% Resumen del documento de tesis %%%%%%%%%
+\include{abstract}
+
+%%%%%%%%%%%%%% Introduccion del documento %%%%%%%%%%%%%
+\include{introduccion}
+
+\pagenumbering {arabic}
+\setcounter{page}{19} % ojo no es general 19
+
+%%%%%%%%%%%%%% Generalidades del documento %%%%%%%%%%%%
+\include{enfoquesaprov}
+
+%%%%%%%% Diseno JanuEP
+\include{diseno}
+
+%%%%%%%% API REST
+\include{apirest}
+
+%%%%%%%% Capitulo Implementacion   %%%%%%%%%%%%%%%%%%%%%
+\include{implementacion}
+
+%%%%%%%% Capitulo Pruebas   %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{pruebas}
+
+%%%%%%%% Capitulo Conclusiones   %%%%%%%%%%%%%%%%%%%%%%%
+\include{conclusiones}
+
+%%%%%%%% Capitulo Recomendaciones   %%%%%%%%%%%%%%%%%%%%
+\include{recomendaciones}
+
+%\nocite{pratt:proglang,
+%        aho.sethi.jeffrey:compiladores,
+%        valencia.diaz.rueda:TR1Avispa, 
+%        quesada.rueda.tamura:modelo-visual-cordial,
+%        tyco:tesis,
+%        Eco:comohacertesis,
+%        quesada.rueda.tamura:programacion-visual,
+%        mehl.sche.schu:amoz,
+%        lind.yell:jvms,
+%        frameworkforcompilingoc, 
+%        tycoam:definition, 
+%        boeschen.fecht:osmall,
+%        robin.joachim.david:mobile,
+%        abadi.cardelli:objects}
+{
+\singlespace
+\bibliographystyle{alpha}
+\bibliography{bibliografia}
+}
+\def\thefigure{D.\arabic{figure}}
+\include{anexos}
+\printindex
+\end{document}
+
+
+
+
+
+
+
+
