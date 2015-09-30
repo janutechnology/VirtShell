@@ -1,0 +1,31 @@
+\newcommand{\noopsort}[1]{}
+\begin{thebibliography}{Mil92}
+
+\bibitem[Mil80]{milner:CCS}
+Robin Milner.
+\newblock {A Calculus of Communicating Systems}.
+\newblock Lecture Notes in Computer Science, LNCS 92, 1980.
+
+\bibitem[Mil92]{milner:functions-processes}
+Robin Milner.
+\newblock {Functions as Processes}.
+\newblock {\em Journal of Mathematical Structures in Computer Science},
+  2(2):119--141, 1992.
+
+\bibitem[PT94]{pierce.turner:concurrent-objects}
+Benjamin~C. Pierce and David Turner.
+\newblock {Concurrent Objects in a Process Calculus}.
+\newblock In {\em Theory and Practice of Parallel Programming (TPPP), Sendai,
+  Japan}, November 1994.
+
+\bibitem[Rue]{rueda:visual-programming}
+Camilo Rueda.
+\newblock {A Visual Programming Enviroment for Constraint-Based Musical
+  Composition}.
+
+\bibitem[Sar93]{saraswat:cc-program}
+Vijay~A. Saraswat.
+\newblock {\em {Concurrent Constraint Programming}}.
+\newblock The MIT Press, Cambridge, MA, 1993.
+
+\end{thebibliography}
