@@ -1,22 +1,18 @@
 \chapter{Aprovisionamiento de m'aquinas virtuales}
 \label{aprmaqvir}
-El trabajo realizado sobre aprovisionamiento de aplicaciones y software, en maquinas virtualizadas, ha evolucionado r'apidamente. En el mercado se encuentran soluciones, que permiten la interacci'on con ambientes de virtualizaci'on como Xen, KVM, VMWare y VirtualBox.\\
+La computacion en la nube ha sido un punto importane de investigacion en la industria recientemente. Esta puede ser descrita como una nueva clase de computacion en la cual dinamicos y escalables recursos pueden ser provistos sobre internet. Para los usuarios esto es transparente y ellos solo pagan lo que usan de acuerdo a niveles de sliervicio establecidos entre los proveedores de nubes y los usuarios finales. \\
 \\
-Herramientas como SmartFrog \cite{3} y Cobbler \cite{6} , ofrecen alternativas basadas en scripts y modelos, que dan un r'apido, controlado y autom'atico despliegue de software, en todas las maquinas de una red f'isicas o virtualizada s, permitiendo mejorar los tiempos de instalaci'on de nuevas funcionalidades de forma confiable y segura de la misma forma que ayudan a disminuir el tiempo y el costo de los despliegues de aplicaciones y servicios \cite{4}.\\
+Una de las principales caracteristicas de la computacion en la nube es la virtualizacion, la cual consiste de un numero de maquinas virtuales ejecutandose sobre una o mas maquinas fisicas. \\
+\\
+La instalacion de una maquina virtual requiere normalmente de la generacion e instalacion de una imagen y la instacion y configuracion de paquetes de software. Estas tareas generalmente son realizadas por tecnicos de los proveedores de la nube. Cuando un usuario de la nube solicita un nuevo servicio o mas capacidad de computo, el administrador selecciona la apropiada imagen para clonar e instalar en los nodos de la nube. Si no hay una imagen apropiada para los requerimientos del cliente se crea y configura una nueva que cumpla con la solicitud. Esta creacion de una nueva imagen puede ser realizada modificando la imagen mas cercada de las ya existentes. En el momento de la creacion optima de la imagen un administrador puede tener dificultades y pregunts como, cual es la mejor configuracio?, cuales paquetes y sus dependencias deberian ser instaladas? como encontrar una imagen que mejor llene las expectativas?\\
+\\
+Los proveedores de la nube desean cada vez mas automatizar este proceso porque la dependencia entre paquetes de software y la dificultad de mantenimiento agrega tiempo a la creacion de las maquinas virtuales. En otras palabras los proveedores de nube quieren dar mas flexibilidad y agilidad a la hora de satisfaces los requerimientos de los usuarios finales.\\
+\\
+En el mercado se encuentran soluciones que permiten la interacci'on con ambientes de virtualizaci'on como Xen, KVM, VMWare y VirtualBox.\\
+\\
+Herramientas como SmartFrog \cite{3} y Cobbler \cite{6} , ofrecen alternativas basadas en scripts y modelos, que dan un r'apido, controlado y autom'atico despliegue de software, en todas las maquinas de una red f'isicas o virtualizadas, permitiendo mejorar los tiempos de instalaci'on de nuevas funcionalidades de forma confiable y segura de la misma forma que ayudan a disminuir el tiempo y el costo de los despliegues de aplicaciones y servicios \cite{4}.\\
 \\
 A continuaci'on se presenta los diferentes enfoques de aprovisionamiento que existen y posteriormente las herramientas que existen en el mercado que abordan el tema de aprovisionamiento sobre maquinas virtuales.
-
-
-\section{Enfoques de aprovisionamiento}
-Hoy en d'ia las herramientas de despliegue de aplicaciones, ofrecen diferentes niveles de automatizaci'on, los cuales se clasifican en manual, basados en scripts, basados en lenguajes y basados en modelos. La tabla 1, detalla las tareas que requiere cada enfoque.\\
-\\
-Tabla 1: Tareas\\
-\\
-El enfoque manual es apropiado para despliegues de escala simple y peque'na, en donde no se necesitan hacer numerosos cambios e instalaciones, los cuales pueden ser realizados con intervenci'on humana. Para grandes escalas, el enfoque basado en scripts presenta ventajas sobre el enfoque manual, apesar de que requiere aprender el lenguaje script que se decida usar \cite{2}. Para escalas de grandes y complejos despliegues, un enfoque basando en lenguaje, como SmartFrog \cite{3}, podr'ia ser una mejor alternativa. Este enfoque requiere invertir en el entendimiento de la complejidad del framework y desarrollar las plantillas y configuraciones de las dependencias. Finalmente, los ambientes que requieren de cambios en tiempos de ejecuci'on son mejor manejados por el enfoque basado en modelos. La tabla 2, hace una comparaci'on cualitativa, de los diferentes enfoques de despliegue.\\
-\\
-Tabla 2: Cuadro Comparativo\\
-\\
-Este cuadro comparativo no esta indicando que exista un 'optimo enfoque, la elecci'on de un enfoque depende de la escala y tama'no del sistema, las configuraciones que tengan que realizarse, el numero del instalaciones, entre otros. Como puede notarse los cuatro enfoques son sin'ergicos y ellos incrementan el nivel de abstracci'on de manual a modelo. 
 
 \section{Herramientas de despliegue actuales}
 En esta secci'on, se describir'an herramientas de c'odigo abierto dise'nadas con enfoques de despliegue basados en scripts, lenguajes y modelos. Existen muchas otras herramientas para realizar despliegue las cuales est'an descritas en \cite{12}, la gran mayor'ia de estas herramientas son comerciales y se limitan a configuraci'on de servidores remotos en redes privadas y no abordan el tema de virtualizaci'on.\\
@@ -48,7 +44,8 @@ HP Utility Data Cente (UDC) es un producto comercial, que se centra en la admini
 \subsection{Oracle VM Templates}
 Oracle VM Templates, es un producto comercial de la empresa Oracle, cuyo objetivo es realizar despliegues rapidos de aplicaciones Oracle y no-Oracle, con base en imagenes de software pre-configuradas manualmente. Cuenta con una interfaz grafica que permite crear y administrar servidores virtuales con facilidad. \cite{14}
 
-\subsection{Shef}
+\subsection{Chef}
 \subsection{vagrant}
+\subsection{ansible}
 
 
