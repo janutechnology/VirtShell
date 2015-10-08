@@ -1,19 +1,25 @@
 \chapter{API REST}
 \label{capapi}
 
-Este capitulo esta destinado a los desarrolladores que deseen interactuar con el VirtShell API, para realizar aprovisionamientos autom'aticos desde cualquier plataforma de desarrollo. Con el API de aprovisionamiento se podr'a crear ambientes y m'aquinas virtuales personalizadas, realizar configuraciones y administrar los recursos f'isicos y virtuales de manera program'atica. 
+Este capitulo esta destinado a los desarrolladores que deseen interactuar con el VirtShell API, para realizar aprovisionamientos autom'aticos desde cualquier plataforma de desarrollo. Con el API de aprovisionamiento se podr'a crear ambientes, m'aquinas virtuales y contenedores personalizados, realizar configuraciones y administrar los recursos f'isicos y virtuales de manera program'atica. 
 
-\section{Provisioning API conceptos}
-VirtShell esta construido sobre seis conceptos:
+\section{VirtShell API conceptos}
+VirtShell esta disenado sobre ocho conceptos:
 
 \begin{description}
-\item [Nodes] Un nodo puede ser cualquier m'aquina f'isica o virtual, los nodos est'an destinados a ser administrados por el software de aprovisionamiento, manteniendo comunicaci'on con el servidor central.
-\item [Appliances] Un appliance es una unidad l'ogica de software, puede ser una m'aquina virtual o la instalaci'on de un software dentro de una m'aquina virtual.
-\item [Enviroments] Un enviroment representa un ambiente virtual computacional, compuesto de dos o m'as appliances.
-\item [LogManager] El logmanager es una unidad l'ogica que comprende el manejo de logs enviados desde los appliances.
-\item [Archetypes] Los arquetipos comprenden las caracter'isticas, comportamientos y pol'iticas de los appliances. 
-\item [Users] Los usuarios definen los permisos sobre los nodos, los appliances y el sistema en general.
+\item [Hosts] Representa una m'aquina f'isica.
+\item [ISOS] Representa una imagen exacta de un sistema operativo.
+\item [Container Templates] Basicamente son scripts en shell que se usan para crear contenedores personalizados.
+\item [Provisioners] Permiten configurar un recurso virtual.
+\item [Instances] 
+\item [Properties]
+\item [Packages]
+\item [Files]
+\item [Users] Representan los usuarios que tienen acceso a los recursos virtualizados
 \end{description}
+
+
+
 
 \section{Provisioning API data model}
 Un recurso es un entidad de datos individual con un 'unico identificador. Janu Provisioning API opera con seis tipos de recursos:

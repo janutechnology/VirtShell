@@ -32,6 +32,7 @@ main.bbl: bibliografia.bib
 
 clean:
 	rm -f *.log
+	rm -f *.out
 	rm -f *.aux
 	rm -f *.toc
 	rm -f *.dvi
@@ -48,6 +49,7 @@ clean:
 
 clean2:
 	rm -f *.log
+	rm -f *.out
 	rm -f *.aux
 	rm -f *.toc
 	rm -f *.dvi
