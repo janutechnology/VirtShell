@@ -1,40 +1,36 @@
-\chapter{Aprovisionamiento de m'aquinas virtuales}
+\chapter{Aprovisionamiento de recursos virtuales}
 \label{aprmaqvir}
-El trabajo realizado sobre aprovisionamiento de aplicaciones y software, en maquinas virtualizadas, ha evolucionado r'apidamente. En el mercado se encuentran soluciones, que permiten la interacci'on con ambientes de virtualizaci'on como Xen, KVM, VMWare y VirtualBox.\\
+La computaci'on en la nube ha sido un punto importante de investigaci'on en la industria recientemente. Esta puede ser descrita como una nueva clase de computaci'on en la cual din'amicos y escalables recursos pueden ser provistos sobre internet. Para los usuarios esto es transparente y ellos solo pagan lo que usan de acuerdo a niveles de servicio establecidos con los proveedores de nubes.\\
 \\
-Herramientas como SmartFrog \cite{3} y Cobbler \cite{6} , ofrecen alternativas basadas en scripts y modelos, que dan un r'apido, controlado y autom'atico despliegue de software, en todas las maquinas de una red f'isicas o virtualizada s, permitiendo mejorar los tiempos de instalaci'on de nuevas funcionalidades de forma confiable y segura de la misma forma que ayudan a disminuir el tiempo y el costo de los despliegues de aplicaciones y servicios \cite{4}.\\
+Una de las principales caracter'isticas de la computaci'on en la nube es la virtualizaci'on, la cual consiste en crear una versi'on virtual de un recurso tecnologico en lugar de usar una versi'on f'isica. La virtualizaci'on se puede aplicar a computadoras, sistemas operativos, dispositivos de almacenamiento de informaci'on, aplicaciones o redes permitiendo que las empresas ejecuten m'as de un sistema virtual, adem'as de m'ultipls sistemas operativos y aplicaciones, en un 'unico servidor, de esta manera se logra econom'ia de escala y una mayor eficiencia.\\
 \\
-A continuaci'on se presenta los diferentes enfoques de aprovisionamiento que existen y posteriormente las herramientas que existen en el mercado que abordan el tema de aprovisionamiento sobre maquinas virtuales.
+En la actualidad predominan dos tecnicas de virtualizacion, la primera tecnica se denomina virtualizaci'on de hardware y consiste en crear un hardware sint'etico el cual usan las maquinas virtuales como propio, la idea es virtualizar el sistema operativo completo el cual se ejecuta sobre un software llamado el hipervisor, su funci'on es interactuar directamente con la CPU en el servidor f'isico, ofreciendo a cada uno de los servidores virtuales una total autonom'ia e independencia. Incluso pueden coexistir en una misma m'aquina distintos servidores virtuales funcionando con distintos sistemas operativos. Esta tecnica es la mas desarrollada y hay diferentes clases que cada fabricante ha ido desarrollando y adaptando, como por ejemplo Xen, KVM, VMWare y VirtualBox.\\
+\\
+La segunda tecnica es conocida como virtualizaci'on del sistema operativo. En esta t'ecnica lo que se virtualiza es el sistema operativo completo el cual corre directamente virtual sobre la m'aquina f'isica. En esta t'ecnica las maquinas virtuales son llamadas contenedores, los cuales acceden por igual a todos los recursos del sistema. La ventaja es a su vez una desventaja: Todas las maquinas virtuales usan el mismo Kernel que el sistema operativo lo que reduce mucho los errores y multiplica el rendimiento, pero a su vez solo puede haber un mismo tipo de sistema operativo en los contenedores, no se puede mezclar Windows-Linux-Etc. Este sistema, tambi'en se acerca mucho a lo que seria una virtualizaci'on nativa.\\
+\\
+Sin importar la tecnica de virtualizaci'on que se use, la instalaci'on de una maquina virtual (o de un contenedor) requiere normalmente de la generaci'on e instalaci'on de una imagen y la instalaci'on y configuraci'on de paquetes de software. Estas tareas generalmente son realizadas por t'ecnicos de los proveedores de la nube. Cuando un usuario de la nube solicita un nuevo servicio o mas capacidad de computo, el administrador selecciona la apropiada imagen para clonar e instalar en los nodos de la nube. Si no hay una imagen apropiada para los requerimientos del cliente se crea y configura una nueva que cumpla con la solicitud. Esta creaci'on de una nueva imagen puede ser realizada modificando la imagen mas cercada de las ya existentes. En el momento de la creaci'on optima de la imagen un administrador puede tener dificultades y pregunt'as como, cual es la mejor configuraci'on?, cuales paquetes y sus dependencias deber'ian ser instaladas? y como encontrar una imagen que mejor llene las expectativas?.\\
+\\
+Es por esta raz'on que los proveedores de la nube desean cada vez mas automatizar y simplificar este proceso porque la dependencia entre paquetes de software y la dificultad de mantenimiento agrega tiempo a la creaci'on de las maquinas virtuales. En otras palabras los proveedores de nube quieren dar mas flexibilidad y agilidad a la hora de satisfacer los requerimientos de los usuarios finales.\\
+\\
+Existen varias soluciones que permiten la interacci'on con los diferentes ambientes de virtualizaci'on. Estas soluciones usan diferentes enfoques para realizar despliegues de software en las maquinas virtuales,  que dan un r'apido, controlado y autom'atico despliegue de software, en todas las maquinas de una red f'isicas o virtualizadas, permitiendo mejorar los tiempos de instalaci'on de nuevas funcionalidades de forma confiable y segura de la misma forma que ayudan a disminuir el tiempo y el costo de los despliegues de aplicaciones y servicios. Sin embargo no todas las soluciones son de codigo abierto, algunas son de desarrollo propietario, en donde solo ofrecen el API al p'ublico pero no el c'odigo de la soluci'on como tal y manejan sus propias herramientas de virtualizaci'on.
 
-
-\section{Enfoques de aprovisionamiento}
-Hoy en d'ia las herramientas de despliegue de aplicaciones, ofrecen diferentes niveles de automatizaci'on, los cuales se clasifican en manual, basados en scripts, basados en lenguajes y basados en modelos. La tabla 1, detalla las tareas que requiere cada enfoque.\\
-\\
-Tabla 1: Tareas\\
-\\
-El enfoque manual es apropiado para despliegues de escala simple y peque'na, en donde no se necesitan hacer numerosos cambios e instalaciones, los cuales pueden ser realizados con intervenci'on humana. Para grandes escalas, el enfoque basado en scripts presenta ventajas sobre el enfoque manual, apesar de que requiere aprender el lenguaje script que se decida usar \cite{2}. Para escalas de grandes y complejos despliegues, un enfoque basando en lenguaje, como SmartFrog \cite{3}, podr'ia ser una mejor alternativa. Este enfoque requiere invertir en el entendimiento de la complejidad del framework y desarrollar las plantillas y configuraciones de las dependencias. Finalmente, los ambientes que requieren de cambios en tiempos de ejecuci'on son mejor manejados por el enfoque basado en modelos. La tabla 2, hace una comparaci'on cualitativa, de los diferentes enfoques de despliegue.\\
-\\
-Tabla 2: Cuadro Comparativo\\
-\\
-Este cuadro comparativo no esta indicando que exista un 'optimo enfoque, la elecci'on de un enfoque depende de la escala y tama'no del sistema, las configuraciones que tengan que realizarse, el numero del instalaciones, entre otros. Como puede notarse los cuatro enfoques son sin'ergicos y ellos incrementan el nivel de abstracci'on de manual a modelo. 
-
-\section{Herramientas de despliegue actuales}
-En esta secci'on, se describir'an herramientas de c'odigo abierto dise'nadas con enfoques de despliegue basados en scripts, lenguajes y modelos. Existen muchas otras herramientas para realizar despliegue las cuales est'an descritas en \cite{12}, la gran mayor'ia de estas herramientas son comerciales y se limitan a configuraci'on de servidores remotos en redes privadas y no abordan el tema de virtualizaci'on.\\
-\\
-Nixes, SmartFrog, Radia, Cobbler, son ejemplos de los enfoques explicados anteriormente de c'odigo abierto que manejan virtualizaci'on con Xen, KVM y VMWARE. Amazon EC2 y HP Utility Data Center, por el contrario tienen un desarrollo propietario, en donde solo ofrecen el API al p'ublico pero no el c'odigo de la soluci'on como tal y manejan sus propias herramientas de virtualizaci'on.
+\section{Alternativas de despliegue actuales}
+En esta secci'on, se describir'an las herramientas mas significativas que existen indicando las ventajas y desventajas de cada una.
 
 \subsection{Nixes}
-Nixes es una herramienta usada para instalar, mantener, controlar y monitorear aplicaciones en PlanetLab \cite{1}. Nixes consiste de un conjunto de scripts bash, un archivo de configuracion, y un respositorio web, y puede automaticamente resolver las dependencias de paquetes RPM.\\
+Nixes es una herramienta usada para instalar, mantener, controlar y monitorear aplicaciones en PlanetLab \cite{Nixes13}. Nixes consiste de un conjunto de scripts bash, un archivo de configuracion, y un respositorio web, y puede automaticamente instalar, actualizar y resolver dependencias solo de paquetes RPM.\\
 \\
 Para sistemas de peque'na escala, Nixes es f'acil de usar: los usuarios simplement e crean el archivo de configuraci'on para cada aplicaci'on y modifican los scripts a desplegar en los nodos. Pero para grandes y complejos sistemas, Nixes no es efectivo, porque el no provee un mecanismo autom'atico de flujo de trabajo.
 
 \subsection{SmartFrog}
-SmartFrog (SF) es un framework para servicios de configuraci'on, descripci'on, despliegue y administraci'on del ciclo de vida. Consiste de un lenguaje declarativo, un motor que corre en los nodos remotos y ejecuta plantillas escritas en el lenguaje de SF y un modelo de componentes \cite{3}. El lenguaje SF soporta encapsularon (que es similar a las clases de python), herencia y composici'on que permite personalizar y combinar configuraciones. SF, permite enlaces est'aticos y din'amicos entre componentes, que ayudan a soportar diferentes formas de conexi'on en tiempo de despliegue.\\
+SmartFrog (SF) es un framework para servicios de configuraci'on, descripci'on, despliegue y administraci'on del ciclo de vida. Consiste de un lenguaje declarativo, un motor que corre en los nodos remotos y ejecuta plantillas escritas en el lenguaje de SmartFrog y un modelo de componentes. El lenguaje soporta encapsulaci'on (que es similar a las clases de python), herencia y composici'on que permite personalizar y combinar configuraciones. SmartFrog, permite enlaces est'aticos y din'amicos entre componentes, que ayudan a soportar diferentes formas de conexi'on en tiempo de despliegue.\\
 \\
-El modelo de componentes SF, administra el ciclo de vida atraves de cinco estados: instalado, iniciado, terminado y fallido. Esto permite al motor del SF detectar fallas y reiniciar autom'aticamente re-despliegues de los componentes \cite{11}.
+El modelo de componentes SF, administra el ciclo de vida atraves de cinco estados: instalado, iniciado, terminado y fallido. Esto permite al motor del SmartFrog detectar fallas y reiniciar autom'aticamente re-despliegues de los componentes \cite{Smart09}.
+\\
+SmartFrog es desarrollado y mantenido por un equipo de investigaci'on en los laboratorios de Hewlett-Packard en Bristol, Inglaterra, asi como por el laboratorio Europeo de Hewlett-Packard y adicional con contribuciones de otros usuarios de SmartFrog y desarrolladores externos a HP. Se utiliza en la investigaci'on de HP especificamente en la automatizaci'on de la infraestructura y automatizaci'on de servicios, adem'as de ser utilizado en determinados productos de HP.
 
 \subsection{Radia}
-Herramienta de administraci'on de cambios que utiliza un enfoque basado en modelos \cite{5}. Para cada dispositivo administrado, el administrador define un estado deseado, el cual es mantenido como un modelo en un repositorio central. Nixes, usa seis maquinascalculosmodelos: paquete (configuraci'on, instalaci'on, entradas de registro, binarios, entre otras); mejores pr'acticas; dependencias de software (relaciones con otros componentes de software, sistemas operativos y hardware); infraestructura (servidores, almacenamiento y elementos de red); inventarios de software (software instalado actualmente) e interoperabilidad entre modelos de servicios administrados. 
+Herramienta de administraci'on de cambios que utiliza un enfoque basado en modelos \cite{Radia15}. Para cada dispositivo administrado, el administrador define un estado deseado, el cual es mantenido como un modelo en un repositorio central. Nixes, usa seis maquinascalculosmodelos: paquete (configuraci'on, instalaci'on, entradas de registro, binarios, entre otras); mejores pr'acticas; dependencias de software (relaciones con otros componentes de software, sistemas operativos y hardware); infraestructura (servidores, almacenamiento y elementos de red); inventarios de software (software instalado actualmente) e interoperabilidad entre modelos de servicios administrados. 
 
 \subsection{Cobbler}
 Cobbler es una plataforma que busca el r'apido despliegue de servidores y en general computadores en una infra-estructura de red, se basa en el modelo de scripts y cuenta con una completa base de simples comandos, que permite hacer despliegues de manera r'apida y con poca intervenci'on humana. Cobbler al igual que SmartFrog es capaz de instalar m'aquinas f'isicas y m'aquinas virtuales. Cobbler, es una peque'na y ligera aplicaci'on, que es extremadamente f'acil de usar para peque'nos o muy grandes despliegues. \cite{6}
@@ -48,7 +44,22 @@ HP Utility Data Cente (UDC) es un producto comercial, que se centra en la admini
 \subsection{Oracle VM Templates}
 Oracle VM Templates, es un producto comercial de la empresa Oracle, cuyo objetivo es realizar despliegues rapidos de aplicaciones Oracle y no-Oracle, con base en imagenes de software pre-configuradas manualmente. Cuenta con una interfaz grafica que permite crear y administrar servidores virtuales con facilidad. \cite{14}
 
-\subsection{Shef}
+\subsection{Chef}
+Chef es una herramienta de gesti'on de la configuraci'on escrito en Ruby y Erlang. Utiliza un lenguaje de dominio especifico escrito tamibi'en en Ruby para la escritura y configuraci'on de "recetas". Estas recetas contienen los recursos que deben ser creados. Chef se puede integrar con plataformas basadas en la nube, como Rackspace, Internap, Amazon EC2, Cloud Platform Google, OpenStack, SoftLayer y Microsoft Azure. Chef contiene soluciones para sistemas de peque~na y gran escala. \cite{Chef15}\\
+\\
+Es uno de los cuatro principales sistemas de gesti'on de la configuraci'on en Linux, junto con Cfengine, Bcfg2 y Puppet.
+
+\subsection{Puppet}
+Puppet es una herramienta dise~nada para administrar la configuraci'on de sistemas similares a Unix y a Microsoft Windows de forma declarativa. El usuario describe los recursos del sistema y sus estados utilizando el lenguaje declarativo que proporciona Puppet. Esta informaci'on es almacenada en archivos denominados manifiestos Puppet. Puppet descubre la informaci'on del sistema a trav'es de una utilidad llamada Facter, y compila los manifiestos en un cat'alogo espec'ifico del sistema que contiene los recursos y la dependencia de dichos recursos, estos cat'alogos son ejecutados en los sistemas de destino. \cite{Pupet15}
+
+\subsection{Cfengine}
+Cfengine es un sistema basado en el lenguaje escrito por Mark Burgess, dise~nado espec'ificamente para probar y configurar software. Cfengine es como un lenguaje de muy alto nivel. La idea de Cfengine es crear un 'unico archivo o conjunto de archivos de configuraci'on que describen la configuraci'on de cada host de la red. Cfengine se ejecuta en cada host, y analiza cada archivo (o archivos), que especifica una pol'itica para la configuraci'on del sistema; la configuraci'on del host es verificada contra el modelo y, si es necesario, cualquier desviaci'on de la configuraci'on es corregida. \cite{cfengine15}
+
+\subsection{Bcfg2}
+Bcfg2 est'a escrito en Python y permite gestionar la configuraci'on de un gran n'umero de ordenadores mediante un modelo de configuraci'on central. Bcfg2 funciona con un modelo simple de configuraci'on del sistema, modelando elementos intuitivos como paquetes, servicios y archivos de configuraci'on (as'i como las dependencias entre ellos). Este modelo de configuraci'on del sistema se utiliza para la verificaci'on  y validaci'on, permitiendo una auditor'ia robusta de los sistemas desplegados. La especificaci'on de la configuraci'on de Bcfg2 está escrita utilizando un modelo XML declarativo. Toda la especificaci'on puede ser validada utilizando los validadores de esquema XML ampliamente disponibles. \cite{bdfg215}
+
 \subsection{vagrant}
+
+\subsection{ansible}
 
 
