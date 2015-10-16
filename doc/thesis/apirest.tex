@@ -10,22 +10,19 @@ VirtShell esta disenado sobre ocho conceptos:
 \item [Hosts] Representa una m'aquina f'isica.
 \item [ISOS] Representa una imagen exacta de un sistema operativo.
 \item [Container Templates] Basicamente son scripts en shell que se usan para crear contenedores personalizados.
-\item [Provisioners] Permiten configurar un recurso virtual.
-\item [Instances] 
-\item [Properties]
-\item [Packages]
-\item [Files]
+\item [Provisioners] Scripts en shell que permiten configurar uno o mas recursos virtuales.
+\item [Instances] Permiten administrar los recursos virtuales de un host f'isico.
+\item [Properties] Permite obtener informacion de los recursos virtuales o de los f'isicos.
+\item [Packages] Permiten administrar paquetes en los recursos virtuales.
+\item [Files] Representan archivos necesarios para instalar en las instancias.
 \item [Users] Representan los usuarios que tienen acceso a los recursos virtualizados
 \end{description}
-
-
-
 
 \section{Provisioning API data model}
 Un recurso es un entidad de datos individual con un 'unico identificador. Janu Provisioning API opera con seis tipos de recursos:
 
 \begin{description}
-\item [Node resource] Representa un nodo; un nodo es un contenedor de appliances.
+\item [Host resource] Representa un nodo; un nodo es un contenedor de instancias.
 
 \medskip
 \begin{lstlisting}
@@ -34,7 +31,7 @@ Un recurso es un entidad de datos individual con un 'unico identificador. Janu P
   "name": "host-01-pdn",
   "os": "Ubuntu 12.04 3.5.0-23.x86_64",
   "memory": "16GB",
-  "capacity": "5.120GB",
+  "capacity": "120GB",
   "enabled": "true|false",
   "local_ipv4": ["15.54.88.19"],
   "local_ipv6": ["gf23::470:89gg:rh1h:17kj","ff06:0:0:0:0:0:0:c3"],

@@ -18,17 +18,19 @@ Existen varias soluciones que permiten la interacci'on con los diferentes ambien
 En esta secci'on, se describir'an las herramientas mas significativas que existen indicando las ventajas y desventajas de cada una.
 
 \subsection{Nixes}
-Nixes es una herramienta usada para instalar, mantener, controlar y monitorear aplicaciones en PlanetLab \cite{1}. Nixes consiste de un conjunto de scripts bash, un archivo de configuracion, y un respositorio web, y puede automaticamente resolver las dependencias de paquetes RPM.\\
+Nixes es una herramienta usada para instalar, mantener, controlar y monitorear aplicaciones en PlanetLab \cite{Nixes13}. Nixes consiste de un conjunto de scripts bash, un archivo de configuracion, y un respositorio web, y puede automaticamente instalar, actualizar y resolver dependencias solo de paquetes RPM.\\
 \\
 Para sistemas de peque'na escala, Nixes es f'acil de usar: los usuarios simplement e crean el archivo de configuraci'on para cada aplicaci'on y modifican los scripts a desplegar en los nodos. Pero para grandes y complejos sistemas, Nixes no es efectivo, porque el no provee un mecanismo autom'atico de flujo de trabajo.
 
 \subsection{SmartFrog}
-SmartFrog (SF) es un framework para servicios de configuraci'on, descripci'on, despliegue y administraci'on del ciclo de vida. Consiste de un lenguaje declarativo, un motor que corre en los nodos remotos y ejecuta plantillas escritas en el lenguaje de SF y un modelo de componentes \cite{3}. El lenguaje SF soporta encapsularon (que es similar a las clases de python), herencia y composici'on que permite personalizar y combinar configuraciones. SF, permite enlaces est'aticos y din'amicos entre componentes, que ayudan a soportar diferentes formas de conexi'on en tiempo de despliegue.\\
+SmartFrog (SF) es un framework para servicios de configuraci'on, descripci'on, despliegue y administraci'on del ciclo de vida. Consiste de un lenguaje declarativo, un motor que corre en los nodos remotos y ejecuta plantillas escritas en el lenguaje de SmartFrog y un modelo de componentes. El lenguaje soporta encapsulaci'on (que es similar a las clases de python), herencia y composici'on que permite personalizar y combinar configuraciones. SmartFrog, permite enlaces est'aticos y din'amicos entre componentes, que ayudan a soportar diferentes formas de conexi'on en tiempo de despliegue.\\
 \\
-El modelo de componentes SF, administra el ciclo de vida atraves de cinco estados: instalado, iniciado, terminado y fallido. Esto permite al motor del SF detectar fallas y reiniciar autom'aticamente re-despliegues de los componentes \cite{11}.
+El modelo de componentes SF, administra el ciclo de vida atraves de cinco estados: instalado, iniciado, terminado y fallido. Esto permite al motor del SmartFrog detectar fallas y reiniciar autom'aticamente re-despliegues de los componentes \cite{Smart09}.
+\\
+SmartFrog es desarrollado y mantenido por un equipo de investigaci'on en los laboratorios de Hewlett-Packard en Bristol, Inglaterra, asi como por el laboratorio Europeo de Hewlett-Packard y adicional con contribuciones de otros usuarios de SmartFrog y desarrolladores externos a HP. Se utiliza en la investigaci'on de HP especificamente en la automatizaci'on de la infraestructura y automatizaci'on de servicios, adem'as de ser utilizado en determinados productos de HP.
 
 \subsection{Radia}
-Herramienta de administraci'on de cambios que utiliza un enfoque basado en modelos \cite{5}. Para cada dispositivo administrado, el administrador define un estado deseado, el cual es mantenido como un modelo en un repositorio central. Nixes, usa seis maquinascalculosmodelos: paquete (configuraci'on, instalaci'on, entradas de registro, binarios, entre otras); mejores pr'acticas; dependencias de software (relaciones con otros componentes de software, sistemas operativos y hardware); infraestructura (servidores, almacenamiento y elementos de red); inventarios de software (software instalado actualmente) e interoperabilidad entre modelos de servicios administrados. 
+Herramienta de administraci'on de cambios que utiliza un enfoque basado en modelos \cite{Radia15}. Para cada dispositivo administrado, el administrador define un estado deseado, el cual es mantenido como un modelo en un repositorio central. Nixes, usa seis maquinascalculosmodelos: paquete (configuraci'on, instalaci'on, entradas de registro, binarios, entre otras); mejores pr'acticas; dependencias de software (relaciones con otros componentes de software, sistemas operativos y hardware); infraestructura (servidores, almacenamiento y elementos de red); inventarios de software (software instalado actualmente) e interoperabilidad entre modelos de servicios administrados. 
 
 \subsection{Cobbler}
 Cobbler es una plataforma que busca el r'apido despliegue de servidores y en general computadores en una infra-estructura de red, se basa en el modelo de scripts y cuenta con una completa base de simples comandos, que permite hacer despliegues de manera r'apida y con poca intervenci'on humana. Cobbler al igual que SmartFrog es capaz de instalar m'aquinas f'isicas y m'aquinas virtuales. Cobbler, es una peque'na y ligera aplicaci'on, que es extremadamente f'acil de usar para peque'nos o muy grandes despliegues. \cite{6}
@@ -43,7 +45,21 @@ HP Utility Data Cente (UDC) es un producto comercial, que se centra en la admini
 Oracle VM Templates, es un producto comercial de la empresa Oracle, cuyo objetivo es realizar despliegues rapidos de aplicaciones Oracle y no-Oracle, con base en imagenes de software pre-configuradas manualmente. Cuenta con una interfaz grafica que permite crear y administrar servidores virtuales con facilidad. \cite{14}
 
 \subsection{Chef}
+Chef es una herramienta de gesti'on de la configuraci'on escrito en Ruby y Erlang. Utiliza un lenguaje de dominio especifico escrito tamibi'en en Ruby para la escritura y configuraci'on de "recetas". Estas recetas contienen los recursos que deben ser creados. Chef se puede integrar con plataformas basadas en la nube, como Rackspace, Internap, Amazon EC2, Cloud Platform Google, OpenStack, SoftLayer y Microsoft Azure. Chef contiene soluciones para sistemas de peque~na y gran escala. \cite{Chef15}\\
+\\
+Es uno de los cuatro principales sistemas de gesti'on de la configuraci'on en Linux, junto con Cfengine, Bcfg2 y Puppet.
+
+\subsection{Puppet}
+Puppet es una herramienta dise~nada para administrar la configuraci'on de sistemas similares a Unix y a Microsoft Windows de forma declarativa. El usuario describe los recursos del sistema y sus estados utilizando el lenguaje declarativo que proporciona Puppet. Esta informaci'on es almacenada en archivos denominados manifiestos Puppet. Puppet descubre la informaci'on del sistema a trav'es de una utilidad llamada Facter, y compila los manifiestos en un cat'alogo espec'ifico del sistema que contiene los recursos y la dependencia de dichos recursos, estos cat'alogos son ejecutados en los sistemas de destino. \cite{Pupet15}
+
+\subsection{Cfengine}
+Cfengine es un sistema basado en el lenguaje escrito por Mark Burgess, dise~nado espec'ificamente para probar y configurar software. Cfengine es como un lenguaje de muy alto nivel. La idea de Cfengine es crear un 'unico archivo o conjunto de archivos de configuraci'on que describen la configuraci'on de cada host de la red. Cfengine se ejecuta en cada host, y analiza cada archivo (o archivos), que especifica una pol'itica para la configuraci'on del sistema; la configuraci'on del host es verificada contra el modelo y, si es necesario, cualquier desviaci'on de la configuraci'on es corregida. \cite{cfengine15}
+
+\subsection{Bcfg2}
+Bcfg2 est'a escrito en Python y permite gestionar la configuraci'on de un gran n'umero de ordenadores mediante un modelo de configuraci'on central. Bcfg2 funciona con un modelo simple de configuraci'on del sistema, modelando elementos intuitivos como paquetes, servicios y archivos de configuraci'on (as'i como las dependencias entre ellos). Este modelo de configuraci'on del sistema se utiliza para la verificaci'on  y validaci'on, permitiendo una auditor'ia robusta de los sistemas desplegados. La especificaci'on de la configuraci'on de Bcfg2 está escrita utilizando un modelo XML declarativo. Toda la especificaci'on puede ser validada utilizando los validadores de esquema XML ampliamente disponibles. \cite{bdfg215}
+
 \subsection{vagrant}
+
 \subsection{ansible}
 
 
