@@ -71,9 +71,7 @@ more details.
 
 * [Hosts][hosts] - `/api/virtsh/v1/hosts`
 
-* [ISOS][isos] - `/api/virtsh/v1/isos`
-
-* [Container Templates][container_templates] - `/api/virtsh/v1/container_templates`
+* [Images][images] - `/api/virtsh/v1/images`
 
 * [Provisioners][provisioners] - `/api/virtsh/v1/provisioners`
 
