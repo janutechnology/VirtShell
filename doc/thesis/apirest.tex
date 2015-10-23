@@ -1,7 +1,7 @@
 \chapter{API REST}
 \label{capapi}
 
-Este capitulo esta destinado a los desarrolladores que deseen interactuar con el VirtShell API, para realizar aprovisionamientos autom'aticos desde cualquier plataforma de desarrollo. Con el API de aprovisionamiento se podr'a crear ambientes, m'aquinas virtuales y contenedores personalizados, realizar configuraciones y administrar los recursos f'isicos y virtuales de manera program'atica. 
+Este capitulo esta destinado a los desarrolladores que deseen interactuar con el VirtShell API, para realizar aprovisionamientos autom'aticos desde cualquier plataforma de desarrollo. El VirtShell API es un API REST que provee accesso a los objetos en el VirtShell Server, esto incluye los hosts, imagenes, archivos, templates, aprovisionadores y usuarios. Por medio del API podr'a crear ambientes, m'aquinas virtuales y contenedores personalizados, realizar configuraciones y administrar los recursos f'isicos y virtuales de manera program'atica. 
 
 \section{VirtShell API conceptos}
 VirtShell esta disenado sobre ocho conceptos:
@@ -19,39 +19,75 @@ VirtShell esta disenado sobre ocho conceptos:
 \end{description}
 
 \section{Provisioning API data model}
-Un recurso es un entidad de datos individual con un 'unico identificador. Janu Provisioning API opera con seis tipos de recursos:
+Un recurso es un entidad de datos individual con un 'unico identificador. VirtShell API opera con ocho tipos de recursos:
 
-\begin{description}
-\item [Host resource] Representa un nodo; un nodo es un contenedor de instancias.
+\subsection{Host resource}
+Representa un nodo; un nodo es un contenedor de maquinas virtuales o contenedores.
 
 \medskip
-\begin{lstlisting}
+\begin{lstlisting}[tabsize=8,basicstyle=\ttfamily]
 {
   "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
   "name": "host-01-pdn",
-  "os": "Ubuntu 12.04 3.5.0-23.x86_64",
+  "os": "Ubuntu_12.04_3.5.0-23.x86_64",
   "memory": "16GB",
   "capacity": "120GB",
   "enabled": "true|false",
-  "local_ipv4": ["15.54.88.19"],
-  "local_ipv6": ["gf23::470:89gg:rh1h:17kj","ff06:0:0:0:0:0:0:c3"],
-  "public_ipv4": ["10.54.88.19"],
-  "public_ipv6": ["yt06:0:0:0:0:0:0:c3"],  
-  "appliances": [
-    appliance Resource
-  ]
+  "type":"StorageOptimized|GeneralPurpose|HighPerformance",
+  "local_ipv4": "15.54.88.19",
+  "local_ipv6": "ff06:0:0:0:0:0:0:c3",
+  "public_ipv4": "10.54.88.19",
+  "public_ipv6": "yt06:0:0:0:0:0:0:c3",
+  "instances": [
+    ... instances resource is here
+  ],
+  "created":["at":"timestamp", "by":user_id]
 }
 \end{lstlisting}
 
-\item [ISOS resource] Representa una imagen ISO que permite crear una m'aquina virtual. 
+Listar los endpoints
+Ejemplos
+
+\subsubsection{POST /api/virtsh/v1/hosts}
+
+Create a new host.
+
+\begin{lstlisting}[tabsize=8,basicstyle=\ttfamily]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+    -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{"name": "host-01-pdn",
+       "os": "Ubuntu_12.04_3.5.0-23.x86_64",
+       "memory": "16GB",
+       "capacity": "120GB",
+       "enabled": "true",
+       "type" : "GeneralPurpose",
+       "local_ipv4": "15.54.88.19",
+         "local_ipv6": "ff06:0:0:0:0:0:0:c3",
+       "public_ipv4": "10.54.88.19",
+       "public_ipv6": "yt06:0:0:0:0:0:0:c3"}' \
+   'http://localhost:8080/api/virtshell/v1/hosts'
+\end{lstlisting}
+
+Response:
+
+\begin{lstlisting}[tabsize=8,basicstyle=\ttfamily]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "create": "success" }
+\end{lstlisting}
+
+\item [Image resource] Representa una imagen que permite crear m'aquinas virtuales o contenedores personalizados. 
 
 \medskip
 \begin{lstlisting}
 {
   "id": "kj5436c0-dc94-13tg-82ce-9992b5d5c51b",
   "name": "ubuntu_server_14.04.2_amd64",
-  "release_version": "14.04.2", 
+  "type": "iso|container",
   "os": "ubuntu", 
+  "release": "trusty",
+  "version": "14.04.2", 
   "variant": "server|desktop", 
   "arch": "i386|amd64", 
   "timezone": "America/Bogota", 
@@ -59,23 +95,8 @@ Un recurso es un entidad de datos individual con un 'unico identificador. Janu P
   "password": "janu", 
   "key": "/home/callanor/.ssh/id_rsa.pub",
   "preseed_file": "/home/callanor/seed_file.txt",
-  "created":["at":"20130625105211","by":10],
-  "details": "...."
-}
-\end{lstlisting}
-
-\item [Container Template resource] Representa un modelo para crear contenedores personalizados. 
-
-\medskip
-\begin{lstlisting}
-{
-  "id": "kj5436c0-dc94-13tg-82ce-9992b5d5c51b",
-  "name": "ubuntu", 
-  "os": "ubuntu", 
-  "arch": 64, 
-  "release": "trusty",
   "url": "https://gist.github.com/hagix9/3514296#file-lxc-centos",
-  "path_image": "/home/cllano/templates/my-lxc-centos",
+  "path_image": "/home/cllano/templates/my-lxc-centos",  
   "created":["at":"20130625105211","by":10],
   "details": "...."
 }
@@ -99,9 +120,9 @@ Un recurso es un entidad de datos individual con un 'unico identificador. Janu P
   "vars2: "/home/callanor/variables/variables.yaml",
   "config": {
     "memory": 1024,
-	  "cpus": 2, 
-	  "hdsize": "2GB",
-	  "template_name": "centos_6.5",
+    "cpus": 2, 
+    "hdsize": "2GB",
+    "template_name": "centos_6.5",
     "iso":"ubuntu_server_14.04.2_amd64"
   },
   "drive": "lxc|docker|vb|vmware|ec2|kvm"
@@ -475,9 +496,5 @@ Este ejemplo remueve un usuario.
  \textbackslash{}n \\
  Tue, 27 Mar 2007 21:20:27 +0000\textbackslash{}n \\ /api/janu/user/9876} \tabularnewline \hline
 \end{tabular}
-
-
-
-
 
 
