@@ -47,6 +47,8 @@
 %% Nota que los acentos se deben escribir: \'a, \'e, \'i, etc.
 %% La letra n con tilde es: \~n.
 
+
+\usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage[Sonny]{fncychap} %Options: Sonny, Lenny, Glenn, Conny, Rejne
                              %         Bjarne, Bjornstrup
@@ -57,6 +59,8 @@
 \usepackage{colortbl}
 \usepackage{url}
 \usepackage{xcolor}
+
+\setcounter{secnumdepth}{4}
 
 \author{Carlos Alberto Llano Rodríguez}
 \title{VirtShell - Framework para aprovisionamiento de soluciones virtuales}
@@ -91,7 +95,6 @@
 \definecolor{delim}{RGB}{20,105,176}
 \colorlet{numb}{magenta!60!black}
 \definecolor{navyblue}{rgb}{0.0, 0.0, 0.5}
-
 
 \newcommand\JSONnumbervaluestyle{\color{navyblue}}
 \newcommand\JSONstringvaluestyle{\color{red}}
@@ -171,8 +174,8 @@
 %% Quitar los comentarios en las lineas siguientes para obtener listas de
 %% figuras y cuadros/tablas.
 \tableofcontents
-%\listoffigures
-%\listoftables
+\listoffigures
+\listoftables
 
 %% # Cap'itulos #
 %% Por cada cap'itulo hay que crear un nuevo archivo e incluirlo aqu'i.
