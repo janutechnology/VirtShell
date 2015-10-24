@@ -5,30 +5,11 @@
 # ultima modificacion: Jun. 22/2013
 #
 
-SRC = main.tex configuracion.tex titulo.tex abstract.tex agradecimientos.tex introduccion.tex enfoquesaprov.tex apirest.tex diseno.tex implementacion.tex conclusiones.tex anexos.tex pruebas.tex csthesis.cls
+SRC = tesis.tex
 
-main.dvi: $(SRC) main.bbl
-	rm -f *.ind
-	rm -f *.idx
-	latex main
-	latex main
-	makeindex main
-	latex main
-
-pdf: main.dvi
-	dvips -o Tesis.ps main.dvi -t letter
-	ps2pdf Tesis.ps
-	evince Tesis.pdf
-
-force:
-	latex main
-
-run: main.dvi
-	xdvi main.dvi
-
-main.bbl: bibliografia.bib
-	latex main
-	bibtex main
+pdf: 
+	pdflatex tesis.tex
+	evince tesis.pdf
 
 clean:
 	rm -f *.log
