@@ -1,0 +1,201 @@
+\documentclass[oneside,numbers,spanish]{ezthesis}
+%% # Opciones disponibles para el documento #
+%%
+%% Las opciones con un (*) son las opciones predeterminadas.
+%%
+%% Modo de compilar:
+%%   draft            - borrador con marcas de fecha y sin im'agenes
+%%   draftmarks       - borrador con marcas de fecha y con im'agenes
+%%   final (*)        - version final de la tesis
+%%
+%% Tama'no de papel:
+%%   letterpaper (*)  - tama'no carta (Am'erica)
+%%   a4paper          - tama'no A4    (Europa)
+%%
+%% Formato de impresi'on:
+%%   oneside          - hojas impresas por un solo lado
+%%   twoside (*)      - hijas impresas por ambos lados
+%%
+%% Tama'no de letra:
+%%   10pt, 11pt, o 12pt (*)
+%%
+%% Espaciado entre renglones:
+%%   singlespace      - espacio sencillo
+%%   onehalfspace (*) - espacio de 1.5
+%%   doublespace      - a doble espacio
+%%
+%% Formato de las referencias bibliogr'aficas:
+%%   numbers          - numeradas, p.e. [1]
+%%   authoryear (*)   - por autor y a'no, p.e. (Newton, 1997)
+%%
+%% Opciones adicionales:
+%%   spanish         - tesis escrita en espa'nol
+%%
+%% Desactivar opciones especiales:
+%%   nobibtoc   - no incluir la bibiolgraf'ia en el 'Indice general
+%%   nofancyhdr - no incluir "fancyhdr" para producir los encabezados
+%%   nocolors   - no incluir "xcolor" para producir ligas con colores
+%%   nographicx - no incluir "graphicx" para insertar gr'aficos
+%%   nonatbib   - no incluir "natbib" para administrar la bibliograf'ia
+
+%% Paquetes adicionales requeridos se pueden agregar tambi'en aqu'i.
+%% Por ejemplo:
+%\usepackage{subfig}
+%\usepackage{multirow}
+
+%% # Datos del documento #
+%% Nota que los acentos se deben escribir: \'a, \'e, \'i, etc.
+%% La letra n con tilde es: \~n.
+
+
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage[Sonny]{fncychap} %Options: Sonny, Lenny, Glenn, Conny, Rejne
+                             %         Bjarne, Bjornstrup
+\usepackage{lmodern}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{url}
+\usepackage{xcolor}
+
+\setcounter{secnumdepth}{4}
+
+\author{Carlos Alberto Llano Rodríguez}
+\title{VirtShell - Framework para aprovisionamiento de soluciones virtuales}
+\degree{Maestría en Ingeniería con énfasis en Ingeniería de Sistemas}
+\supervisor{Jhon Alexander Sanabria}
+\institution{Universidad del Valle}
+\faculty{Escuela de Ingeniería de Sistemas y Computación}
+\department{Facultad de Ingeniería}
+
+%% # M'argenes del documento #
+%% 
+%% Quitar el comentario en la siguiente linea para austar los m'argenes del
+%% documento. Leer la documentaci'on de "geometry" para m'as informaci'on.
+
+%\geometry{top=40mm,bottom=33mm,inner=40mm,outer=25mm}
+
+%% El siguiente comando agrega ligas activas en el documento para las
+%% referencias cruzadas y citas bibliogr'aficas. Tiene que ser *la 'ultima*
+%% instrucci'on antes de \begin{document}.
+\hyperlinking
+
+
+% Colors in http://latexcolor.com/
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+\definecolor{cornflowerblue}{rgb}{0,0.4,0.8}
+\definecolor{blueapi}{rgb}{0.74, 0.83, 0.9}
+\definecolor{magnolia}{rgb}{0.97, 0.96, 1.0}
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
+\definecolor{navyblue}{rgb}{0.0, 0.0, 0.5}
+
+\newcommand\JSONnumbervaluestyle{\color{navyblue}}
+\newcommand\JSONstringvaluestyle{\color{red}}
+
+% switch used as state variable
+\newif\ifcolonfoundonthisline
+
+\makeatletter
+
+\lstdefinestyle{json}
+{
+  showstringspaces    = false,
+  numbers             = left,
+  numberstyle         = \scriptsize,
+  stepnumber          = 1,
+  numbersep           = 8pt,
+  breaklines          = true,
+  frame               = lines,
+  alsoletter          = 0123456789.,
+  morestring          = [s]{"}{"},
+  literate            = {:}{{{\color{punct}{:}}}}{1}
+                        {,}{{{\color{punct}{,}}}}{1}
+                        {\{}{{{\color{delim}{\{}}}}{1}
+                        {\}}{{{\color{delim}{\}}}}}{1}
+                        {[}{{{\color{delim}{[}}}}{1}
+                        {]}{{{\color{delim}{]}}}}{1}
+                        {|}{{{\color{delim}{|}}}}{1},
+  stringstyle         = \ifcolonfoundonthisline\JSONstringvaluestyle\fi,
+  MoreSelectCharTable =%
+    \lst@DefSaveDef{`:}\colon@json{\processColon@json},
+  basicstyle          = \ttfamily,
+  backgroundcolor     = \color{magnolia},
+  keywordstyle        = \ttfamily\bfseries,
+}
+
+% flip the switch if a colon is found in Pmode
+\newcommand\processColon@json{%
+  \colon@json%
+  \ifnum\lst@mode=\lst@Pmode%
+    \global\colonfoundonthislinetrue%
+  \fi
+}
+
+\lst@AddToHook{Output}{%
+  \ifcolonfoundonthisline%
+    \ifnum\lst@mode=\lst@Pmode%
+      \def\lst@thestyle{\JSONnumbervaluestyle}%
+    \fi
+  \fi
+  %override by keyword style if a keyword is detected!
+  \lsthk@DetectKeywords% 
+}
+
+% reset the switch at the end of line
+\lst@AddToHook{EOL}%
+  {\global\colonfoundonthislinefalse}
+
+\makeatother
+
+\begin{document}
+
+%% En esta secci'on se describe la estructura del documento de la tesis.
+%% Consulta los reglamentos de tu universidad para determinar el orden
+%% y la cantidad de secciones que debes de incluir.
+
+%% # Portada de la tesis #
+%% Mirar el archivo "titlepage.tex" para los detalles.
+\include{titlepage}
+
+%% # Prefacios #
+%% Por cada prefacio (p.e. agradecimientos, resumen, etc.) crear
+%% un nuevo archivo e incluirlo aqu'i.
+%% Para m'as detalles y un ejemplo mirar el archivo "gracias.tex".
+\include{agradecimientos}
+
+%% # 'Indices y listas de contenido #
+%% Quitar los comentarios en las lineas siguientes para obtener listas de
+%% figuras y cuadros/tablas.
+\tableofcontents
+\listoffigures
+\listoftables
+
+%% # Cap'itulos #
+%% Por cada cap'itulo hay que crear un nuevo archivo e incluirlo aqu'i.
+%% Mirar el archivo "intro.tex" para un ejemplo y recomendaciones para
+%% escribir.
+\include{intro}
+\include{enfoquesaprov}
+\include{apirest}
+%\include{capitulo3}
+\include{recomendaciones}
+
+\appendix
+%% Cap'itulos incluidos despues del comando \appendix aparecen como ap'endices
+%% de la tesis.
+%\include{apendiceA}
+%\include{apendiceB}
+%\include{apendiceC}
+
+%% Incluir la bibliograf'ia. Mirar el archivo "biblio.bib" para m'as detales
+%% y un ejemplo.
+\bibliography{biblio}
+
+\end{document}
