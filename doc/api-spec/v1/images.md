@@ -29,9 +29,7 @@ Resource representations
   "variant": "server|desktop", 
   "arch": "i386|amd64", 
   "timezone": "America/Bogota", 
-  "user": "janu", 
-  "password": "janu", 
-  "key": "/home/callanor/.ssh/id_rsa.pub",
+  "ssh_key": "-------- BEGIN PUBLIC KEY ----and a valid key here",
   "preseed_file": "/home/callanor/seed_file.txt",
   "url": "https://gist.github.com/hagix9/3514296#file-lxc-centos",
   "path_image": "/home/cllano/templates/my-lxc-centos",  
@@ -60,8 +58,6 @@ curl -sv -X PUT \
 		 "variant": "server", 
 		 "arch": "amd64", 
 		 "timezone": "America/Bogota", 
-		 "user": "janu", 
-		 "password": "janu", 
 		 "key": "/home/callanor/.ssh/id_rsa.pub",
 		 "preseed_file": "/home/callanor/seed_file.txt"}' \
    'http://localhost:8080/api/virtshell/v1/image'
@@ -76,17 +72,17 @@ Content-Type: application/json
 { "create": "success" }
 ```
 
-`GET /api/virtsh/v1/image/:id`
+`GET /virtshell/api/v1/images/:id`
 ----------------------------------------------
 
-`GET /api/virtsh/v1/image/`
+`GET /virtshell/api/v1/images/`
 ----------------------------------------------
 
-`POST /api/notify/v2/image/`
+`POST /virtshell/api/v1/images/`
 ----------------------------------------------
 
-`PUT /api/notify/v2/image/:id`
+`PUT /virtshell/api/v1/images/:id`
 ----------------------------------------------
 
-`DELETE /api/notify/v2/image/:id`
+`DELETE /virtshell/api/v1/images/:id`
 ----------------------------------------------
