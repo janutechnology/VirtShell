@@ -1,0 +1,250 @@
+\section{Hosts}
+Representan las m'aquinas f'isicas; un host es un anfitrion de m'aquinas virtuales o contenedores. Los metodos soportados son:
+
+\begin{center}
+ \begin{tabular}{| l | l | l | l |}
+ \hline
+  \rowcolor{blueapi}
+  \textbf{Acci'on} & \textbf{Metodo HTTP} & \textbf{Solicitud HTTP} & \textbf{Descripci'on} \\ [0.5ex] 
+  \hline\hline
+  get & GET & /hosts/id & Gets one host by ID. \\
+  \hline
+  list & GET & /hosts & Retrieves the list of hosts. \\
+  \hline  
+  create & POST & /hosts/ & Inserts a new host configuration. \\
+  \hline
+  delete & DELETE & /hosts/id & Deletes an existing host. \\
+  \hline  
+  update & PUT & /hosts/id & Updates an existing host. \\ [1ex] 
+  \hline
+\end{tabular}
+\end{center}
+
+\vspace{1cm}
+Representaci'on del recurso de un host:
+\vspace{1cm}
+
+\begin{lstlisting}[style=json]
+{
+  "uuid": string,
+  "name": string,
+  "os": string,
+  "memory": string,
+  "capacity": string,
+  "enabled": string,
+  "type":string,
+  "local_ipv4": string,
+  "local_ipv6": string,
+  "public_ipv4": string,
+  "public_ipv6": string,
+  "instances": [ instance_resource],
+  "created":["at": number, "by": number]
+}
+\end{lstlisting}
+
+Ejemplo:
+
+\medskip
+\begin{lstlisting}[style=json]
+{
+  "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
+  "name": "host-01-pdn",
+  "os": "Ubuntu_12.04_3.5.0-23.x86_64",
+  "memory": "16GB",
+  "capacity": "120GB",
+  "enabled": "true|false",
+  "type":"StorageOptimized|GeneralPurpose|HighPerformance",
+  "local_ipv4": "15.54.88.19",
+  "local_ipv6": "ff06:0:0:0:0:0:0:c3",
+  "public_ipv4": "10.54.88.19",
+  "public_ipv6": "yt06:0:0:0:0:0:0:c3",
+  "instances": [
+    ... instances resource is here
+  ],
+  "created":["at":"timestamp", "by":1234]
+}
+\end{lstlisting}
+
+\subsection{Ejemplos de peticiones HTTP}
+
+\subsubsection{Crear un nuevo host - POST /virtshell/api/v1/hosts}
+
+\begin{lstlisting}[style=json]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+    -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{"name": "host-01-pdn",
+       "os": "Ubuntu_12.04_3.5.0-23.x86_64",
+       "memory": "16GB",
+       "capacity": "120GB",
+       "enabled": "true",
+       "type" : "GeneralPurpose",
+       "local_ipv4": "15.54.88.19",
+         "local_ipv6": "ff06:0:0:0:0:0:0:c3",
+       "public_ipv4": "10.54.88.19",
+       "public_ipv6": "yt06:0:0:0:0:0:0:c3"}' \
+   'http://localhost:8080/virtshell/api/v1/hosts'
+\end{lstlisting}
+
+\vspace{1cm}
+Respuesta:
+\vspace{1cm}
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "create": "success" }
+\end{lstlisting}
+
+\subsubsection{Obtener un host- GET /virtshell/api/v1/hosts/:id}
+
+\begin{lstlisting}[style=json]
+curl -sv -H 'accept: application/json' 
+     -H 'X-VirtShell-Authorization: UserId:Signature' \ 
+     'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+\end{lstlisting}
+
+\vspace{1cm}
+Respuesta:
+\vspace{1cm}
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{
+  "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
+  "name": "host-01-pdn",
+  "os": "Ubuntu_12.04_3.5.0-23.x86_64",
+  "memory": "16GB",
+  "capacity": "120GB",
+  "enabled": "true",
+  "type" : "StorageOptimized",
+  "local_ipv4": "15.54.88.19",
+  "local_ipv6": "ff06:0:0:0:0:0:0:c3",
+  "public_ipv4": "10.54.88.19",
+  "public_ipv6": "yt06:0:0:0:0:0:0:c3",
+  "instances": [
+    {
+      "name": "name1",
+      "id": "72C05559-0590-4DA6-BE56-28AB36CB669C"
+    },
+    {
+      "name": "name2",
+      "id": "17173587-C4E9-4369-9C43-FCBF5E075973"
+    }
+  ],
+  "created":["at":"20130625105211", "by":10]
+}
+\end{lstlisting}
+
+\subsubsection{Obtener todos los host - GET /virtshell/api/v1/hosts}
+
+\begin{lstlisting}[style=json]
+curl -sv -H 'accept: application/json' 
+     -H 'X-VirtShell-Authorization: UserId:Signature' \ 
+     'http://localhost:8080/api/virtshell/v1/hosts'
+\end{lstlisting}
+
+\vspace{1cm}
+Respuesta:
+\vspace{1cm}
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{
+  "hosts": [
+    {
+      "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
+      "name": "host-01-pdn",
+      "os": "Ubuntu_12.04_3.5.0-23.x86_64",
+      "memory": "16GB",
+      "capacity": "120GB",
+      "enabled": "true",
+      "type" : "StorageOptimized",
+      "local_ipv4": "15.54.88.19",
+      "local_ipv6": "ff06:0:0:0:0:0:0:c3",
+      "public_ipv4": "10.54.88.19",
+      "public_ipv6": "yt06:0:0:0:0:0:0:c3",
+      "instances": [
+        {
+          "name": "name1",
+          "id": "72C05559-0590-4DA6-BE56-28AB36CB669C"
+        },
+        {
+          "name": "name2",
+          "id": "17173587-C4E9-4369-9C43-FCBF5E075973"
+        }
+      ],
+      "created":["at":"20130625105211", "by":10]
+    },
+    {
+      "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
+      "name": "host-01-pdn",
+      "os": "Ubuntu_12.04_3.5.0-23.x86_64",
+      "memory": "16GB",
+      "capacity": "120GB",
+      "enabled": "true",
+      "type" : "GeneralPurpose",
+      "local_ipv4": "15.54.88.19",
+      "local_ipv6": "ff06:0:0:0:0:0:0:c3",
+      "public_ipv4": "10.54.88.19",
+      "public_ipv6": "yt06:0:0:0:0:0:0:c3",
+      "instances": [
+        {
+          "name": "name3",
+          "id": "DE11CC9A-482F-4033-A7F8-503EE449DD0A"
+        },
+        {
+          "name": "name4",
+          "id": "17173587-C4E9-4369-9C43-FCBF5E075973"
+        },    
+      ],
+      "created":["at":"20130625105211", "by":10]
+    }
+  ]
+}   
+\end{lstlisting}
+
+\subsubsection{Actualizar un host - PUT /virtshell/api/v1/hosts/:id}
+
+\begin{lstlisting}[style=json]
+curl -sv -X PUT \
+  -H 'accept: application/json' \
+    -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{"memory": "24GB",
+     "capacity": "750GB"}' \
+   'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+\end{lstlisting}
+
+\vspace{1cm}
+Respuesta:
+\vspace{1cm}
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "update": "success" }
+\end{lstlisting}
+
+\subsubsection{Eliminar un host - DELETE /virtshell/api/v1/hosts/:id}
+
+\begin{lstlisting}[style=json]
+curl -sv -X DELETE \
+   -H 'accept: application/json' \
+   -H 'X-VirtShell-Authorization: UserId:Signature' \
+   'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+\end{lstlisting}
+
+\vspace{1cm}
+Respuesta:
+\vspace{1cm}
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```json
+{ "delete": "success" }
+\end{lstlisting}

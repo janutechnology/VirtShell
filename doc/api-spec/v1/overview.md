@@ -4,12 +4,10 @@ A REST based virtualization service.
 
 The sections below document the behavior of the API in detail.
 
-Output Format
-=============
+Output and Input Format
+=======================
 
-The API supports only JSON output. This is the default output format, and
-requesting any output format other than `application/json` via the accept
-header will result in a `406 Content Not Acceptable` error.
+The API supports only JSON format, and requesting any output format other than `application/json` via the accept header will result in a `406 Content Not Acceptable` error.
 
 
 Errors
@@ -69,19 +67,19 @@ API Resources
 Below is a list of resources provided by this API. Click on the heading for
 more details.
 
-* [Hosts][hosts] - `/api/virtsh/v1/hosts`
+* [Hosts][hosts] - `/virtshell/api/v1/hosts`
 
-* [Images][images] - `/api/virtsh/v1/images`
+* [Images][images] - `/virtshell/api/v1/images`
 
-* [Provisioners][provisioners] - `/api/virtsh/v1/provisioners`
+* [Provisioners][provisioners] - `/virtshell/api/v1/provisioners`
 
-* [Instances][intances] - `/api/virtsh/v1/intances`
+* [Instances][intances] - `/virtshell/api/v1/intances`
 
-* [Properties][properties] - `/api/virtsh/v1/properties`
+* [Properties][properties] - `/virtshell/api/v1/properties`
 
-* [Packages][packages] - `/api/virtsh/v1/packages`
+* [Packages][packages] - `/virtshell/api/v1/packages`
 
-* [Files][files] - `/api/virtsh/v1/files`
+* [Files][files] - `/virtshell/api/v1/files`
 
 API Calls
 =========
@@ -99,8 +97,7 @@ Below is a list of API calls don't represent directly a resource.
 * [Copy file][copy_file] - `/api/virtsh/v1/copy_file`
 
 [hosts]: hosts.md
-[isos]: isos.md
-[container_templates]: container_templates.md
+[images]: images.md
 [provisioners]: provisioners.md
 [intances]: intances.md
 [properties]: properties.md
