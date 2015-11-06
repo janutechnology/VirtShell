@@ -10,6 +10,7 @@ Represents an individual file on VirtShell.
 | get | GET | /files/id | Gets one file by ID. |
 | create | POST | /files/ | Upload a new file. | 
 | delete | DELETE | /files/id | Deletes an existing file. |
+| update | PUT | /files/id | Updates an existing file. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -50,8 +51,10 @@ HTTP/1.1 201 Created
 Content-Type: application/json
 ```
 ```json
-{ "create": "success",
-  "location": "http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt" }
+{ 
+  "create": "success",
+  "location": "http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt" 
+}
 ```
 
 `GET /virtshell/api/v1/files/:id
@@ -85,8 +88,32 @@ Content-Type: application/json
 }
 ```
 
+`PUT /virtshell/api/v1/files/:id`
+----------------------------------------------
+
+Update a existing file.
+
+```sh
+curl -sv -X PUT \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -H "Content-Type: multipart/form-data" \
+  -F "file_data=@/path/to/file/seed_file.txt;filename=seed_file_ubuntu-14_04_v2.txt" \
+   'http://localhost:8080/api/virtshell/v1/file?id=8de7b824-d7d1-4265-a3a6-5b46cc9b8ed5'
+```
+
+Response:
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```json
+{ "update": "success" }
+```
+
 `DELETE /virtshell/api/v1/files/:id`
 ----------------------------------------------
+
 Delete a existing file.
 
 ```sh

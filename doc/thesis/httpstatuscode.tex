@@ -1,0 +1,27 @@
+\section{Codigos de error}
+Aqui se presenta una lista de codigos de error que pueden resultar de una petici'on al API en cualquier recurso.
+
+\begin{itemize}
+\item \textbf{400 Bad Request} La solicitud no pudo ser procesada con 'exito porque el URI no era v'alido. El cuerpo de la respuesta contendr'a una raz'on del fracaso de la petici'on. Esta respuesta indica error permanente.
+
+\item \textbf{403 Forbidden} La solicitud no pudo ser procesada con 'exito porque la identidad del usuario no tiene acceso suficiente para procesar la solicitud. Esta respuesta indica error permanente.
+
+\item \textbf{406 Content Not Acceptable} Un recurso genera este error de acuerdo al tipo de cabeceras enviadas en la petici'on. Esta respuesta indica un error permanete e indica un formato de salida no soportado. La respuesta de este tipo de error no contiene un contenido debido a la inhabilidad del servidor para generar una respuesta en el formato solicitado.
+
+\item \textbf{404 Not Found} La solicitud no pudo ser procesada con 'exito porque la solicitud no era v'alida. Lo m'as probable es que no se encontró la url. Esta respuesta indica error permanente.
+
+\item \textbf{500 Server Error} La solicitud no pudo ser procesada debido a que el servidor encontr'o una condici'on inesperada que le impidi'o cumplir con la petici'on.
+
+\item \textbf{501 Not Implemented} La solicitud no se pudo completar porque el servidor o bien no reconoce el m'etodo de petici'on o el recurso solicitado no existe.
+
+\end{itemize}
+
+Los errores que no sean de codigo 406 (Content Not Acceptable) contienen una respuesta en formato json, que contiene un breve mensaje explicado el error con m'as detalle. Por ejemplo, una consulta POST /virtshell/api/v1/hosts, con un cuerpo vacio, dar'ia lugar a la siguiente respuesta:
+
+\vspace{1cm}
+\begin{lstlisting}[style=json]
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+
+{"error": "Missing input for create instance"}
+\end{lstlisting}

@@ -13,9 +13,7 @@ Representan imagenes de m'aquinas virtuales o contenedores. Los metodos soportad
   \hline  
   create & POST & /images/ & Inserts a new image. \\
   \hline
-  delete & DELETE & /images/id & Deletes an existing image. \\
-  \hline  
-  update & PUT & /images/id & Updates an existing image. \\ [1ex] 
+  delete & DELETE & /images/id & Deletes an existing image. \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
@@ -36,9 +34,8 @@ Representaci'on del recurso de una imagen:
   "arch": "i386|amd64", 
   "timezone": "America/Bogota", 
   "ssh_key": "-------- BEGIN PUBLIC KEY ----and a valid key here",
-  "preseed_file": "seed_file_uuid",
-  "url_image": "https://gist.github.com/hagix9/3514296#file-lxc-centos",
-  "path_image": "path_image_uuid",  
+  "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
+  "download_url": "https://<host>:<port>/api/virtshell/v1/files/images/3514296#file-lxc-ubuntu",
   "created":["at":"20130625105211","by":10],
   "details": "...."
 }
@@ -49,7 +46,7 @@ Ejemplo:
 \medskip
 \begin{lstlisting}[style=json]
 {
-  "id": "k05436c0-cc94-13tg-82cb-9992b5d5c51b",
+  "id": "kj5436c0-dc94-13tg-82ce-9992b5d5c51b",
   "name": "ubuntu_server_14.04.2_amd64",
   "type": "iso",
   "os": "ubuntu", 
@@ -58,162 +55,49 @@ Ejemplo:
   "variant": "server", 
   "arch": "amd64", 
   "timezone": "America/Bogota", 
-  "key": "ssh-rsa AAAAB3NzaC1yc2EBBBBDAQABAAABAQC2Mo6tWWf6FYIBNz8tHgbfTiYkOC3++ToKe8g5FjNW9Uw86CeqmP4PiTZiQwdDCDqikk9xETEEhVnjDEJO4mx8W/q77Ciq1wGnraqI9FfNfH6LRfGnZ+rHxr371pbcqHXFY11WatdyjvmPiyDmMWTJzoDUXANIQ5YE9Lpb23PwtUQ3FzyBtImGA+i474Vf/Opz68kSzEElm+oaNmLNcHp0AyomA6i5xTTxYyP2+BEJtVT0CSXM5YVbs8iXVlD/3XdukT9J0oFzdxKkI5lBvhnhjE91XnfllNuE9gAoZGiX3Cya384ofNGwe8ARu9Wi29a4zoRcMpV8AD0TLYRHeJJJ yourcompany@gmail.com",
-  "preseed_file": "fe1bb90a-7f25-11e5-8bcf-feff819cdc9f",
-  "created":["at":"20130625105211","by":10]
+  "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
+  "created":["at":"20150625105211","by":10]
 }
 \end{lstlisting}
 
 \subsection{Ejemplos de peticiones HTTP}
 
-\subsubsection{Crear un nuevo host - POST /virtshell/api/v1/images}
-
-\begin{lstlisting}[style=json]
-curl -sv -X POST \
-  -H 'accept: application/json' \
-    -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{"name": "host-01-pdn",
-       "os": "Ubuntu_12.04_3.5.0-23.x86_64",
-       "memory": "16GB",
-       "capacity": "120GB",
-       "enabled": "true",
-       "type" : "GeneralPurpose",
-       "local_ipv4": "15.54.88.19",
-         "local_ipv6": "ff06:0:0:0:0:0:0:c3",
-       "public_ipv4": "10.54.88.19",
-       "public_ipv6": "yt06:0:0:0:0:0:0:c3"}' \
-   'http://localhost:8080/virtshell/api/v1/hosts'
-\end{lstlisting}
-
-\vspace{1cm}
-Respuesta:
-\vspace{1cm}
-
-\begin{lstlisting}[style=json]
-HTTP/1.1 200 OK
-Content-Type: application/json
-{ "create": "success" }
-\end{lstlisting}
-
-\subsubsection{Obtener un host- GET /virtshell/api/v1/images/:id}
-
-\begin{lstlisting}[style=json]
-curl -sv -H 'accept: application/json' 
-     -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-     'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
-\end{lstlisting}
-
-\vspace{1cm}
-Respuesta:
-\vspace{1cm}
-
-\begin{lstlisting}[style=json]
-HTTP/1.1 200 OK
-Content-Type: application/json
-{
-  "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
-  "name": "host-01-pdn",
-  "os": "Ubuntu_12.04_3.5.0-23.x86_64",
-  "memory": "16GB",
-  "capacity": "120GB",
-  "enabled": "true",
-  "type" : "StorageOptimized",
-  "local_ipv4": "15.54.88.19",
-  "local_ipv6": "ff06:0:0:0:0:0:0:c3",
-  "public_ipv4": "10.54.88.19",
-  "public_ipv6": "yt06:0:0:0:0:0:0:c3",
-  "instances": [
-    {
-      "name": "name1",
-      "id": "72C05559-0590-4DA6-BE56-28AB36CB669C"
-    },
-    {
-      "name": "name2",
-      "id": "17173587-C4E9-4369-9C43-FCBF5E075973"
-    }
-  ],
-  "created":["at":"20130625105211", "by":10]
-}
-\end{lstlisting}
-
-\subsubsection{Obtener todos los host - GET /virtshell/api/v1/images}
-
-\begin{lstlisting}[style=json]
-curl -sv -H 'accept: application/json' 
-     -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-     'http://localhost:8080/api/virtshell/v1/hosts'
-\end{lstlisting}
-
-\vspace{1cm}
-Respuesta:
-\vspace{1cm}
-
-\begin{lstlisting}[style=json]
-HTTP/1.1 200 OK
-Content-Type: application/json
-{
-  "hosts": [
-    {
-      "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
-      "name": "host-01-pdn",
-      "os": "Ubuntu_12.04_3.5.0-23.x86_64",
-      "memory": "16GB",
-      "capacity": "120GB",
-      "enabled": "true",
-      "type" : "StorageOptimized",
-      "local_ipv4": "15.54.88.19",
-      "local_ipv6": "ff06:0:0:0:0:0:0:c3",
-      "public_ipv4": "10.54.88.19",
-      "public_ipv6": "yt06:0:0:0:0:0:0:c3",
-      "instances": [
-        {
-          "name": "name1",
-          "id": "72C05559-0590-4DA6-BE56-28AB36CB669C"
-        },
-        {
-          "name": "name2",
-          "id": "17173587-C4E9-4369-9C43-FCBF5E075973"
-        }
-      ],
-      "created":["at":"20130625105211", "by":10]
-    },
-    {
-      "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
-      "name": "host-01-pdn",
-      "os": "Ubuntu_12.04_3.5.0-23.x86_64",
-      "memory": "16GB",
-      "capacity": "120GB",
-      "enabled": "true",
-      "type" : "GeneralPurpose",
-      "local_ipv4": "15.54.88.19",
-      "local_ipv6": "ff06:0:0:0:0:0:0:c3",
-      "public_ipv4": "10.54.88.19",
-      "public_ipv6": "yt06:0:0:0:0:0:0:c3",
-      "instances": [
-        {
-          "name": "name3",
-          "id": "DE11CC9A-482F-4033-A7F8-503EE449DD0A"
-        },
-        {
-          "name": "name4",
-          "id": "17173587-C4E9-4369-9C43-FCBF5E075973"
-        },    
-      ],
-      "created":["at":"20130625105211", "by":10]
-    }
-  ]
-}   
-\end{lstlisting}
-
-\subsubsection{Actualizar un host - PUT /virtshell/api/v1/images/:id}
+\subsubsection{Crear una nueva imagen - POST /virtshell/api/v1/images}
 
 \begin{lstlisting}[style=json]
 curl -sv -X PUT \
   -H 'accept: application/json' \
-    -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{"memory": "24GB",
-     "capacity": "750GB"}' \
-   'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+  -H "Content-Type: text/plain" \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{"name": "ubuntu_server_14.04.2_amd64",
+     "type": "iso",
+     "os": "ubuntu", 
+     "release": "trusty",
+     "version": "14.04.2", 
+     "variant": "server", 
+     "arch": "amd64", 
+     "timezone": "America/Bogota", 
+     "key": "/home/callanor/.ssh/id_rsa.pub",
+     "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt"}' \
+   'http://localhost:8080/api/virtshell/v1/image'
+\end{lstlisting}
+
+\vspace{1cm}
+Respuesta:
+\vspace{1cm}
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 201 OK
+Content-Type: application/json
+{ "create": "success" }
+\end{lstlisting}
+
+\subsubsection{Obtener una imagen - GET /virtshell/api/v1/images/:id}
+
+\begin{lstlisting}[style=json]
+curl -sv -H 'accept: application/json' 
+     -H 'X-VirtShell-Authorization: UserId:Signature' \ 
+     'http://localhost:8080/api/virtshell/v1/images?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
 \end{lstlisting}
 
 \vspace{1cm}
@@ -223,17 +107,72 @@ Respuesta:
 \begin{lstlisting}[style=json]
 HTTP/1.1 200 OK
 Content-Type: application/json
-
-{ "update": "success" }
+{
+  "id": "kj5436c0-dc94-13tg-82ce-9992b5d5c51b",
+  "name": "ubuntu_server_14.04.2_amd64",
+  "type": "iso",
+  "os": "ubuntu", 
+  "release": "trusty",
+  "version": "14.04.2", 
+  "variant": "server", 
+  "arch": "amd64", 
+  "timezone": "America/Bogota", 
+  "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu_14_04.txt",
+  "created":["at":"20130625105211","by":10]
+}
 \end{lstlisting}
 
-\subsubsection{Eliminar un host - DELETE /virtshell/api/v1/images/:id}
+\subsubsection{Obtener todas las imagenes - GET /virtshell/api/v1/images}
+
+\begin{lstlisting}[style=json]
+curl -sv -H 'accept: application/json' 
+     -H 'X-VirtShell-Authorization: UserId:Signature' \ 
+     'http://localhost:8080/api/virtshell/v1/images'
+\end{lstlisting}
+
+\vspace{1cm}
+Respuesta:
+\vspace{1cm}
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{
+  "images": [
+    {
+      "id": "b180ef2c-e798-4a8f-b23f-aaac2fb8f7e8",
+      "name": "ubuntu_server_14.04.2_amd64",
+      "type": "iso",
+      "os": "ubuntu", 
+      "release": "trusty",
+      "version": "14.04.2", 
+      "variant": "server", 
+      "arch": "amd64", 
+      "timezone": "America/Bogota", 
+      "preseed_file": "/home/callanor/seed_file.txt",
+      "created":["at":"20130625105211","by":10]
+    },
+    {
+      "id": "ca326181-bc84-4edb-bfc5-843037e7195e",
+      "name": "centos_server",
+      "type": "container",
+      "os": "centos", 
+      "version": "7", 
+      "arch": "x86_64", 
+      "download_url": "https://<host>:<port>/api/virtshell/v1/files/images/3514296#file-lxc-centos"
+      "created":["at":"20140625105211","by":12]
+    }
+  ]
+}  
+\end{lstlisting}
+
+\subsubsection{Eliminar una imagen - DELETE /virtshell/api/v1/images/:id}
 
 \begin{lstlisting}[style=json]
 curl -sv -X DELETE \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+   'http://<host>:<port>/api/virtshell/v1/images?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
 \end{lstlisting}
 
 \vspace{1cm}

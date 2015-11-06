@@ -97,8 +97,7 @@ Below is a list of API calls don't represent directly a resource.
 * [Copy file][copy_file] - `/api/virtsh/v1/copy_file`
 
 [hosts]: hosts.md
-[isos]: isos.md
-[container_templates]: container_templates.md
+[images]: images.md
 [provisioners]: provisioners.md
 [intances]: intances.md
 [properties]: properties.md

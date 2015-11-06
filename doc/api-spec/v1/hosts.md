@@ -116,6 +116,7 @@ Content-Type: application/json
 
 `GET /virtshell/api/v1/hosts/`
 ----------------------------------------------
+
 Get all host.
 
 ```sh

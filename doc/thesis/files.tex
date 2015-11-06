@@ -11,7 +11,9 @@ Representan toda clase de archivos que se requieran para crear o aprovisionar m'
   \hline
   create & POST & /files/ & upload a new file. \\
   \hline
-  delete & DELETE & /files/id & Deletes an existing file. \\ [1ex]
+  delete & DELETE & /files/id & Deletes an existing file. \\
+  \hline  
+  update & PUT & /images/id & Updates an existing file. \\ [1ex]  
   \hline
 \end{tabular}
 \end{center}
@@ -95,6 +97,29 @@ Content-Type: application/json
   "created":["at":"timestamp", "by":user_id] 
 }
 \end{lstlisting}
+
+\subsubsection{Actualizar un archivo - PUT /virtshell/api/v1/files/:id}
+
+\begin{lstlisting}[style=json]
+curl -sv -X PUT \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -H "Content-Type: multipart/form-data" \
+  -F "file_data=@/path/to/file/seed_file.txt;filename=seed_file_ubuntu-14_04_v2.txt" \
+   'http://localhost:8080/api/virtshell/v1/file?id=8de7b824-d7d1-4265-a3a6-5b46cc9b8ed5'
+\end{lstlisting}
+
+\vspace{1cm}
+Respuesta:
+\vspace{1cm}
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "update": "success" }
+\end{lstlisting}
+
 
 \subsubsection{Eliminar un archivo - DELETE /virtshell/api/v1/files/:id}
 
