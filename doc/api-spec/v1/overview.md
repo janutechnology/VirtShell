@@ -81,6 +81,10 @@ more details.
 
 * [Files][files] - `/virtshell/api/v1/files`
 
+* [Groups][groups] - `/virtshell/api/v1/groups`
+
+* [Users][users] - `/virtshell/api/v1/users`
+
 API Calls
 =========
 
@@ -103,6 +107,8 @@ Below is a list of API calls don't represent directly a resource.
 [properties]: properties.md
 [packages]: packages.md
 [files]: files.md
+[groups]: groups.md
+[users]: users.md
 [restart_host]: restart_host.md
 [execute_provisioner]: execute_provisioner.md
 [start_instance]: start_instance.md

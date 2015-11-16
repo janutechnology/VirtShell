@@ -1,16 +1,16 @@
 \section{Autenticaci'on}
 
-La autenticaci'on es el proceso de demostrar la identidad al sistema. La identidad es un factor importante en las decisiones de control de acceso. Las solicitudes se conceden o deniegan en parte sobre la base de la identidad del solicitante.
-
-El VirtShell API REST utiliza un esquema HTTP personalizado basado en una llave-HMAC (Hash Message Authentication Code) para la autenticaci'on.Para autenticar una solicitud, primero se concatenan los elementos seleccionados de la solicitud para formar una cadena. A continuaci'on, utiliza una clave secreta de acceso para calcular el HMAC de esa cadena. Informalmente, llamamos a este proceso \"la firma de la solicitud\", y llamamos a la salida del algoritmo HMAC la \"firma\", ya que simula las propiedades de seguridad de una firma real. Por 'ultimo, se agrega esta firma como un par'ametro de la petici'on, con la sintaxis descrita en esta secci'on.
-
-Cuando el sistema recibe una solicitud fehaciente, se obtiene la clave secreta de acceso que dicen tener, y lo utiliza de la misma manera que se calcula una \"firma\" del mensaje que recibi'o. A continuaci'on, compara la firma que se calcula con la firma presentada por el solicitante. Si las dos firmas coinciden, el sistema llega a la conclusi'on de que el solicitante debe tener acceso a la clave secreta de acceso, y por lo tanto act'ua con la autoridad del principal al que se emiti'o la clave. Si las dos firmas no coinciden, la solicitud se descarta y el sistema responde con un mensaje de error.
-
+La autenticaci'on es el proceso de demostrar la identidad al sistema. La identidad es un factor importante en las decisiones de control de acceso. Las solicitudes se conceden o deniegan en parte sobre la base de la identidad del solicitante.\\
+\\
+El VirtShell, el API REST utiliza un esquema HTTP personalizado basado en una llave-HMAC (Hash Message Authentication Code) para la autenticaci'on. Para autenticar una solicitud, primero se concatenan los elementos seleccionados de la solicitud para formar una cadena. A continuaci'on, utiliza una clave secreta de acceso para calcular el HMAC de esa cadena. Informalmente, se le denomina a este proceso \"la firma de la solicitud\", y se denomina a la salida del algoritmo HMAC la "firma", ya que simula las propiedades de seguridad de una firma real. Por 'ultimo, se agrega esta firma como un par'ametro de la petici'on, con la sintaxis descrita en esta secci'on.\\
+\\
+Cuando el sistema recibe una solicitud fehaciente, se obtiene la clave secreta de acceso que dicen tener, y lo utiliza de la misma manera que se calcula una "firma" del mensaje que recibi'o. A continuaci'on, compara la firma que se calcula con la firma presentada por el solicitante. Si las dos firmas coinciden, el sistema llega a la conclusi'on de que el solicitante debe tener acceso a la clave secreta de acceso, y por lo tanto act'ua con la autoridad del principal al que se emiti'o la clave. Si las dos firmas no coinciden, la solicitud se descarta y el sistema responde con un mensaje de error.\\
+\\
 Ejemplo de una petici'on autenticada:
 
 \medskip
 \begin{lstlisting}
-  GET /api/virtshell/appliance/{applianceId} HTTP/1.1
+  GET /api/virtshell/packages/{packageId} HTTP/1.1
   Host: host1.edu.co
   Date: Fri, 01 Jul 2011 19:37:58 +0000
 
@@ -19,17 +19,18 @@ Ejemplo de una petici'on autenticada:
 
 \subsection{Authentication Header}
 
-El API REST utiliza el encabezado de autorizaci'on HTTP est'andar para pasar informaci'on de autenticaci'on. (El nombre de la cabecera est'andar es insuficiente, ya que solo lleva la informaci'on de autenticaci'on y no la de autorizaci'on). Bajo el esquema de autenticaci'on de VirtShell, el encabezado de autorizaci'on tiene la siguiente forma.
+El API REST utiliza el encabezado de autorizaci'on HTTP para pasar informaci'on de autenticaci'on. Bajo el esquema de autenticaci'on de VirtShell, el encabezado de autorizaci'on tiene la siguiente forma.
 
 \medskip
 \begin{lstlisting}
-  Authorization: JanuUserId:Signature
+  Authorization: UserId:Signature
 \end{lstlisting}
+\medskip
 
-Los usuarios tendr'an un ID de clave de acceso (VirtShell Access Key ID) y una clave secreta de acceso (VirtShell Secret Access Key) cuando se registran. Para la petici'on de autenticaci'on, el elemento de VirtShell Access Key Id identifica la clave secreta que se utiliz'o para calcular la firma, y (indirectamente) el usuario que realiza la solicitud.
-
-Para la firma de los elementos de la petici'on se usa el RFC 2104HMAC-SHA1, por lo que la parte de la firma de la cabecera autorizaci'on variar'a de una petici'on a otra. Si la solicitud de la firma calculada por el sistema coincide con la firma incluida en la solicitud, el solicitante habr'a demostrado la posesi'on de la clave secreta de acceso. La solicitud ser'a procesada bajo la identidad, y con la autoridad, de la promotora que se emiti'o la clave.
-
+Los usuarios tendr'an un ID de clave de acceso (VirtShell Access Key ID) y una clave secreta de acceso (VirtShell Secret Access Key) cuando se registran. Para la petici'on de autenticaci'on, el elemento de VirtShell Access Key Id identifica la clave secreta que se utiliz'o para calcular la firma, y (indirectamente) el usuario que realiza la solicitud.\\
+\\
+Para la firma de los elementos de la petici'on se usa el RFC 2104HMAC-SHA1, por lo que la parte de la firma de la cabecera autorizaci'on variar'a de una petici'on a otra. Si la solicitud de la firma calculada por el sistema coincide con la firma incluida en la solicitud, el solicitante habr'a demostrado la posesi'on de la clave secreta de acceso. La solicitud ser'a procesada bajo la identidad, y con la autoridad, de la promotora que se emiti'o la clave.\\
+\\
 A continuaci'on se muestra la pseudo-gramática que ilustra la construcci'on de la cabecera de la solicitud de autorizaci'on (
 \textbackslash{}n significa el punto de c'odigo Unicode U +000 A com'unmente llamado salto de l'inea).
 
@@ -49,7 +50,8 @@ A continuaci'on se muestra la pseudo-gramática que ilustra la construcci'on de 
   CanonicalizedResource = <HTTP-Request-URI, from the protocol name up to the query string (resource path)>
 \end{lstlisting}
 
-HMAC-SHA1 es un algoritmo definido por la RFC 2104 (ver la RFC 2104 con llave Hashing para la autenticaci'on de mensajes).
+HMAC-SHA1 es un algoritmo definido por la RFC 2104 (ver la RFC 2104 con llave Hashing para la autenticaci'on de mensajes).\\
+\\
 El algoritmo toma como entrada dos cadenas de bytes: una clave y un mensaje. Para la solicitud de autenticaci'on, se utiliza la clave secreta (YourSecretAccessKeyID) como la clave, y la codificaci'on UTF-8 del StringToSign como el mensaje. La salida de HMAC-SHA1 es tambi'en una cadena de bytes, llamado el resumen. El par'ametro de la petici'on de la Firma se construye codificada en Base64.
 
 \subsection{Solicitud can'onica para firmar}
@@ -73,12 +75,12 @@ VirtShellSecretAccessKey} & \multicolumn{1}{m{12.5cm}|}%
 
 \textbf{Ejemplo de un objeto con GET}
 
-Este es un ejemplo que consulta por un enviroment dado su identificador.
+Este es un ejemplo que consulta por un host dado su identificador.
 
 \begin{tabular}{|l|l|} \hline
 \textbf{Request} & \textbf{StringToSign} \\ \hline
 \multicolumn{1}{|m{10.5cm}|}%
-{\raggedright GET /api/virtshell/enviroment/45 HTTP/1.1 \\
+{\raggedright GET /api/virtshell/hosts/45 HTTP/1.1 \\
  Host: host1.edu.co \\
  Date: Tue, 27 Mar 2007 19:36:42 +0000 \\
  Authorization: 13010f3e-3f46-4889-b989-592ce8fb30c6: Yzk5MWY1MmVkMC00ZGFiLTtNmQ5ZjcyMmRjODQ1 } & \multicolumn{1}{m{6.5cm}|}%
@@ -86,7 +88,7 @@ Este es un ejemplo que consulta por un enviroment dado su identificador.
  host1.edu.co\textbackslash{}n \\
  \textbackslash{}n \\
  \textbackslash{}n \\
- Tue, 27 Mar 2007 19:36:42 +0000\textbackslash{}n \\ /api/virtshell/enviroment/45} \tabularnewline \hline
+ Tue, 27 Mar 2007 19:36:42 +0000\textbackslash{}n \\ /api/virtshell/hosts/45} \tabularnewline \hline
 \end{tabular}
 
 \textbf{Ejemplo de un objeto con DELETE}
@@ -96,7 +98,7 @@ Este ejemplo remueve un usuario.
 \begin{tabular}{|l|l|} \hline
 \textbf{Request} & \textbf{StringToSign} \\ \hline
 \multicolumn{1}{|m{10.5cm}|}%
-{\raggedright DELETE /api/virtshell/user/9876 HTTP/1.1 \\
+{\raggedright DELETE /api/virtshell/users/9876 HTTP/1.1 \\
  Host: host1.edu.co \\
  Date: Tue, 27 Mar 2007 21:20:27 +0000 \\
  Authorization: 13010f3e-3f46-4889-b989-592ce8fb30c6: Yzk5MWY1MmVkMC00ZGFiLTtNmQ5ZjcyMmRjODQ1 } & \multicolumn{1}{m{6.5cm}|}%
@@ -104,5 +106,5 @@ Este ejemplo remueve un usuario.
  host1.edu.co\textbackslash{}n \\
  \textbackslash{}n \\
  \textbackslash{}n \\
- Tue, 27 Mar 2007 21:20:27 +0000\textbackslash{}n \\ /api/virtshell/user/9876} \tabularnewline \hline
+ Tue, 27 Mar 2007 21:20:27 +0000\textbackslash{}n \\ /api/virtshell/users/9876} \tabularnewline \hline
 \end{tabular}
