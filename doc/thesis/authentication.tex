@@ -1,4 +1,5 @@
-\section{Autenticaci'on}
+\chapter{Autenticaci'on}
+\label{capauthentication}
 
 La autenticaci'on es el proceso de demostrar la identidad al sistema. La identidad es un factor importante en las decisiones de control de acceso. Las solicitudes se conceden o deniegan en parte sobre la base de la identidad del solicitante.\\
 \\
@@ -31,11 +32,11 @@ Los usuarios tendr'an un ID de clave de acceso (VirtShell Access Key ID) y una c
 \\
 Para la firma de los elementos de la petici'on se usa el RFC 2104HMAC-SHA1, por lo que la parte de la firma de la cabecera autorizaci'on variar'a de una petici'on a otra. Si la solicitud de la firma calculada por el sistema coincide con la firma incluida en la solicitud, el solicitante habr'a demostrado la posesi'on de la clave secreta de acceso. La solicitud ser'a procesada bajo la identidad, y con la autoridad, de la promotora que se emiti'o la clave.\\
 \\
-A continuaci'on se muestra la pseudo-gramática que ilustra la construcci'on de la cabecera de la solicitud de autorizaci'on (
+A continuaci'on se muestra la pseudo-gram'atica que ilustra la construcci'on de la cabecera de la solicitud de autorizaci'on (
 \textbackslash{}n significa el punto de c'odigo Unicode U +000 A com'unmente llamado salto de l'inea).
 
 \medskip
-\begin{lstlisting}
+\begin{lstlisting}[basicstyle=\tiny]
   Authorization = VirtShellUserId + ":" + Signature;
 
   Signature = Base64( HMAC-SHA1( UTF-8-Encoding-Of( YourSecretAccessKeyID, StringToSign ) ) );
@@ -64,47 +65,56 @@ Un sello de tiempo v'alido (utilizando el HTTP header Date) es obligatorio para 
 
 \subsection{Ejemplos de autenticaci'on}
 
+\scriptsize
 \begin{tabular}{|l|l|} \hline
 \textbf{Parametro} & \textbf{Valor} \\ \hline
 VirtShellUserId  & 13010f3e-3f46-4889-b989-592ce8fb30c6 \\ \hline
-\multicolumn{1}{|m{3.7cm}|}{
-VirtShellSecretAccessKey} & \multicolumn{1}{m{12.5cm}|}%
-{\raggedright c991f519-bed0-4dab-9165-6d9f722dc845 \\
-\textbf{Base64:} \\ Yzk5MWY1MTktYmVkMC00ZGFiLTkxNjUtNmQ5ZjcyMmRjODQ1} \tabularnewline \hline
+\multicolumn{1}{|m{3.5cm}|}{VirtShellSecretAccessKey} & 
+\multicolumn{1}{m{9cm}|} {
+                            \raggedright c991f519-bed0-4dab-9165-6d3f722dc845 \\
+                            \textbf{Base64:} \\ Yzk5MWY1MTktYmVkMC00ZGFiLTkxNjUtNmQ5ZjcyMmRjODQ1
+                          } \tabularnewline \hline
 \end{tabular}
 
-\textbf{Ejemplo de un objeto con GET}
+\subsubsection{Ejemplo de un objeto con GET}
 
-Este es un ejemplo que consulta por un host dado su identificador.
-
+Este es un ejemplo que consulta por un host dado su identificador. \\
+\\
+\vspace{1cm}
+\scriptsize
 \begin{tabular}{|l|l|} \hline
 \textbf{Request} & \textbf{StringToSign} \\ \hline
-\multicolumn{1}{|m{10.5cm}|}%
-{\raggedright GET /api/virtshell/hosts/45 HTTP/1.1 \\
- Host: host1.edu.co \\
- Date: Tue, 27 Mar 2007 19:36:42 +0000 \\
- Authorization: 13010f3e-3f46-4889-b989-592ce8fb30c6: Yzk5MWY1MmVkMC00ZGFiLTtNmQ5ZjcyMmRjODQ1 } & \multicolumn{1}{m{6.5cm}|}%
-{\raggedright GET\textbackslash{}n \\
- host1.edu.co\textbackslash{}n \\
- \textbackslash{}n \\
- \textbackslash{}n \\
- Tue, 27 Mar 2007 19:36:42 +0000\textbackslash{}n \\ /api/virtshell/hosts/45} \tabularnewline \hline
+\multicolumn{1}{|m{7.5cm}|}{
+      \raggedright GET /api/virtshell/hosts/5713b48a-8d73-11e5-8994-feff819cdc9f HTTP/1.1 \\
+      Host: host1.edu.co \\
+      Date: Tue, 27 Mar 2007 19:36:42 +0000 \\
+      Authorization: 13010f3e-3f46-4889-b989-592ce8fb30c6: \\
+      Yzk5MWY1MmVkMC00ZGFiLTtNmQ5ZjcyMmRjODQ1 } & 
+\multicolumn{1}{m{8cm}|}{
+      \raggedright GET\textbackslash{}n \\
+      host1.edu.co\textbackslash{}n \\
+      \textbackslash{}n \\
+      \textbackslash{}n \\
+      Tue, 27 Mar 2007 19:36:42 +0000\textbackslash{}n \\ 
+      /api/virtshell/hosts/5713b48a-8d73-11e5-8994-feff819cdc9f} \tabularnewline \hline
 \end{tabular}
 
-\textbf{Ejemplo de un objeto con DELETE}
+\subsubsection{Ejemplo de un objeto con DELETE}
 
 Este ejemplo remueve un usuario.
-
+\\
+\vspace{1cm}
+\scriptsize
 \begin{tabular}{|l|l|} \hline
 \textbf{Request} & \textbf{StringToSign} \\ \hline
-\multicolumn{1}{|m{10.5cm}|}%
-{\raggedright DELETE /api/virtshell/users/9876 HTTP/1.1 \\
+\multicolumn{1}{|m{7.4cm}|}%
+{\raggedright DELETE /api/virtshell/users/5fd13cc8-8d73-11e5-8994-feff819cdc9f HTTP/1.1 \\
  Host: host1.edu.co \\
  Date: Tue, 27 Mar 2007 21:20:27 +0000 \\
- Authorization: 13010f3e-3f46-4889-b989-592ce8fb30c6: Yzk5MWY1MmVkMC00ZGFiLTtNmQ5ZjcyMmRjODQ1 } & \multicolumn{1}{m{6.5cm}|}%
+ Authorization: 13010f3e-3f46-4889-b989-592ce8fb30c6: Yzk5MWY1MmVkMC00ZGFiLTtNmQ5ZjcyMmRjODQ1 } & \multicolumn{1}{m{8cm}|}%
 {\raggedright DELETE\textbackslash{}n \\
  host1.edu.co\textbackslash{}n \\
  \textbackslash{}n \\
  \textbackslash{}n \\
- Tue, 27 Mar 2007 21:20:27 +0000\textbackslash{}n \\ /api/virtshell/users/9876} \tabularnewline \hline
+ Tue, 27 Mar 2007 21:20:27 +0000\textbackslash{}n \\ /api/virtshell/users/5fd13cc8-8d73-11e5-8994-feff819cdc9f} \tabularnewline \hline
 \end{tabular}
