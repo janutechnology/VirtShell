@@ -46,9 +46,9 @@ Ejemplo:
 }
 \end{lstlisting}
 
-\subsection{Ejemplos de peticiones HTTP}
+\subsubsection{Ejemplos de peticiones HTTP}
 
-\subsubsection{Crear un nuevo grupo - POST /virtshell/api/v1/grupos}
+\paragraph{Crear un nuevo grupo - POST /virtshell/api/v1/grupos} ~\\
 
 \begin{lstlisting}[style=json]
 curl -X POST \
@@ -69,7 +69,7 @@ Content-Type: application/json
 { "create": "success" }
 \end{lstlisting}
 
-\subsubsection{Obtener un grupo - GET /virtshell/api/v1/groups/:id}
+\paragraph{Obtener un grupo - GET /virtshell/api/v1/groups/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -95,7 +95,7 @@ Content-Type: application/json
 }
 \end{lstlisting}
 
-\subsubsection{Obtener todos los grupos - GET /virtshell/api/v1/groups}
+\paragraph{Obtener todos los grupos - GET /virtshell/api/v1/groups} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -141,7 +141,7 @@ Content-Type: application/json
 }  
 \end{lstlisting}
 
-\subsubsection{Eliminar un grupo - DELETE /virtshell/api/v1/groups/:id}
+\paragraph{Eliminar un grupo - DELETE /virtshell/api/v1/groups/:id} ~\\
 
 Para eliminar un grupo se debe tener en cuenta que no debe tener usuarios asociados a el.
 
