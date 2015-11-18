@@ -43,7 +43,7 @@ Create a new user.
 ```sh
 curl -sv -X POST \
   -H 'accept: application/json' \
-    -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{"uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
        "username": "virtshell",
        "type": "system/regular",

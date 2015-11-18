@@ -99,7 +99,7 @@ curl -sv -X PUT \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -H "Content-Type: multipart/form-data" \
   -F "file_data=@/path/to/file/seed_file.txt;filename=seed_file_ubuntu-14_04_v2.txt" \
-   'http://localhost:8080/api/virtshell/v1/file?id=8de7b824-d7d1-4265-a3a6-5b46cc9b8ed5'
+   'http://localhost:8080/api/virtshell/v1/files?id=8de7b824-d7d1-4265-a3a6-5b46cc9b8ed5'
 ```
 
 Response:
