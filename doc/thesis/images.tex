@@ -24,20 +24,20 @@ Representaci'on del recurso de una imagen:
 
 \begin{lstlisting}[style=json]
 {
-  "id": "kj5436c0-dc94-13tg-82ce-9992b5d5c51b",
-  "name": "ubuntu_server_14.04.2_amd64",
-  "type": "iso|container",
-  "os": "ubuntu", 
-  "release": "trusty",
-  "version": "14.04.2", 
-  "variant": "server|desktop", 
-  "arch": "i386|amd64", 
+  "id": string,
+  "name": string,
+  "type": string,
+  "os": string, 
+  "release": string,
+  "version": string, 
+  "variant": string, 
+  "arch": string, 
   "timezone": "America/Bogota", 
-  "ssh_key": "-------- BEGIN PUBLIC KEY ----and a valid key here",
-  "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
-  "download_url": "https://<host>:<port>/api/virtshell/v1/files/images/3514296#file-lxc-ubuntu",
-  "created":["at":"20130625105211","by":10],
-  "details": "...."
+  "key": string,
+  "preseed_url": url,
+  "download_url": url,
+  "created":["at": timestamp,"by": string],
+  "details": string
 }
 \end{lstlisting}
 
@@ -60,9 +60,9 @@ Ejemplo:
 }
 \end{lstlisting}
 
-\subsection{Ejemplos de peticiones HTTP}
+\subsubsection{Ejemplos de peticiones HTTP}
 
-\subsubsection{Crear una nueva imagen - POST /virtshell/api/v1/images}
+\paragraph{Crear una nueva imagen - POST /virtshell/api/v1/images} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X PUT \
@@ -92,7 +92,7 @@ Content-Type: application/json
 { "create": "success" }
 \end{lstlisting}
 
-\subsubsection{Obtener una imagen - GET /virtshell/api/v1/images/:id}
+\paragraph{Obtener una imagen - GET /virtshell/api/v1/images/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -122,7 +122,7 @@ Content-Type: application/json
 }
 \end{lstlisting}
 
-\subsubsection{Obtener todas las imagenes - GET /virtshell/api/v1/images}
+\paragraph{Obtener todas las imagenes - GET /virtshell/api/v1/images} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -166,7 +166,7 @@ Content-Type: application/json
 }  
 \end{lstlisting}
 
-\subsubsection{Eliminar una imagen - DELETE /virtshell/api/v1/images/:id}
+\paragraph{Eliminar una imagen - DELETE /virtshell/api/v1/images/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X DELETE \
