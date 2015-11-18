@@ -19,7 +19,10 @@ Resource representation
 ```json
 {
   "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
-  "username": "virtshell",
+  "name": "webserver",
+  "provisioner": ""
+
+
   "type": "system/regular",
   "login": "user@mail.com",
   "groups": [ {"uuid": "a146cae4-8c90-11e5-8994-feff819cdc9f"},
@@ -28,14 +31,42 @@ Resource representation
   "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
   "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
 }
+
+
+
 ```
+
+
+    virtsh instance create <name> [--provisioner | -p <provisioner_name>] [--config | -c <config_file>] [--launch | -l <amount>]
+                                  [--vars | -v <provisioning_variables>] [--host_type <host_type>] [--drive | -d <drive>]
+                                  [--container_template | -t <template_name>] [--iso | -i <iso_name>]
+
+    - create: Creates a new instance in a host.
+            Examples of options are as follow:
+                provisioner: transactional_log 
+                launch: 1:3 the value default is 1 (Min:Max)
+                vars: /home/callanor/variables/variables.yaml (Dictionary key:value in yaml format)
+                    Examples:
+                        url : hotmail.com
+                        ip : 192.168.56.103
+                        user : my_user
+                        password : my_password
+                config: /home/callanor/config/config.yaml (Dictionary key:value in yaml format)
+                    Example for virtual machines:
+                        memory:1024
+                        cpus:2
+                        hdsize:2GB
+                template_name: centos_6.5
+                iso: ubuntu_server_14.04.2_amd64 
+                host_type: GeneralPurpose the default value is GeneralPurpose
+                drive: lxc, virtualbox, vmware, ec2, kvm                                  
 
 ###Examples###
 
-`POST /virtshell/api/v1/users`
+`POST /virtshell/api/v1/instances`
 --------------------------------------------
 
-Create a new user.
+Create a new instance.
 
 ```sh
 curl -sv -X POST \
