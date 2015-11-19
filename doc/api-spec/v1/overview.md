@@ -73,7 +73,7 @@ more details.
 
 * [Provisioners][provisioners] - `/virtshell/api/v1/provisioners`
 
-* [Instances][intances] - `/virtshell/api/v1/intances`
+* [Instances][instances] - `/virtshell/api/v1/instances`
 
 * [Properties][properties] - `/virtshell/api/v1/properties`
 
@@ -95,7 +95,6 @@ Below is a list of API calls don't represent directly a resource.
 * [Start instance][start_instance] - `/api/virtsh/v1/start_instance`
 * [Stop instance][stop_instance] - `/api/virtsh/v1/stop_instance`
 * [Restart instance][restart_instance] - `/api/virtsh/v1/restart_instance`
-* [Destroy instance][destroy_instance] - `/api/virtsh/v1/destroy_instance`
 * [Clone instance][clone_instance] - `/api/virtsh/v1/clone_instance`
 * [Execute command][execute_command] - `/api/virtsh/v1/execute_command`
 * [Copy file][copy_file] - `/api/virtsh/v1/copy_file`
@@ -114,7 +113,6 @@ Below is a list of API calls don't represent directly a resource.
 [start_instance]: start_instance.md
 [stop_instance]: stop_instance.md
 [restart_instance]: restart_instance.md
-[destroy_instance]: destroy_instance.md
 [clone_instance]: clone_instance.md
 [execute_command]: execute_command.md
 [copy_file]: copy_file.md
