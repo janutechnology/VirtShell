@@ -102,7 +102,7 @@ Below is a list of API calls don't represent directly a resource.
 [hosts]: hosts.md
 [images]: images.md
 [provisioners]: provisioners.md
-[intances]: intances.md
+[instances]: instances.md
 [properties]: properties.md
 [packages]: packages.md
 [files]: files.md
