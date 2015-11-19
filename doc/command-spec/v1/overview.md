@@ -144,9 +144,8 @@ virtsh instance
 ===============
 	synopsis
 	========
-		virtsh instance create <name> [--provisioner | -p <provisioner_name>] [--config | -c <config_file>] [--launch | -l <amount>]
-									  [--vars | -v <provisioning_variables>] [--host_type <host_type>] [--drive | -d <drive>]
-									  [--container_template | -t <template_name>] [--iso | -i <iso_name>]
+		virtsh instance create <name> [--provisioner | -p <provisioner_name>] [--memory | -m <amount>] 
+									[--launch | -l <amount>] [--cpus | -c <amount>] [--hdsize | -h <amount>] [--vars | -v <provisioning_variables>] [--host_type <host_type>] [--drive | -d <drive>] [--container_template | -t <template_name>] [--iso | -i <iso_name>]
 		virtsh instance start <name>
 		virtsh instance stop <name>
 		virtsh instance restart <name>
@@ -164,17 +163,15 @@ virtsh instance
 				Examples of options are as follow:
 					provisioner: transactional_log 
 					launch: 1:3 the value default is 1 (Min:Max)
+					memory:1024
+					cpus:2
+					hdsize:2GB
 					vars: /home/callanor/variables/variables.yaml (Dictionary key:value in yaml format)
 						Examples:
 							url : hotmail.com
 							ip : 192.168.56.103
 							user : my_user
 							password : my_password
-					config: /home/callanor/config/config.yaml (Dictionary key:value in yaml format)
-						Example for virtual machines:
-							memory:1024
-							cpus:2
-							hdsize:2GB
 					template_name: centos_6.5
 					iso: ubuntu_server_14.04.2_amd64 
 					host_type: GeneralPurpose the default value is GeneralPurpose
