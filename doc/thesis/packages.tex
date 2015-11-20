@@ -54,7 +54,7 @@ Ejemplo:
 
 \subsubsection{Ejemplos de peticiones HTTP}
 
-\paragraph{Instalar uno o mas paquetes - POST /virtshell/api/v1/install\_packages} ~\\
+\paragraph{Instalar uno o mas paquetes - POST /api/virtshell/v1/install\_packages} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X PUT \
@@ -76,7 +76,7 @@ Content-Type: application/json
 { "install_package": "accepted" }
 \end{lstlisting}
 
-\paragraph{Actualizar uno o mas paquetes - POST /virtshell/api/v1/upgrade\_packages} ~\\
+\paragraph{Actualizar uno o mas paquetes - POST /api/virtshell/v1/upgrade\_packages} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X PUT \
@@ -98,7 +98,7 @@ Content-Type: application/json
 { "install_package": "accepted" }
 \end{lstlisting}
 
-\paragraph{Remover uno o mas paquetes - POST /virtshell/api/v1/remove\_packages} ~\\
+\paragraph{Remover uno o mas paquetes - POST /api/virtshell/v1/remove\_packages} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X PUT \

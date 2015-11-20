@@ -35,7 +35,7 @@ Resource representation
 
 ###Examples###
 
-`POST /virtshell/api/v1/instances`
+`POST /api/virtshell/v1/instances`
 --------------------------------------------
 
 Create a new user.
@@ -66,7 +66,7 @@ Content-Type: application/json
 { "create": "success" }
 ```
 
-`GET /virtshell/api/v1/instances/`
+`GET /api/virtshell/v1/instances/`
 ----------------------------------------------
 
 Get all users.

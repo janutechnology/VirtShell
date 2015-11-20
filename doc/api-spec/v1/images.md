@@ -1,5 +1,5 @@
 Images API Reference
-==================
+====================
 
 Image
 =====
@@ -38,7 +38,7 @@ Resource representations
 
 ###Examples###
 
-`POST /api/virtsh/v1/images`
+`POST /api/virtshell/v1/images`
 --------------------------------------------
 
 Create a new image type iso.
@@ -70,7 +70,7 @@ Content-Type: application/json
 { "create": "success" }
 ```
 
-`GET /virtshell/api/v1/images/:id`
+`GET /api/virtshell/v1/images/:id`
 ----------------------------------------------
 
 Get a image.
@@ -102,7 +102,7 @@ Content-Type: application/json
 }
 ```
 
-`GET /virtshell/api/v1/images/`
+`GET /api/virtshell/v1/images/`
 ----------------------------------------------
 
 Get all images.
@@ -148,7 +148,7 @@ Content-Type: application/json
 }
 ```
 
-`DELETE /virtshell/api/v1/images/:id`
+`DELETE /api/virtshell/v1/images/:id`
 ----------------------------------------------
 
 Delete a existing image.

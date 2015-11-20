@@ -55,7 +55,7 @@ Ejemplo:
 
 \subsubsection{Ejemplos de peticiones HTTP}
 
-\paragraph{Crear un nuevo usuario - POST /virtshell/api/v1/users} ~\\
+\paragraph{Crear un nuevo usuario - POST /api/virtshell/v1/users} ~\\
 
 \begin{lstlisting}[style=json]
 curl -X POST \
@@ -85,7 +85,7 @@ Content-Type: application/json
 { "create": "success" }
 \end{lstlisting}
 
-\paragraph{Obtener un usuario - GET /virtshell/api/v1/users/:id} ~\\
+\paragraph{Obtener un usuario - GET /api/virtshell/v1/users/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -111,7 +111,7 @@ Content-Type: application/json
 }
 \end{lstlisting}
 
-\paragraph{Actualizar un usuario - PUT /virtshell/api/v1/users/:id} ~\\
+\paragraph{Actualizar un usuario - PUT /api/virtshell/v1/users/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X PUT \
@@ -136,7 +136,7 @@ Content-Type: application/json
 \end{lstlisting}
 
 
-\paragraph{Eliminar un usuario - DELETE /virtshell/api/v1/users/:id} ~\\
+\paragraph{Eliminar un usuario - DELETE /api/virtshell/v1/users/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X DELETE \

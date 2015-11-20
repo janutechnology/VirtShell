@@ -35,7 +35,7 @@ Resource representation
 
 ###Examples###
 
-`POST /virtshell/api/v1/install_package`
+`POST /api/virtshell/v1/install_package`
 --------------------------------------------
 
 Install one or more packages:
@@ -62,7 +62,7 @@ Content-Type: application/json
 }
 ```
 
-`POST /virtshell/api/v1/upgrade_packages`
+`POST /api/virtshell/v1/upgrade_packages`
 --------------------------------------------
 
 Upgrade one or more packages:
@@ -89,7 +89,7 @@ Content-Type: application/json
 }
 ```
 
-`POST /virtshell/api/v1/remove_packages`
+`POST /api/virtshell/v1/remove_packages`
 --------------------------------------------
 
 Remove one or more packages:

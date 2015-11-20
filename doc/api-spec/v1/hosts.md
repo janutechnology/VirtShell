@@ -40,7 +40,7 @@ Resource representations
 
 ###Examples###
 
-`POST /virtshell/api/v1/hosts`
+`POST /api/virtshell/v1/hosts`
 --------------------------------------------
 
 Create a new host.
@@ -71,7 +71,7 @@ Content-Type: application/json
 { "create": "success" }
 ```
 
-`GET /virtshell/api/v1/hosts/:id`
+`GET /api/virtshell/v1/hosts/:id`
 ----------------------------------------------
 
 Get a host.
@@ -114,7 +114,7 @@ Content-Type: application/json
 }
 ```
 
-`GET /virtshell/api/v1/hosts/`
+`GET /api/virtshell/v1/hosts/`
 ----------------------------------------------
 
 Get all host.
@@ -185,7 +185,7 @@ Content-Type: application/json
 }		
 ```
 
-`PUT /virtshell/api/v1/hosts/:id`
+`PUT /api/virtshell/v1/hosts/:id`
 ----------------------------------------------
 
 Update a existing host.
@@ -208,7 +208,7 @@ Content-Type: application/json
 { "update": "success" }
 ```
 
-`DELETE /virtshell/api/v1/hosts/:id`
+`DELETE /api/virtshell/v1/hosts/:id`
 ----------------------------------------------
 Delete a existing host.
 

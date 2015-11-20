@@ -28,7 +28,7 @@ Resource representations
 
 ###Examples###
 
-`POST /virtshell/api/v1/groups`
+`POST /api/virtshell/v1/groups`
 --------------------------------------------
 
 Create a new group.
@@ -50,7 +50,7 @@ Content-Type: application/json
 { "create": "success" }
 ```
 
-`GET /virtshell/api/v1/groups/:id`
+`GET /api/virtshell/v1/groups/:id`
 ----------------------------------------------
 
 Get a group.
@@ -78,7 +78,7 @@ Content-Type: application/json
 }
 ```
 
-`GET /virtshell/api/v1/groups/`
+`GET /api/virtshell/v1/groups/`
 ----------------------------------------------
 
 Get all groups.
@@ -126,7 +126,7 @@ Content-Type: application/json
 }   
 ```
 
-`DELETE /virtshell/api/v1/groups/:id`
+`DELETE /api/virtshell/v1/groups/:id`
 ----------------------------------------------
 Delete a existing group.
 

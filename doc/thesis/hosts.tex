@@ -66,7 +66,7 @@ Ejemplo:
 
 \subsubsection{Ejemplos de peticiones HTTP}
 
-\paragraph{Crear un nuevo host - POST /virtshell/api/v1/hosts} ~\\
+\paragraph{Crear un nuevo host - POST /api/virtshell/v1/hosts} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X POST \
@@ -93,7 +93,7 @@ Content-Type: application/json
 { "create": "success" }
 \end{lstlisting}
 
-\paragraph{Obtener un host- GET /virtshell/api/v1/hosts/:id} ~\\
+\paragraph{Obtener un host- GET /api/virtshell/v1/hosts/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -132,7 +132,7 @@ Content-Type: application/json
 }
 \end{lstlisting}
 
-\paragraph{Obtener todos los host - GET /virtshell/api/v1/hosts} ~\\
+\paragraph{Obtener todos los host - GET /api/virtshell/v1/hosts} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -199,7 +199,7 @@ Content-Type: application/json
 }   
 \end{lstlisting}
 
-\paragraph{Actualizar un host - PUT /virtshell/api/v1/hosts/:id} ~\\
+\paragraph{Actualizar un host - PUT /api/virtshell/v1/hosts/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X PUT \
@@ -219,7 +219,7 @@ Content-Type: application/json
 { "update": "success" }
 \end{lstlisting}
 
-\paragraph{Eliminar un host - DELETE /virtshell/api/v1/hosts/:id} ~\\
+\paragraph{Eliminar un host - DELETE /api/virtshell/v1/hosts/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X DELETE \

@@ -64,7 +64,7 @@ Ejemplo:
 
 \subsubsection{Ejemplos de peticiones HTTP}
 
-\paragraph{Crear una nueva instance - POST /virtshell/api/v1/instances} ~\\
+\paragraph{Crear una nueva instance - POST /api/virtshell/v1/instances} ~\\
 
 
 \begin{lstlisting}[style=json]
@@ -96,7 +96,7 @@ Content-Type: application/json
 { "create": "success" }
 \end{lstlisting}
 
-\paragraph{Obtener un instance- GET /virtshell/api/v1/instances/:id} ~\\
+\paragraph{Obtener un instance- GET /api/virtshell/v1/instances/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -126,7 +126,7 @@ Content-Type: application/json
 }
 \end{lstlisting}
 
-\paragraph{Obtener todos las instances - GET /virtshell/api/v1/instances} ~\\
+\paragraph{Obtener todos las instances - GET /api/virtshell/v1/instances} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -175,7 +175,7 @@ Content-Type: application/json
 }
 \end{lstlisting}
 
-\paragraph{Eliminar una instance - DELETE /virtshell/api/v1/instances/:id} ~\\
+\paragraph{Eliminar una instance - DELETE /api/virtshell/v1/instances/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X DELETE \
