@@ -1,0 +1,87 @@
+\subsection{Start Instance}
+
+Permite iniciar una instancia.
+
+\paragraph{Iniciar una instance - POST /virtshell/api/v1/instances/start\_instance/:id} ~\\
+
+
+\begin{lstlisting}[style=json]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+   'http://localhost:8080/virtshell/api/v1/instances/start\_instance/420aa3f0-8d96-11e5-8994-feff819cdc9f'
+\end{lstlisting}
+
+Response:
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "start": "success" }
+\end{lstlisting}
+
+
+\subsection{Stop Instance}
+
+Permite detener una instancia.
+
+\paragraph{Detener una instancia - POST /virtshell/api/v1/instances/stop\_instance/:id} ~\\
+
+\begin{lstlisting}[style=json]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+   'http://localhost:8080/virtshell/api/v1/instances/stop\_instance/420aa3f0-8d96-11e5-8994-feff819cdc9f'
+\end{lstlisting}
+
+Response:
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "stop": "success" }
+\end{lstlisting}
+
+
+\subsection{Restart Instance}
+
+Permite reiniciar una instancia.
+
+\paragraph{Reiniciar una instancia - POST /virtshell/api/v1/instances/restart\_instance/:id} ~\\
+
+\begin{lstlisting}[style=json]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+   'http://localhost:8080/virtshell/api/v1/instances/restart\_instance/420aa3f0-8d96-11e5-8994-feff819cdc9f'
+\end{lstlisting}
+
+Response:
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "restart": "success" }
+\end{lstlisting}
+
+
+\subsection{Clone Instance}
+
+Permite clonar una instancia.
+
+\paragraph{Clonar una instancia - POST /virtshell/api/v1/instances/clone\_instance/:id} ~\\
+
+\begin{lstlisting}[style=json]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+   'http://localhost:8080/virtshell/api/v1/instances/clone\_instance/420aa3f0-8d96-11e5-8994-feff819cdc9f'
+\end{lstlisting}
+
+Response:
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "clone": "success" }
+\end{lstlisting}
