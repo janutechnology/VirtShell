@@ -34,7 +34,7 @@ Resource representation
 
 ###Examples###
 
-`GET /virtshell/api/v1/properties/`
+`GET /api/virtshell/v1/properties/`
 -----------------------------------
 
 Get one or more properties of one instance.
@@ -62,7 +62,7 @@ Content-Type: application/json
 }
 ```
 
-`GET /virtshell/api/v1/properties/`
+`GET /api/virtshell/v1/properties/`
 -----------------------------------
 
 Get one or more properties of one or more instances by tag.
@@ -101,7 +101,7 @@ Content-Type: application/json
 }
 ```
 
-`GET /virtshell/api/v1/properties/`
+`GET /api/virtshell/v1/properties/`
 -----------------------------------
 
 Get one or more properties of one or more instances by host and range.

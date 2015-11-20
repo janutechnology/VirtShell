@@ -49,7 +49,7 @@ Ejemplo:
 
 \subsubsection{Ejemplos de peticiones HTTP}
 
-\paragraph{Subir un nuevo archivo - POST /virtshell/api/v1/images} ~\\
+\paragraph{Subir un nuevo archivo - POST /api/virtshell/v1/images} ~\\
 
 \begin{lstlisting}[style=json]
 curl -X POST \
@@ -75,7 +75,7 @@ Content-Type: application/json
 }
 \end{lstlisting}
 
-\paragraph{Obtener un archivo - GET /virtshell/api/v1/files/:id} ~\\
+\paragraph{Obtener un archivo - GET /api/virtshell/v1/files/:id} ~\\
 
 Para descargar un archivo, primero recibira la url apropiada que viene en la metadata provista por la url. Luego podra descargarlo usando la url.
 
@@ -102,7 +102,7 @@ Content-Type: application/json
 }
 \end{lstlisting}
 
-\paragraph{Actualizar un archivo - PUT /virtshell/api/v1/files/:id} ~\\
+\paragraph{Actualizar un archivo - PUT /api/virtshell/v1/files/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X PUT \
@@ -126,7 +126,7 @@ Content-Type: application/json
 \end{lstlisting}
 
 
-\paragraph{Eliminar un archivo - DELETE /virtshell/api/v1/files/:id} ~\\
+\paragraph{Eliminar un archivo - DELETE /api/virtshell/v1/files/:id} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X DELETE \

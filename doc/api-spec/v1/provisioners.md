@@ -38,7 +38,7 @@ Resource representation
 
 ###Examples###
 
-`POST /virtshell/api/v1/provisioners`
+`POST /api/virtshell/v1/provisioners`
 --------------------------------------------
 
 Create a new provisioner.
@@ -76,7 +76,7 @@ Content-Type: application/json
 { "create": "success" }
 ```
 
-`GET /virtshell/api/v1/provisioners/`
+`GET /api/virtshell/v1/provisioners/`
 ----------------------------------------------
 
 Get all provisioners.
@@ -127,7 +127,7 @@ Content-Type: application/json
 }   
 ```
 
-`GET /virtshell/api/v1/provisioners/:id
+`GET /api/virtshell/v1/provisioners/:id
 ----------------------------------------------
 
 Get a provisioner.
@@ -155,7 +155,7 @@ Content-Type: application/json
   }
 ```
 
-`PUT /virtshell/api/v1/provisioners/:id`
+`PUT /api/virtshell/v1/provisioners/:id`
 ----------------------------------------------
 
 Update a existing provisioner.
@@ -180,7 +180,7 @@ Content-Type: application/json
 { "update": "success" }
 ```
 
-`DELETE /virtshell/api/v1/provisioners/:id`
+`DELETE /api/virtshell/v1/provisioners/:id`
 ----------------------------------------------
 
 Delete a existing provisioner.

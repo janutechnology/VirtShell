@@ -90,12 +90,12 @@ API Calls
 
 Below is a list of API calls don't represent directly a resource.
 
-* [Start instance][start_instance] - `/api/virtsh/v1/instances/start_instance`
-* [Stop instance][stop_instance] - `/api/virtsh/v1/instances/stop_instance`
-* [Restart instance][restart_instance] - `/api/virtsh/v1/instances/restart_instance`
-* [Clone instance][clone_instance] - `/api/virtsh/v1/instances/clone_instance`
-* [Execute command][execute_command] - `/api/virtsh/v1/instances/execute_command`
-* [Copy file][copy_file] - `/api/virtsh/v1/instances/copy_file`
+* [Start instance][apicalls] - `/api/virtsh/v1/instances/start_instance`
+* [Stop instance][apicalls] - `/api/virtsh/v1/instances/stop_instance`
+* [Restart instance][apicalls] - `/api/virtsh/v1/instances/restart_instance`
+* [Clone instance][apicalls] - `/api/virtsh/v1/instances/clone_instance`
+* [Execute command][apicalls] - `/api/virtsh/v1/instances/execute_command`
+* [Copy file][apicalls] - `/api/virtsh/v1/instances/copy_file`
 
 [hosts]: hosts.md
 [images]: images.md
@@ -106,9 +106,9 @@ Below is a list of API calls don't represent directly a resource.
 [files]: files.md
 [groups]: groups.md
 [users]: users.md
-[start_instance]: start_instance.md
-[stop_instance]: stop_instance.md
-[restart_instance]: restart_instance.md
-[clone_instance]: clone_instance.md
-[execute_command]: execute_command.md
-[copy_file]: copy_file.md
+[apicalls]: apicalls.md
+[apicalls]: apicalls.md
+[apicalls]: apicalls.md
+[apicalls]: apicalls.md
+[apicalls]: apicalls.md
+[apicalls]: apicalls.md

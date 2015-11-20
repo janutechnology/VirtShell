@@ -39,7 +39,7 @@ Resource representation
 
 ###Examples###
 
-`POST /virtshell/api/v1/instances`
+`POST /api/virtshell/v1/instances`
 --------------------------------------------
 
 Create a new instance.
@@ -74,7 +74,7 @@ Content-Type: application/json
 { "create": "success" }
 ```
 
-`GET /virtshell/api/v1/instances/`
+`GET /api/virtshell/v1/instances/`
 ----------------------------------------------
 
 Get all instances.
@@ -127,7 +127,7 @@ Content-Type: application/json
 }   
 ```
 
-`GET /virtshell/api/v1/instances/:id
+`GET /api/virtshell/v1/instances/:id
 ----------------------------------------------
 
 Get a instance.
@@ -162,7 +162,7 @@ Content-Type: application/json
 ```
 
 
-`DELETE /virtshell/api/v1/instances/:id`
+`DELETE /api/virtshell/v1/instances/:id`
 ----------------------------------------------
 
 Delete a existing instance.

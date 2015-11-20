@@ -29,7 +29,7 @@ Resource representation
 
 ###Examples###
 
-`POST /virtshell/api/v1/files`
+`POST /api/virtshell/v1/files`
 --------------------------------------------
 
 Uploading files. To upload a file to VirtShell, send a POST request to the files URL, postfixed with the name of the file. The request must contain the Content-Type header multipart/form-data and the request must indicate a specific name for the file you want to upload and the folder name where the file will be saved on the server. Here's a simple example that'll create a file named seed_file_ubuntu-14_04.txt containing a string on the folder ubuntu_seeds:
@@ -57,7 +57,7 @@ Content-Type: application/json
 }
 ```
 
-`GET /virtshell/api/v1/files/:id
+`GET /api/virtshell/v1/files/:id
 ----------------------------------------------
 
 To download a file:
@@ -88,7 +88,7 @@ Content-Type: application/json
 }
 ```
 
-`PUT /virtshell/api/v1/files/:id`
+`PUT /api/virtshell/v1/files/:id`
 ----------------------------------------------
 
 Update a existing file.
@@ -111,7 +111,7 @@ Content-Type: application/json
 { "update": "success" }
 ```
 
-`DELETE /virtshell/api/v1/files/:id`
+`DELETE /api/virtshell/v1/files/:id`
 ----------------------------------------------
 
 Delete a existing file.
