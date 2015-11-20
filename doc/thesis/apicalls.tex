@@ -85,3 +85,120 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 { "clone": "success" }
 \end{lstlisting}
+
+\subsection{Execute command}
+
+Permite ejecutar un comando en una o mas instancias.
+
+Representaci'on del recurso para ejecutar un comando:
+
+\medskip
+\begin{lstlisting}[style=json]
+{
+  "instances": [ ... list of instances names, patterns(*|[numeric:numeric]) or tags ...],
+  "command": string,
+  "created": {"at": timestamp, "by": string}
+}
+\end{lstlisting}
+
+Ejemplo:
+
+\medskip
+\begin{lstlisting}[style=json]
+{
+  "instances": [
+      {"name": "database\_server\_01"},
+      {"name": "transactional\_server\_co"},      
+      {"pattern": "web\_server*"},
+      {"pattern": "grid\_[1:5]"},
+      {"tag": "web"}
+  ],
+  "command": "apt-get upgrade",
+  "created": {"at": timestamp, "by": string}
+}
+\end{lstlisting}
+
+\paragraph{Ejecutar un comando en una o mas instancias - POST /virtshell/api/v1/instances/execute\_command/} ~\\
+
+\begin{lstlisting}[style=json]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{ "instances": [
+          {"name": "database\_server\_01"},
+          {"name": "transactional\_server\_co"},          
+          {"pattern": "web\_server*"},
+          {"pattern": "grid\_server\_[1:5]"},
+          {"tag": "web"}
+        ],
+        "command": "apt-get upgrade" }' \
+  'http://localhost:8080/virtshell/api/v1/instances/execute\_command/'
+\end{lstlisting}
+
+Response:
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "execute_command": "success" }
+\end{lstlisting}
+
+
+\subsection{Copy files}
+
+Permite ejecutar copiar uno archivo en una o mas instancias.
+
+Representaci'on del recurso para ejecutar un comando:
+
+\medskip
+\begin{lstlisting}[style=json]
+{
+  "path": string,
+  "destination": string,
+  "instances": [ ... list of instances names, patterns(*|[numeric:numeric]) or tags ...],
+  "created": {"at": timestamp, "by": string}
+}
+\end{lstlisting}
+
+Ejemplo:
+
+\medskip
+\begin{lstlisting}[style=json]
+{
+  "path": "https://<host>:<port>/api/virtshell/v1/files/database_servers/msql/my.cnf",
+  "destination": "$MYSQL_HOME/my.cnf"
+  "instances": [
+      {"name": "database\_server\_01"},
+      {"name": "web\_server*"},
+      {"name": "grid\_[1:5]"},
+      {"name": "transactional\_server\_co"},
+      {"tag": "web"}
+  ]
+}
+\end{lstlisting}
+
+\paragraph{Copiar un archivo en una o mas instancias - POST /virtshell/api/v1/instances/copy\_files/} ~\\
+
+\begin{lstlisting}[style=json]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{ "path": "https://<host>:<port>/api/virtshell/v1/files/database_servers/msql/my.cnf",
+        "destination": "$MYSQL_HOME/my.cnf"
+        "instances": [
+            {"name": "database\_server\_01"},
+            {"name": "web\_server*"},
+            {"name": "grid\_[1:5]"},
+            {"name": "transactional\_server\_co"},
+            {"tag": "web"}
+        ] }' \
+  'http://localhost:8080/virtshell/api/v1/instances/copy\_files/'
+\end{lstlisting}
+
+Response:
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "copy_files": "success" }
+\end{lstlisting}

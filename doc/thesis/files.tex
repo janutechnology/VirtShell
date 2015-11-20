@@ -24,11 +24,12 @@ Representaci'on del recurso de un archivo:
 
 \begin{lstlisting}[style=json]
 {
-  "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
-  "name": "file_name.extension",
-  "folder_name" : "folder_name",
-  "download_url": "https://<host>:<port>/api/virtshell/v1/files/folder_name/file.txt",
-  "created":["at":"timestamp", "by":user_id]
+  "uuid": string,
+  "name": string,
+  "folder_name" : string,
+  "download_url": url,
+  "permissions": string,
+  "created":["at":"timestamp", "by": string]
 }
 \end{lstlisting}
 
@@ -41,6 +42,7 @@ Ejemplo:
   "name": "ubuntu_seed_14-04.tex",
   "folder_name" : "ubuntu_seeds",
   "download_url": "https://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/ubuntu_seed_14-04.tex",
+  "permissions": "rwxrwxrwx",
   "created": ["at":"20130625105211", "by":10]
 }
 \end{lstlisting}
@@ -56,6 +58,7 @@ curl -X POST \
   -H "Content-Type: multipart/form-data" \
   -F "file_data=@/path/to/file/seed_file.txt;filename=seed_file_ubuntu-14_04.txt" \
   -F "folder_name=ubuntu_seeds" \
+  -F "permissions=rwxrwx---",
   'http://<host>:<port>/api/virtshell/v1/files'
 \end{lstlisting}
 
@@ -94,6 +97,7 @@ Content-Type: application/json
   "name": "file_name.extension",
   "folder_name" : "folder_name",
   "download_url": "http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt",
+  "permissions": "rwxrwxr-x",
   "created":["at":"timestamp", "by":user_id] 
 }
 \end{lstlisting}
@@ -106,6 +110,7 @@ curl -sv -X PUT \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -H "Content-Type: multipart/form-data" \
   -F "file_data=@/path/to/file/seed_file.txt;filename=seed_file_ubuntu-14_04_v2.txt" \
+  -F "permissions=rwxrwxrwx" \
    'http://localhost:8080/api/virtshell/v1/file?id=8de7b824-d7d1-4265-a3a6-5b46cc9b8ed5'
 \end{lstlisting}
 

@@ -36,6 +36,7 @@ Representaci'on del recurso de una imagen:
   "key": string,
   "preseed_url": url,
   "download_url": url,
+  "permissions" : string,
   "created":["at": timestamp,"by": string],
   "details": string
 }
@@ -56,6 +57,7 @@ Ejemplo:
   "arch": "amd64", 
   "timezone": "America/Bogota", 
   "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
+  "permissions" : "rwxrw----",
   "created":["at":"20150625105211","by":10]
 }
 \end{lstlisting}
@@ -78,6 +80,7 @@ curl -sv -X PUT \
      "arch": "amd64", 
      "timezone": "America/Bogota", 
      "key": "/home/callanor/.ssh/id_rsa.pub",
+     "permissions" : "rwxrwxr--",
      "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt"}' \
    'http://localhost:8080/api/virtshell/v1/image'
 \end{lstlisting}
@@ -118,6 +121,7 @@ Content-Type: application/json
   "arch": "amd64", 
   "timezone": "America/Bogota", 
   "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu_14_04.txt",
+  "permissions" : "rwxrwxrwx",
   "created":["at":"20130625105211","by":10]
 }
 \end{lstlisting}
@@ -149,7 +153,8 @@ Content-Type: application/json
       "variant": "server", 
       "arch": "amd64", 
       "timezone": "America/Bogota", 
-      "preseed_file": "/home/callanor/seed_file.txt",
+      "preseed_file": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_file.txt",
+      "permissions" : "rwxrw----",
       "created":["at":"20130625105211","by":10]
     },
     {
@@ -159,7 +164,8 @@ Content-Type: application/json
       "os": "centos", 
       "version": "7", 
       "arch": "x86_64", 
-      "download_url": "https://<host>:<port>/api/virtshell/v1/files/images/3514296#file-lxc-centos"
+      "download_url": "https://<host>:<port>/api/virtshell/v1/files/images/3514296#file-lxc-centos",
+      "permissions" : "rwxrwxr--",
       "created":["at":"20140625105211","by":12]
     }
   ]

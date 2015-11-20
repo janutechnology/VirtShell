@@ -1,6 +1,7 @@
-\chapter{Autenticaci'on}
+\chapter{Autenticaci'on y Protecci'on}
 \label{capauthentication}
 
+\section{Autenticaci'on}
 La autenticaci'on es el proceso de demostrar la identidad al sistema. La identidad es un factor importante en las decisiones de control de acceso. Las solicitudes se conceden o deniegan en parte sobre la base de la identidad del solicitante.\\
 \\
 El VirtShell, el API REST utiliza un esquema HTTP personalizado basado en una llave-HMAC (Hash Message Authentication Code) para la autenticaci'on. Para autenticar una solicitud, primero se concatenan los elementos seleccionados de la solicitud para formar una cadena. A continuaci'on, utiliza una clave secreta de acceso para calcular el HMAC de esa cadena. Informalmente, se le denomina a este proceso \"la firma de la solicitud\", y se denomina a la salida del algoritmo HMAC la "firma", ya que simula las propiedades de seguridad de una firma real. Por 'ultimo, se agrega esta firma como un par'ametro de la petici'on, con la sintaxis descrita en esta secci'on.\\
@@ -75,6 +76,7 @@ VirtShellUserId  & 13010f3e-3f46-4889-b989-592ce8fb30c6 \\ \hline
                             \textbf{Base64:} \\ Yzk5MWY1MTktYmVkMC00ZGFiLTkxNjUtNmQ5ZjcyMmRjODQ1
                           } \tabularnewline \hline
 \end{tabular}
+\normalsize
 
 \subsubsection{Ejemplo de un objeto con GET}
 
@@ -98,10 +100,11 @@ Este es un ejemplo que consulta por un host dado su identificador. \\
       Tue, 27 Mar 2007 19:36:42 +0000\textbackslash{}n \\ 
       /api/virtshell/hosts/5713b48a-8d73-11e5-8994-feff819cdc9f} \tabularnewline \hline
 \end{tabular}
+\normalsize
 
 \subsubsection{Ejemplo de un objeto con DELETE}
 
-Este ejemplo remueve un usuario.
+Este ejemplo remueve un usuario.\\
 \\
 \vspace{1cm}
 \scriptsize
@@ -118,3 +121,7 @@ Este ejemplo remueve un usuario.
  \textbackslash{}n \\
  Tue, 27 Mar 2007 21:20:27 +0000\textbackslash{}n \\ /api/virtshell/users/5fd13cc8-8d73-11e5-8994-feff819cdc9f} \tabularnewline \hline
 \end{tabular}
+
+\normalsize
+\section{Protecci'on}
+
