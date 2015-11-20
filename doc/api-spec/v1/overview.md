@@ -106,9 +106,9 @@ Below is a list of API calls don't represent directly a resource.
 [files]: files.md
 [groups]: groups.md
 [users]: users.md
-[apicalls]: start_instance.md
-[apicalls]: stop_instance.md
-[apicalls]: restart_instance.md
-[apicalls]: clone_instance.md
-[apicalls]: execute_command.md
-[apicalls]: copy_file.md
+[apicalls]: apicalls.md
+[apicalls]: apicalls.md
+[apicalls]: apicalls.md
+[apicalls]: apicalls.md
+[apicalls]: apicalls.md
+[apicalls]: apicalls.md
