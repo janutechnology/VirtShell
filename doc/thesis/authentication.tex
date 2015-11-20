@@ -125,3 +125,39 @@ Este ejemplo remueve un usuario.\\
 \normalsize
 \section{Protecci'on}
 
+VirtShell es un framework multi-usuario que ofrece protecci'on a recursos basado en los conceptos de permisos de Unix. El mecanismo de protecci'on proporciona un acceso controlado limitando los tipos de acceso a los diferentes recursos del sistema. Al igual que en Unix, la t'ecnica usada para ofrecer protecci'on a los recursos consiste en hacer que el acceso dependa de la identidad del usuario. El esquema usado es usar una lista de accesso condensada por cada recurso.\\
+\\
+VirtShell clasifica los usuarios en tres grupos, en lo que respecta a cada recurso:\\
+\\
+\begin{itemize}
+\item \textbf{Propietario}: El usuario que cre'o el recurso ser'a su propietario
+\item \textbf{Grupo}: Un conjunto de usuarios que est'an compartiendo el archivo y necesitan un acceso similar al mismo es un grupo, o grupo de trabajo.
+\item \textbf{Universo}: Todos los dem'as usuarios del sistema constituyen el universo.
+\end{itemize}
+
+
+% VirtShell is a multi-user framework that is based on the Unix permissions concepts to provide security.
+
+% VirtShell provides mechanisms to control access by  limiting the types of
+% resource access that can be made. Access is permitted or denied depending on
+% several factors, one of which is the type of access requested. Several different
+% types of operations may be controlled:
+
+% Read. Read from the resouce.
+% Write. Write or rewrite of resoures.
+% Execute. Load the resource into host and execute it.
+
+% Here is a quick breakdown of the access that the three basic permission types grant a user.
+
+% Read
+% ----
+% Read permission allows a user to view the contents of any resource in VirtShell.
+
+% Write
+% -----
+% Write permission allows a user to create, modify and delete whatever resources.
+
+% Execute
+% -------
+% Execute permission allows a user to execute virtual machines or containers, for example: start, stop, pause, snapshot. (the user must also have read permission). 
+
