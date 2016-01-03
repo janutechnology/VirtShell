@@ -1,5 +1,5 @@
-""" Filename: agent
-    Description: Agent for handle containers and virtual machines in a host
+""" Filename: provisioning_agent
+    Description: Agent to provisioning containers and virtual machines in a host
     moduleauthor: Carlos Alberto Llano R. <carlos_llano@hotmail.com> 
 """
 
