@@ -31,7 +31,7 @@ CMD ["mongod", "--dbpath", "."]
 CMD ["/etc/init.d/mongod", "start"]
 
 ################################################################################
-# Install pip3 and pymongo
+# Install pip3, tornado and pymongo
 ################################################################################
 RUN apt-get install -y python3-pip
 RUN pip3 install tornado
