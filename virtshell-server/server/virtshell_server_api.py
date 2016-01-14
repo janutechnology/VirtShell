@@ -24,7 +24,7 @@ from pyrestful import mediatypes
 from pyrestful.rest import get, post, put, delete
 
 class VirtShellServerAPI(pyrestful.rest.RestHandler):
-    @post(_path="/host", 
+    @post(_path="/hosts", 
           _types=[str,str,str,str,str,str,str,str,str,str], 
           _produces=mediatypes.APPLICATION_JSON)
     def create_host(self, **kwargs):
