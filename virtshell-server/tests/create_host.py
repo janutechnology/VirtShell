@@ -41,7 +41,7 @@ params  = urllib.urlencode({"name": "host-01-pdn",
 							"public_ipv6": "yt06:0:0:0:0:0:0:c3"})
 headers = {"Content-Type": "application/x-www-form-urlencoded"}
 conn    = httplib.HTTPConnection("localhost:8080")
-conn.request('POST','/host',params,headers)
+conn.request('POST','/hosts',params,headers)
 
 resp = conn.getresponse()
 data = resp.read()
