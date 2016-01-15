@@ -48,6 +48,14 @@ class VirtShellServerAPI(pyrestful.rest.RestHandler):
     def get_all_hosts(self):
         return virtshell_server_srv.get_all_hosts()
 
+    @get(_path="/hosts/{uuid}", _types=[str], _produces=mediatypes.APPLICATION_JSON)
+    def get_host(self, uuid):
+        return virtshell_server_srv.get_host(uuid)
+
+    @delete(_path="/hosts/{uuid}", _types=[int], _produces=mediatypes.APPLICATION_JSON)
+    def delete_host(self,id_customer):
+        return virtshell_server_srv.delete_host(uuid)
+
 if __name__ == '__main__':
     try:
         print("Start virtshell-server")
