@@ -68,7 +68,7 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 ```
 ```json
-{ "create": "success" }
+{ "create": "success", "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b"}
 ```
 
 `GET /api/virtshell/v1/hosts/:id`

@@ -16,6 +16,8 @@
 
 # -*- coding: utf-8 -*-
 
+import json
+import uuid
 import tornado.ioloop
 import pyrestful.rest
 
@@ -25,10 +27,26 @@ from pyrestful.rest import get, post, put, delete
 
 class VirtShellServerAPI(pyrestful.rest.RestHandler):
     @post(_path="/hosts", 
-          _types=[str,str,str,str,str,str,str,str,str,str], 
+          _types=[str,str,str,str,str,str,str,str,str,str],
           _produces=mediatypes.APPLICATION_JSON)
-    def create_host(self, **kwargs):
-        return virtshell_server_srv.create_host(**kwargs)
+    def create_host(self, name, os, memory, capacity, enabled, type,
+                    local_ipv4, local_ipv6, public_ipv4, public_ipv6):
+        host = {"uuid": str(uuid.uuid4()),
+                "name": name,
+                "os": os,
+                "memory": memory,
+                "capacity": capacity,
+                "enabled": enabled,
+                "type" : type,
+                "local_ipv4": local_ipv4,
+                "local_ipv6": local_ipv6,
+                "public_ipv4": public_ipv4,
+                "public_ipv6": public_ipv6}
+        return virtshell_server_srv.create_host(host)
+
+    @get(_path="/hosts", _produces=mediatypes.APPLICATION_JSON)
+    def get_all_hosts(self):
+        return virtshell_server_srv.get_all_hosts()
 
 if __name__ == '__main__':
     try:

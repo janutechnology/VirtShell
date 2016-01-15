@@ -27,21 +27,13 @@ else:
 	import httplib
 	import urllib
 
-print('Create host')
+print('get all hosts')
 print('===============')
-params  = urllib.urlencode({"name": "host-01-pdn",
-							"os": "Ubuntu_12.04_3.5.0-23.x86_64",
-							"memory": "16GB",
-							"capacity": "120GB",
-							"enabled": "true",
-							"type" : "GeneralPurpose",
-							"local_ipv4": "15.54.88.19",
-							"local_ipv6": "ff06:0:0:0:0:0:0:c3",
-							"public_ipv4": "10.54.88.19",
-							"public_ipv6": "yt06:0:0:0:0:0:0:c3"})
+
 headers = {"Content-Type": "application/x-www-form-urlencoded"}
 conn    = httplib.HTTPConnection("localhost:8080")
-conn.request('POST', '/hosts', params, headers)
+conn.request('GET','/hosts')
+
 resp = conn.getresponse()
 data = resp.read()
 if resp.status == 200:

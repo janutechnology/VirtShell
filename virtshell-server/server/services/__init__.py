@@ -2,14 +2,13 @@
 virtshell-server Database
 """
 import time
-#import motor
 from pymongo import MongoClient
 
 from virtshell_server_config import MONGODB
 from virtshell_server_error import WrongFieldType
 
 CLIENT = MongoClient(MONGODB)
-mongodb = CLIENT.virtshell_server
+mongodb = CLIENT.virtshell_server_db
 current_time = lambda: int(round(time.time() * 1000))
 
 def mongo_obj(schema):
