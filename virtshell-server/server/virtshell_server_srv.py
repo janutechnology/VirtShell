@@ -1,11 +1,7 @@
 import services.virtshell_server_hosts
 
 def create_host(host):
-    try:
-        host_id = services.virtshell_server_hosts.create_host(host)
-        return {"status": "ok", "host_id": host_id}
-    except exception as e:
-        return {"status": "error", "reason": e.message}
+    return services.virtshell_server_hosts.create_host(host)
 
 def get_all_hosts():
     return services.virtshell_server_hosts.get_all_hosts()

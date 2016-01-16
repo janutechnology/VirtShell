@@ -5,7 +5,7 @@ import json
 def create_host(host):
     try:
         host_id = services.mongodb.hosts.insert_one(host).inserted_id
-        return {"status": "ok", "host_id": host_id}
+        return {"status": "ok", "host_uuid": host['uuid']}
     except exception as e:
         return {"status": "error", "reason": e.message}
 
@@ -38,7 +38,7 @@ def get_host(uuid):
         host = services.mongodb.hosts.find_one({"uuid": uuid})
         if host != None:
             del host['_id']
-            return host
+            return {"status": "ok", "host": host}
     except exception as e:
         return {"status": "error", "reason": e.message}
 
@@ -46,6 +46,6 @@ def get_host(uuid):
 def delete_host(uuid):
     try:
         result = services.mongodb.hosts.delete_one({"uuid": uuid})
-        return result.deleted_count
+        return {"status": "ok"}
     except exception as e:
         return {"status": "error", "reason": e.message}

@@ -64,3 +64,5 @@ if __name__ == '__main__':
         tornado.ioloop.IOLoop.instance().start()
     except KeyboardInterrupt:
         print("\nStop virtshell-server")
+
+#https://blog.openshift.com/day-25-tornado-combining-tornado-mongodb-and-angularjs-to-build-an-app/
