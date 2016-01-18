@@ -1,11 +1,11 @@
 """
-virtshell-server Database
+Managment Database
 """
 import time
 from pymongo import MongoClient
 
-from virtshell_server_config import MONGODB
-from virtshell_server_error import WrongFieldType
+from config import MONGODB
+from errors import WrongFieldType
 
 CLIENT = MongoClient(MONGODB)
 mongodb = CLIENT.virtshell_server_db
