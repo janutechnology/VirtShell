@@ -1,0 +1,10 @@
+# Get hosts
+curl -s http://localhost:80/hosts/37c31772-63a6-4668-8992-5eac36f694f8 | jq .
+curl -s http://localhost:80/hosts/ | jq .
+
+# Create a host
+curl -X POST http://127.0.0.1:80/hosts/ -d "{\"name\": \"host-02-pdn\", \"os\": \"Ubuntu_14.04_3.5.0-23.x86_64\", \"memory\": \"16GB\"}" -H "accept:application/json" | jq .
+
+# Create a host
+curl -X DELETE http://127.0.0.1:80/hosts/37c31772-63a6-4668-8992-5eac36f694f8  | jq .
+

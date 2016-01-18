@@ -1,5 +1,5 @@
 """
-virtshell-server Database
+Managment Database
 """
 import time
 from pymongo import MongoClient
