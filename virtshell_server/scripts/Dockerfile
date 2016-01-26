@@ -31,11 +31,12 @@ CMD ["mongod", "--dbpath", "."]
 CMD ["/etc/init.d/mongod", "start"]
 
 ################################################################################
-# Install pip3, tornado and pymongo
+# Install requirements: pip3, tornado, pymongo and gitpython
 ################################################################################
 RUN apt-get install -y jq curl python3-pip
 RUN pip3 install tornado
 RUN pip3 install pymongo
+RUN pip3 install gitpython
 
 ################################################################################
 # Install and configurate openssh-server
