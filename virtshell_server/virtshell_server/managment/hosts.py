@@ -13,3 +13,6 @@ def create_host(host):
 
 def delete_host(uuid):
     return managment.hosts_db.delete_host(uuid)
+
+def update_host(uuid, host):
+    return managment.hosts_db.update_host(uuid, host)

@@ -1,10 +1,45 @@
 # Get hosts
-curl -s http://localhost:80/hosts/37c31772-63a6-4668-8992-5eac36f694f8 | jq .
+curl -s http://localhost:80/hosts/c1362a8e-4e52-4839-ac3c-29962bcd0d66 | jq .
 curl -s http://localhost:80/hosts/ | jq .
 
 # Create a host
-curl -X POST http://127.0.0.1:80/hosts/ -d "{\"name\": \"host-02-pdn\", \"os\": \"Ubuntu_14.04_3.5.0-23.x86_64\", \"memory\": \"16GB\"}" -H "accept:application/json" | jq .
+curl -X POST http://127.0.0.1:80/hosts/ -d "{\"name\": \"host-03-pdn\", \"os\": \"Ubuntu_12.04_3.5.0-23.x86_64\", \"memory\": \"8GB\"}" -H "accept:application/json" | jq .
 
-# Create a host
-curl -X DELETE http://127.0.0.1:80/hosts/37c31772-63a6-4668-8992-5eac36f694f8  | jq .
+# Delete a host
+curl -X DELETE http://127.0.0.1:80/hosts/c1362a8e-4e52-4839-ac3c-29962bcd0d66  | jq .
 
+# Update a host
+curl -X PUT http://127.0.0.1:80/hosts/1ac388d3-33ee-42e0-b742-a41fc2f7262d -d "{\"name\": \"host-03-pdn\", \"os\": \"Ubuntu_12.04_3.5.0-23.x86_64\", \"memory\": \"16GB\"}" -H "accept:application/json" | jq .
+
+
+############################################################################################
+
+# Get users
+curl -s http://localhost:80/users/23fd8541-6fb6-4071-b254-bf447a018025 | jq .
+curl -s http://localhost:80/users/ | jq .
+
+# Create a user
+curl -X POST http://127.0.0.1:80/users/ -d "{\"username\": \"virtshell\", \"type\": \"administrator\", \"login\": \"user@mail.com\", \"groups\": [{\"uuid\": \"a146cae4-8c90-11e5-8994-feff819cdc9f\"}, {\"uuid\": \"a146d00c-8c90-11e5-8994-feff819cdc9f\"}]}" -H "accept:application/json" | jq .
+
+# Delete a user
+curl -X DELETE http://127.0.0.1:80/users/23fd8541-6fb6-4071-b254-bf447a018025  | jq .
+
+# Update a user
+curl -X PUT http://127.0.0.1:80/users/23fd8541-6fb6-4071-b254-bf447a018025 -d "{\"login\": \"user@gmail.com\"}" -H "accept:application/json" | jq .
+
+############################################################################################
+
+# Get groups
+curl -s http://localhost:80/groups/23fd8541-6fb6-4071-b254-bf447a018025 | jq .
+curl -s http://localhost:80/groups/ | jq .
+
+# Create a group
+curl -X POST http://127.0.0.1:80/groups/ -d "{\"username\": \"virtshell\", \"type\": \"administrator\", \"login\": \"user@mail.com\", \"groups\": [{\"uuid\": \"a146cae4-8c90-11e5-8994-feff819cdc9f\"}, {\"uuid\": \"a146d00c-8c90-11e5-8994-feff819cdc9f\"}]}" -H "accept:application/json" | jq .
+
+# Delete a group
+curl -X DELETE http://127.0.0.1:80/groups/23fd8541-6fb6-4071-b254-bf447a018025  | jq .
+
+# Update a group
+curl -X PUT http://127.0.0.1:80/groups/23fd8541-6fb6-4071-b254-bf447a018025 -d "{\"login\": \"user@gmail.com\"}" -H "accept:application/json" | jq .
+
+############################################################################################
