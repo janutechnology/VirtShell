@@ -3,13 +3,13 @@ curl -s http://localhost:80/hosts/1ac388d3-33ee-42e0-b742-a41fc2f7262d | jq .
 curl -s http://localhost:80/hosts/ | jq .
 
 # Create a host
-curl -X POST http://127.0.0.1:80/hosts/ -d "{\"name\": \"host-04-pdn\", \"os\": \"Ubuntu_14.04_3.5.0-23.x86_64\", \"memory\": \"12GB\"}" -H "accept:application/json" | jq .
+curl -X POST http://127.0.0.1:80/hosts/ -d "{\"name\": \"host-05-pdn\", \"os\": \"Ubuntu_14.04_3.5.0-23.x86_64\", \"memory\": \"12GB\"}" -H "accept:application/json" | jq .
 
 # Delete a host
-curl -X DELETE http://127.0.0.1:80/hosts/c1362a8e-4e52-4839-ac3c-29962bcd0d66  | jq .
+curl -X DELETE http://127.0.0.1:80/hosts/6b944f62-9a08-4408-bc16-bb8b875f79fb  | jq .
 
 # Update a host
-curl -X PUT http://127.0.0.1:80/hosts/6b944f62-9a08-4408-bc16-bb8b875f79fb -d "{\"name\": \"host-04-pdn-02\", \"os\": \"Ubuntu_12.04_3.5.0-23.x86_64\", \"memory\": \"16GB\"}" -H "accept:application/json" | jq .
+curl -X PUT http://127.0.0.1:80/hosts/d37bb1a1-3c16-4c33-a5d0-9c3dfa29f7d6 -d "{\"name\": \"host-05-pdn-02\", \"os\": \"Ubuntu_18.04_3.5.0-23.x86_64\", \"memory\": \"16GB\"}" -H "accept:application/json" | jq .
 
 
 ############################################################################################

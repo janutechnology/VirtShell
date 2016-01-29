@@ -3,9 +3,7 @@ import uuid
 
 class Hosts(object):
     def __init__(self):
-        print ("hosts.....")
         self.hosts_repository = HostsRepository()
-        print ("hosts finished...")
 
     def get_all_hosts(self):
         return self.hosts_repository.get_all_hosts()
@@ -21,5 +19,4 @@ class Hosts(object):
         return self.hosts_repository.delete_host(uuid)
 
     def update_host(self, uuid, host):
-        print(".................2.................")
         return self.hosts_repository.update_host(uuid, host)

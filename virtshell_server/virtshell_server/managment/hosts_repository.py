@@ -5,9 +5,7 @@ import json
 
 class HostsRepository(object):
     def __init__(self):
-        print("HostsRepository...")
         self.storage_db = MongoDB('hosts')
-        print ("HostsRepository finished....")
 
     def create_host(self, host):
         return self.storage_db.create(host)
@@ -19,8 +17,7 @@ class HostsRepository(object):
         return self.storage_db.get(uuid)
 
     def update_host(self, uuid, host):
-        print("..........3................")
         return self.storage_db.update(uuid, host)
 
     def delete_host(self, uuid):
-        return self.storage_db.delete()
+        return self.storage_db.delete(uuid)

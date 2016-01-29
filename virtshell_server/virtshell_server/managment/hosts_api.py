@@ -4,16 +4,18 @@ from managment.hosts import Hosts
 import json
 
 class HostsHandler(tornado.web.RequestHandler):
+    def initialize(self):
+        self.hosts = Hosts()
+
     def get(self, uuid=None):
-        hosts = Hosts()
         if uuid:
-            result = hosts.get_host(uuid)
+            result = self.hosts.get_host(uuid)
             if result['status'] == 'ok':
                 response = result['document']
             else:
                 response = {'error': result['reason']}
         else:
-            result = hosts.get_all_hosts()
+            result = self.hosts.get_all_hosts()
             if result['status'] == 'ok':
                 hosts = result['documents']
                 response = {'hosts': hosts}
@@ -22,9 +24,8 @@ class HostsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def post(self, uuid=None):
-        hosts = Hosts()
         host = tornado.escape.json_decode(self.request.body)
-        result = hosts.create_host(host)
+        result = self.hosts.create_host(host)
         if result['status'] == 'ok':
             response = {"create": "success", "uuid": result['uuid']}
         else:
@@ -32,11 +33,9 @@ class HostsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def put(self, uuid=None):
-        hosts = Hosts()
         if uuid:
             host = tornado.escape.json_decode(self.request.body)
-            print ("............1............")
-            result = hosts.update_host(uuid, host)
+            result = self.hosts.update_host(uuid, host)
             if result['status'] == 'ok':
                 response = {"update": "success", "uuid": uuid}
             else:
@@ -46,10 +45,8 @@ class HostsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def delete(self, uuid=None):
-        hosts = Hosts()
         if uuid:
-            host = tornado.escape.json_decode(self.request.body)
-            result = hosts.delete_host(uuid, host)
+            result = self.hosts.delete_host(uuid)
             if result['status'] == 'ok':
                 response = {"delete": "success", "uuid": uuid}
             else:
