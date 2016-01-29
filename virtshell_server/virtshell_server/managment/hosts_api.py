@@ -1,13 +1,11 @@
 import tornado.ioloop
 import tornado.web
-import managment.hosts
+from managment.hosts import Hosts
 import json
 
 class HostsHandler(tornado.web.RequestHandler):
-    def __init__(self):
+    def get(self, uuid=None):
         hosts = Hosts()
-
-    def get(self, uuid=None):        
         if uuid:
             result = hosts.get_host(uuid)
             if result['status'] == 'ok':
@@ -24,6 +22,7 @@ class HostsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def post(self, uuid=None):
+        hosts = Hosts()
         host = tornado.escape.json_decode(self.request.body)
         result = hosts.create_host(host)
         if result['status'] == 'ok':
@@ -33,11 +32,13 @@ class HostsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def put(self, uuid=None):
+        hosts = Hosts()
         if uuid:
             host = tornado.escape.json_decode(self.request.body)
+            print ("............1............")
             result = hosts.update_host(uuid, host)
             if result['status'] == 'ok':
-                response = {"update": "success", "uuid": result['uuid']}
+                response = {"update": "success", "uuid": uuid}
             else:
                 response = {"update": "error", "reason": result['reason']}
         else:
@@ -45,11 +46,12 @@ class HostsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def delete(self, uuid=None):
+        hosts = Hosts()
         if uuid:
             host = tornado.escape.json_decode(self.request.body)
             result = hosts.delete_host(uuid, host)
             if result['status'] == 'ok':
-                response = {"delete": "success", "uuid": result['uuid']}
+                response = {"delete": "success", "uuid": uuid}
             else:
                 response = {"delete": "error", "reason": result['reason']}
         else:
