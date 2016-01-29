@@ -1,15 +1,15 @@
+import storage
 from pymongo import MongoClient
-from bson.objectid import ObjectId
- 
-class MongoRepository(object):
-    """ Repository implementing CRUD operations on any collection in MongoDB """
+
+class MongoDB(object):
+    """ CRUD operations on any collection in MongoDB """
  
     def __init__(self, collection_name):
         self.collection_name = collection_name
         self.collection = self._get_collection()
 
     def _get_collection(self):
-        return self.repository.mongob[self.collection_name]
+        return self.storage.mongob[self.collection_name]
  
     def get(self, uuid=None):
         try:
@@ -18,12 +18,12 @@ class MongoRepository(object):
                 for document in self.collection.find():
                     del document['_id']
                     documents.append(document)
-                return {"status": "ok", self.collection_name: documents}
+                return {"status": "ok", "documents": documents}
             else:
                 document = self.collection.find_one({"uuid": uuid})
                 if document != None:
                     del document["_id"]
-                    return {"status": "ok", self.collection_name: document}
+                    return {"status": "ok", "document": document}
                 else:
                     return {"status": "error", "reason": "document not found"}
         except Exception as e:
@@ -39,7 +39,7 @@ class MongoRepository(object):
         except Exception as e:
             return {"status": "error", "reason": e}
  
-    def update(self, document):
+    def update(self, uuid, document):
         try:
             if document is not None:
                 result = self.collections.find_one_and_update({'uuid': uuid}, 
@@ -50,12 +50,9 @@ class MongoRepository(object):
         except Exception as e:
             return {"status": "error", "reason": e}
  
-    def delete(self, document):
+    def delete(self, uuid):
         try:
-            if document is not None:
-                result = self.collections.delete_one({'uuid': uuid})
-                return {"status": "ok"}
-            else:
-                return {"status": "error", "reason": "document is None"}
+            result = self.collections.delete_one({'uuid': uuid})
+            return {"status": "ok"}
         except Exception as e:
             return {"status": "error", "reason": e}        
