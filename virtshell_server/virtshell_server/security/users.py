@@ -1,18 +1,22 @@
-import security.users_db
+from security.users_repository import usersRepository
 import uuid
 
-def get_all_users():
-    return security.users_db.get_all_users()
+class users(object):
+    def __init__(self):
+        self.users_repository = usersRepository()
 
-def get_user(uuid):
-    return security.users_db.get_user(uuid)
+    def get_all_users(self):
+        return self.users_repository.get_all_users()
 
-def create_user(user):
-    user['uuid'] = str(uuid.uuid4())
-    return security.users_db.create_user(user)
+    def get_user(self, uuid):
+        return self.users_repository.get_user(uuid)
 
-def delete_user(uuid):
-    return security.users_db.delete_user(uuid)
+    def create_user(self, user):
+        user['uuid'] = str(uuid.uuid4())
+        return self.users_repository.create_user(user)
 
-def update_user(uuid, user):
-    return security.users_db.update_user(uuid, user)
+    def delete_user(self, uuid):
+        return self.users_repository.delete_user(uuid)
+
+    def update_user(self, uuid, user):
+        return self.users_repository.update_user(uuid, user)

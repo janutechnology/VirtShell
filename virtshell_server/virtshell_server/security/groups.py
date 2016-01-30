@@ -1,18 +1,22 @@
-import security.groups_db
+from security.groups_repository import groupsRepository
 import uuid
 
-def get_all_groups():
-    return security.groups_db.get_all_groups()
+class groups(object):
+    def __init__(self):
+        self.groups_repository = groupsRepository()
 
-def get_group(uuid):
-    return security.groups_db.get_group(uuid)
+    def get_all_groups(self):
+        return self.groups_repository.get_all_groups()
 
-def create_group(group):
-    group['uuid'] = str(uuid.uuid4())
-    return security.groups_db.create_group(group)
+    def get_group(self, uuid):
+        return self.groups_repository.get_group(uuid)
 
-def delete_group(uuid):
-    return security.groups_db.delete_group(uuid)
+    def create_group(self, group):
+        group['uuid'] = str(uuid.uuid4())
+        return self.groups_repository.create_group(group)
 
-def update_group(uuid, group):
-    return security.groups_db.update_group(uuid, group)
+    def delete_group(self, uuid):
+        return self.groups_repository.delete_group(uuid)
+
+    def update_group(self, uuid, group):
+        return self.groups_repository.update_group(uuid, group)
