@@ -1,18 +1,22 @@
-import provisioning.provisioners_db
+from provisioning.provisioners_repository import ProvisionersRepository
 import uuid
 
-def get_all_provisioners():
-    return provisioning.provisioners_db.get_all_provisioners()
+class Provisioners(object):
+    def __init__(self):
+        self.provisioners_repository = ProvisionersRepository()
 
-def get_provisioner(uuid):
-    return provisioning.provisioners_db.get_provisioner(uuid)
+    def get_all_provisioners(self):
+        return self.provisioners_repository.get_all_provisioners()
 
-def create_provisioner(provisioner):
-    provisioner['uuid'] = str(uuid.uuid4())
-    return provisioning.provisioners_db.create_provisioner(provisioner)
+    def get_provisioner(self, uuid):
+        return self.provisioners_repository.get_provisioner(uuid)
 
-def delete_provisioner(uuid):
-    return provisioning.provisioners_db.delete_provisioner(uuid)
+    def create_provisioner(self, provisioner):
+        provisioner['uuid'] = str(uuid.uuid4())
+        return self.provisioners_repository.create_provisioner(provisioner)
 
-def update_provisioner(uuid, provisioner):
-    return provisioning.provisioners_db.update_provisioner(uuid, provisioner)
+    def delete_provisioner(self, uuid):
+        return self.provisioners_repository.delete_provisioner(uuid)
+
+    def update_provisioner(self, uuid, provisioner):
+        return self.provisioners_repository.update_provisioner(uuid, provisioner)
