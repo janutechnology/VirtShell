@@ -1,11 +1,10 @@
 import managment
-import storage.mongodb
-from storage.mongodb import MongoDB
+from storage import StorageFactory
 import json
 
 class HostsRepository(object):
     def __init__(self):
-        self.storage_db = MongoDB('hosts')
+        self.storage_db = StorageFactory.get_storage('hosts')
 
     def create_host(self, host):
         return self.storage_db.create(host)
