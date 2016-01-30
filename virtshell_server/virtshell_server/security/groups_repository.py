@@ -2,7 +2,7 @@ import security
 from storage import StorageFactory
 import json
 
-class groupsRepository(object):
+class GroupsRepository(object):
     def __init__(self):
         self.storage_db = StorageFactory.get_storage('groups')
 

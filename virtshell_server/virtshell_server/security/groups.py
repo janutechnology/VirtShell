@@ -1,9 +1,9 @@
-from security.groups_repository import groupsRepository
+from security.groups_repository import GroupsRepository
 import uuid
 
-class groups(object):
+class Groups(object):
     def __init__(self):
-        self.groups_repository = groupsRepository()
+        self.groups_repository = GroupsRepository()
 
     def get_all_groups(self):
         return self.groups_repository.get_all_groups()

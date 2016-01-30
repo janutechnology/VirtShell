@@ -43,8 +43,6 @@ class MongoDB(object):
             return {"status": "error", "reason": e}
  
     def update(self, uuid, document):
-        print("uuid:" , uuid)
-        print("document:", document)
         try:
             if document is not None:
                 result = self.collection.find_one_and_update({'uuid': uuid}, 

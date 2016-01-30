@@ -1,9 +1,9 @@
-from security.users_repository import usersRepository
+from security.users_repository import UsersRepository
 import uuid
 
-class users(object):
+class Users(object):
     def __init__(self):
-        self.users_repository = usersRepository()
+        self.users_repository = UsersRepository()
 
     def get_all_users(self):
         return self.users_repository.get_all_users()

@@ -43,3 +43,18 @@ curl -X DELETE http://127.0.0.1:80/groups/6ce73603-787a-4bc5-96da-fddcc51c3dd0  
 curl -X PUT http://127.0.0.1:80/groups/6ce73603-787a-4bc5-96da-fddcc51c3dd0 -d "{\"login\": \"user@gmail.com\"}" -H "accept:application/json" | jq .
 
 ############################################################################################
+
+# Get provisioners
+curl -s http://localhost:80/provisioners/c2860246-3904-4553-8563-c33ed583386f | jq .
+curl -s http://localhost:80/provisioners/ | jq .
+
+# Create a provisioner
+curl -X POST http://127.0.0.1:80/provisioners/ -d "{\"username\": \"virtshell\", \"type\": \"administrator\", \"login\": \"user@mail.com\", \"groups\": [{\"uuid\": \"a146cae4-8c90-11e5-8994-feff819cdc9f\"}, {\"uuid\": \"a146d00c-8c90-11e5-8994-feff819cdc9f\"}]}" -H "accept:application/json" | jq .
+
+# Delete a group
+curl -X DELETE http://127.0.0.1:80/provisioners/c2860246-3904-4553-8563-c33ed583386f  | jq .
+
+# Update a group
+curl -X PUT http://127.0.0.1:80/provisioners/c2860246-3904-4553-8563-c33ed583386f -d "{\"login\": \"user@gmail.com\"}" -H "accept:application/json" | jq .
+
+############################################################################################

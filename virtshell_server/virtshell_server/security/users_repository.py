@@ -2,7 +2,7 @@ import security
 from storage import StorageFactory
 import json
 
-class usersRepository(object):
+class UsersRepository(object):
     def __init__(self):
         self.storage_db = StorageFactory.get_storage('users')
 

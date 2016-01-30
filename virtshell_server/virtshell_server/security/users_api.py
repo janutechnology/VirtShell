@@ -1,11 +1,11 @@
 import tornado.ioloop
 import tornado.web
-from security.users import users
+from security.users import Users
 import json
 
 class UsersHandler(tornado.web.RequestHandler):
     def initialize(self):
-        self.users = users()
+        self.users = Users()
 
     def get(self, uuid=None):
         if uuid:

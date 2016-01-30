@@ -1,11 +1,11 @@
 import tornado.ioloop
 import tornado.web
-from security.groups import groups
+from security.groups import Groups
 import json
 
 class GroupsHandler(tornado.web.RequestHandler):
     def initialize(self):
-        self.groups = groups()
+        self.groups = Groups()
 
     def get(self, uuid=None):
         if uuid:
