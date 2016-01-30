@@ -7,6 +7,7 @@ from managment.hosts_api import HostsResources
 from security.users_api import UsersResources
 from security.groups_api import GroupsResources
 from provisioning.provisioners_api import ProvisionersResources
+from instances.instances_api import InstancesResources
 
 def main(debug = True, port = CONFIG.PORT):
     try:
@@ -14,7 +15,8 @@ def main(debug = True, port = CONFIG.PORT):
         application = tornado.web.Application([HostsResources, 
                                                UsersResources,
                                                GroupsResources,
-                                               ProvisionersResources], 
+                                               ProvisionersResources,
+                                               InstancesResources], 
                                               debug = debug, 
                                               autoreload = debug)
         application.listen(port)

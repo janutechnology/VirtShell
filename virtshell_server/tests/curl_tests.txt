@@ -58,3 +58,18 @@ curl -X DELETE http://127.0.0.1:80/provisioners/c2860246-3904-4553-8563-c33ed583
 curl -X PUT http://127.0.0.1:80/provisioners/c2860246-3904-4553-8563-c33ed583386f -d "{\"login\": \"user@gmail.com\"}" -H "accept:application/json" | jq .
 
 ############################################################################################
+
+# Get Instances
+curl -s http://localhost:80/instances/c2860246-3904-4553-8563-c33ed583386f | jq .
+curl -s http://localhost:80/instances/ | jq .
+
+# Create an Instance
+curl -X POST http://127.0.0.1:80/instances/ -d "{\"username\": \"virtshell\", \"type\": \"administrator\", \"login\": \"user@mail.com\", \"groups\": [{\"uuid\": \"a146cae4-8c90-11e5-8994-feff819cdc9f\"}, {\"uuid\": \"a146d00c-8c90-11e5-8994-feff819cdc9f\"}]}" -H "accept:application/json" | jq .
+
+# Delete an Instance
+curl -X DELETE http://127.0.0.1:80/instances/c2860246-3904-4553-8563-c33ed583386f  | jq .
+
+# Update an Instance
+curl -X PUT http://127.0.0.1:80/instances/c2860246-3904-4553-8563-c33ed583386f -d "{\"login\": \"user@gmail.com\"}" -H "accept:application/json" | jq .
+
+############################################################################################
