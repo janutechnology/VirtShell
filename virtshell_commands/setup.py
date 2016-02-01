@@ -14,7 +14,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='VirtShell-Commands',
+    name='virtshell_commands',
 
     version='1.0.0',
 
@@ -96,9 +96,9 @@ setup(
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
     # pip to create the appropriate form of executable for the target platform.
-    #entry_points={
-    #    'console_scripts': [
-    #        'sample=sample:main',
-    #    ],
-    #},
+    entry_points={
+       'console_scripts': [
+           'vs_package=virtshell_commands.vs_package:main',
+       ],
+    },
 )
