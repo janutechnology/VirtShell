@@ -16,7 +16,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 setup(
     name='virtshell_commands',
 
-    version='1.0.0',
+    version='1.0.0.dev1',
 
     description='Shell commands for VirtShell',
     long_description=long_description,

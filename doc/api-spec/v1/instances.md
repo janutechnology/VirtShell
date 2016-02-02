@@ -8,10 +8,10 @@ Represents individual instance on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| create | POST | /provisioners/ | Inserts a new provisioner in the system. |
-| list | GET | /provisioners | Retrieves the list of provisioners. |
-| get | GET | /provisioners/id | Gets one provisioner by ID. |
-| delete | DELETE | /provisioners/id | Deletes an existing provisioner. |
+| create | POST | /instances/ | Creates a new instance in the system. |
+| list | GET | /instances | Retrieves the list of instance. |
+| get | GET | /instances/id | Gets one instance by ID. |
+| delete | DELETE | /instances/id | Deletes an existing instance. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
