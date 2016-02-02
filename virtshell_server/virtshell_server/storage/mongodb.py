@@ -45,7 +45,7 @@ class MongoDB(object):
     def update(self, uuid, document):
         try:
             if document is not None:
-                result = self.collection.find_one_and_update({'uuid': uuid}, 
+                result = self.collection.find_one_and_update({'uuid': uuid},
                                                         {'$set': document})
                 return {"status": "ok"}
             else:
@@ -57,5 +57,19 @@ class MongoDB(object):
         try:
             result = self.collection.delete_one({'uuid': uuid})
             return {"status": "ok"}
+        except Exception as e:
+            return {"status": "error", "reason": e}
+
+    def get_property(self, property_name, instance, enviroment):
+        try:
+            data = self.collection.find_one({"instance": instance,
+                                             "enviroment": enviroment})
+            if data != None:
+                if property_name in data:
+                    return {"status": "ok", "property": data[property_name]}
+                else:
+                    return {"status": "error", "reason": "property not found"}
+            else:
+                return {"status": "error", "reason": "instance or enviroment not found"}
         except Exception as e:
             return {"status": "error", "reason": e}

@@ -16,7 +16,8 @@ def main(debug = True, port = CONFIG.PORT):
                                                UsersResources,
                                                GroupsResources,
                                                ProvisionersResources,
-                                               InstancesResources], 
+                                               InstancesResources,
+                                               EnviromentsResources], 
                                               debug = debug, 
                                               autoreload = debug)
         application.listen(port)
