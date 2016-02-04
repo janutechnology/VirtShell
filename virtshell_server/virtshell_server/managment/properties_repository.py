@@ -1,6 +1,6 @@
+import json
 import managment
 from storage import StorageFactory
-import json
 
 class PropertiesRepository(object):
     def __init__(self):

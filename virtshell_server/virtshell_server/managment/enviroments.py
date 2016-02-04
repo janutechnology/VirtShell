@@ -1,5 +1,5 @@
-from provisioning.enviroments_repository import EnviromentsRepository
 import uuid
+from managment.enviroments_repository import EnviromentsRepository
 
 class Enviroments(object):
     def __init__(self):

@@ -91,7 +91,7 @@ Content-Type: application/json
 `PUT /api/virtshell/v1/files/:id`
 ----------------------------------------------
 
-Update a existing file.
+Update an existing file.
 
 ```sh
 curl -sv -X PUT \
@@ -114,7 +114,7 @@ Content-Type: application/json
 `DELETE /api/virtshell/v1/files/:id`
 ----------------------------------------------
 
-Delete a existing file.
+Delete an existing file.
 
 ```sh
 curl -sv -X DELETE \

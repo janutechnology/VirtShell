@@ -73,7 +73,7 @@ Content-Type: application/json
 `GET /api/virtshell/v1/images/:id`
 ----------------------------------------------
 
-Get a image.
+Get an image.
 
 ```sh
 curl -sv -H 'accept: application/json' 
@@ -151,7 +151,7 @@ Content-Type: application/json
 `DELETE /api/virtshell/v1/images/:id`
 ----------------------------------------------
 
-Delete a existing image.
+Delete an existing image.
 
 ```sh
 curl -sv -X DELETE \
