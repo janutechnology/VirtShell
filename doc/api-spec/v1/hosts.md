@@ -188,7 +188,7 @@ Content-Type: application/json
 `PUT /api/virtshell/v1/hosts/:id`
 ----------------------------------------------
 
-Update a existing host.
+Update an existing host.
 
 ```sh
 curl -sv -X PUT \

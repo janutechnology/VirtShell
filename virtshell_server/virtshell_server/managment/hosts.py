@@ -1,5 +1,5 @@
-from managment.hosts_repository import HostsRepository
 import uuid
+from managment.hosts_repository import HostsRepository
 
 class Hosts(object):
     def __init__(self):

@@ -1,6 +1,6 @@
+import json
 import managment
 from storage import StorageFactory
-import json
 
 class HostsRepository(object):
     def __init__(self):

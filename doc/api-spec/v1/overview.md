@@ -71,6 +71,8 @@ more details.
 
 * [Images][images] - `/virtshell/api/v1/images`
 
+* [Enviroments][enviroments] - `/virtshell/api/v1/enviroments`
+
 * [Provisioners][provisioners] - `/virtshell/api/v1/provisioners`
 
 * [Instances][instances] - `/virtshell/api/v1/instances`
@@ -99,6 +101,7 @@ Below is a list of API calls don't represent directly a resource.
 
 [hosts]: hosts.md
 [images]: images.md
+[enviroments]: enviroments.md
 [provisioners]: provisioners.md
 [instances]: instances.md
 [properties]: properties.md

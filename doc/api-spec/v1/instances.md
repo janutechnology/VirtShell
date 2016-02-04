@@ -8,8 +8,8 @@ Represents individual instance on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| create | POST | /instances/ | Creates a new instance in the system. |
-| list | GET | /instances | Retrieves the list of instance. |
+| create | POST | /instances/ | Creates a new instance within an enviroment. |
+| list | GET | /instances | Retrieves the list of instances. |
 | get | GET | /instances/id | Gets one instance by ID. |
 | delete | DELETE | /instances/id | Deletes an existing instance. |
 
@@ -27,11 +27,12 @@ Resource representation
   "cpus": 2,
   "hdsize": "2GB",
   "description": "Server transactional only for store logs", 
-  "container_resource": "template_name or container image",
-  "iso": "ubuntu_server_14.04.2_amd64",
+  "enviroment_uuid": "Enviroment uuid to which it belongs",
+  "operating_system": "ubuntu_server_14.04.2_amd64",
+  ""
   "host_type": "GeneralPurpose | ComputeOptimized | MemoryOptimized | StorageOptimized",
+  "ipv4": ""
   "drive": "lxc | virtualbox | vmware | ec2 | kvm | docker",
-  "vars" : "https://<host>:<port>/api/virtshell/v1/files/variables/transactional_log_prod.yaml",
   "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
   "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
 }
@@ -130,7 +131,7 @@ Content-Type: application/json
 `GET /api/virtshell/v1/instances/:id
 ----------------------------------------------
 
-Get a instance.
+Get an instance.
 
 ```sh
 curl -sv -H 'accept: application/json' 
@@ -165,7 +166,7 @@ Content-Type: application/json
 `DELETE /api/virtshell/v1/instances/:id`
 ----------------------------------------------
 
-Delete a existing instance.
+Delete an existing instance.
 
 ```sh
 curl -sv -X DELETE \

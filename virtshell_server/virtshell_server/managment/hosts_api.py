@@ -1,7 +1,7 @@
-import tornado.ioloop
-import tornado.web
-from managment.hosts import Hosts
 import json
+import tornado.web
+import tornado.ioloop
+from managment.hosts import Hosts
 
 class HostsHandler(tornado.web.RequestHandler):
     def initialize(self):

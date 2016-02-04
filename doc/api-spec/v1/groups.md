@@ -128,7 +128,7 @@ Content-Type: application/json
 
 `DELETE /api/virtshell/v1/groups/:id`
 ----------------------------------------------
-Delete a existing group.
+Delete an existing group.
 
 ```sh
 curl -sv -X DELETE \

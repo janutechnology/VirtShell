@@ -1,7 +1,7 @@
-import tornado.ioloop
-import tornado.web
-from instances.instances import Instances
 import json
+import tornado.web
+import tornado.ioloop
+from instances.instances import Instances
 
 class InstancesHandler(tornado.web.RequestHandler):
     def initialize(self):
