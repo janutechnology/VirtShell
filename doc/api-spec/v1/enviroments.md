@@ -24,7 +24,7 @@ Resource representation
   "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
   "name": "bigdata_test_01",
   "description": "Collection of servers oriented to big data.", 
-  "provisioning_script_url": "https://github.com/VirtShell/big_data_provisioner.git",
+  "users": [ ... list of users allowed to use the enviroment ...],
   "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
   "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
 }
@@ -44,7 +44,7 @@ curl -sv -X POST \
   -d '{"uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
        "name": "bigdata_test_01",
        "description": "Collection of servers oriented to big data.", 
-       "provisioning_script_url": "https://github.com/VirtShell/big_data_provisioner.git",
+       "users": [ ... list of users allowed to use the enviroment ...],
        "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
        "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
       }' \
@@ -83,7 +83,7 @@ Content-Type: application/json
       "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
       "name": "bigdata_test_01",
       "description": "Collection of servers oriented to big data.", 
-      "provisioning_script_url": "https://github.com/VirtShell/big_data_provisioner.git",
+      "users": [ ... list of users allowed to use the enviroment ...],
       "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
       "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
     },
@@ -91,7 +91,7 @@ Content-Type: application/json
       "uuid": "efa1777c-cad7-11e5-9956-625662870761",
       "name": "backend_development",
       "description": "All backend of the company", 
-      "provisioning_script_url": "https://github.com/VirtShell/complete_backend_provisioner.git",
+      "users": [ ... list of users allowed to use the enviroment ...],
       "created": {"at":"1429207233", "by":"1a900cdc-cad8-11e5-9956-625662870761"},
       "modified": {"at":"1529207233", "by":"2163b554-cad8-11e5-9956-625662870761"}
     }    
@@ -120,7 +120,7 @@ Content-Type: application/json
   "uuid": "efa1777c-cad7-11e5-9956-625662870761",
   "name": "backend_development",
   "description": "All backend of the company", 
-  "provisioning_script_url": "https://github.com/VirtShell/complete_backend_provisioner.git",
+  "users": [ ... list of users allowed to use the enviroment ...],
   "created": {"at":"1429207233", "by":"1a900cdc-cad8-11e5-9956-625662870761"},
   "modified": {"at":"1529207233", "by":"2163b554-cad8-11e5-9956-625662870761"}
 }
