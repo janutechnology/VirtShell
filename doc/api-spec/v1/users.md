@@ -35,7 +35,7 @@ Resource representation
 
 ###Examples###
 
-`POST /api/virtshell/v1/instances`
+`POST /api/virtshell/v1/users`
 --------------------------------------------
 
 Create a new user.
@@ -66,7 +66,7 @@ Content-Type: application/json
 { "create": "success" }
 ```
 
-`GET /api/virtshell/v1/instances/`
+`GET /api/virtshell/v1/users/`
 ----------------------------------------------
 
 Get all users.
@@ -74,7 +74,7 @@ Get all users.
 ```sh
 curl -sv -H 'accept: application/json' 
      -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-     'http://localhost:8080/api/virtshell/v1/instances'
+     'http://localhost:8080/api/virtshell/v1/users'
 ```
 
 Response:

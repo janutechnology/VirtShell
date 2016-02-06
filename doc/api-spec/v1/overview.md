@@ -75,6 +75,8 @@ more details.
 
 * [Provisioners][provisioners] - `/virtshell/api/v1/provisioners`
 
+* [Tasks][tasks] - `/virtshell/api/v1/tasks`
+
 * [Instances][instances] - `/virtshell/api/v1/instances`
 
 * [Properties][properties] - `/virtshell/api/v1/properties`
@@ -98,6 +100,7 @@ Below is a list of API calls don't represent directly a resource.
 * [Clone instance][apicalls] - `/api/virtsh/v1/instances/clone_instance`
 * [Execute command][apicalls] - `/api/virtsh/v1/instances/execute_command`
 * [Copy file][apicalls] - `/api/virtsh/v1/instances/copy_file`
+* [Add host to enviroment][apicalls] - `/api/virtsh/v1/enviroments/add_host`
 
 [hosts]: hosts.md
 [images]: images.md
@@ -105,13 +108,9 @@ Below is a list of API calls don't represent directly a resource.
 [provisioners]: provisioners.md
 [instances]: instances.md
 [properties]: properties.md
+[tasks]: tasks.md
 [packages]: packages.md
 [files]: files.md
 [groups]: groups.md
 [users]: users.md
-[apicalls]: apicalls.md
-[apicalls]: apicalls.md
-[apicalls]: apicalls.md
-[apicalls]: apicalls.md
-[apicalls]: apicalls.md
 [apicalls]: apicalls.md
