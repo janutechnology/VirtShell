@@ -73,3 +73,13 @@ class MongoDB(object):
                 return {"status": "error", "reason": "instance or enviroment not found"}
         except Exception as e:
             return {"status": "error", "reason": e}
+
+    def get_all_tasks_by_status(self, status_name):
+        try:
+            documents = []
+            for document in self.collection.find({'status':status_name}):
+                del document['_id']
+                documents.append(document)
+            return {"status": "ok", "tasks": documents}
+        except Exception as e:
+            return {"status": "error", "reason": e}
