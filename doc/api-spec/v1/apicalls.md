@@ -4,21 +4,21 @@ API Calls Reference
 Start Instance
 ==============
 
-Lets your start a instance
+Lets your start an instance
 
 ###Example###
 
-`POST /api/virtshell/v1/instances/start_instance/:id`
+`POST /api/virtshell/v1/instances/start_instance/:name`
 --------------------------------------------
 
-Start a instance
+Start an instance
 
 ```sh
 curl -sv -X PUT \
 	-H 'accept: application/json' \
 	-H "Content-Type: text/plain" \
 	-H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://virtshell/api/v1/instances/start_instance/420aa3f0-8d96-11e5-8994-feff819cdc9f'
+   'http://virtshell/api/v1/instances/start_instance/debian_strech_01'
 ```
 
 Response:
@@ -27,27 +27,27 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 ```
 ```json
-{ "start": "success" }
+{ "start": "in progress" }
 ```
 
 Stop Instance
 =============
 
-Lets your stop a instance
+Lets your stop an instance
 
 ###Example###
 
-`POST /api/virtshell/v1/instances/stop_instance/:id`
+`POST /api/virtshell/v1/instances/stop_instance/:name`
 --------------------------------------------
 
-Stop a instance
+Stop an instance
 
 ```sh
 curl -sv -X PUT \
 	-H 'accept: application/json' \
 	-H "Content-Type: text/plain" \
 	-H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://virtshell/api/v1/instances/stop_instance/420aa3f0-8d96-11e5-8994-feff819cdc9f'
+   'http://virtshell/api/v1/instances/stop_instance/debian_strech_01'
 ```
 
 Response:
@@ -56,27 +56,27 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 ```
 ```json
-{ "stop": "success" }
+{ "stop": "in progress" }
 ```
 
 Restart instance
 ================
 
-Lets your restart a instance
+Lets your restart an instance
 
 ###Example###
 
-`POST /api/virtshell/v1/instances/restart_instance/:id`
+`POST /api/virtshell/v1/instances/restart_instance/:name`
 --------------------------------------------
 
-Start a instance
+Restart an instance
 
 ```sh
 curl -sv -X PUT \
 	-H 'accept: application/json' \
 	-H "Content-Type: text/plain" \
 	-H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://virtshell/api/v1/instances/restart_instance/420aa3f0-8d96-11e5-8994-feff819cdc9f'
+   'http://virtshell/api/v1/instances/restart_instance/debian_strech_01'
 ```
 
 Response:
@@ -85,27 +85,27 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 ```
 ```json
-{ "restart": "success" }
+{ "restart": "in progress" }
 ```
 
 Clone instance
 ==============
 
-Lets your clone a instance
+Lets your clone an instance
 
 ###Example###
 
-`POST /api/virtshell/v1/instances/clone_instance/:id`
+`POST /api/virtshell/v1/instances/clone_instance/:name`
 --------------------------------------------
 
-Start a instance
+Clone an instance
 
 ```sh
 curl -sv -X PUT \
 	-H 'accept: application/json' \
 	-H "Content-Type: text/plain" \
 	-H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://virtshell/api/v1/instances/clone_instance/420aa3f0-8d96-11e5-8994-feff819cdc9f'
+   'http://virtshell/api/v1/instances/clone_instance/debian_strech_01'
 ```
 
 Response:
@@ -114,7 +114,7 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 ```
 ```json
-{ "clone": "success" }
+{ "clone": "in progress" }
 ```
 
 Execute command
@@ -150,7 +150,7 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 ```
 ```json
-{ "execute_command": "success" }
+{ "execute_command": "in progress" }
 
 
 Copy file
@@ -187,4 +187,36 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 ```
 ```json
-{ "copy_files": "success" }
+{ "copy_files": "in progress" }
+
+
+Add hosts to enviroment
+=======================
+
+Lets your copy a file o directory in one or more instances
+
+###Example###
+
+`POST /api/virtshell/v1/enviroments/add_hosts/`
+--------------------------------------------
+
+Add one or more hosts to enviroment.
+
+```sh
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{ "hosts": [
+            {"name": "host-08-pdn"},
+            {"name": "host-09-pdn"},
+        ] }' \
+  'http://localhost:8080/virtshell/api/v1/enviroments/add_hosts/'
+```
+
+Response:
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```json
+{ "add_hosts": "success" }
