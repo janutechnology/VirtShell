@@ -188,35 +188,3 @@ Content-Type: application/json
 ```
 ```json
 { "copy_files": "in progress" }
-
-
-Add hosts to enviroment
-=======================
-
-Lets your copy a file o directory in one or more instances
-
-###Example###
-
-`POST /api/virtshell/v1/enviroments/add_hosts/`
---------------------------------------------
-
-Add one or more hosts to enviroment.
-
-```sh
-curl -sv -X POST \
-  -H 'accept: application/json' \
-  -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{ "hosts": [
-            {"name": "host-08-pdn"},
-            {"name": "host-09-pdn"},
-        ] }' \
-  'http://localhost:8080/virtshell/api/v1/enviroments/add_hosts/'
-```
-
-Response:
-```
-HTTP/1.1 200 OK
-Content-Type: application/json
-```
-```json
-{ "add_hosts": "success" }

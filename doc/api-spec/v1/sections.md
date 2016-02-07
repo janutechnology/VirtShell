@@ -12,6 +12,7 @@ The sections allow you to group physical machines in a specific policy areas.
 | get | GET | /sections/:name | Gets one section by name. |
 | get | GET | /sections/:name/hosts/ | Gets all host of the one section by name. |
 | delete | DELETE | /sections/:name | Deletes an existing section. |
+| update | PUT | /sections/:name/host/:hostname | Add a host to section. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -167,3 +168,26 @@ Content-Type: application/json
 ```json
 { "delete": "success" }
 ```
+
+| update | PUT | /sections/:name/host/:hostname | Add a host to section. |
+
+
+`PUT /api/virtshell/v1/sections/:name/host/:hostname`
+-----------------------------------------------------
+
+Add a host to section.
+
+```sh
+curl -sv -X PUT \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  'http://localhost:8080/virtshell/api/v1/sections/:name/host/:hostname'
+```
+
+Response:
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```json
+{ "add_host": "success" }
