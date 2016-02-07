@@ -12,7 +12,7 @@ The sections allow you to group physical machines in a specific policy areas.
 | get | GET | /sections/:name | Gets one section by name. |
 | get | GET | /sections/:name/hosts/ | Gets all host of the one section by name. |
 | delete | DELETE | /sections/:name | Deletes an existing section. |
-| update | PUT | /sections/:name/host/:hostname | Added a host to section. |
+| update | PUT | /sections/:name/host/:hostname | Add a host to section. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
