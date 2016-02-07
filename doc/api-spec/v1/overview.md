@@ -102,7 +102,6 @@ Below is a list of API calls don't represent directly a resource.
 * [Clone instance][apicalls] - `/api/virtsh/v1/instances/clone_instance`
 * [Execute command][apicalls] - `/api/virtsh/v1/instances/execute_command`
 * [Copy file][apicalls] - `/api/virtsh/v1/instances/copy_file`
-* [Add host to enviroment][apicalls] - `/api/virtsh/v1/enviroments/add_host`
 
 [hosts]: hosts.md
 [images]: images.md
