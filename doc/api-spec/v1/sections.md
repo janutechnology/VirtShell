@@ -169,9 +169,6 @@ Content-Type: application/json
 { "delete": "success" }
 ```
 
-| update | PUT | /sections/:name/host/:hostname | Add a host to section. |
-
-
 `PUT /api/virtshell/v1/sections/:name/host/:hostname`
 -----------------------------------------------------
 
