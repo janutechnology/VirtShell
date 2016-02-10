@@ -1,7 +1,7 @@
-import tornado.ioloop
-import tornado.web
-from managment.properties import Properties
 import json
+import tornado.web
+import tornado.ioloop
+from managment.properties import Properties
 
 class PropertiesHandler(tornado.web.RequestHandler):
     def initialize(self):

@@ -1,6 +1,6 @@
+import json
 import instances
 from storage import StorageFactory
-import json
 
 class InstancesRepository(object):
     def __init__(self):

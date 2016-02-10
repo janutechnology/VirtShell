@@ -73,3 +73,18 @@ curl -X DELETE http://127.0.0.1:80/instances/9420b244-71e5-44ef-80a9-efe6d8aca5e
 curl -X PUT http://127.0.0.1:80/instances/9420b244-71e5-44ef-80a9-efe6d8aca5e7 -d "{\"login\": \"user@gmail.com\"}" -H "accept:application/json" | jq .
 
 ############################################################################################
+
+# Get Enviroments
+curl -s http://localhost:80/enviroments/bigdata_test_01 | jq .
+curl -s http://localhost:80/enviroments/ | jq .
+
+# Create an Enviroment
+curl -X POST http://127.0.0.1:80/enviroments/ -d "{\"name\":\"bigdata_test_01\",\"description\":\"Collection of servers oriented to big data.\",\"users\":[{\"login\":\"backend_user\"},{\"login\":\"guest\"}]}" -H "accept:application/json" | jq .
+
+# Delete an Instance
+curl -X DELETE http://127.0.0.1:80/enviroments/bigdata_test_01  | jq .
+
+# Update an Instance
+curl -X PUT http://127.0.0.1:80/enviroments/bigdata_test_01 -d "{\"users\":[{\"login\":\"backend_user\"}]}" -H "accept:application/json" | jq .
+
+############################################################################################

@@ -7,9 +7,9 @@ Represents an individual package on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| install | POST | /install_packages/ | Install one or more packages. | 
-| upgrade | POST | /upgrade_packages | Upgrade one or more packages. |
-| remove | POST | /remove_packages | Remove one or more packages. |
+| install | POST | /packages/ | Install one or more packages. | 
+| upgrade | PUT | /packages | Upgrade one or more packages. |
+| remove | DELETE | /packages | Remove one or more packages. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -35,13 +35,13 @@ Resource representation
 
 ###Examples###
 
-`POST /api/virtshell/v1/install_package`
+`POST /api/virtshell/v1/packages`
 --------------------------------------------
 
 Install one or more packages:
 
 ```sh
-curl -sv -X PUT \
+curl -sv -X POST \
   -H 'accept: application/json' \
   -H "Content-Type: text/plain" \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
@@ -58,11 +58,11 @@ Content-Type: application/json
 ```
 ```json
 { 
-  "install_package": "accepted"
+  "install_package": "in progress"
 }
 ```
 
-`POST /api/virtshell/v1/upgrade_packages`
+`PUT /api/virtshell/v1/packages`
 --------------------------------------------
 
 Upgrade one or more packages:
@@ -85,23 +85,23 @@ Content-Type: application/json
 ```
 ```json
 { 
-  "upgrade_packages": "accepted"
+  "upgrade_packages": "in progress"
 }
 ```
 
-`POST /api/virtshell/v1/remove_packages`
+`DELETE /api/virtshell/v1/packages`
 --------------------------------------------
 
 Remove one or more packages:
 
 ```sh
-curl -sv -X PUT \
+curl -sv -X DELETE \
   -H 'accept: application/json' \
   -H "Content-Type: text/plain" \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{ "packages": [{"name": "git"}, {"name": "nginx"}],
         "hosts": [{"name": "WebServer_", "range": "[1-3]"}]}' \
-   'http://localhost:8080/api/virtshell/v1/remove_packages'
+   'http://localhost:8080/api/virtshell/v1/packages'
 ```
 
 Response:
@@ -112,6 +112,6 @@ Content-Type: application/json
 ```
 ```json
 { 
-  "remove_packages": "accepted"
+  "remove_packages": "in progress"
 }
 ```

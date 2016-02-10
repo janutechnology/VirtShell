@@ -158,7 +158,7 @@ Content-Type: application/json
 `PUT /api/virtshell/v1/provisioners/:id`
 ----------------------------------------------
 
-Update a existing provisioner.
+Update an existing provisioner.
 
 ```sh
 curl -sv -X PUT \
@@ -183,7 +183,7 @@ Content-Type: application/json
 `DELETE /api/virtshell/v1/provisioners/:id`
 ----------------------------------------------
 
-Delete a existing provisioner.
+Delete an existing provisioner.
 
 ```sh
 curl -sv -X DELETE \
