@@ -4,6 +4,8 @@ VirtShell-Server Project
 VirtShell-Server is a server offering a rest api to perform provisioning of 
 virtual resources like virtual machines or containers.
 
+Temporal notes:
+==============
 For now: python3 server.py 
 rsync -azP virtshell_server/ root@172.17.0.1:/root/virtshell_server
 
