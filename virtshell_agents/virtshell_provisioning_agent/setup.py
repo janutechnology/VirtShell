@@ -8,11 +8,11 @@ with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='virtshell-agent',
+    name='virtshell_provisioning_agent',
     version='1.0.0',
-    description='VirtShell Agent',
+    description='VirtShell Provisioning Agent',
     long_description=long_description,
-    url='https://github.com/CALlanoR/VirtShell',
+    url='https://github.com/janutechnology/VirtShell',
     author='Carlos Alberto Llano R.',
     author_email='carlos_llano@hotmail.com',
     license='GPL',

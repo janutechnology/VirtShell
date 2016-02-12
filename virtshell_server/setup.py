@@ -14,7 +14,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='VirtShell-Server',
+    name='virtshell_server',
 
     version='1.0.0',
 
