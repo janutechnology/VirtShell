@@ -58,7 +58,7 @@ class ListenerHandler(object):
         self.register_plugin_actions()
 
     def register_plugin_actions(self):
-        for plugin_name in self.plugins:            
+        for plugin_name in self.plugins:
             plugin_class = self.load_plugin(plugin_name)
             # Asignar aqui el logger para no pasarlo mas
             plugin_methods = plugin_class.catalogue()
@@ -68,14 +68,14 @@ class ListenerHandler(object):
                 self.register(plugin_key, (plugin_class, plugin_method))
         print(self.listeners)
 
-    def register(self, listener, action):            
+    def register(self, listener, action):
         self.listeners[action] = listener
 
     def dispatch(self, request):
         message = json.loads(request)
         action = message['drive'] + '-' + message['action']
         plugin, method = self.listeners[action]
-        return method(request)                  
+        return method(request)
             
     def get_plugins(self):
         main_logger.info("finding plugins")
@@ -144,6 +144,7 @@ if __name__ == "__main__":
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(8080)
     main_logger.info("started...")
+    print("virtshell-provisioning-agent started...")
     #tornado.ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=15), WSHandler.write_to_clients)
     tornado.ioloop.IOLoop.instance().start()
 

@@ -8,3 +8,4 @@ Temporal notes:
 ==============
 from git import Repo
 Repo.clone_from("https://github.com/CALlanoR/VirtShell.git", "/root/repositories/virtshell")
+https://github.com/gaelL/docker-tools/blob/master/docker_setup.py
