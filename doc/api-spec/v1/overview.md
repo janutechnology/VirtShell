@@ -71,7 +71,7 @@ more details.
 
 * [Images][images] - `/virtshell/api/v1/images`
 
-* [Sections][sections] - `/virtshell/api/v1/sections`
+* [Partitions][partitions] - `/virtshell/api/v1/partitions`
 
 * [Enviroments][enviroments] - `/virtshell/api/v1/enviroments`
 

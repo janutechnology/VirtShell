@@ -7,7 +7,8 @@ from managment.hosts_api import HostsResources
 from security.users_api import UsersResources
 from security.groups_api import GroupsResources
 from provisioning.provisioners_api import ProvisionersResources
-from instances.instances_api import InstancesResources
+from management.instances_api import InstancesResources
+from management.partitions_api import PartitionsResources
 
 def main(debug = True, port = CONFIG.PORT):
     try:
@@ -17,7 +18,8 @@ def main(debug = True, port = CONFIG.PORT):
                                                GroupsResources,
                                                ProvisionersResources,
                                                InstancesResources,
-                                               EnviromentsResources], 
+                                               EnviromentsResources,
+                                               PartitionsResources], 
                                               debug = debug, 
                                               autoreload = debug)
         application.listen(port)

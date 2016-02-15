@@ -1,18 +1,18 @@
-Sections API Reference
-======================
+Partitions API Reference
+========================
 
-Sections
-========
-The sections allow you to group physical machines in a specific policy areas.
+Partitions
+==========
+The partitions allow you to group physical machines in a specific policy areas.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| create | POST | /sections/ | Creates a new section. |
-| list | GET | /sections | Retrieves the list of sections. |
-| get | GET | /sections/:name | Gets one section by name. |
-| get | GET | /sections/:name/hosts/ | Gets all host of the one section by name. |
-| delete | DELETE | /sections/:name | Deletes an existing section. |
-| update | PUT | /sections/:name/host/:hostname | Add a host to section. |
+| create | POST | /partitions/ | Creates a new partition. |
+| list | GET | /partitions | Retrieves the list of partitions. |
+| get | GET | /partitions/:name | Gets one partition by name. |
+| get | GET | /partitions/:name/hosts/ | Gets all host of the one partition by name. |
+| delete | DELETE | /partitions/:name | Deletes an existing partition. |
+| update | PUT | /partitions/:name/host/:hostname | Add a host to partition. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -32,10 +32,10 @@ Resource representation
 
 ###Examples###
 
-`POST /api/virtshell/v1/sections`
+`POST /api/virtshell/v1/partitions`
 --------------------------------------------
 
-Create a new section.
+Create a new partition.
 
 ```sh
 curl -sv -X POST \
@@ -48,7 +48,7 @@ curl -sv -X POST \
        "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
        "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
       }' \
-   'http://localhost:8080/api/virtshell/v1/sections'
+   'http://localhost:8080/api/virtshell/v1/partitions'
 ```
 
 Response:
@@ -60,15 +60,15 @@ Content-Type: application/json
 { "create": "success" }
 ```
 
-`GET /api/virtshell/v1/sections/`
+`GET /api/virtshell/v1/partitions/`
 ----------------------------------------------
 
-Get all sections.
+Get all partitions.
 
 ```sh
 curl -sv -H 'accept: application/json' 
      -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-     'http://localhost:8080/api/virtshell/v1/sections'
+     'http://localhost:8080/api/virtshell/v1/partitions'
 ```
 
 Response:
@@ -78,7 +78,7 @@ Content-Type: application/json
 ```
 ```json
 {
-  "sections": [
+  "partitions": [
     {
       "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
       "name": "development_co",
@@ -99,15 +99,15 @@ Content-Type: application/json
 }   
 ```
 
-`GET /api/virtshell/v1/sections/:name
+`GET /api/virtshell/v1/partitions/:name
 ----------------------------------------------
 
-Get an sections.
+Get an partitions.
 
 ```sh
 curl -sv -H 'accept: application/json' 
      -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-     'http://<host>:<port>/api/virtshell/v1/sections/development_co'
+     'http://<host>:<port>/api/virtshell/v1/partitions/development_co'
 ```
 
 Response:
@@ -126,15 +126,15 @@ Content-Type: application/json
 }
 ```
 
-`GET /api/virtshell/v1/sections/:name/hosts
+`GET /api/virtshell/v1/partitions/:name/hosts
 ----------------------------------------------
 
-Get the hosts associated to the sections.
+Get the hosts associated to the partitions.
 
 ```sh
 curl -sv -H 'accept: application/json' 
      -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-     'http://<host>:<port>/api/virtshell/v1/sections/backend_development_04/hosts'
+     'http://<host>:<port>/api/virtshell/v1/partitions/backend_development_04/hosts'
 ```
 
 Response:
@@ -148,16 +148,16 @@ Content-Type: application/json
 }
 ```
 
-`DELETE /api/virtshell/v1/sections/:name`
+`DELETE /api/virtshell/v1/partitions/:name`
 ----------------------------------------------
 
-Delete an existing section.
+Delete an existing partition.
 
 ```sh
 curl -sv -X DELETE \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://<host>:<port>/api/virtshell/v1/sections/backend_development_04'
+   'http://<host>:<port>/api/virtshell/v1/partitions/backend_development_04'
 ```
 
 Response:
@@ -169,16 +169,16 @@ Content-Type: application/json
 { "delete": "success" }
 ```
 
-`PUT /api/virtshell/v1/sections/:name/host/:hostname`
+`PUT /api/virtshell/v1/partitions/:name/host/:hostname`
 -----------------------------------------------------
 
-Add a host to section.
+Add a host to partition.
 
 ```sh
 curl -sv -X PUT \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  'http://localhost:8080/virtshell/api/v1/sections/:name/host/:hostname'
+  'http://localhost:8080/virtshell/api/v1/partitions/:name/host/:hostname'
 ```
 
 Response:
