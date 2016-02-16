@@ -7,9 +7,9 @@ class PartitionsHandler(tornado.web.RequestHandler):
     def initialize(self):
         self.partitions = Partitions()
 
-    def get(self, uuid=None):
-        if uuid:
-            result = self.partitions.get_partition(uuid)
+    def get(self, name=None):
+        if name:
+            result = self.partitions.get_partition(name)
             if result['status'] == 'ok':
                 response = result['document']
             else:
@@ -32,27 +32,27 @@ class PartitionsHandler(tornado.web.RequestHandler):
             response = {"create": "error", "reason": result['reason']}
         return self.write(json.dumps(response))
 
-    def put(self, uuid=None):
-        if uuid:
+    def put(self, name=None):
+        if name:
             partition = tornado.escape.json_decode(self.request.body)
-            result = self.partitions.update_partition(uuid, partition)
+            result = self.partitions.update_partition(name, partition)
             if result['status'] == 'ok':
-                response = {"update": "success", "uuid": uuid}
+                response = {"update": "success", "name": name}
             else:
                 response = {"update": "error", "reason": result['reason']}
         else:
-            response = {"update": "error", "reason": "missing uuid parameter"}
+            response = {"update": "error", "reason": "missing name parameter"}
         return self.write(json.dumps(response))
 
-    def delete(self, uuid=None):
-        if uuid:
-            result = self.partitions.delete_partition(uuid)
+    def delete(self, name=None):
+        if name:
+            result = self.partitions.delete_partition(name)
             if result['status'] == 'ok':
-                response = {"delete": "success", "uuid": uuid}
+                response = {"delete": "success", "name": name}
             else:
                 response = {"delete": "error", "reason": result['reason']}
         else:
-            response = {"delete": "error", "reason": "missing uuid parameter"}
+            response = {"delete": "error", "reason": "missing name parameter"}
         return self.write(json.dumps(response))
 
 PartitionsResources = (r'/partitions/(.*)', PartitionsHandler)

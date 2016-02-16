@@ -32,6 +32,17 @@ class MongoDB(object):
         except Exception as e:
             return {"status": "error", "reason": e}
 
+    def get_by_name(self, name=None):
+        try:
+            document = self.collection.find_one({"name": name})
+            if document != None:
+                del document["_id"]
+                return {"status": "ok", "document": document}
+            else:
+                return {"status": "error", "reason": "document not found"}
+        except Exception as e:
+            return {"status": "error", "reason": e}
+
     def create(self, document):
         try:
             if document is not None:
@@ -53,9 +64,27 @@ class MongoDB(object):
         except Exception as e:
             return {"status": "error", "reason": e}
  
+    def update_by_name(self, name, document):
+        try:
+            if document is not None:
+                result = self.collection.find_one_and_update({'name': name},
+                                                        {'$set': document})
+                return {"status": "ok"}
+            else:
+                return {"status": "error", "reason": "document is None"}
+        except Exception as e:
+            return {"status": "error", "reason": e}
+
     def delete(self, uuid):
         try:
             result = self.collection.delete_one({'uuid': uuid})
+            return {"status": "ok"}
+        except Exception as e:
+            return {"status": "error", "reason": e}
+
+    def delete_by_name(self, name):
+        try:
+            result = self.collection.delete_one({'name': name})
             return {"status": "ok"}
         except Exception as e:
             return {"status": "error", "reason": e}
