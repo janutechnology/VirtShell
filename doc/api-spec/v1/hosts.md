@@ -7,11 +7,11 @@ Represents an individual host on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| get | GET | /hosts/id | Gets one host by ID. |
+| get | GET | /hosts/:name | Gets one host by name. |
 | list | GET | /hosts | Retrieves the list of hosts. |
 | create | POST | /hosts/ | Inserts a new host configuration. | 
-| delete | DELETE | /hosts/id | Deletes an existing host. |
-| update | PUT | /hosts/id | Updates an existing host. |
+| delete | DELETE | /hosts/:name | Deletes an existing host. |
+| update | PUT | /hosts/:name | Updates an existing host. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -68,18 +68,18 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 ```
 ```json
-{ "create": "success", "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b"}
+{ "create": "success"}
 ```
 
-`GET /api/virtshell/v1/hosts/:id`
+`GET /api/virtshell/v1/hosts/:name`
 ----------------------------------------------
 
-Get a host.
+Get a host by name.
 
 ```sh
 curl -sv -H 'accept: application/json' 
 		 -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-		 'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+		 'http://localhost:8080/api/virtshell/v1/hosts/host-01-pdn'
 ```
 
 Response:
@@ -185,7 +185,7 @@ Content-Type: application/json
 }		
 ```
 
-`PUT /api/virtshell/v1/hosts/:id`
+`PUT /api/virtshell/v1/hosts/:name`
 ----------------------------------------------
 
 Update an existing host.
@@ -196,7 +196,7 @@ curl -sv -X PUT \
    	-H 'X-VirtShell-Authorization: UserId:Signature' \
 	-d '{"memory": "24GB",
 		 "capacity": "750GB"}' \
-   'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+   'http://localhost:8080/api/virtshell/v1/hosts/host-01-pdn'
 ```
 
 Response:
@@ -208,7 +208,7 @@ Content-Type: application/json
 { "update": "success" }
 ```
 
-`DELETE /api/virtshell/v1/hosts/:id`
+`DELETE /api/virtshell/v1/hosts/:name`
 ----------------------------------------------
 Delete a existing host.
 
@@ -216,7 +216,7 @@ Delete a existing host.
 curl -sv -X DELETE \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+   'http://localhost:8080/api/virtshell/v1/hosts/host-01-pdn'
 ```
 
 Response:
