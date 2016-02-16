@@ -7,10 +7,10 @@ Represents an individual image on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| get | GET | /image/id | Gets one image by ID. |
+| get | GET | /image/:name | Gets one image by name. |
 | list | GET | /image | Retrieves the list of images. |
-| create | POST | /image/id | Inserts a new image. | 
-| delete | DELETE | /image/id | Deletes an existing image. |
+| create | POST | /image/:name | Inserts a new image. | 
+| delete | DELETE | /image/:name | Deletes an existing image. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -70,7 +70,7 @@ Content-Type: application/json
 { "create": "success" }
 ```
 
-`GET /api/virtshell/v1/images/:id`
+`GET /api/virtshell/v1/images/:ubuntu_server_14.04.2_amd64`
 ----------------------------------------------
 
 Get an image.
@@ -78,7 +78,7 @@ Get an image.
 ```sh
 curl -sv -H 'accept: application/json' 
      -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-     'http://localhost:8080/api/virtshell/v1/images?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+     'http://localhost:8080/api/virtshell/v1/images/ubuntu_server_14.04.2_amd64'
 ```
 
 Response:
@@ -148,7 +148,7 @@ Content-Type: application/json
 }
 ```
 
-`DELETE /api/virtshell/v1/images/:id`
+`DELETE /api/virtshell/v1/images/:name`
 ----------------------------------------------
 
 Delete an existing image.
@@ -157,7 +157,7 @@ Delete an existing image.
 curl -sv -X DELETE \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://<host>:<port>/api/virtshell/v1/images?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+   'http://<host>:<port>/api/virtshell/v1/images/ubuntu_server_14.04.2_amd64'
 ```
 
 Response:
