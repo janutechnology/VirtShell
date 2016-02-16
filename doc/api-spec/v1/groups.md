@@ -7,7 +7,6 @@ Represents individual groups on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| get | GET | /groups/ | Gets all groups. |
 | get | GET | /groups/:name | Gets one group by ID. |
 | list | GET | /groups | Retrieves the list of groups. |
 | create | POST | /groups/ | Inserts a new group configuration. | 
