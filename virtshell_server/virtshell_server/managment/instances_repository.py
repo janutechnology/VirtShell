@@ -1,5 +1,5 @@
 import json
-import instances
+import managment
 from storage import StorageFactory
 
 class InstancesRepository(object):
