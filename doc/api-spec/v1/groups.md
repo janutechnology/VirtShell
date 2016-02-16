@@ -7,10 +7,11 @@ Represents individual groups on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| get | GET | /groups/id | Gets one group by ID. |
+| get | GET | /groups/ | Gets all groups. |
+| get | GET | /groups/:name | Gets one group by ID. |
 | list | GET | /groups | Retrieves the list of groups. |
 | create | POST | /groups/ | Inserts a new group configuration. | 
-| delete | DELETE | /groups/id | Deletes an existing group. |
+| delete | DELETE | /groups/:name | Deletes an existing group. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -50,15 +51,15 @@ Content-Type: application/json
 { "create": "success" }
 ```
 
-`GET /api/virtshell/v1/groups/:id`
+`GET /api/virtshell/v1/groups/:name`
 ----------------------------------------------
 
-Get a group.
+Get a group by name.
 
 ```sh
 curl -sv -H 'accept: application/json' 
      -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-     'http://localhost:8080/api/virtshell/v1/groups?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+     'http://localhost:8080/api/virtshell/v1/groups/web_development_team'
 ```
 
 Response:
@@ -126,7 +127,7 @@ Content-Type: application/json
 }   
 ```
 
-`DELETE /api/virtshell/v1/groups/:id`
+`DELETE /api/virtshell/v1/groups/:name`
 ----------------------------------------------
 Delete an existing group.
 
@@ -134,7 +135,7 @@ Delete an existing group.
 curl -sv -X DELETE \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://localhost:8080/api/virtshell/v1/groups?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+   'http://localhost:8080/api/virtshell/v1/groups/chemical_team'
 ```
 
 Response:
