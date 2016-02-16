@@ -14,32 +14,21 @@ class MongoDB(object):
     def _get_collection(self):
         return self.mongodb[self.collection_name]
  
-    def get(self, uuid=None):
+    def get(self, key=None, value=None):
         try:
-            if uuid is None:
+            if key_name is None and value is None:
                 documents = []
                 for document in self.collection.find():
                     del document['_id']
                     documents.append(document)
                 return {"status": "ok", "documents": documents}
             else:
-                document = self.collection.find_one({"uuid": uuid})
+                document = self.collection.find_one({key: value})
                 if document != None:
                     del document["_id"]
                     return {"status": "ok", "document": document}
                 else:
                     return {"status": "error", "reason": "document not found"}
-        except Exception as e:
-            return {"status": "error", "reason": e}
-
-    def get_by_name(self, name=None):
-        try:
-            document = self.collection.find_one({"name": name})
-            if document != None:
-                del document["_id"]
-                return {"status": "ok", "document": document}
-            else:
-                return {"status": "error", "reason": "document not found"}
         except Exception as e:
             return {"status": "error", "reason": e}
 
@@ -53,38 +42,20 @@ class MongoDB(object):
         except Exception as e:
             return {"status": "error", "reason": e}
  
-    def update(self, uuid, document):
+    def update(self, key, value, document):
         try:
             if document is not None:
-                result = self.collection.find_one_and_update({'uuid': uuid},
-                                                        {'$set': document})
-                return {"status": "ok"}
-            else:
-                return {"status": "error", "reason": "document is None"}
-        except Exception as e:
-            return {"status": "error", "reason": e}
- 
-    def update_by_name(self, name, document):
-        try:
-            if document is not None:
-                result = self.collection.find_one_and_update({'name': name},
-                                                        {'$set': document})
+                result = self.collection.find_one_and_update({key: value},
+                                                             {'$set': document})
                 return {"status": "ok"}
             else:
                 return {"status": "error", "reason": "document is None"}
         except Exception as e:
             return {"status": "error", "reason": e}
 
-    def delete(self, uuid):
+    def delete(self, key, value):
         try:
-            result = self.collection.delete_one({'uuid': uuid})
-            return {"status": "ok"}
-        except Exception as e:
-            return {"status": "error", "reason": e}
-
-    def delete_by_name(self, name):
-        try:
-            result = self.collection.delete_one({'name': name})
+            result = self.collection.delete_one({key: value})
             return {"status": "ok"}
         except Exception as e:
             return {"status": "error", "reason": e}

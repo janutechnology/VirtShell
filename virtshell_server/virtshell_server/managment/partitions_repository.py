@@ -13,10 +13,10 @@ class PartitionsRepository(object):
         return self.storage_db.get()
 
     def get_partition(self, name):
-        return self.storage_db.get_by_name(name)
+        return self.storage_db.get("name", name)
 
     def update_partition(self, name, host):
-        return self.storage_db.update_by_name(name, host)
+        return self.storage_db.update("name", name, host)
 
     def delete_partition(self, name):
-        return self.storage_db.delete_by_name(name)
+        return self.storage_db.delete("name", name)
