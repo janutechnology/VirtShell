@@ -8,15 +8,15 @@ class Partitions(object):
     def get_all_partitions(self):
         return self.partitions_repository.get_all_partitions()
 
-    def get_partition(self, uuid):
-        return self.Partitions_repository.get_partition(uuid)
+    def get_partition(self, name):
+        return self.partitions_repository.get_partition(name)
 
     def create_partition(self, partition):
         partition['uuid'] = str(uuid.uuid4())
         return self.partitions_repository.create_partition(partition)
 
-    def delete_partition(self, uuid):
-        return self.partitions_repository.delete_partition(uuid)
+    def delete_partition(self, name):
+        return self.partitions_repository.delete_partition(name)
 
-    def update_partition(self, uuid, partition):
-        return self.partitions_repository.update_partition(uuid, partition)
+    def update_partition(self, name, partition):
+        return self.partitions_repository.update_partition(name, partition)
