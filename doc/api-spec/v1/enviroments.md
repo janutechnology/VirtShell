@@ -26,7 +26,7 @@ Resource representation
   "name": "bigdata_test_01",
   "description": "Collection of servers oriented to big data.", 
   "users": [ ... list of users allowed to use the enviroment ...],
-  "section": "section associated with the enviroment",
+  "partition": "partition associated with the enviroment",
   "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
   "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
 }
@@ -43,11 +43,10 @@ Create a new enviroment.
 curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{"uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
-       "name": "bigdata_test_01",
+  -d '{"name": "bigdata_test_01",
        "description": "Collection of servers oriented to big data.", 
        "users": [ ... list of users allowed to use the enviroment ...],
-       "section": "section associated with the enviroment",
+       "partition": "partition associated with the enviroment",
        "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
        "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
       }' \
@@ -87,7 +86,7 @@ Content-Type: application/json
       "name": "bigdata_test_01",
       "description": "Collection of servers oriented to big data.", 
       "users": [ ... list of users allowed to use the enviroment ...],
-      "section": "section associated with the enviroment",
+      "partition": "partition associated with the enviroment",
       "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
       "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
     },
@@ -96,7 +95,7 @@ Content-Type: application/json
       "name": "backend_development",
       "description": "All backend of the company", 
       "users": [ ... list of users allowed to use the enviroment ...],
-      "section": "section associated with the enviroment",      
+      "partition": "partition associated with the enviroment",      
       "created": {"at":"1429207233", "by":"1a900cdc-cad8-11e5-9956-625662870761"},
       "modified": {"at":"1529207233", "by":"2163b554-cad8-11e5-9956-625662870761"}
     }    
@@ -126,16 +125,16 @@ Content-Type: application/json
   "name": "backend_development",
   "description": "All backend of the company", 
   "users": [ ... list of users allowed to use the enviroment ...],
-  "section": "section associated with the enviroment",
+  "partition": "partition associated with the enviroment",
   "created": {"at":"1429207233", "by":"1a900cdc-cad8-11e5-9956-625662870761"},
   "modified": {"at":"1529207233", "by":"2163b554-cad8-11e5-9956-625662870761"}
 }
 ```
 
-`GET /api/virtshell/v1/enviroments/:name/section
+`GET /api/virtshell/v1/enviroments/:name/partition
 ------------------------------------------------
 
-Get the section associated to the enviroment.
+Get the partition associated to the enviroment.
 
 ```sh
 curl -sv -H 'accept: application/json' 
@@ -150,7 +149,7 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 ```json
 {
-  "section": "section associated with the enviroment",  
+  "partition": "partition associated with the enviroment",  
 }
 ```
 
