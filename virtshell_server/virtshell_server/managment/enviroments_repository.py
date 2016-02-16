@@ -13,7 +13,7 @@ class EnviromentsRepository(object):
         return self.storage_db.get()
 
     def get_enviroment(self, name):
-        return self.storage_db.get(name)
+        return self.storage_db.get("name", name)
 
     def delete_enviroment(self, name):
-        return self.storage_db.delete(name)
+        return self.storage_db.delete("name", name)       
