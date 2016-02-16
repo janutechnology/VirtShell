@@ -10,9 +10,9 @@ Represents individual provisioner on VirtShell.
 | --- | --- | ---- |
 | create | POST | /provisioners/ | Inserts a new provisioner in the system. |
 | list | GET | /provisioners | Retrieves the list of provisioners. |
-| get | GET | /provisioners/id | Gets one provisioner by ID. |
-| delete | DELETE | /provisioners/id | Deletes an existing provisioner. |
-| update | PUT | /provisioners/id | Updates an existing provisioner. |
+| get | GET | /provisioners/:name | Gets one provisioner by ID. |
+| delete | DELETE | /provisioners/:name | Deletes an existing provisioner. |
+| update | PUT | /provisioners/:name | Updates an existing provisioner. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -127,7 +127,7 @@ Content-Type: application/json
 }   
 ```
 
-`GET /api/virtshell/v1/provisioners/:id
+`GET /api/virtshell/v1/provisioners/:name
 ----------------------------------------------
 
 Get a provisioner.
@@ -135,7 +135,7 @@ Get a provisioner.
 ```sh
 curl -sv -H 'accept: application/json' 
      -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-     'http://<host>:<port>/api/virtshell/v1/provisioners/?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+     'http://<host>:<port>/api/virtshell/v1/provisioners/backend-services-provisioner'
 ```
 
 Response:
@@ -155,7 +155,7 @@ Content-Type: application/json
   }
 ```
 
-`PUT /api/virtshell/v1/provisioners/:id`
+`PUT /api/virtshell/v1/provisioners/:name`
 ----------------------------------------------
 
 Update an existing provisioner.
@@ -168,7 +168,7 @@ curl -sv -X PUT \
           {"path": "https://<host>:<port>/api/virtshell/v1/files/mysql/my.cnf}
       ]
   }' \
-   'http://localhost:8080/api/virtshell/v1/provisioners?id=8de7b824-d7d1-4265-a3a6-5b46cc9b8ed5'
+   'http://localhost:8080/api/virtshell/v1/provisioners/backend-services-provisioner
 ```
 
 Response:
@@ -180,7 +180,7 @@ Content-Type: application/json
 { "update": "success" }
 ```
 
-`DELETE /api/virtshell/v1/provisioners/:id`
+`DELETE /api/virtshell/v1/provisioners/:name`
 ----------------------------------------------
 
 Delete an existing provisioner.
@@ -189,7 +189,7 @@ Delete an existing provisioner.
 curl -sv -X DELETE \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://<host>:<port>/api/virtshell/v1/provisioners?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+   'http://<host>:<port>/api/virtshell/v1/provisioners/backend-services-provisioner
 ```
 
 Response:
