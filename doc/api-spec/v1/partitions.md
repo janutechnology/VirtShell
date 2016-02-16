@@ -44,7 +44,6 @@ curl -sv -X POST \
   -d '{"uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
        "name": "development_co",
        "description": "Collection of servers oriented to development team in colombia.", 
-       "hosts": [ ... list of hosts associated with the section ...],
        "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
        "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
       }' \
