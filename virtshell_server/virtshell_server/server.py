@@ -7,8 +7,9 @@ from managment.hosts_api import HostsResources
 from security.users_api import UsersResources
 from security.groups_api import GroupsResources
 from provisioning.provisioners_api import ProvisionersResources
-from management.instances_api import InstancesResources
-from management.partitions_api import PartitionsResources
+from managment.instances_api import InstancesResources
+from managment.partitions_api import PartitionsResources
+from managment.enviroments_api import EnviromentsResources
 
 def main(debug = True, port = CONFIG.PORT):
     try:

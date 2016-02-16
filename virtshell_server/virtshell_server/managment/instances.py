@@ -1,5 +1,5 @@
 import uuid
-from instances.instances_repository import InstancesRepository
+from managment.instances_repository import InstancesRepository
 
 class Instances(object):
     def __init__(self):
