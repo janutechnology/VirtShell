@@ -10,8 +10,8 @@ Represents individual instance on VirtShell.
 | --- | --- | ---- |
 | create | POST | /instances/ | Creates a new instance within an enviroment. |
 | list | GET | /instances | Retrieves the list of instances. |
-| get | GET | /instances/id | Gets one instance by ID. |
-| delete | DELETE | /instances/id | Deletes an existing instance. |
+| get | GET | /instances/:name | Gets one instance by ID. |
+| delete | DELETE | /instances/:name | Deletes an existing instance. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -122,7 +122,7 @@ Content-Type: application/json
 }   
 ```
 
-`GET /api/virtshell/v1/instances/:id
+`GET /api/virtshell/v1/instances/:name
 ----------------------------------------------
 
 Get an instance.
@@ -130,7 +130,7 @@ Get an instance.
 ```sh
 curl -sv -H 'accept: application/json' 
      -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-     'http://<host>:<port>/api/virtshell/v1/instances/ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+     'http://<host>:<port>/api/virtshell/v1/instances/orders_colombia'
 ```
 
 Response:
@@ -156,7 +156,7 @@ Content-Type: application/json
 ```
 
 
-`DELETE /api/virtshell/v1/instances/:id`
+`DELETE /api/virtshell/v1/instances/:name`
 ----------------------------------------------
 
 Delete an existing instance.
@@ -165,7 +165,7 @@ Delete an existing instance.
 curl -sv -X DELETE \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://<host>:<port>/api/virtshell/v1/instances/ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+   'http://<host>:<port>/api/virtshell/v1/instances/orders_colombia'
 ```
 
 Response:
