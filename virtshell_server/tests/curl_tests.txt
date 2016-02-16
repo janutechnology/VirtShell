@@ -88,3 +88,9 @@ curl -X DELETE http://127.0.0.1:80/enviroments/bigdata_test_01  | jq .
 curl -X PUT http://127.0.0.1:80/enviroments/bigdata_test_01 -d "{\"users\":[{\"login\":\"backend_user\"}]}" -H "accept:application/json" | jq .
 
 ############################################################################################
+
+# Get Partitions
+curl -s http://localhost:80/partitions/developtment | jq .
+curl -s http://localhost:80/partitions/ | jq .
+
+############################################################################################
