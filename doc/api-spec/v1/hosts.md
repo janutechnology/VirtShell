@@ -34,6 +34,7 @@ Resource representations
   "instances": [
     ... instances resource is here
   ],
+  "partition": "development_co",
   "created":["at":"timestamp", "by":user_id]
 }
 ```
@@ -58,7 +59,8 @@ curl -sv -X POST \
   		 "local_ipv4": "15.54.88.19",
   	     "local_ipv6": "ff06:0:0:0:0:0:0:c3",
   		 "public_ipv4": "10.54.88.19",
-  		 "public_ipv6": "yt06:0:0:0:0:0:0:c3"}' \
+  		 "public_ipv6": "yt06:0:0:0:0:0:0:c3",
+  		 "partition": "development_co"}' \
    'http://localhost:8080/api/virtshell/v1/hosts'
 ```
 
@@ -110,6 +112,7 @@ Content-Type: application/json
 			"id": "17173587-C4E9-4369-9C43-FCBF5E075973"
 		}
   ],
+  "partition": "development_co",
   "created":["at":"20130625105211", "by":10]
 }
 ```
@@ -155,6 +158,7 @@ Content-Type: application/json
 					"id": "17173587-C4E9-4369-9C43-FCBF5E075973"
 				}
 			],
+			"partition": "development_co",
 			"created":["at":"20130625105211", "by":10]
 		},
 		{
@@ -179,6 +183,7 @@ Content-Type: application/json
 					"id": "17173587-C4E9-4369-9C43-FCBF5E075973"
 				},		
 			],
+			"partition": "development_mx",
 			"created":["at":"20130625105211", "by":10]
 		}
 	]

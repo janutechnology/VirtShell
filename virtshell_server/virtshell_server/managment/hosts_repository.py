@@ -12,11 +12,11 @@ class HostsRepository(object):
     def get_all_hosts(self):
         return self.storage_db.get()
 
-    def get_host(self, uuid):
-        return self.storage_db.get(uuid)
+    def get_host(self, name):
+        return self.storage_db.get("name", name)
 
-    def update_host(self, uuid, host):
-        return self.storage_db.update(uuid, host)
+    def update_host(self, name, host):
+        return self.storage_db.update("name", name, host)
 
-    def delete_host(self, uuid):
-        return self.storage_db.delete(uuid)
+    def delete_host(self, name):
+        return self.storage_db.delete("name", name)       
