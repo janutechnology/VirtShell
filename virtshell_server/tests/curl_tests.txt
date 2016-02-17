@@ -94,9 +94,9 @@ curl -s http://localhost:80/partitions/developtment_co | jq .
 curl -s http://localhost:80/partitions/ | jq .
 
 # Create a Partition
-curl -X POST http://127.0.0.1:80/partitions/ -d "{\"name\":\"developtment_co\",\"description\":\"Collection of servers oriented to development team in Colombia.\"}" -H "accept:application/json" | jq .
+curl -X POST http://127.0.0.1:80/partitions/ -d "{\"name\":\"developtment_mx\",\"description\":\"Collection of servers oriented to development team in Colombia.\"}" -H "accept:application/json" | jq .
 
-curl -X POST http://127.0.0.1:80/partitions/ -d "{\"name\":\"developtment_mx\",\"description\":\"Collection of servers oriented to development team in Mexico.\"}" -H "accept:application/json" | jq .
+curl -X POST http://127.0.0.1:80/partitions/ -d "{\"name\":\"developtment_pe\",\"description\":\"Collection of servers oriented to development team in Mexico.\"}" -H "accept:application/json" | jq .
 
 # Update an Partition
 curl -X PUT http://127.0.0.1:80/partitions/developtment_mx -d "{\"description\":\"Collection of servers oriented to development team in Mexico DF.\"}" -H "accept:application/json" | jq .
