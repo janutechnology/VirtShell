@@ -37,7 +37,7 @@ class PartitionsHandler(tornado.web.RequestHandler):
             partition = tornado.escape.json_decode(self.request.body)
             result = self.partitions.update_partition(name, partition)
             if result['status'] == 'ok':
-                response = {"update": "success", "name": name}
+                response = {"update": "success"}
             else:
                 response = {"update": "error", "reason": result['reason']}
         else:
@@ -48,7 +48,7 @@ class PartitionsHandler(tornado.web.RequestHandler):
         if name:
             result = self.partitions.delete_partition(name)
             if result['status'] == 'ok':
-                response = {"delete": "success", "name": name}
+                response = {"delete": "success"}
             else:
                 response = {"delete": "error", "reason": result['reason']}
         else:

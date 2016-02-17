@@ -84,9 +84,6 @@ curl -X POST http://127.0.0.1:80/enviroments/ -d "{\"name\":\"bigdata_test_01\",
 # Delete an Instance
 curl -X DELETE http://127.0.0.1:80/enviroments/bigdata_test_01  | jq .
 
-# Update an Instance
-curl -X PUT http://127.0.0.1:80/enviroments/bigdata_test_01 -d "{\"users\":[{\"login\":\"backend_user\"}]}" -H "accept:application/json" | jq .
-
 ############################################################################################
 
 # Get Partitions
