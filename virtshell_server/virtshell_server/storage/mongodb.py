@@ -16,7 +16,7 @@ class MongoDB(object):
  
     def get(self, key=None, value=None):
         try:
-            if key_name is None and value is None:
+            if key is None and value is None:
                 documents = []
                 for document in self.collection.find():
                     del document['_id']
@@ -36,7 +36,7 @@ class MongoDB(object):
         try:
             if document is not None:
                 document_id = self.collection.insert_one(document).inserted_id
-                return {"status": "ok", "uuid": document['uuid']}  
+                return {"status": "ok"}
             else:
                 return {"status": "error", "reason": "document is None"}
         except Exception as e:

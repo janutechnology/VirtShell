@@ -27,7 +27,7 @@ class PartitionsHandler(tornado.web.RequestHandler):
         partition = tornado.escape.json_decode(self.request.body)
         result = self.partitions.create_partition(partition)
         if result['status'] == 'ok':
-            response = {"create": "success", "uuid": result['uuid']}
+            response = {"create": "success"}
         else:
             response = {"create": "error", "reason": result['reason']}
         return self.write(json.dumps(response))
