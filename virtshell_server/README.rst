@@ -14,3 +14,8 @@ https://github.com/tornadoweb/tornado
 https://blog.openshift.com/day-25-tornado-combining-tornado-mongodb-and-angularjs-to-build-an-app/
 https://github.com/paulocheque/python-rest-handler
 https://github.com/shekhargulati/day25-tornado-demo-app
+
+
+Configuring docker in server host
+=================================
+/etc/default/docker
