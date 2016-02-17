@@ -27,16 +27,16 @@ class EnviromentsHandler(tornado.web.RequestHandler):
         enviroment = tornado.escape.json_decode(self.request.body)
         result = self.enviroments.create_enviroment(enviroment)
         if result['status'] == 'ok':
-            response = {"create": "success", "name": result['name']}
+            response = {"create": "success"}
         else:
             response = {"create": "error", "reason": result['reason']}
         return self.write(json.dumps(response))
 
     def delete(self, name=None):
-        if uuid:
+        if name:
             result = self.enviroments.delete_enviroment(name)
             if result['status'] == 'ok':
-                response = {"delete": "success", "name": name}
+                response = {"delete": "success"}
             else:
                 response = {"delete": "error", "reason": result['reason']}
         else:
