@@ -20,3 +20,11 @@ class PartitionsRepository(object):
 
     def delete_partition(self, name):
         return self.storage_db.delete("name", name)
+
+    def add_host(self, name, host):
+        result = self.get_partition(name)
+        hosts_list = []
+        if 'hosts' in result['document']:
+            hosts_list = result['document']['hosts']
+        hosts_list.append(host)
+        return self.storage_db.update("name", name, {'hosts': hosts_list})

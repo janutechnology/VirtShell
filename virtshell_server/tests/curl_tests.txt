@@ -11,7 +11,6 @@ curl -X DELETE http://127.0.0.1:80/hosts/host-05-pdn  | jq .
 # Update a host
 curl -X PUT http://127.0.0.1:80/hosts/host-05-pdn -d "{\"os\": \"Ubuntu_18.04_3.5.0-23.x86_64\", \"memory\": \"16GB\"}" -H "accept:application/json" | jq .
 
-
 ############################################################################################
 
 # Get users
@@ -91,7 +90,7 @@ curl -s http://localhost:80/partitions/developtment_co | jq .
 curl -s http://localhost:80/partitions/ | jq .
 
 # Create a Partition
-curl -X POST http://127.0.0.1:80/partitions/ -d "{\"name\":\"developtment_mx\",\"description\":\"Collection of servers oriented to development team in Colombia.\"}" -H "accept:application/json" | jq .
+curl -X POST http://127.0.0.1:80/partitions/ -d "{\"name\":\"developtment_co\",\"description\":\"Collection of servers oriented to development team in Colombia.\"}" -H "accept:application/json" | jq .
 
 curl -X POST http://127.0.0.1:80/partitions/ -d "{\"name\":\"developtment_pe\",\"description\":\"Collection of servers oriented to development team in Mexico.\"}" -H "accept:application/json" | jq .
 
@@ -100,4 +99,7 @@ curl -X PUT http://127.0.0.1:80/partitions/developtment_mx -d "{\"description\":
 
 # Delete an Partition
 curl -X DELETE http://127.0.0.1:80/partitions/developtment_mx  | jq .
+
+# Add a host
+curl -sv -X PUT http://127.0.0.1:80/partition/developtment_co/host/host-06-pdn | jq .
 ############################################################################################
