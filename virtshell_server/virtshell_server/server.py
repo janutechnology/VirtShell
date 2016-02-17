@@ -9,6 +9,7 @@ from security.groups_api import GroupsResources
 from provisioning.provisioners_api import ProvisionersResources
 from managment.instances_api import InstancesResources
 from managment.partitions_api import PartitionsResources
+from managment.partitions_api import PartitionsHostResources
 from managment.enviroments_api import EnviromentsResources
 
 def main(debug = True, port = CONFIG.PORT):
@@ -20,7 +21,8 @@ def main(debug = True, port = CONFIG.PORT):
                                                ProvisionersResources,
                                                InstancesResources,
                                                EnviromentsResources,
-                                               PartitionsResources], 
+                                               PartitionsResources,
+                                               PartitionsHostResources], 
                                               debug = debug, 
                                               autoreload = debug)
         application.listen(port)

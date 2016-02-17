@@ -20,3 +20,6 @@ class Partitions(object):
 
     def update_partition(self, name, partition):
         return self.partitions_repository.update_partition(name, partition)
+
+    def add_host(self, name, host):
+        return self.partitions_repository.add_host(name, host)        
