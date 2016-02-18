@@ -8,9 +8,9 @@ Represents individual provisioner on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| create | POST | /provisioners/ | Inserts a new provisioner in the system. |
+| create | POST | /provisioners/ | Creates a new provisioner in the system. |
 | list | GET | /provisioners | Retrieves the list of provisioners. |
-| get | GET | /provisioners/:name | Gets one provisioner by ID. |
+| get | GET | /provisioners/:name | Gets one provisioner by name. |
 | delete | DELETE | /provisioners/:name | Deletes an existing provisioner. |
 | update | PUT | /provisioners/:name | Updates an existing provisioner. |
 
@@ -25,12 +25,10 @@ Resource representation
   "name": "backend-services-provisioner",
   "description": "Installs/Configures a backend server",
   "version": "1.5.8",
-  "builder": "https://<host>:<port>/api/virtshell/v1/files/folder_name/director-backend.sh",
-  "how_to_run": "java|python|sh|...",
+  "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
+  "executor": "run1.sh",
   "tag": "backend",
   "depends": [ ... list of dependencies necessary for the builder ... ],
-  "files": [ ... list of files necessary for the builder ... ],
-  "templates": [ ... list of templates necessary for the builder ...],
   "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
   "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
 }
@@ -48,21 +46,13 @@ curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{"name": "backend-services-provisioner",
-       "builder": "https://<host>:<port>/api/virtshell/v1/files/builders/director-backend.sh",
-       "how_to_run": "sh",
+       "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
+       "executor": "run1.sh",
        "tag": "backend",
        "depends": [
             {"provisioner_name": "db-users", "version": "2.0.0"},
             {"provisioner_name": "db-transactional"}
-        ],
-       "files": [
-            {"path": "https://<host>:<port>/api/virtshell/v1/files/queues/queue_mail_transform.py}
-        ],
-      "templates": [
-            {"path": "https://<host>:<port>/api/virtshell/v1/files/queues/queue_mail_config.xml}
-        ],        
-       "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
-       "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
+        ]
       }' \
    'http://localhost:8080/api/virtshell/v1/provisioners'
 ```
@@ -95,36 +85,24 @@ Content-Type: application/json
 ```json
 {
   "provisioners": [
-    { 
-      "uuid": "420a9fae-8d96-11e5-8994-feff819cdc9f",
+    {
       "name": "backend-services-provisioner",
-      "builder": "https://<host>:<port>/api/virtshell/v1/files/builders/director-backend.sh",
-      "how_to_run": "sh",
+      "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
+      "executor": "run1.sh",
       "tag": "backend",
       "depends": [
           {"provisioner_name": "db-users", "version": "2.0.0"},
           {"provisioner_name": "db-transactional"}
-      ],
-      "files": [
-          {"path": "https://<host>:<port>/api/virtshell/v1/files/queues/queue_mail_transform.py}
-      ],
-      "templates": [
-          {"path": "https://<host>:<port>/api/virtshell/v1/files/queues/queue_mail_config.xml}
-      ],        
-      "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
-      "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
+      ]
     },
-    { 
-      "uuid": "420a9fae-8d96-11e5-8994-feff819cdc9f",
+    {
       "name": "db-transactional",
-      "builder": "https://<host>:<port>/api/virtshell/v1/files/databases/director-dbt.sh",
-      "how_to_run": "sh",
-      "tag": "dbt",        
-      "created": {"at":"1429207233", "by":"420aa2c4-8d96-11e5-8994-feff819cdc9f"},
-      "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
-    }    
+      "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
+      "executor": "run_db.sh",
+      "tag": "db"
+    }
   ]
-}   
+}
 ```
 
 `GET /api/virtshell/v1/provisioners/:name
@@ -144,14 +122,17 @@ Response:
 HTTP/1.1 200 OK
 Content-Type: application/json
 ```json
-  { 
-    "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
-    "name": "db-transactional",
-    "builder": "https://<host>:<port>/api/virtshell/v1/files/databases/director-dbt.sh",
-    "how_to_run": "sh",
-    "tag": "dbt",        
+  {
+    "name": "backend-services-provisioner",
+    "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
+    "executor": "run1.sh",
+    "tag": "backend",
+    "depends": [
+        {"provisioner_name": "db-users", "version": "2.0.0"},
+        {"provisioner_name": "db-transactional"}
+    ],
     "created": {"at":"1429207233", "by":"420aa2c4-8d96-11e5-8994-feff819cdc9f"},
-    "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
+    "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}    
   }
 ```
 
@@ -164,10 +145,7 @@ Update an existing provisioner.
 curl -sv -X PUT \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{ "files": [
-          {"path": "https://<host>:<port>/api/virtshell/v1/files/mysql/my.cnf}
-      ]
-  }' \
+  -d '{ "executor": "run_backend.sh" }' \
    'http://localhost:8080/api/virtshell/v1/provisioners/backend-services-provisioner
 ```
 
