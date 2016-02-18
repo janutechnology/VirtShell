@@ -18,4 +18,4 @@ https://github.com/shekhargulati/day25-tornado-demo-app
 
 Configuring docker in server host
 =================================
-/etc/default/docker
+In /etc/default/docker set DOCKER_OPTS="-H tcp://127.0.0.1:2376 -H unix:///var/run/docker.sock --dns 8.8.8.8 --dns 8.8.4.4"
