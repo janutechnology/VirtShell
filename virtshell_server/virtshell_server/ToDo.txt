@@ -1,0 +1,14 @@
+To-Do List
+==========
++ managment
+	- enviroments [ok]
+	- hosts [ok]
+	- partitions [ok]
+	- instances
+	- properties
+	- tasks
++ provisionig
+	- provisioners
++ security
+	- groups
+	- users
