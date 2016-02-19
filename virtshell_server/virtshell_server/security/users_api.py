@@ -7,9 +7,9 @@ class UsersHandler(tornado.web.RequestHandler):
     def initialize(self):
         self.users = Users()
 
-    def get(self, uuid=None):
-        if uuid:
-            result = self.users.get_user(uuid)
+    def get(self, name=None):
+        if name:
+            result = self.users.get_user(name)
             if result['status'] == 'ok':
                 response = result['document']
             else:
@@ -23,36 +23,36 @@ class UsersHandler(tornado.web.RequestHandler):
                 response = {'error': result['reason']}
         return self.write(json.dumps(response))
 
-    def post(self, uuid=None):
+    def post(self, name=None):
         user = tornado.escape.json_decode(self.request.body)
         result = self.users.create_user(user)
         if result['status'] == 'ok':
-            response = {"create": "success", "uuid": result['uuid']}
+            response = {"create": "success"}
         else:
             response = {"create": "error", "reason": result['reason']}
         return self.write(json.dumps(response))
 
-    def put(self, uuid=None):
-        if uuid:
+    def put(self, name=None):
+        if name:
             user = tornado.escape.json_decode(self.request.body)
-            result = self.users.update_user(uuid, user)
+            result = self.users.update_user(name, user)
             if result['status'] == 'ok':
-                response = {"update": "success", "uuid": uuid}
+                response = {"update": "success"}
             else:
                 response = {"update": "error", "reason": result['reason']}
         else:
-            response = {"update": "error", "reason": "missing uuid parameter"}
+            response = {"update": "error", "reason": "missing name parameter"}
         return self.write(json.dumps(response))
 
-    def delete(self, uuid=None):
-        if uuid:
-            result = self.users.delete_user(uuid)
+    def delete(self, name=None):
+        if name:
+            result = self.users.delete_user(name)
             if result['status'] == 'ok':
-                response = {"delete": "success", "uuid": uuid}
+                response = {"delete": "success"}
             else:
                 response = {"delete": "error", "reason": result['reason']}
         else:
-            response = {"delete": "error", "reason": "missing uuid parameter"}
+            response = {"delete": "error", "reason": "missing name parameter"}
         return self.write(json.dumps(response))
 
 UsersResources = (r'/users/(.*)', UsersHandler)

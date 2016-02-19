@@ -12,11 +12,11 @@ class UsersRepository(object):
     def get_all_users(self):
         return self.storage_db.get()
 
-    def get_user(self, uuid):
-        return self.storage_db.get(uuid)
+    def get_user(self, name):
+        return self.storage_db.get("username", name)
 
-    def update_user(self, uuid, user):
-        return self.storage_db.update(uuid, user)
+    def update_user(self, name, user):
+        return self.storage_db.update("username", name, user)
 
-    def delete_user(self, uuid):
-        return self.storage_db.delete(uuid)
+    def delete_user(self, name):
+        return self.storage_db.delete("username", name)
