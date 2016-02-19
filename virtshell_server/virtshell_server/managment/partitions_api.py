@@ -10,7 +10,6 @@ class PartitionsHostHandler(tornado.web.RequestHandler):
     def put(self, name=None, host=False):
         print("name:", name, "host:", host)
         if name and host:
-            print("..................1")
             result = self.partitions.add_host(name, host)
             if result['status'] == 'ok':
                 response = {"add_host": "success"}
