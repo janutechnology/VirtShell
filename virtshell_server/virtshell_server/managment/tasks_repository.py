@@ -14,3 +14,9 @@ class TasksRepository(object):
 
     def get_tasks_by_status(self, status_name):
         return self.storage_db.get_all_tasks_by_status(status_name)
+
+    def create_task(self, task):
+        return self.storage_db.create(task)
+
+    def update_task(self, uuid, task):
+        return self.storage_db.update("uuid", uuid, task)         

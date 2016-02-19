@@ -23,4 +23,26 @@ class TasksHandler(tornado.web.RequestHandler):
             response = {'error': result['reason']}
         return self.write(json.dumps(response))
 
+    def post(self, uuid=None, status=False, status_name=None):
+        task = tornado.escape.json_decode(self.request.body)
+        result = self.tasks.create_task(task)
+        if result['status'] == 'ok':
+            response = {"create": "success"}
+        else:
+            response = {"create": "error", "reason": result['reason']}
+        return self.write(json.dumps(response))
+
+    def put(self, uuid=None, status=False, status_name=None):
+        if uuid:
+            task = tornado.escape.json_decode(self.request.body)
+            result = self.tasks.update_task(uuid, task)
+            if result['status'] == 'ok':
+                response = {"update": "success"}
+            else:
+                response = {"update": "error", "reason": result['reason']}
+        else:
+            response = {"update": "error", "reason": "missing uuid parameter"}
+        return self.write(json.dumps(response))
+
+
 TasksResources = (r'/tasks/(.*)/status/(.*)', TasksHandler)
