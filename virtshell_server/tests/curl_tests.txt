@@ -29,17 +29,17 @@ curl -X PUT http://127.0.0.1:80/users/d31b2674-f24f-4458-b97f-b6198d2229fb -d "{
 ############################################################################################
 
 # Get groups
-curl -s http://localhost:80/groups/23fd8541-6fb6-4071-b254-bf447a018025 | jq .
+curl -s http://localhost:80/groups/web_development_team | jq .
 curl -s http://localhost:80/groups/ | jq .
 
 # Create a group
-curl -X POST http://127.0.0.1:80/groups/ -d "{\"username\": \"virtshell\", \"type\": \"administrator\", \"login\": \"user@mail.com\", \"groups\": [{\"uuid\": \"a146cae4-8c90-11e5-8994-feff819cdc9f\"}, {\"uuid\": \"a146d00c-8c90-11e5-8994-feff819cdc9f\"}]}" -H "accept:application/json" | jq .
+curl -X POST http://127.0.0.1:80/groups/ -d "{\"name\": \"web_development_team\", \"users\": [{\"user\": \"virtshell\"}, {\"user\": \"demouser\"}]}" -H "accept:application/json" | jq .
 
 # Delete a group
-curl -X DELETE http://127.0.0.1:80/groups/6ce73603-787a-4bc5-96da-fddcc51c3dd0  | jq .
+curl -X DELETE http://127.0.0.1:80/groups/web_development_team  | jq .
 
 # Update a group
-curl -X PUT http://127.0.0.1:80/groups/6ce73603-787a-4bc5-96da-fddcc51c3dd0 -d "{\"login\": \"user@gmail.com\"}" -H "accept:application/json" | jq .
+curl -X PUT http://127.0.0.1:80/groups/web_development_team -d "{\"users\": [{\"user\": \"virtshell\"}]}" -H "accept:application/json" | jq .
 
 ############################################################################################
 
