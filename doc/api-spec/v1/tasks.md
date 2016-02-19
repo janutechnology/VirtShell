@@ -10,6 +10,8 @@ Represents an individual task on VirtShell.
 | get | GET | /tasks/ | Gets all tasks. |
 | get | GET | /tasks/:id | Gets one task by ID. |
 | get | GET | /tasks/status/:status | Gets all task by status name. |
+| create | POST | /tasks/ | Creates a new task. | 
+| update | PUT | /tasks/:id | Updates an existing task. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -22,7 +24,8 @@ Resource representation
   "description": "clone virtual machine database_01",
   "status" : "pending|in progress|sucess|failed",
   "created":["at":"timestamp", "by":user_id],
-  "last_update": "timestamp"
+  "last_update": "timestamp",
+  "log": "summary of the task"
 }
 ```
 
@@ -54,14 +57,16 @@ Content-Type: application/json
       "description": "clone virtual machine database_01",
       "status" : "in progress",
       "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
-      "last_update": "1429207435"
+      "last_update": "1429207435",
+      "log": "summary of the task"
     },
     {
       "uuid": "a62ad146-ccf4-11e5-9956-625662870761",
       "description": "create container webserver_09",
       "status" : "sucess",
       "created": {"at":"1454433171", "by":"cc7f8e2c-ccf4-11e5-9956-625662870761"},
-      "last_update": "1454436771"
+      "last_update": "1454436771",
+      "log": "summary of the task"
     }
   ]
 }  
@@ -90,7 +95,8 @@ Content-Type: application/json
   "description": "clone virtual machine database_01",
   "status" : "in progress",
   "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
-  "last_update": "1429207435"
+  "last_update": "1429207435",
+  "log": "summary of the task"
 }
 ```
 
@@ -120,8 +126,57 @@ Content-Type: application/json
       "description": "create container webserver_09",
       "status" : "sucess",
       "created": {"at":"1454433171", "by":"cc7f8e2c-ccf4-11e5-9956-625662870761"},
-      "last_update": "1454436771"
+      "last_update": "1454436771",
+      "log": "summary of the task"
     }
   ]
 }  
+```
+
+###Examples###
+
+`POST /api/virtshell/v1/tasks`
+--------------------------------------------
+
+Create a new task.
+
+```sh
+curl -sv -X POST \
+  -H 'accept: application/json' \
+    -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{ "description": "clone virtual machine database_01",
+        "status" : "in progress"}' \
+   'http://localhost:8080/api/virtshell/v1/tasks'
+```
+
+Response:
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```json
+{ "create": "success"}
+```
+
+`PUT /api/virtshell/v1/tasks/:id`
+----------------------------------------------
+
+Update an existing host.
+
+```sh
+curl -sv -X PUT \
+  -H 'accept: application/json' \
+    -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{"status": "sucess",
+     "log": "....."}' \
+   'http://localhost:8080/api/virtshell/v1/hosts/a62ad146-ccf4-11e5-9956-625662870761'
+```
+
+Response:
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```json
+{ "update": "success" }
 ```
