@@ -12,11 +12,11 @@ class GroupsRepository(object):
     def get_all_groups(self):
         return self.storage_db.get()
 
-    def get_group(self, uuid):
-        return self.storage_db.get(uuid)
+    def get_group(self, name):
+        return self.storage_db.get("name", name)
 
-    def update_group(self, uuid, group):
-        return self.storage_db.update(uuid, group)
+    def update_group(self, name, group):
+        return self.storage_db.update("name", name, group)
 
-    def delete_group(self, uuid):
-        return self.storage_db.delete(uuid)
+    def delete_group(self, name):
+        return self.storage_db.delete("name", name)        
