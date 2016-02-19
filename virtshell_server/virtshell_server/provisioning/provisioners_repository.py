@@ -12,11 +12,11 @@ class ProvisionersRepository(object):
     def get_all_provisioners(self):
         return self.storage_db.get()
 
-    def get_provisioner(self, uuid):
-        return self.storage_db.get(uuid)
+    def get_provisioner(self, name):
+        return self.storage_db.get("name", name)
 
-    def update_provisioner(self, uuid, provisioner):
-        return self.storage_db.update(uuid, provisioner)
+    def update_provisioner(self, name, provisioner):
+        return self.storage_db.update("name", name, provisioner)
 
-    def delete_provisioner(self, uuid):
-        return self.storage_db.delete(uuid)
+    def delete_provisioner(self, name):
+        return self.storage_db.delete("name", name)

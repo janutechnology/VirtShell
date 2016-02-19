@@ -44,17 +44,17 @@ curl -X PUT http://127.0.0.1:80/groups/6ce73603-787a-4bc5-96da-fddcc51c3dd0 -d "
 ############################################################################################
 
 # Get provisioners
-curl -s http://localhost:80/provisioners/c2860246-3904-4553-8563-c33ed583386f | jq .
+curl -s http://localhost:80/provisioners/backend-services-provisioner | jq .
 curl -s http://localhost:80/provisioners/ | jq .
 
 # Create a provisioner
-curl -X POST http://127.0.0.1:80/provisioners/ -d "{\"username\": \"virtshell\", \"type\": \"administrator\", \"login\": \"user@mail.com\", \"groups\": [{\"uuid\": \"a146cae4-8c90-11e5-8994-feff819cdc9f\"}, {\"uuid\": \"a146d00c-8c90-11e5-8994-feff819cdc9f\"}]}" -H "accept:application/json" | jq .
+curl -X POST http://127.0.0.1:80/provisioners/ -d "{\"name\": \"backend-services-provisioner\", \"description\": \"Installs-Configures a backend server\", \"version\": \"1.5.8\", \"repository\": \"https://github.com/janutechnology/VirtShell_Provisioners_Examples.git\", \"executor\": \"run1.sh\", \"tag\": \"backend\", \"depends\": []}" -H "accept:application/json" | jq .
 
-# Delete a group
-curl -X DELETE http://127.0.0.1:80/provisioners/c2860246-3904-4553-8563-c33ed583386f  | jq .
+# Delete a provisioner
+curl -X DELETE http://127.0.0.1:80/provisioners/backend-services-provisioner  | jq .
 
-# Update a group
-curl -X PUT http://127.0.0.1:80/provisioners/c2860246-3904-4553-8563-c33ed583386f -d "{\"login\": \"user@gmail.com\"}" -H "accept:application/json" | jq .
+# Update a provisioner
+curl -X PUT http://127.0.0.1:80/provisioners/backend-services-provisioner -d "{\"depends\": [\"database_co\"]}" -H "accept:application/json" | jq .
 
 ############################################################################################
 
