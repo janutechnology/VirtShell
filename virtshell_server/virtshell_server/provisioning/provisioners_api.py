@@ -7,9 +7,9 @@ class ProvisionersHandler(tornado.web.RequestHandler):
     def initialize(self):
         self.provisioners = Provisioners()
 
-    def get(self, uuid=None):
-        if uuid:
-            result = self.provisioners.get_provisioner(uuid)
+    def get(self, name=None):
+        if name:
+            result = self.provisioners.get_provisioner(name)
             if result['status'] == 'ok':
                 response = result['document']
             else:
@@ -23,36 +23,36 @@ class ProvisionersHandler(tornado.web.RequestHandler):
                 response = {'error': result['reason']}
         return self.write(json.dumps(response))
 
-    def post(self, uuid=None):
+    def post(self, name=None):
         provisioner = tornado.escape.json_decode(self.request.body)
         result = self.provisioners.create_provisioner(provisioner)
         if result['status'] == 'ok':
-            response = {"create": "success", "uuid": result['uuid']}
+            response = {"create": "success"}
         else:
             response = {"create": "error", "reason": result['reason']}
         return self.write(json.dumps(response))
 
-    def put(self, uuid=None):
-        if uuid:
+    def put(self, name=None):
+        if name:
             provisioner = tornado.escape.json_decode(self.request.body)
-            result = self.provisioners.update_provisioner(uuid, provisioner)
+            result = self.provisioners.update_provisioner(name, provisioner)
             if result['status'] == 'ok':
-                response = {"update": "success", "uuid": uuid}
+                response = {"update": "success"}
             else:
                 response = {"update": "error", "reason": result['reason']}
         else:
-            response = {"update": "error", "reason": "missing uuid parameter"}
+            response = {"update": "error", "reason": "missing name parameter"}
         return self.write(json.dumps(response))
 
-    def delete(self, uuid=None):
-        if uuid:
-            result = self.provisioners.delete_provisioner(uuid)
+    def delete(self, name=None):
+        if name:
+            result = self.provisioners.delete_provisioner(name)
             if result['status'] == 'ok':
-                response = {"delete": "success", "uuid": uuid}
+                response = {"delete": "success"}
             else:
                 response = {"delete": "error", "reason": result['reason']}
         else:
-            response = {"delete": "error", "reason": "missing uuid parameter"}
+            response = {"delete": "error", "reason": "missing name parameter"}
         return self.write(json.dumps(response))
 
 ProvisionersResources = (r'/provisioners/(.*)', ProvisionersHandler)
