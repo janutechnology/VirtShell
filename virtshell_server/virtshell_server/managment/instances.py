@@ -8,15 +8,15 @@ class Instances(object):
     def get_all_instances(self):
         return self.instances_repository.get_all_instances()
 
-    def get_instance(self, uuid):
-        return self.instances_repository.get_instance(uuid)
+    def get_instance(self, name):
+        return self.instances_repository.get_instance(name)
 
     def create_instance(self, instance):
         instance['uuid'] = str(uuid.uuid4())
         return self.instances_repository.create_instance(instance)
 
-    def delete_instance(self, uuid):
-        return self.instances_repository.delete_instance(uuid)
+    def delete_instance(self, name):
+        return self.instances_repository.delete_instance(name)
 
-    def update_instance(self, uuid, instance):
-        return self.instances_repository.update_instance(uuid, instance)
+    def update_instance(self, name, instance):
+        return self.instances_repository.update_instance(name, instance)

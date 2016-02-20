@@ -12,11 +12,11 @@ class InstancesRepository(object):
     def get_all_instances(self):
         return self.storage_db.get()
 
-    def get_instance(self, uuid):
-        return self.storage_db.get(uuid)
+    def get_instance(self, name):
+        return self.storage_db.get(name)
 
-    def update_instance(self, uuid, instances):
-        return self.storage_db.update(uuid, instances)
+    def update_instance(self, name, instances):
+        return self.storage_db.update(name, instances)
 
-    def delete_instance(self, uuid):
-        return self.storage_db.delete(uuid)
+    def delete_instance(self, name):
+        return self.storage_db.delete(name)
