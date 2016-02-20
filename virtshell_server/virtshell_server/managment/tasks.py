@@ -16,7 +16,12 @@ class Tasks(object):
 
     def create_task(self, task):
         task['uuid'] = str(uuid.uuid4())
-        return self.tasks_repository.create_task(task)
+        result = self.tasks_repository.create_task(task)
+        result['uuid'] = task['uuid']
+        return result
 
     def update_task(self, uuid, task):
-        return self.tasks_repository.update_task(uuid, task)         
+        return self.tasks_repository.update_task(uuid, task)
+
+    def delete_task(self, name):
+        return self.tasks_repository.delete_task(name)
