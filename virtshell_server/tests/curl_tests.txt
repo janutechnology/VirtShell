@@ -66,7 +66,7 @@ curl -s http://localhost:80/instances/ | jq .
 curl -X POST http://127.0.0.1:80/instances/ -d "{\"name\": \"transactional_log\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"bigdata_test_01\", \"operating_system\": \"ubuntu_server_14.04.2_amd64\", \"provisioner\": \"all_backend\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
 
 # Delete an Instance
-curl -X DELETE http://127.0.0.1:80/instances/9420b244-71e5-44ef-80a9-efe6d8aca5e7  | jq .
+curl -X DELETE http://127.0.0.1:80/instances/transactional_log  | jq .
 
 # Update an Instance
 curl -X PUT http://127.0.0.1:80/instances/transactional_log -d "{\"ipv4\": \"172.17.0.2\"}" -H "accept:application/json" | jq .
@@ -131,3 +131,6 @@ curl -X POST http://127.0.0.1:80/tasks/ -d "{\"description\": \"clone virtual ma
 
 # Update a task
 curl -X PUT http://127.0.0.1:80/tasks/11ef00f7-d923-47f3-9d62-1a38caf33e62 -d "{\"log\": \"Feb 20 10:40:33 Janu dhclient: DHCPREQUEST of 192.168.0.14 on wlan0 to 192.168.0.1 port 67 Feb 20 10:40:33 Janu dhclient: DHCPACK of 192.168.0.14 from 192.168.0.1 Feb 20 10:40:33 Janu dhclient: bound to 192.168.0.14 -- renewal in 1525 seconds.\"}" -H "accept:application/json" | jq .
+
+# Delete a task
+curl -X DELETE http://127.0.0.1:80/tasks/11ef00f7-d923-47f3-9d62-1a38caf33e62  | jq .

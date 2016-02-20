@@ -43,7 +43,7 @@ class TasksHandler(tornado.web.RequestHandler):
         task = tornado.escape.json_decode(self.request.body)
         result = self.tasks.create_task(task)
         if result['status'] == 'ok':
-            response = {"create": "success"}
+            response = {"create": "success", "task_id": result['uuid']}
         else:
             response = {"create": "error", "reason": result['reason']}
         return self.write(json.dumps(response))
@@ -59,6 +59,17 @@ class TasksHandler(tornado.web.RequestHandler):
         else:
             response = {"update": "error", "reason": "missing uuid parameter"}
         return self.write(json.dumps(response))
+
+    def delete(self, name=None):
+        if name:
+            result = self.tasks.delete_task(name)
+            if result['status'] == 'ok':
+                response = {"delete": "success"}
+            else:
+                response = {"delete": "error", "reason": result['reason']}
+        else:
+            response = {"delete": "error", "reason": "missing name parameter"}
+        return self.write(json.dumps(response))        
 
 StatusTasksResources = (r'/tasks/status/(.*)', StatusTasksHandler)
 TasksResources = (r'/tasks/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})*', TasksHandler)

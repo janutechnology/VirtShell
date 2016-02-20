@@ -19,4 +19,7 @@ class TasksRepository(object):
         return self.storage_db.create(task)
 
     def update_task(self, uuid, task):
-        return self.storage_db.update("uuid", uuid, task)         
+        return self.storage_db.update("uuid", uuid, task)
+
+    def delete_task(self, uuid):
+        return self.storage_db.delete("uuid", uuid)
