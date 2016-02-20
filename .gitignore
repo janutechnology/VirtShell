@@ -5,6 +5,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Enterprise Architect
+*.ldb
+
 # Distribution / packaging
 .Python
 env/

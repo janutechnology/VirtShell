@@ -1,0 +1,8 @@
+To-Do List
+==========
++ monitoring for pending tasks
+	+ get information each task
++ select correct host
++ dispatch request 
+	+ connect via web socket with agent
+	+ send request 
