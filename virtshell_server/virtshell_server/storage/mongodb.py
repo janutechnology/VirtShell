@@ -80,6 +80,6 @@ class MongoDB(object):
             for document in self.collection.find({'status':status_name}):
                 del document['_id']
                 documents.append(document)
-            return {"status": "ok", "tasks": documents}
+            return {"status": "ok", "documents": documents}
         except Exception as e:
             return {"status": "error", "reason": e}
