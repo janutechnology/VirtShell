@@ -11,6 +11,8 @@ from managment.instances_api import InstancesResources
 from managment.partitions_api import PartitionsResources
 from managment.partitions_api import PartitionsHostResources
 from managment.enviroments_api import EnviromentsResources
+from managment.tasks_api import TasksResources
+from managment.tasks_api import StatusTasksResources
 
 def main(debug = True, port = CONFIG.PORT):
     try:
@@ -22,7 +24,9 @@ def main(debug = True, port = CONFIG.PORT):
                                                InstancesResources,
                                                EnviromentsResources,
                                                PartitionsResources,
-                                               PartitionsHostResources], 
+                                               PartitionsHostResources,
+                                               TasksResources,
+                                               StatusTasksResources], 
                                               debug = debug, 
                                               autoreload = debug)
         application.listen(port)

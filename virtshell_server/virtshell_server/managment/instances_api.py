@@ -7,9 +7,9 @@ class InstancesHandler(tornado.web.RequestHandler):
     def initialize(self):
         self.instances = Instances()
 
-    def get(self, uuid=None):
-        if uuid:
-            result = self.instances.get_instance(uuid)
+    def get(self, name=None):
+        if name:
+            result = self.instances.get_instance(name)
             if result['status'] == 'ok':
                 response = result['document']
             else:
@@ -23,36 +23,36 @@ class InstancesHandler(tornado.web.RequestHandler):
                 response = {'error': result['reason']}
         return self.write(json.dumps(response))
 
-    def post(self, uuid=None):
+    def post(self, name=None):
         instance = tornado.escape.json_decode(self.request.body)
         result = self.instances.create_instance(instance)
         if result['status'] == 'ok':
             response = {"create": "success"}
         else:
-            response = {"create": "error", "reason": result['reason']}
+            response = {"create": "error"}
         return self.write(json.dumps(response))
 
-    def put(self, uuid=None):
-        if uuid:
+    def put(self, name=None):
+        if name:
             instance = tornado.escape.json_decode(self.request.body)
-            result = self.instances.update_instance(uuid, instance)
+            result = self.instances.update_instance(name, instance)
             if result['status'] == 'ok':
-                response = {"update": "success", "uuid": uuid}
+                response = {"update": "success"}
             else:
                 response = {"update": "error", "reason": result['reason']}
         else:
-            response = {"update": "error", "reason": "missing uuid parameter"}
+            response = {"update": "error", "reason": "missing name parameter"}
         return self.write(json.dumps(response))
 
-    def delete(self, uuid=None):
-        if uuid:
-            result = self.instances.delete_instance(uuid)
+    def delete(self, name=None):
+        if name:
+            result = self.instances.delete_instance(name)
             if result['status'] == 'ok':
-                response = {"delete": "success", "uuid": uuid}
+                response = {"delete": "success"}
             else:
                 response = {"delete": "error", "reason": result['reason']}
         else:
-            response = {"delete": "error", "reason": "missing uuid parameter"}
+            response = {"delete": "error", "reason": "missing name parameter"}
         return self.write(json.dumps(response))
 
 InstancesResources = (r'/instances/(.*)', InstancesHandler)
