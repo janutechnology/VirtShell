@@ -1,14 +1,14 @@
 To-Do List
 ==========
 + managment
-	- enviroments [ok]
-	- hosts [ok]
-	- partitions [ok]
-	- instances [partial - missing integration with tasks]
-	- properties
-	- tasks [ok]
+	- enviroments...[ok]
+	- hosts.........[ok]
+	- partitions....[ok]
+	- instances.....[ok]
+	- properties....[pending]
+	- tasks.........[ok]
 + provisionig
-	- provisioners [ok]
+	- provisioners..[ok]
 + security
-	- groups [ok]
-	- users [ok]
+	- groups........[ok]
+	- users.........[ok]
