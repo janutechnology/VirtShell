@@ -59,22 +59,17 @@ curl -X PUT http://127.0.0.1:80/provisioners/backend-services-provisioner -d "{\
 ############################################################################################
 
 # Get Instances
-curl -s http://localhost:80/instances/database_01 | jq .
+curl -s http://localhost:80/instances/transactional_log | jq .
 curl -s http://localhost:80/instances/ | jq .
 
 # Create an Instance
-curl -X POST http://127.0.0.1:80/instances/ -d "{\"name\": \"transactional_log\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"bigdata_test_01\", \"operating_system\": \"ubuntu_server_14.04.2_amd64\", \"provisioner\": \"all_backend\", \"host_type\": "GeneralPurpose | ComputeOptimized | MemoryOptimized | StorageOptimized",
-  "ipv4": "172.16.56.104",
-  "ipv6": "FE80:0000:0000:0000:0202:B3FF:FE1E:8329",
-  "driver": "lxc | virtualbox | vmware | ec2 | kvm | docker",
-  "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
-  "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}}" -H "accept:application/json" | jq .
+curl -X POST http://127.0.0.1:80/instances/ -d "{\"name\": \"transactional_log\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"bigdata_test_01\", \"operating_system\": \"ubuntu_server_14.04.2_amd64\", \"provisioner\": \"all_backend\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
 
 # Delete an Instance
 curl -X DELETE http://127.0.0.1:80/instances/9420b244-71e5-44ef-80a9-efe6d8aca5e7  | jq .
 
 # Update an Instance
-curl -X PUT http://127.0.0.1:80/instances/9420b244-71e5-44ef-80a9-efe6d8aca5e7 -d "{\"login\": \"user@gmail.com\"}" -H "accept:application/json" | jq .
+curl -X PUT http://127.0.0.1:80/instances/transactional_log -d "{\"ipv4\": \"172.17.0.2\"}" -H "accept:application/json" | jq .
 
 ############################################################################################
 
