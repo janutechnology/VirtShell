@@ -6,7 +6,7 @@ To-Do List
 	- partitions [ok]
 	- instances
 	- properties
-	- tasks
+	- tasks [ok]
 + provisionig
 	- provisioners [ok]
 + security
