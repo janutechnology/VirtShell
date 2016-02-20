@@ -4,7 +4,7 @@ To-Do List
 	- enviroments [ok]
 	- hosts [ok]
 	- partitions [ok]
-	- instances [partial - creating tests_curl - create a new instance]
+	- instances [partial - missing integration with tasks]
 	- properties
 	- tasks [ok]
 + provisionig

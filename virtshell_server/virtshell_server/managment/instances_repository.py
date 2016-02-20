@@ -13,10 +13,10 @@ class InstancesRepository(object):
         return self.storage_db.get()
 
     def get_instance(self, name):
-        return self.storage_db.get(name)
+        return self.storage_db.get("name", name)
 
     def update_instance(self, name, instances):
-        return self.storage_db.update(name, instances)
+        return self.storage_db.update("name", name, instances)
 
     def delete_instance(self, name):
-        return self.storage_db.delete(name)
+        return self.storage_db.delete("name", name)
