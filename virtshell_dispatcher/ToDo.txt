@@ -1,7 +1,9 @@
 To-Do List
 ==========
++ To do daemon code......................[ok]
 + monitoring for pending tasks
-	+ get information each task
+	+ get information each task..........[ok]
+	+ get information of the instance
 + select correct host
 + dispatch request 
 	+ connect via web socket with agent
