@@ -37,6 +37,8 @@ RUN apt-get install -y jq curl python3-pip
 RUN pip3 install tornado
 RUN pip3 install pymongo
 RUN pip3 install gitpython
+RUN pip3 install python-daemon
+RUN pip3 install lockfile
 
 ################################################################################
 # Install and configurate openssh-server
@@ -44,6 +46,8 @@ RUN pip3 install gitpython
 RUN apt-get install -y openssh-server
 
 RUN mkdir /var/run/sshd
+RUN mkdir /var/run/virtshell_dispatcher
+RUN chmod a+w /virtshell_dispatcher
 
 # Add user virtshell to the image
 RUN useradd -s /bin/bash -m virtshell
