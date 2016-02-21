@@ -29,6 +29,7 @@ class Instances(object):
         task = {}
         task['description'] = description
         task['status'] = "pending"
+        task['type'] = "create_instance"
         tasks = Tasks()
         result = tasks.create_task(task)
         if result['status'] == 'ok':

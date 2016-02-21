@@ -37,8 +37,7 @@ RUN apt-get install -y jq curl python3-pip
 RUN pip3 install tornado
 RUN pip3 install pymongo
 RUN pip3 install gitpython
-RUN pip3 install python-daemon
-RUN pip3 install lockfile
+RUN pip3 install requests
 
 ################################################################################
 # Install and configurate openssh-server

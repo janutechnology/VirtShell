@@ -2,8 +2,11 @@
  
 import sys
 import time
+import json
 import logging
+import requests
 from daemon import Daemon
+from config import VIRTSHELL_SERVER
 from logging.handlers import SysLogHandler
  
 class Dispatcher(Daemon):
@@ -13,7 +16,12 @@ class Dispatcher(Daemon):
 
     def run(self):
         while True:
-            self.logger.info("Info message")
+            self.logger.info("Get pending tasks from server...")
+            url = "%s/tasks/status/pending" % (VIRTSHELL_SERVER)
+            r = requests.get(url)
+            pending_tasks = json.loads(r.text)
+            for task in pending_tasks['tasks']:
+                self.logger.info(task['uuid'])
             time.sleep(10)
 
     def init_logger(self, LoggerName):
