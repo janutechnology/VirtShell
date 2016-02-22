@@ -1,15 +1,22 @@
+import re
 import json
 import tornado.web
 import tornado.ioloop
 from managment.instances import Instances
 
+UUID_REGULAR_EXPRESION = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+
 class InstancesHandler(tornado.web.RequestHandler):
     def initialize(self):
         self.instances = Instances()
 
-    def get(self, name=None):
-        if name:
-            result = self.instances.get_instance(name)
+    def get(self, parameter=None):
+        if parameter:
+            pattern = re.compile(UUID_REGULAR_EXPRESION)
+            if pattern.match(parameter):
+                result = self.instances.get_instance_by_uuid(parameter)
+            else:
+                result = self.instances.get_instance(parameter)
             if result['status'] == 'ok':
                 response = result['document']
             else:
