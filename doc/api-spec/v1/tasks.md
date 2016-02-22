@@ -31,9 +31,6 @@ Resource representation
 }
 ```
 
-        task['type'] = "create_instance"
-        task['object_uuid'] = instance_uuid
-
 ###Examples###
 
 `GET /api/virtshell/v1/tasks/
