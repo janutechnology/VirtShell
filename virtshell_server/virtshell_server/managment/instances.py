@@ -12,6 +12,9 @@ class Instances(object):
     def get_instance(self, name):
         return self.instances_repository.get_instance(name)
 
+    def get_instance_by_uuid(self, uuid):
+        return self.instances_repository.get_instance_by_uuid(uuid)
+
     def create_instance(self, instance):
         instance['uuid'] = str(uuid.uuid4())
         task_uuid = self._create_task("Create a new instance %s using driver %s" 

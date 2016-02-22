@@ -15,6 +15,9 @@ class InstancesRepository(object):
     def get_instance(self, name):
         return self.storage_db.get("name", name)
 
+    def get_instance_by_uuid(self, uuid):
+        return self.storage_db.get("uuid", uuid)
+
     def update_instance(self, name, instances):
         return self.storage_db.update("name", name, instances)
 
