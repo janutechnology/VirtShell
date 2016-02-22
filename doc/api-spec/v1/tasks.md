@@ -23,6 +23,8 @@ Resource representation
   "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
   "description": "clone virtual machine database_01",
   "status" : "pending|in progress|sucess|failed",
+  "type": "create_instance|delete_instance|restart_instance|...",
+  "object_uuid": "uuid of the object (instance, host, property, ...)",
   "created":["at":"timestamp", "by":user_id],
   "last_update": "timestamp",
   "log": "summary of the task"

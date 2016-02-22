@@ -13,10 +13,10 @@ class Instances(object):
         return self.instances_repository.get_instance(name)
 
     def create_instance(self, instance):
-        task_uuid = self._create_task("Create a new instance %s using driver %s" 
-                                        % (instance['name'],instance['driver']))
         instance['uuid'] = str(uuid.uuid4())
-        instance['task_uuid'] = task_uuid
+        task_uuid = self._create_task("Create a new instance %s using driver %s" 
+                                        % (instance['name'],instance['driver']),
+                                        instance['uuid'])
         return self.instances_repository.create_instance(instance)
 
     def delete_instance(self, name):
@@ -25,11 +25,12 @@ class Instances(object):
     def update_instance(self, name, instance):
         return self.instances_repository.update_instance(name, instance)
 
-    def _create_task(self, description):
+    def _create_task(self, description, instance_uuid):
         task = {}
         task['description'] = description
         task['status'] = "pending"
         task['type'] = "create_instance"
+        task['object_uuid'] = instance_uuid
         tasks = Tasks()
         result = tasks.create_task(task)
         if result['status'] == 'ok':
