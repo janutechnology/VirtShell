@@ -5,6 +5,7 @@ import time
 import json
 import logging
 import requests
+import websocket
 from daemon import Daemon
 from config import VIRTSHELL_SERVER
 import logging.handlers
@@ -22,16 +23,35 @@ class Dispatcher(Daemon):
                 r = requests.get(url)
                 pending_tasks = json.loads(r.text)
                 for task in pending_tasks['tasks']:
-                    if task['type'] == 'create_instance':
-                        instance_uuid = task['object_uuid']
-                        url = "%s/instances/%s" % (VIRTSHELL_SERVER,
-                                                   instance_uuid)
-                        r = requests.get(url)
-                        instance_data = json.loads(r.text)
+                    if task['type'] == 'create_instance':                        
+                        instance_data = self.get_instance(task['object_uuid'])
                         self.logger.info(instance_data)
+                        self.send_request_to_agent(instance_data)                        
+                    else:
+                        self.logger.info("task not supported...")
+                        # Update task with error
+
             except:
                 self.logger.error("The server does not respond...")
             time.sleep(10)
+
+    def get_instance(self, instance_uuid):
+       url = "%s/instances/%s" % (VIRTSHELL_SERVER, instance_uuid)
+        r = requests.get(url)
+        instance_data = json.loads(r.text)
+        return instance_data       
+
+    def send_request_to_agent(self, data):
+        websocket.enableTrace(True)
+        # Obtener un host de acuerdo a la informacion de la instancia
+        # Obtener la ip del host
+        ws = websocket.create_connection("ws://127.0.0.1:8080/")
+        ws.send(json.dumps(data))
+        self.logger.info("dispatching request to create new instance...")
+        result = ws.recv()
+        # Validar la respuesta, y actualizar el estado de la tarea
+        self.logger.info("receiving response from agent: ", result)
+        ws.close()        
 
     def init_logger(self, LoggerName):
         # Create logger
