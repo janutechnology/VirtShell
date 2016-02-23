@@ -133,4 +133,4 @@ curl -X POST http://127.0.0.1:80/tasks/ -d "{\"description\": \"clone virtual ma
 curl -X PUT http://127.0.0.1:80/tasks/11ef00f7-d923-47f3-9d62-1a38caf33e62 -d "{\"log\": \"Feb 20 10:40:33 Janu dhclient: DHCPREQUEST of 192.168.0.14 on wlan0 to 192.168.0.1 port 67 Feb 20 10:40:33 Janu dhclient: DHCPACK of 192.168.0.14 from 192.168.0.1 Feb 20 10:40:33 Janu dhclient: bound to 192.168.0.14 -- renewal in 1525 seconds.\"}" -H "accept:application/json" | jq .
 
 # Delete a task
-curl -X DELETE http://127.0.0.1:80/tasks/11ef00f7-d923-47f3-9d62-1a38caf33e62  | jq .
+curl -X DELETE http://127.0.0.1:80/tasks/cfca1a23-a34a-4ca4-9098-5e543fe06e06  | jq .

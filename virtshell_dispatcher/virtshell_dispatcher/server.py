@@ -7,7 +7,7 @@ import logging
 import requests
 from daemon import Daemon
 from config import VIRTSHELL_SERVER
-from logging.handlers import SysLogHandler
+import logging.handlers
  
 class Dispatcher(Daemon):
     def __init__(self, pid_file):
@@ -18,10 +18,19 @@ class Dispatcher(Daemon):
         while True:
             self.logger.info("Get pending tasks from server...")
             url = "%s/tasks/status/pending" % (VIRTSHELL_SERVER)
-            r = requests.get(url)
-            pending_tasks = json.loads(r.text)
-            for task in pending_tasks['tasks']:
-                self.logger.info(task['uuid'])
+            try:
+                r = requests.get(url)
+                pending_tasks = json.loads(r.text)
+                for task in pending_tasks['tasks']:
+                    if task['type'] == 'create_instance':
+                        instance_uuid = task['object_uuid']
+                        url = "%s/instances/%s" % (VIRTSHELL_SERVER,
+                                                   instance_uuid)
+                        r = requests.get(url)
+                        instance_data = json.loads(r.text)
+                        self.logger.info(instance_data)
+            except:
+                self.logger.error("The server does not respond...")
             time.sleep(10)
 
     def init_logger(self, LoggerName):
@@ -29,7 +38,9 @@ class Dispatcher(Daemon):
         self.logger = logging.getLogger(LoggerName)
         self.logger.setLevel(logging.INFO)
         # Create handler
-        handler = SysLogHandler(address='/dev/log')
+
+        handler = logging.FileHandler('/var/log/virtshell_dispatcher.log')
+        #handler = SysLogHandler(address='/dev/log')
         handler.setLevel(logging.INFO)
         # Create formatter
         formatter = logging.Formatter('%(asctime)s %(name)s '
