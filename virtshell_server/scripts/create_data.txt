@@ -1,0 +1,37 @@
+#############################################################################
+############################# VirtShell-Server ##############################
+#############################################################################
+
+rsync -azP virtshell_server/ ssh callanor@192.168.0.15:/home/callanor/virtshell_server
+
+#########################
+# Create partition test #
+#########################
+
+curl -s http://192.168.0.15:80/partitions/ | jq .
+
+curl -X POST http://192.168.0.15:80/partitions/ -d "{\"name\":\"development_co\",\"description\":\"Collection of servers oriented to development team in Colombia.\"}" -H "accept:application/json" | jq .
+
+######################
+# Create hosts tests #
+######################
+
+curl -s http://192.168.0.15:80/hosts/ | jq .
+
+curl -X POST http://192.168.0.15:80/hosts/ -d "{\"name\": \"host-server-01\", \"os\": \"ubuntu-14.04.4-server-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\"}" -H "accept:application/json" | jq .
+
+curl -X POST http://192.168.0.15:80/hosts/ -d "{\"name\": \"host-server-02\", \"os\": \"ubuntu-14.04.4-server-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": "15.54.88.19"}" -H "accept:application/json" | jq .
+
+############################
+# Create enviroments tests #
+############################
+
+curl -s http://192.168.0.15:80/enviroments/ | jq .
+
+curl -X POST http://192.168.0.15:80/enviroments/ -d "{\"name\":\"development\",\"description\":\"Collection of servers for development.\", \"partition\": \"development_co\", \"users\": [{\"login\": \"development_user\"}, {\"login\": \"guest\"}]}" -H "accept:application/json" | jq .
+
+#################################################################################
+############################# VirtShell-Dispatcher ##############################
+#################################################################################
+
+rsync -azP virtshell_dispatcher/ ssh callanor@192.168.0.15:/home/callanor/virtshell_dispatcher

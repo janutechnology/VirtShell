@@ -7,7 +7,7 @@ virtual resources like virtual machines or containers.
 Temporal notes:
 ==============
 For now: python3 server.py 
-rsync -azP virtshell_server/ ssh root@172.17.0.2:/root/virtshell_server
+rsync -azP virtshell_server/ ssh callanor@192.168.0.15:/home/callanor/virtshell_server
 
 References:
 https://github.com/tornadoweb/tornado
