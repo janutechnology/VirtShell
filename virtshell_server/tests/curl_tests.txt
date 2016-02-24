@@ -1,16 +1,3 @@
-# Get hosts
-curl -s http://localhost:80/hosts/host-05-pdn | jq .
-curl -s http://localhost:80/hosts/ | jq .
-
-# Create a host
-curl -X POST http://127.0.0.1:80/hosts/ -d "{\"name\": \"host-05-pdn\", \"os\": \"Ubuntu_14.04_3.5.0-23.x86_64\", \"memory\": \"12GB\"}" -H "accept:application/json" | jq .
-
-# Delete a host
-curl -X DELETE http://127.0.0.1:80/hosts/host-05-pdn  | jq .
-
-# Update a host
-curl -X PUT http://127.0.0.1:80/hosts/host-05-pdn -d "{\"os\": \"Ubuntu_18.04_3.5.0-23.x86_64\", \"memory\": \"16GB\"}" -H "accept:application/json" | jq .
-
 ############################################################################################
 
 # Get users
@@ -60,6 +47,7 @@ curl -X PUT http://127.0.0.1:80/provisioners/backend-services-provisioner -d "{\
 
 # Get Instances
 curl -s http://localhost:80/instances/transactional_log | jq .
+curl -s http://localhost:80/instances/c2380fd6-ad13-4cf8-bf8e-5feeaaf74f3e | jq .
 curl -s http://localhost:80/instances/ | jq .
 
 # Create an Instance
@@ -78,7 +66,7 @@ curl -s http://localhost:80/enviroments/bigdata_test_01 | jq .
 curl -s http://localhost:80/enviroments/ | jq .
 
 # Create an Enviroment
-curl -X POST http://127.0.0.1:80/enviroments/ -d "{\"name\":\"bigdata_test_01\",\"description\":\"Collection of servers oriented to big data.\",\"users\":[{\"login\":\"backend_user\"},{\"login\":\"guest\"}]}" -H "accept:application/json" | jq .
+curl -X POST http://127.0.0.1:80/enviroments/ -d "{\"name\":\"development\",\"description\":\"Collection of servers for development.\", \"partition\": \"development_co\", \"users\":[{\"login\":\"development_user\"},{\"login\":\"guest\"}]}" -H "accept:application/json" | jq .
 
 # Delete an Instance
 curl -X DELETE http://127.0.0.1:80/enviroments/bigdata_test_01  | jq .
@@ -110,7 +98,7 @@ curl -s http://localhost:80/hosts/host-05-pdn | jq .
 curl -s http://localhost:80/hosts/ | jq .
 
 # Create a host
-curl -X POST http://127.0.0.1:80/hosts/ -d "{\"name\": \"host-01-pdn\", \"os\": \"Ubuntu_14.04_3.5.0-23.x86_64\", \"memory\": \"12GB\", \"partition\":\"development_co\"}" -H "accept:application/json" | jq .
+curl -X POST http://127.0.0.1:80/hosts/ -d "{\"name\": \"host-01\", \"os\": \"ubuntu-14.04.4-server-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\"}" -H "accept:application/json" | jq .
 
 # Delete a host
 curl -X DELETE http://127.0.0.1:80/hosts/host-12-pdn  | jq .
