@@ -1,30 +1,34 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
  
 import os
 import sys
+import imp
 import time
 import json
+import urllib
 import os.path
 import logging
 import requests
+import logging.handlers
 from daemon import Daemon
 from config import VIRTSHELL_SERVER
 import logging.handlers
  
-class Dispatcher(Daemon):
-    def __init__(self, pid_file):
-        Daemon.__init__(self, pid_file)
+class Dispatcher(object):
+    def __init__(self):
+        self.init_logger("virtshell_dispatcher")
         self.listeners_tasks = {}
-        self.tasks_folder = "./tasks"
+        self.tasks_folder = "/home/callanor/virtshell_dispatcher/virtshell_dispatcher/tasks"
         self.special_files = ["__init__.py", "__pycache__"]
-        self.task_execute_method = "main"
+        self.task_execute_method = "main"       
         self.load_plugin_tasks()
-        self.init_logger("virtshell_dispatcher started...")
+        self.logger.info("service started...")
 
     def load_plugin_tasks(self):
         self.logger.info("finding plugins tasks...")
+        number_plugin_tasks = 0
         possible_plugins_tasks = os.listdir(self.tasks_folder)
-        possible_plugins_tasks = [task for task in possible_plugins_tasks if task not in special_files]
+        possible_plugins_tasks = [task for task in possible_plugins_tasks if task not in self.special_files]
         for module in possible_plugins_tasks:
             if not module.endswith(".pyc") and not os.path.isdir(module):
                 module = os.path.splitext(module)[0]
@@ -33,13 +37,19 @@ class Dispatcher(Daemon):
                 execute_method = getattr(plugin_task_class, 
                                          self.task_execute_method)
                 self.listeners_tasks[module] = (plugin_task_class, 
-                                                self.execute_method)
+                                                execute_method)
                 self.logger.info("task %s.py found" % module)
+        self.logger.info("plugins tasks finished...")
 
     def execute_task(self, task_name, task):
         if task_name in self.listeners_tasks:
             module, function = self.listeners_tasks[task_name]
-            return function(task, self.logger)
+            status, message = function(task)
+            if status != "error":
+                self.logger.info(message)
+            else:
+                self.logger.error(message)
+            self.update_task(task, status, message)
         else:
             self.logger.info("task not supported...")
             self.update_task(task, 'failed', 'task not supported')
@@ -54,18 +64,19 @@ class Dispatcher(Daemon):
     def get_pending_tasks(self):
         self.logger.info("Get pending tasks from server...")
         url = "%s/tasks/status/pending" % (VIRTSHELL_SERVER)
+        self.logger.info(url)
         try:
-            r = requests.get(url)
-            pending_tasks = json.loads(r.text)
-            self.logger.info("Number of tasks pending: ", len(pending_tasks))
-            return pending_tasks['tasks']
-        except:
-            self.logger.error("The server does not respond...")
+            data = requests.get(url)             
+            pending_tasks = json.loads(data.text)['tasks']
+            self.logger.info("Number of tasks pending: " + str(len(pending_tasks)))
+            return pending_tasks
+        except requests.exceptions.RequestException as e:
+            self.logger.error("The server does not respond...", e)
             return []
 
     def update_task(self, task, state , log):
         url = "%s/tasks/%s" % (VIRTSHELL_SERVER, task['uuid'])
-        r = requests.put(url, data = {'status': state, 'log': log})    
+        r = requests.put(url, data = {'status': state, 'log': log})  
 
     def init_logger(self, LoggerName):
         # Create logger
@@ -83,19 +94,5 @@ class Dispatcher(Daemon):
         self.logger.addHandler(handler)
  
 if __name__ == "__main__":
-    dispatcher = Dispatcher('/var/run/virtshell_dispatcher/dispatcher.pid')
-    if len(sys.argv) == 2:
-        if 'start' == sys.argv[1]:
-            dispatcher.start()
-        elif 'stop' == sys.argv[1]:
-            dispatcher.stop()
-        elif 'restart' == sys.argv[1]:
-            dispatcher.restart()
-        else:
-            print ("Unknown command")
-            sys.exit(2)
-        sys.exit(0)
-    else:
-        print ("usage: %s start|stop|restart" % sys.argv[0])
-        sys.exit(2)
-
+    dispatcher = Dispatcher()
+    dispatcher.run()

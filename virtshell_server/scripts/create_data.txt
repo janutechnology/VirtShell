@@ -12,15 +12,19 @@ curl -s http://192.168.0.15:80/partitions/ | jq .
 
 curl -X POST http://192.168.0.15:80/partitions/ -d "{\"name\":\"development_co\",\"description\":\"Collection of servers oriented to development team in Colombia.\"}" -H "accept:application/json" | jq .
 
+curl -X DELETE http://192.168.0.15:80/partitions/development_co  | jq .
+
 ######################
 # Create hosts tests #
 ######################
 
 curl -s http://192.168.0.15:80/hosts/ | jq .
 
-curl -X POST http://192.168.0.15:80/hosts/ -d "{\"name\": \"host-server-01\", \"os\": \"ubuntu-14.04.4-server-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\"}" -H "accept:application/json" | jq .
+curl -X POST http://192.168.0.15:80/hosts/ -d "{\"name\": \"host-server-01\", \"os\": \"ubuntu-14.04.4-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.0.16\"}" -H "accept:application/json" | jq .
 
-curl -X POST http://192.168.0.15:80/hosts/ -d "{\"name\": \"host-server-02\", \"os\": \"ubuntu-14.04.4-server-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": "15.54.88.19"}" -H "accept:application/json" | jq .
+curl -X POST http://192.168.0.15:80/hosts/ -d "{\"name\": \"host-server-02\", \"os\": \"ubuntu-14.04.4-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.0.17\"}" -H "accept:application/json" | jq .
+
+curl -X DELETE http://192.168.0.15:80/hosts/host-server-01  | jq .
 
 ############################
 # Create enviroments tests #
@@ -29,6 +33,16 @@ curl -X POST http://192.168.0.15:80/hosts/ -d "{\"name\": \"host-server-02\", \"
 curl -s http://192.168.0.15:80/enviroments/ | jq .
 
 curl -X POST http://192.168.0.15:80/enviroments/ -d "{\"name\":\"development\",\"description\":\"Collection of servers for development.\", \"partition\": \"development_co\", \"users\": [{\"login\": \"development_user\"}, {\"login\": \"guest\"}]}" -H "accept:application/json" | jq .
+
+curl -X DELETE http://192.168.0.15:80/enviroments/development  | jq .
+
+#########################
+# Create instance tests #
+#########################
+
+curl -s http://192.168.0.15:80/instances/ | jq .
+
+curl -X POST http://192.168.0.15:80/instances/ -d "{\"name\": \"transactional_log\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"development\", \"operating_system\": \"ubuntu-14.04.4-amd64\", \"provisioner\": \"all_backend\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
 
 #################################################################################
 ############################# VirtShell-Dispatcher ##############################
