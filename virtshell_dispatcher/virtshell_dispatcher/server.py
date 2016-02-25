@@ -76,7 +76,7 @@ class Dispatcher(object):
 
     def update_task(self, task, state , log):
         url = "%s/tasks/%s" % (VIRTSHELL_SERVER, task['uuid'])
-        r = requests.put(url, data = {'status': state, 'log': log})  
+        r = requests.put(url, data = json.dumps({'status': state, 'log': log}))
 
     def init_logger(self, LoggerName):
         # Create logger
