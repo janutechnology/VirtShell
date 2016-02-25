@@ -5,7 +5,9 @@ Roadmap
     - Authorization in the virtual resources  
 
 + Database
-    - Scripts to deploy the mongodb in two or more servers  
+    - Scripts to deploy the mongodb in two or more servers
+    - Partition the database and abstract that in a layer
+        - That abstraction layer allows us to do dynamic routing, in other words to do routing based on the configuration of what items live on what hosts, 
 
 + Deploy
     - Scripts to deploy two or more servers with one balancer
@@ -16,3 +18,9 @@ Roadmap
 + Hosts
     - When a new host is added, automatically a new task should be create to install the provisioning_agent (and other agents)
       in the host.
+
++ Amazon
+    - Create a separated service to interact with amazon api
+
++ All modules
+    - Add unit tests and integration test with other services
