@@ -50,7 +50,7 @@ def select_host(task, instance_type, hosts):
 def send_request_to_agent(ip_host, instance_data):
     websocket.enableTrace(True)
     ws = websocket.create_connection("ws://%s:8080/" % (ip_host))
-    ws.send(json.dumps(data))
+    ws.send(json.dumps(instance_data))
     self.logger.info("dispatching request to create new instance...")
     result = ws.recv()
     # Validar la respuesta, y actualizar el estado de la tarea
