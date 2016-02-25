@@ -44,6 +44,8 @@ curl -s http://192.168.0.15:80/instances/ | jq .
 
 curl -X POST http://192.168.0.15:80/instances/ -d "{\"name\": \"transactional_log\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"development\", \"operating_system\": \"ubuntu-14.04.4-amd64\", \"provisioner\": \"all_backend\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
 
+curl -s http://192.168.0.15:80/tasks/status/pending | jq .
+
 #################################################################################
 ############################# VirtShell-Dispatcher ##############################
 #################################################################################
