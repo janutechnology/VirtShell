@@ -1,0 +1,4 @@
+Roadmap
+=======
+- Increment logs in the tasks not overwrite
+- Change the form to select a host with base in metrics maybe

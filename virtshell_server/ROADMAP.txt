@@ -1,0 +1,18 @@
+Roadmap
+=======
++ Security:
+    - Authentication and Authorization in the requests
+    - Authorization in the virtual resources  
+
++ Database
+    - Scripts to deploy the mongodb in two or more servers  
+
++ Deploy
+    - Scripts to deploy two or more servers with one balancer
+
++ Integrate
+    - Service to build images to virtualbox 
+
++ Hosts
+    - When a new host is added, automatically a new task should be create to install the provisioning_agent (and other agents)
+      in the host.
