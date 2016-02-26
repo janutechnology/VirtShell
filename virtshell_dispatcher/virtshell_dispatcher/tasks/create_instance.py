@@ -52,12 +52,12 @@ def select_host(instance_type, hosts):
         raise Exception('hosts not found for partition')
 
 def send_request_to_agent(ip_host, instance_data):
-    # websocket.enableTrace(True)
-    # ws = websocket.create_connection("ws://%s:8080/" % (ip_host))
-    # ws.send(json.dumps(instance_data))
-    # result = ws.recv()
+    tornado.websocket.enableTrace(True)
+    ws = tornado.websocket.create_connection("ws://%s:8080/" % (ip_host))
+    ws.send(json.dumps(instance_data))
+    result = ws.recv()
     # # Validar la respuesta, y actualizar el estado de la tarea
-    # ws.close()
+    ws.close()
     pass
 
 def main(task):
