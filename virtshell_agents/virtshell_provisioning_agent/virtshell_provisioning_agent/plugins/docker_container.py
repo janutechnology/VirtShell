@@ -16,7 +16,7 @@ def init_logger(LoggerName):
     logger = logging.getLogger(LoggerName)
     logger.setLevel(logging.INFO)
     # Create handler
-    handler = SysLogHandler(address='/dev/log')
+    handler = logging.FileHandler('/var/log/virtshell_agent.log')
     handler.setLevel(logging.INFO)
     # Create formatter
     formatter = logging.Formatter('%(asctime)s %(name)s '
@@ -25,9 +25,9 @@ def init_logger(LoggerName):
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     # Return logger
-    return logger
+    return logger    
 
-logger = init_logger('docker-container')
+logger = init_logger('virtshell-agent')
 database = Database(logger)
 
 def create(request):

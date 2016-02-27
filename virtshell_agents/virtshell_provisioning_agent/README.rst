@@ -11,3 +11,9 @@ Repo.clone_from("https://github.com/CALlanoR/VirtShell.git", "/root/repositories
 https://github.com/gaelL/docker-tools/blob/master/docker_setup.py
 
 https://github.com/lamerman/shellpy/blob/master/README.md
+
+Install
+=======
+copy provisioning_agent_in_ubuntu.sh in host
+chmod u+x provisioning_agent_in_ubuntu.sh
+./provisioning_agent_in_ubuntu
