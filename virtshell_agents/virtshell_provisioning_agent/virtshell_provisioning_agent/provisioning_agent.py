@@ -126,7 +126,7 @@ def init_logger(LoggerName):
     logger = logging.getLogger(LoggerName)
     logger.setLevel(logging.INFO)
     # Create handler
-    handler = SysLogHandler(address='/dev/log')
+    handler = logging.FileHandler('/var/log/virtshell_agent.log')
     handler.setLevel(logging.INFO)
     # Create formatter
     formatter = logging.Formatter('%(asctime)s %(name)s '
@@ -147,5 +147,3 @@ if __name__ == "__main__":
     print("virtshell-provisioning-agent started...")
     #tornado.ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=15), WSHandler.write_to_clients)
     tornado.ioloop.IOLoop.instance().start()
-
-# sudo python3 agent.py

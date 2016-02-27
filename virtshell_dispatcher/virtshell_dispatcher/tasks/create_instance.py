@@ -52,13 +52,27 @@ def select_host(instance_type, hosts):
         raise Exception('hosts not found for partition')
 
 def send_request_to_agent(ip_host, instance_data):
+    distribution, version, arch = instance_data['operating_system'].split('-')
+
+    data = {'action': 'create',
+            'driver': instance_data['driver'],
+            'name': instance_data['name'], 
+            'distribution': distribution,
+            'version': version,
+            'arch': arch,
+            'launch':1,
+            'cpus':1,
+            'user':'virtshell',
+            'password':'virtshell',            
+            'memory':1024}
+
     tornado.websocket.enableTrace(True)
     ws = tornado.websocket.create_connection("ws://%s:8080/" % (ip_host))
-    ws.send(json.dumps(instance_data))
+    ws.send(json.dumps(data))
     result = ws.recv()
     # # Validar la respuesta, y actualizar el estado de la tarea
     ws.close()
-    pass
+    return result
 
 def main(task):
     try:
@@ -66,7 +80,9 @@ def main(task):
         enviroment_data = get_enviroment(instance_data['enviroment'])
         hosts = get_hosts_from_partition(enviroment_data['partition'])
         ip_host_selected = select_host(instance_data['host_type'], hosts)
-        send_request_to_agent(ip_host_selected, instance_data)
-        return "creating", "host_selected " + ip_host_selected
+        response = send_request_to_agent(ip_host_selected, instance_data)
+        message_response = "host_selected: %s message: %s" % (ip_host_selected,
+                                                              response)
+        return "creating", message_response
     except Exception as e:
         return "error", str(e)
