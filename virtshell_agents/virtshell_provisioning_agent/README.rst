@@ -14,7 +14,7 @@ https://github.com/lamerman/shellpy/blob/master/README.md
 Temporal notes:
 ==============
 For now: python3 server.py 
-rsync -azP virtshell_provisioning_agent/ ssh root@192.168.56.102:/root/virtshell_provisioning_agent
+rsync -azP virtshell_provisioning_agent/ ssh root@192.168.0.13:/root/virtshell_provisioning_agent
 
 Install
 =======

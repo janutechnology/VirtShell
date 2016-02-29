@@ -21,7 +21,7 @@ import multiprocessing
 import tornado.websocket
 import tornado.httpserver
 from database import Database
-from exceptions import PluginException
+#from exceptions import PluginException
 from logging.handlers import SysLogHandler
 
 ################################################################################
@@ -66,7 +66,6 @@ class ListenerHandler(object):
                 plugin_method = getattr(plugin_class, plugin_method_name)
                 plugin_key = plugin_name + '-' + plugin_method_name
                 self.register(plugin_key, (plugin_class, plugin_method))
-        print(self.listeners)
 
     def register(self, listener, action):
         self.listeners[action] = listener

@@ -3,7 +3,7 @@ import time
 import logging
 import threading
 from database import Database
-from exceptions import PluginException
+#from exceptions import PluginException
 from logging.handlers import SysLogHandler
 
 def catalogue():
@@ -42,7 +42,7 @@ def create(request):
         request.status = 2
         request.message_log = message_error
         database.update_request(request)
-        raise PluginException(message_error)
+        #raise PluginException(message_error)
     return request
 
 def start(request):
@@ -58,7 +58,7 @@ def start(request):
     except Exception as err:
         message_error = "Failed to start the container, %s" % err
         logger.error(message_error)
-        raise PluginException(message_error)
+        #raise PluginException(message_error)
     return request
 
 def stop(request):
@@ -74,7 +74,7 @@ def stop(request):
     except Exception as err:
         message_error = "Failed to stop the container, %s" % err
         logger.error(message_error)
-        raise PluginException(message_error)
+        #raise PluginException(message_error)
     return request
 
 def _create_container(request):
@@ -141,7 +141,7 @@ def _install_openssh_server(request):
         message_error = "[lxc_container] Error: Failed to install \
                          openssh-server in container, %s" % err
         logger.error(message_error)
-        raise PluginException(message_error)
+        #raise PluginException(message_error)
     return request
 
 def _create_user(request):
@@ -177,5 +177,5 @@ def _create_user(request):
         message_error = "[lxc_container] Error: Failed to create the \
                        user %s in container %s, %s" % (user, name, err)
         logger.error(message_error)
-        raise PluginException(message_error)
+        #raise PluginException(message_error)
     return request
