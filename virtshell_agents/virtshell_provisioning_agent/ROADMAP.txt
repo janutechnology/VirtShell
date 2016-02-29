@@ -3,3 +3,5 @@ Roadmap
 + Create virtshell_monitoring_agent
 + Add unit tests and integration tests
 + Create a kvm plugin
++ Change dockerfile to modify hostname in container
++ Add mutex lock in sqlite connection
