@@ -1,9 +1,13 @@
 #!/bin/bash
 
 echo "Installing basic libraries..."
-sudo apt-get install -y jq curl python3-pip
+sudo apt-get install -y jq curl python-pip python3-pip
+sudo apt-get install sqlite3 libsqlite3-dev
+sudo apt-get install python-dev python3-dev
 sudo pip3 install tornado
 sudo pip3 install requests
+sudo pip3 install psutil
+sudo pip3 install docker-py
 
 echo "Installing docker..."
 sudo apt-get autoremove -y
@@ -12,6 +16,9 @@ sudo apt-get install -y apt-transport-https ca-certificates
 sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 sudo rm /etc/apt/sources.list.d/docker.list
 sudo touch /etc/apt/sources.list.d/docker.list
+
+echo "Creating directories..."
+sudo mkdir -p /var/janu/virtshell_provisioning_agent/
 
 if [ $# -gt 0 ]; then
 	OS="$1"

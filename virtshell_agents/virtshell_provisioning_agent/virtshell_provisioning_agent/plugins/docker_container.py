@@ -5,7 +5,7 @@ import threading
 from io import BytesIO
 from docker import Client
 from database import Database
-from exceptions import PluginException
+#from exceptions import PluginException
 from logging.handlers import SysLogHandler
 
 def catalogue():
@@ -31,21 +31,23 @@ logger = init_logger('virtshell-agent')
 database = Database(logger)
 
 def create(request):
-    try:
-        database.insert_new_request(request)
-        create_daemon = threading.Thread(name = 'create_daemon',
-                                         args = (request,),
-                                         target = _create_container)
-        create_container_thread.setDaemon(True)
-        create_container_thread.start()
-    except Exception as err:
-        message_error = "Failed to create the container, %s" % err
-        logger.error(message_error)
-        request.status = 2
-        request.message_log = message_error
-        database.update_request(request)
-        raise PluginException(message_error)
-    return request
+    logger.info("llego..........")
+    return "200"
+    # try:
+    #     database.insert_new_request(request)
+    #     create_daemon = threading.Thread(name = 'create_daemon',
+    #                                      args = (request,),
+    #                                      target = _create_container)
+    #     create_container_thread.setDaemon(True)
+    #     create_container_thread.start()
+    # except Exception as err:
+    #     message_error = "Failed to create the container, %s" % err
+    #     logger.error(message_error)
+    #     request.status = 2
+    #     request.message_log = message_error
+    #     database.update_request(request)
+    #     raise PluginException(message_error)
+    # return request
 
 def start(request):
     try:
@@ -60,7 +62,7 @@ def start(request):
     except Exception as err:
         message_error = "Failed to start the container, %s" % err
         logger.error(message_error)
-        raise PluginException(message_error)
+        #raise PluginException(message_error)
     return request
 
 def stop(request):
@@ -76,7 +78,7 @@ def stop(request):
     except Exception as err:
         message_error = "Failed to stop the container, %s" % err
         logger.error(message_error)
-        raise PluginException(message_error)
+        #raise PluginException(message_error)
     return request
 
 def _create_container(request):
@@ -133,7 +135,7 @@ def _create_container(request):
 
             client.start(container_id)
             link_path = client.inspect_container(container_id)
-            ip = link_path['NetworkSettings']['IPAddress'])
+            ip = link_path['NetworkSettings']['IPAddress']
             logger.info("docker-container %s created successfully." % name)
             request.message_log += "docker-container created successfully\n"
             request = start(request)
@@ -181,5 +183,5 @@ def _create_user(request):
         message_error = "[lxc_container] Error: Failed to create the \
                        user %s in container %s, %s" % (user, name, err)
         logger.error(message_error)
-        raise PluginException(message_error)
+        #raise PluginException(message_error)
     return request

@@ -1,7 +1,7 @@
 import json
 import time
 import logging
-from exceptions import PluginException
+#from exceptions import PluginException
 from logging.handlers import SysLogHandler
 
 def catalogue():
@@ -33,7 +33,7 @@ def create(request, logge):
         message_error = "[virtualbox] Error: Failed to create the \
                          machine, %s" % err
         logger.error(message_error)
-        raise PluginException(message_error)
+        #raise PluginException(message_error)
     return request            
 
 def _register(name, distribution, arch):
@@ -60,7 +60,7 @@ def _register(name, distribution, arch):
         message_error = "[virtualbox] Error: Failed to register \
                          the machine, %s" % err
         logger.error(message_error)
-        raise PluginException(message_error)
+        #raise PluginException(message_error)
     return request
 
 def _modify(request):
@@ -91,5 +91,5 @@ def _modify(request):
         message_error = "[virtualbox] Error: Failed to register \
                          the machine, %s" % err
         logger.error(message_error)
-        raise PluginException(message_error)
+        #raise PluginException(message_error)
     return request    
