@@ -5,7 +5,10 @@ import logging
 from logging.handlers import SysLogHandler
 
 def catalogue():
-    return ['create'] 
+    return ['create']
+
+def drive():
+    return "virtualbox" 
 
 def init_logger(LoggerName):
     # Create logger

@@ -11,6 +11,9 @@ from logging.handlers import SysLogHandler
 def catalogue():
     return ['create', 'start', 'stop']
 
+def drive():
+    return 'docker'
+
 def init_logger(LoggerName):
     # Create logger
     logger = logging.getLogger(LoggerName)
@@ -31,23 +34,22 @@ logger = init_logger('virtshell-agent')
 database = Database(logger)
 
 def create(request):
-    logger.info("llego..........")
-    return "200"
-    # try:
-    #     database.insert_new_request(request)
-    #     create_daemon = threading.Thread(name = 'create_daemon',
-    #                                      args = (request,),
-    #                                      target = _create_container)
-    #     create_container_thread.setDaemon(True)
-    #     create_container_thread.start()
-    # except Exception as err:
-    #     message_error = "Failed to create the container, %s" % err
-    #     logger.error(message_error)
-    #     request.status = 2
-    #     request.message_log = message_error
-    #     database.update_request(request)
-    #     raise PluginException(message_error)
-    # return request
+    try:
+        database.insert_new_request(request)
+        _create_container(request)
+        # create_daemon = threading.Thread(name = 'create_daemon',
+        #                                  args = (request,),
+        #                                  target = _create_container)
+        # create_daemon.setDaemon(True)
+        # create_daemon.start()
+    except Exception as err:
+        message_error = "Failed to create the container, %s" % err
+        logger.error(message_error)
+        request['status'] = 2
+        request['message_log'] = message_error
+        database.update_request(request)
+        raise PluginException(message_error)
+    return request
 
 def start(request):
     try:
@@ -83,18 +85,18 @@ def stop(request):
 
 def _create_container(request):
     try:
-        request = database.get_request()
+        logger.info("request in _create_container: ", request)
         while request != None:
-            name = request.message['name']
-            distribution = request.message['distribution']
-            release = request.message['release']
-            arch = request.message['arch']
-            user = request.message['user']
-            password = request.message['password']
+            name = request['name']
+            distribution = request['distribution']
+            release = request['release']
+            arch = request['arch']
+            user = request['user']
+            password = request['password']         
 
             message_log = "creating docker-container %s", name
-            request.status = 1
-            request.message_log = message_log
+            request['status'] = 1
+            request['message_log'] = message_log
             database.update_request(request)
 
             logger.info(message_log)
@@ -129,8 +131,8 @@ def _create_container(request):
             dockerfile_binary = BytesIO(dockerfile.encode('utf-8'))
             response = [line for line in client.build(fileobj=dockerfile_binary,
                                                       rm=True,
-                                                      tag='ubuntu/15.04')]
-            container = client.create_container(image='ubuntu:15.04')
+                                                      tag='ubuntu/14.04')]
+            container = client.create_container(image='ubuntu:14.04')
             container_id = container['Id']
 
             client.start(container_id)

@@ -64,15 +64,17 @@ class ListenerHandler(object):
             plugin_methods = plugin_class.catalogue()
             for plugin_method_name in plugin_methods:
                 plugin_method = getattr(plugin_class, plugin_method_name)
-                plugin_key = plugin_name + '-' + plugin_method_name
+                plugin_key = plugin_class.drive() + '-' + plugin_method_name
+                print("-----------", plugin_key)
                 self.register(plugin_key, (plugin_class, plugin_method))
 
-    def register(self, listener, action):
+    def register(self, action, listener):
         self.listeners[action] = listener
 
     def dispatch(self, request):
         message = json.loads(request)
         action = message['drive'] + '-' + message['action']
+        print("*********** action:", action)
         plugin, method = self.listeners[action]
         return method(request)
             
@@ -101,10 +103,8 @@ class RequestHandler(tornado.websocket.WebSocketHandler):
         RequestHandler.clients.append(self)
 
     def on_message(self, json_message):
-        print(json_message)
         main_logger.info("message received %s" % json_message)
         response = listener_handler.dispatch(json_message)
-        self.write_message(response)
 
     def on_close(self):
         main_logger.info("connection closed")
