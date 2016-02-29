@@ -15,20 +15,16 @@ import psutil
 import os.path
 import logging
 import datetime
+import threading
 import tornado.web
 import tornado.ioloop
-import multiprocessing
 import tornado.websocket
 import tornado.httpserver
-from database import Database
-#from exceptions import PluginException
-from logging.handlers import SysLogHandler
 
 ################################################################################
 # Global Variables
 ################################################################################
 main_logger = None
-database = None
 listener_handler = None
 
 ################################################################################
@@ -65,7 +61,6 @@ class ListenerHandler(object):
             for plugin_method_name in plugin_methods:
                 plugin_method = getattr(plugin_class, plugin_method_name)
                 plugin_key = plugin_class.drive() + '-' + plugin_method_name
-                print("-----------", plugin_key)
                 self.register(plugin_key, (plugin_class, plugin_method))
 
     def register(self, action, listener):
@@ -74,9 +69,12 @@ class ListenerHandler(object):
     def dispatch(self, request):
         message = json.loads(request)
         action = message['drive'] + '-' + message['action']
-        print("*********** action:", action)
         plugin, method = self.listeners[action]
-        return method(request)
+        create_daemon = threading.Thread(name = 'create_daemon',
+                                         args = (request,),
+                                         target = method)
+        create_daemon.setDaemon(True)
+        create_daemon.start()
             
     def get_plugins(self):
         main_logger.info("finding plugins")
@@ -104,16 +102,12 @@ class RequestHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, json_message):
         main_logger.info("message received %s" % json_message)
-        response = listener_handler.dispatch(json_message)
+        listener_handler.dispatch(json_message)
+        return "received"
 
     def on_close(self):
         main_logger.info("connection closed")
         RequestHandler.clients.remove(self)
-
-    @classmethod
-    def write_to_clients(cls):
-        for client in cls.clients:
-            client.write_message("Hi there!")
 
 application = tornado.web.Application([(r'/', RequestHandler)])
 
@@ -125,7 +119,7 @@ def init_logger(LoggerName):
     logger = logging.getLogger(LoggerName)
     logger.setLevel(logging.INFO)
     # Create handler
-    handler = logging.FileHandler('/var/log/virtshell_agent.log')
+    handler = logging.FileHandler('/var/log/virtshell_provisioning_agent.log')
     handler.setLevel(logging.INFO)
     # Create formatter
     formatter = logging.Formatter('%(asctime)s %(name)s '
@@ -137,8 +131,7 @@ def init_logger(LoggerName):
     return logger
 
 if __name__ == "__main__":
-    main_logger = init_logger('virtshell-agent')
-    database = Database(main_logger)
+    main_logger = init_logger('virtshell-provisioning-agent')
     listener_handler = ListenerHandler()
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(8080)

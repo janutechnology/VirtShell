@@ -2,8 +2,8 @@
 
 echo "Installing basic libraries..."
 sudo apt-get install -y jq curl python-pip python3-pip
-sudo apt-get install sqlite3 libsqlite3-dev
-sudo apt-get install python-dev python3-dev
+sudo apt-get install -y sqlite3 libsqlite3-dev
+sudo apt-get install -y python-dev python3-dev
 sudo pip3 install tornado
 sudo pip3 install requests
 sudo pip3 install psutil
@@ -17,7 +17,7 @@ sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58
 sudo rm /etc/apt/sources.list.d/docker.list
 sudo touch /etc/apt/sources.list.d/docker.list
 
-echo "Creating directories..."
+echo "Creating directories for virtshell_provisioning_agent..."
 sudo mkdir -p /var/janu/virtshell_provisioning_agent/
 
 if [ $# -gt 0 ]; then
@@ -49,4 +49,12 @@ sudo apt-get update
 sudo apt-get purge lxc-docker
 sudo apt-get install -y linux-image-extra-´$(uname -r)´
 sudo apt-get install -y docker-engine
+
+echo "Configuring docker..."
+echo  'DOCKER_OPTS="-H tcp://127.0.0.1:2376 -H unix:///var/run/docker.sock --dns 8.8.8.8 --dns 8.8.4.4"' >> /etc/default/docker
+
+echo "Starting docker..."
 sudo service docker start
+
+
+

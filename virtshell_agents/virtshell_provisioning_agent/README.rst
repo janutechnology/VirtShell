@@ -21,3 +21,7 @@ Install
 copy provisioning_agent_in_ubuntu.sh in host
 chmod u+x provisioning_agent_in_ubuntu.sh
 ./provisioning_agent_in_ubuntu
+
+Configuring docker in server host
+=================================
+In /etc/default/docker set DOCKER_OPTS="-H tcp://127.0.0.1:2376 -H unix:///var/run/docker.sock --dns 8.8.8.8 --dns 8.8.4.4"

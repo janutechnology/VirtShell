@@ -11,6 +11,7 @@ if __name__ == "__main__":
             'name':'callanor01', 
             'distribution':'ubuntu',
             'release':'trusty',
+            'version': '14.04',
             'arch':'amd64',
             'launch':1,
             'cpus':1,

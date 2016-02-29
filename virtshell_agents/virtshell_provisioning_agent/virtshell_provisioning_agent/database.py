@@ -38,32 +38,46 @@ class Database(object):
             ''')
             self.database_conn.commit()
             cursor.close()
+            self.database_conn.close()
             self.logger.info("Created database successfully...")
         else:
             self.database_conn = sqlite3.connect(database_file)
             self.logger.info("Connected database successfully...")
 
+    def _open_connect(self):
+        self.database_conn = sqlite3.connect(database_file,
+                                        timeout=5,
+                                        check_same_thread = False)
+
+    def _close_connect(self):
+        self.database_conn.close()
+
     def insert_new_request(self, message):
+        self._open_connect()
         cursor = self.database_conn.cursor()
         cursor.execute("INSERT INTO requests(message) VALUES(?)", (message,))
         self.database_conn.commit()
         cursor.close()
-        self.logger.info("new request inserted %s.", message)
+        self._close_connect()
+        self.logger.info("new request inserted %s." % message)
+        return cursor.lastrowid
 
     def update_request(self, request):
+        self._open_connect()
         cursor = self.database_conn.cursor()
         cursor.execute("UPDATE requests\
                         SET status = ?,\
                         status_date = date('now'),\
                         message_log = ?\
-                        WHERE id = ?", (request.status,
-                                        request.message_log,
-                                        request.id,))
+                        WHERE id = ?", (request['status'],
+                                        request['message_log'],
+                                        request['id'],))
         self.database_conn.commit()
         cursor.close()
-        self.logger.info("request id=%d updated.", request.id)
+        self._close_connect()
 
     def get_request(self):
+        self._open_connect()
         cursor = self.database_conn.execute("SELECT id, message, date \
                                              FROM requests \
                                              WHERE status = 0 LIMIT 1")
@@ -72,5 +86,6 @@ class Database(object):
             request = Request(data[0], json.loads(data[1]), 0, data[2])
         else:
             request = None
+        self._close_connect()
         return request
 
