@@ -8,13 +8,15 @@ if __name__ == "__main__":
     
     data = {'action':'create',
             'drive':'docker',
-            'name':'callanor01', 
+            'name':'callanor02', 
             'distribution':'ubuntu',
             'release':'trusty',
             'version': '14.04',
             'arch':'amd64',
             'launch':1,
             'cpus':1,
+            'provisioner': "https://github.com/janutechnology/VirtShell_Provisioner_Simple_WebSite_Example.git",
+            'executor': "install.sh",
             'user':'callanor',
             'password':'callanor',            
             'memory':1024}

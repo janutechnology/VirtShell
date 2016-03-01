@@ -1,6 +1,7 @@
 import json
 import time
 import logging
+import paramiko
 from io import BytesIO
 from docker import Client
 from database import Database
@@ -16,7 +17,7 @@ def init_logger(LoggerName):
     logger = logging.getLogger(LoggerName)
     logger.setLevel(logging.INFO)
     # Create handler
-    handler = logging.FileHandler('/var/log/virtshell_provisioning_agent.log')
+    handler = logging.FileHandler('/var/janu/log/virtshell_provisioning_agent.log')
     handler.setLevel(logging.INFO)
     # Create formatter
     formatter = logging.Formatter('%(asctime)s %(name)s '
@@ -36,7 +37,8 @@ def create(request):
     request_json['id'] = request_id
 
     try:
-        _create_container(request_json)
+        request_json = _create_container(request_json)
+        _provisioning_container(request_json)
     except Exception as err:
         message_error = "Failed to create the container %s, reason: %s" % (request_json['name'], err)
         logger.error(message_error)
@@ -71,7 +73,7 @@ def _create_container(request_json):
     RUN sed 's/#$InputTCPServerRun 514/$InputTCPServerRun 514/' -i /etc/rsyslog.conf
     EXPOSE 514/tcp 514/udp 
     CMD ["/usr/sbin/rsyslogd", "-dn", "-f", "/etc/rsyslog.conf"]
-    RUN apt-get install -y openssh-server
+    RUN apt-get install -y openssh-server git
     RUN mkdir /var/run/sshd
     RUN useradd -s /bin/bash -m ''' + user + '''
     RUN echo "''' + user + ":" + password + '''" | chpasswd
@@ -85,6 +87,8 @@ def _create_container(request_json):
     CMD ["/usr/sbin/sshd", "-D"]
     '''
 
+    print("-----dockerfile-----", dockerfile)
+
     dockerfile_binary = BytesIO(dockerfile.encode('utf-8'))
     client = Client(version='1.20', base_url='tcp://127.0.0.1:2376')
     response = [line for line in client.build(fileobj=dockerfile_binary,
@@ -97,12 +101,55 @@ def _create_container(request_json):
     link_path = client.inspect_container(container_id)
     ip = link_path['NetworkSettings']['IPAddress']
     message_log = "docker-container %s created successfully, ipv4: %s.\n" % (name, ip)
+    print(message_log)
     logger.info(message_log)
+    request_json['local_ipv4'] = ip
     request_json['message_log'] += message_log
     request_json['status'] = 3
 
     database.update_request(request_json)
-        
+
+    return request_json
+
+def _provisioning_container(request_json):
+    name = request_json['name']
+    ip = request_json['local_ipv4']
+    provisioner = request_json['provisioner']
+    executor = request_json['executor']
+
+    message_log = "provisioning docker-container %s, with ip %s..." % (name, ip)
+    request_json['status'] = 4
+    print(message_log)
+
+    database.update_request(request_json)
+    
+    logger.info(message_log)
+
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.load_system_host_keys()
+    ssh.connect(ip, port=22, username='root', password='virtshell')
+
+    stdin, stdout, stderr = ssh.exec_command("git clone " + provisioner)
+    message_log = stdout.readlines()
+    print(message_log)
+    logger.info(message_log)
+
+    dot = provisioner.rfind('.')
+    slash = provisioner.rfind('/')
+    repository_name = provisioner[dot+1:slash]
+    print(repository_name)
+
+    stdin, stdout, stderr = ssh.exec_command("cd " + repository_name + "; ./" + executor)
+    message_log = stdout.readlines()
+    print(message_log)
+    logger.info(message_log)
+
+    ssh.close()
+
+    request_json['status'] = 5
+
+    database.update_request(request_json)
 
 def start(request):
     return "successfully"

@@ -119,7 +119,7 @@ def init_logger(LoggerName):
     logger = logging.getLogger(LoggerName)
     logger.setLevel(logging.INFO)
     # Create handler
-    handler = logging.FileHandler('/var/log/virtshell_provisioning_agent.log')
+    handler = logging.FileHandler('/var/janu/log/virtshell_provisioning_agent.log')
     handler.setLevel(logging.INFO)
     # Create formatter
     formatter = logging.Formatter('%(asctime)s %(name)s '

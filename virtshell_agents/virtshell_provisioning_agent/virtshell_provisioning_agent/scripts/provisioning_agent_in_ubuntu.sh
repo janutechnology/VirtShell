@@ -8,6 +8,7 @@ sudo pip3 install tornado
 sudo pip3 install requests
 sudo pip3 install psutil
 sudo pip3 install docker-py
+sudo pip3 install paramiko
 
 echo "Installing docker..."
 sudo apt-get autoremove -y
@@ -18,7 +19,10 @@ sudo rm /etc/apt/sources.list.d/docker.list
 sudo touch /etc/apt/sources.list.d/docker.list
 
 echo "Creating directories for virtshell_provisioning_agent..."
-sudo mkdir -p /var/janu/virtshell_provisioning_agent/
+sudo mkdir -p /var/janu/
+sudo mkdir -p /var/janu/data/virtshell_provisioning_agent
+sudo mkdir -p /var/janu/etc/virtshell_provisioning_agent/
+sudo mkdir -p /var/janu/log/
 
 if [ $# -gt 0 ]; then
 	OS="$1"
