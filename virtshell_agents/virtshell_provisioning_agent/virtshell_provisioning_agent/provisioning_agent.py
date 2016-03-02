@@ -103,7 +103,7 @@ class RequestHandler(tornado.websocket.WebSocketHandler):
     def on_message(self, json_message):
         main_logger.info("message received %s" % json_message)
         listener_handler.dispatch(json_message)
-        return "received"
+        self.write_message(u"received")
 
     def on_close(self):
         main_logger.info("connection closed")
@@ -119,7 +119,7 @@ def init_logger(LoggerName):
     logger = logging.getLogger(LoggerName)
     logger.setLevel(logging.INFO)
     # Create handler
-    handler = logging.FileHandler('/var/log/virtshell_provisioning_agent.log')
+    handler = logging.FileHandler('/var/janu/log/virtshell_provisioning_agent.log')
     handler.setLevel(logging.INFO)
     # Create formatter
     formatter = logging.Formatter('%(asctime)s %(name)s '

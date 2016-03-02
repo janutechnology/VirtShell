@@ -11,7 +11,7 @@ from entities import Request
 ################################################################################
 # Global Variables
 ################################################################################
-database_file = '/var/janu/virtshell_provisioning_agent/vsprovagent.db'
+database_file = '/var/janu/data/virtshell_provisioning_agent/vsprovagent.db'
 
 ################################################################################
 # Database Class

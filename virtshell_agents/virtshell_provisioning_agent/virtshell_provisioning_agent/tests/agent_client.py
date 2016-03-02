@@ -8,13 +8,15 @@ if __name__ == "__main__":
     
     data = {'action':'create',
             'drive':'docker',
-            'name':'callanor01', 
+            'name':'callanor02', 
             'distribution':'ubuntu',
             'release':'trusty',
             'version': '14.04',
             'arch':'amd64',
             'launch':1,
             'cpus':1,
+            'provisioner': "https://github.com/janutechnology/VirtShell_Provisioner_Simple_WebSite_Example.git",
+            'executor': "install.sh",
             'user':'callanor',
             'password':'callanor',            
             'memory':1024}
@@ -24,9 +26,7 @@ if __name__ == "__main__":
     print("Sent")
     print("Receiving...")
     result = ws.recv()
+    print("Received '%s'" % result)
     print("Received {}".format(result))
     ws.close()
 
-# python agent_client.py
-#from git import Repo
-#Repo.clone_from("https://github.com/CALlanoR/VirtShell.git", "/root/repositories/virtshell")
