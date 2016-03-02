@@ -87,21 +87,19 @@ def _create_container(request_json):
     CMD ["/usr/sbin/sshd", "-D"]
     '''
 
-    print("-----dockerfile-----", dockerfile)
-
     dockerfile_binary = BytesIO(dockerfile.encode('utf-8'))
     client = Client(version='1.20', base_url='tcp://127.0.0.1:2376')
     response = [line for line in client.build(fileobj=dockerfile_binary,
                                               rm=True,
                                               tag=distribution)]
-    container = client.create_container(image=distribution)
+    container = client.create_container(name=name, 
+                                        image=distribution)
     container_id = container['Id']
 
     client.start(container_id)
     link_path = client.inspect_container(container_id)
     ip = link_path['NetworkSettings']['IPAddress']
     message_log = "docker-container %s created successfully, ipv4: %s.\n" % (name, ip)
-    print(message_log)
     logger.info(message_log)
     request_json['local_ipv4'] = ip
     request_json['message_log'] += message_log
@@ -114,35 +112,28 @@ def _create_container(request_json):
 def _provisioning_container(request_json):
     name = request_json['name']
     ip = request_json['local_ipv4']
-    provisioner = request_json['provisioner']
+    provisioner = str(request_json['provisioner'])
     executor = request_json['executor']
 
     message_log = "provisioning docker-container %s, with ip %s..." % (name, ip)
     request_json['status'] = 4
-    print(message_log)
 
     database.update_request(request_json)
     
-    logger.info(message_log)
-
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.load_system_host_keys()
     ssh.connect(ip, port=22, username='root', password='virtshell')
 
     stdin, stdout, stderr = ssh.exec_command("git clone " + provisioner)
-    message_log = stdout.readlines()
-    print(message_log)
-    logger.info(message_log)
+    message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
 
     dot = provisioner.rfind('.')
     slash = provisioner.rfind('/')
-    repository_name = provisioner[dot+1:slash]
-    print(repository_name)
+    repository_name = provisioner[slash+1:dot]
 
     stdin, stdout, stderr = ssh.exec_command("cd " + repository_name + "; ./" + executor)
-    message_log = stdout.readlines()
-    print(message_log)
+    message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
     logger.info(message_log)
 
     ssh.close()

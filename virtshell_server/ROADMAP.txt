@@ -16,8 +16,7 @@ Roadmap
     - Service to build images to virtualbox 
 
 + Hosts
-    - When a new host is added, automatically a new task should be create to install the provisioning_agent (and other agents)
-      in the host.
+    - When a new host is added, automatically a new task should be create to install the provisioning_agent (and other agents) in the host.
 
 + Amazon
     - Create a separated service to interact with amazon api
@@ -25,3 +24,6 @@ Roadmap
 + All modules
     - Add unit tests and integration test with other services
     - If the element in the database not exists return a correct status and message error
+
++ Intances
+    - Add iptables for the enviroments (limit the access between machines of the same partition)

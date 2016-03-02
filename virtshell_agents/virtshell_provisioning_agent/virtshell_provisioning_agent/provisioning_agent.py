@@ -103,7 +103,7 @@ class RequestHandler(tornado.websocket.WebSocketHandler):
     def on_message(self, json_message):
         main_logger.info("message received %s" % json_message)
         listener_handler.dispatch(json_message)
-        return "received"
+        self.write_message(u"received")
 
     def on_close(self):
         main_logger.info("connection closed")

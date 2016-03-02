@@ -26,9 +26,7 @@ if __name__ == "__main__":
     print("Sent")
     print("Receiving...")
     result = ws.recv()
+    print("Received '%s'" % result)
     print("Received {}".format(result))
     ws.close()
 
-# python agent_client.py
-#from git import Repo
-#Repo.clone_from("https://github.com/CALlanoR/VirtShell.git", "/root/repositories/virtshell")
