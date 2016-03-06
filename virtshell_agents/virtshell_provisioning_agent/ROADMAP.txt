@@ -5,3 +5,5 @@ Roadmap
 + Create a kvm plugin
 + Change dockerfile to modify hostname in container
 + Add mutex lock in sqlite connection
++ Validate the json input, mandatory fields
++ Update task's status

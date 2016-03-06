@@ -9,7 +9,7 @@ from database import Database
 def catalogue():
     return ['create', 'start', 'stop']
 
-def drive():
+def driver():
     return 'docker'
 
 def init_logger(LoggerName):

@@ -9,7 +9,7 @@ from logging.handlers import SysLogHandler
 def catalogue():
     return ['create', 'start', 'stop']
 
-def drive():
+def driver():
     return "lxc"
 
 def init_logger(LoggerName):
