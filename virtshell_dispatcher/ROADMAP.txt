@@ -4,3 +4,4 @@ Roadmap
 - Change the form to select a host with base in metrics maybe
 - Add unit tests and integration tests
 - Check if the host is online otherwise select another host
+	- if there is not any host online to keep the task with status pending

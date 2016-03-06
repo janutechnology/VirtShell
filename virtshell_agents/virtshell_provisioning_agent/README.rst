@@ -14,7 +14,7 @@ https://github.com/lamerman/shellpy/blob/master/README.md
 Temporal notes:
 ==============
 For now: python3 server.py 
-rsync -azP virtshell_provisioning_agent/ ssh callanor@192.168.56.103:/var/janu/
+rsync -azP virtshell_provisioning_agent/ ssh callanor@192.168.56.101:/var/janu/
 
 Install
 =======

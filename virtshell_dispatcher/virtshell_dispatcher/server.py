@@ -18,7 +18,7 @@ class Dispatcher(object):
     def __init__(self):
         self.init_logger("virtshell_dispatcher")
         self.listeners_tasks = {}
-        self.tasks_folder = "/home/callanor/virtshell_dispatcher/virtshell_dispatcher/tasks"
+        self.tasks_folder = "./tasks"
         self.special_files = ["__init__.py", "__pycache__"]
         self.task_execute_method = "main"       
         self.load_plugin_tasks()
@@ -44,7 +44,7 @@ class Dispatcher(object):
     def execute_task(self, task_name, task):
         if task_name in self.listeners_tasks:
             module, function = self.listeners_tasks[task_name]
-            status, message = function(task)
+            status, message = function(task, self.logger)
             if status != "error":
                 self.logger.info(message)
             else:
@@ -59,12 +59,11 @@ class Dispatcher(object):
             pending_tasks = self.get_pending_tasks()
             for task in pending_tasks:
                 self.execute_task(task['type'], task)
-            time.sleep(20)
+            time.sleep(10)
 
     def get_pending_tasks(self):
         self.logger.info("Get pending tasks from server...")
         url = "%s/tasks/status/pending" % (VIRTSHELL_SERVER)
-        self.logger.info(url)
         try:
             data = requests.get(url)             
             pending_tasks = json.loads(data.text)['tasks']
@@ -83,7 +82,7 @@ class Dispatcher(object):
         self.logger = logging.getLogger(LoggerName)
         self.logger.setLevel(logging.INFO)
         # Create handler
-        handler = logging.FileHandler('/var/log/virtshell_dispatcher.log')
+        handler = logging.FileHandler('/var/janu/log/virtshell_dispatcher.log')
         #handler = SysLogHandler(address='/dev/log')
         handler.setLevel(logging.INFO)
         # Create formatter

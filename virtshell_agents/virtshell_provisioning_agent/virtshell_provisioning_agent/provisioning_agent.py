@@ -60,7 +60,7 @@ class ListenerHandler(object):
             plugin_methods = plugin_class.catalogue()
             for plugin_method_name in plugin_methods:
                 plugin_method = getattr(plugin_class, plugin_method_name)
-                plugin_key = plugin_class.drive() + '-' + plugin_method_name
+                plugin_key = plugin_class.driver() + '-' + plugin_method_name
                 self.register(plugin_key, (plugin_class, plugin_method))
 
     def register(self, action, listener):
@@ -68,7 +68,7 @@ class ListenerHandler(object):
 
     def dispatch(self, request):
         message = json.loads(request)
-        action = message['drive'] + '-' + message['action']
+        action = message['driver'] + '-' + message['action']
         plugin, method = self.listeners[action]
         create_daemon = threading.Thread(name = 'create_daemon',
                                          args = (request,),

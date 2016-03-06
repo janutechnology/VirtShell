@@ -7,7 +7,7 @@ if __name__ == "__main__":
     ws = websocket.create_connection("ws://127.0.0.1:8080/")
     
     data = {'action':'create',
-            'drive':'docker',
+            'driver':'docker',
             'name':'callanor02', 
             'distribution':'ubuntu',
             'release':'trusty',

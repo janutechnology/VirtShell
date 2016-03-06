@@ -7,7 +7,7 @@ from logging.handlers import SysLogHandler
 def catalogue():
     return ['create']
 
-def drive():
+def driver():
     return "virtualbox" 
 
 def init_logger(LoggerName):

@@ -9,6 +9,7 @@ sudo pip3 install requests
 sudo pip3 install psutil
 sudo pip3 install docker-py
 sudo pip3 install paramiko
+sudo pip3 install websocket-client
 
 echo "Installing docker..."
 sudo apt-get autoremove -y
@@ -60,5 +61,7 @@ echo  'DOCKER_OPTS="-H tcp://127.0.0.1:2376 -H unix:///var/run/docker.sock --dns
 echo "Starting docker..."
 sudo service docker start
 
-
-
+echo "Installing guest additions..."
+sudo apt-get install virtualbox-guest-additions-iso
+sudo apt-get install virtualbox-guest-utils
+sudo shutdown -r now
