@@ -7,3 +7,4 @@ Roadmap
 + Add mutex lock in sqlite connection
 + Validate the json input, mandatory fields
 + Update task's status
++ Expose docker ip (http://blog.sequenceiq.com/blog/2014/08/12/docker-networking/)
