@@ -58,3 +58,19 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# LaTex
+*.log
+*.out
+*.aux
+*.toc
+*.dvi
+*.blg
+*.lot
+*.lof
+*.loa
+*.ps
+*.pdf
+*.idx
+*.ind
+*.ilg

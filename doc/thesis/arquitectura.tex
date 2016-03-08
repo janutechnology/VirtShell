@@ -1,0 +1,22 @@
+\chapter{Arquitectura y Diseño}
+\label{Arquitectura}
+
+El VirtShell Framework es un API REST diseñado para simplificar la automatización y gestión de infraestructura, facilitando tareas como creación, despliegue y mantenimiento de recursos virtuales. Para lograr esto, VirtShell se basa en scripts re-utilizables escritos en bash que permiten instalar y configurar cualquier tipo de servidor o grandes soluciones que involucren varios recursos virtuales sin importar su tamaño. VirtShell es un framework de código abierto y bajo la licencia BSD, que permite utilizarlo para proyectos de cualquier tipo, incluso comerciales. \\
+\\
+\section{Características}
+
+\begin{description}
+\item [Simple]
+\item [Reutilizable]
+\item [Modular] VirtShell es un framework organizado de forma modular, a pesar de que cuenta con un gran número de paquetes y clases. Los modulos seran explicados ampliamente en este capitulo mas adelante.
+\item [Seguro] 
+\item [Extensible] VirtShell fue diseñado con la idea de cargar codigo dinamicamente de manera facil, permitiendo extender el comportamiento del framework cargando plugins en tiempo de ejecucion.
+\item [Inyección de dependencias virtuales] VirtShell adopta la idea del patrón de Inyección de Dependencias, para conseguir scripts de aprovisionamiento mas desacoplados, facilitando a un recurso virtual configurar las dependencias que tiene de otras máquinas virtuales para realizar su trabajo. Para ello, el framework permiten declarar el listado de dependencias de recursos virtuales que tiene un script aprovisionamiento permitiendo el correcto acople entre los diferentes recursos virtuales. 
+\end{description}
+
+\section{Arquitectura}
+...
+
+\subsection{Agentes}
+....
+
