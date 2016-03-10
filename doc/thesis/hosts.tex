@@ -1,21 +1,22 @@
 \subsection{Hosts}
-Representan las m'aquinas f'sicas; un host es un anfitrion de maquinas virtuales o contenedores. Los m'etodos soportados son:
+Representan las maquinas físicas; un host es un anfitrión de maquinas virtuales o contenedores. Los métodos soportados son:
 
 \begin{center}
+ \captionof{table}{Métodos HTTP para hosts}
  \begin{tabular}{| l | l | l | l |}
  \hline
   \rowcolor{blueapi}
   \textbf{Acci'on} & \textbf{Metodo HTTP} & \textbf{Solicitud HTTP} & \textbf{Descripci'on} \\ [0.5ex] 
   \hline\hline
-  get & GET & /hosts/id & Gets one host by ID. \\
+  get & GET & /hosts/:name & Gets one host by name. \\
   \hline
   list & GET & /hosts & Retrieves the list of hosts. \\
   \hline  
   create & POST & /hosts/ & Inserts a new host configuration. \\
   \hline
-  delete & DELETE & /hosts/id & Deletes an existing host. \\
+  delete & DELETE & /hosts/:name & Deletes an existing host. \\
   \hline  
-  update & PUT & /hosts/id & Updates an existing host. \\ [1ex] 
+  update & PUT & /hosts/:name & Updates an existing host. \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
@@ -36,7 +37,8 @@ Representaci'on del recurso de un host:
   "local_ipv6": string,
   "public_ipv4": string,
   "public_ipv6": string,
-  "instances": [ instance_resource],
+  "instances": [ instance_resource ],
+  "partition": string,
   "created":["at": number, "by": number]
 }
 \end{lstlisting}
@@ -60,6 +62,7 @@ Ejemplo:
   "instances": [
     ... instances resource is here
   ],
+  "partition": "development_co",
   "created":["at":"timestamp", "by":1234]
 }
 \end{lstlisting}
@@ -81,7 +84,8 @@ curl -sv -X POST \
        "local_ipv4": "15.54.88.19",
          "local_ipv6": "ff06:0:0:0:0:0:0:c3",
        "public_ipv4": "10.54.88.19",
-       "public_ipv6": "yt06:0:0:0:0:0:0:c3"}' \
+       "public_ipv6": "yt06:0:0:0:0:0:0:c3",
+       "partition": "development_co"}' \
    'http://localhost:8080/virtshell/api/v1/hosts'
 \end{lstlisting}
 
@@ -93,12 +97,12 @@ Content-Type: application/json
 { "create": "success" }
 \end{lstlisting}
 
-\paragraph{Obtener un host- GET /api/virtshell/v1/hosts/:id} ~\\
+\paragraph{Obtener un host- GET /api/virtshell/v1/hosts/:name} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
      -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-     'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+     'http://localhost:8080/api/virtshell/v1/hosts/host-01-pdn'
 \end{lstlisting}
 
 Response:
@@ -128,6 +132,7 @@ Content-Type: application/json
       "id": "17173587-C4E9-4369-9C43-FCBF5E075973"
     }
   ],
+  "partition": "development_co",
   "created":["at":"20130625105211", "by":10]
 }
 \end{lstlisting}
@@ -169,6 +174,7 @@ Content-Type: application/json
           "id": "17173587-C4E9-4369-9C43-FCBF5E075973"
         }
       ],
+      "partition": "development_co",
       "created":["at":"20130625105211", "by":10]
     },
     {
@@ -193,13 +199,14 @@ Content-Type: application/json
           "id": "17173587-C4E9-4369-9C43-FCBF5E075973"
         },    
       ],
+      "partition": "development_mx",
       "created":["at":"20130625105211", "by":10]
     }
   ]
 }   
 \end{lstlisting}
 
-\paragraph{Actualizar un host - PUT /api/virtshell/v1/hosts/:id} ~\\
+\paragraph{Actualizar un host - PUT /api/virtshell/v1/hosts/:name} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X PUT \
@@ -207,7 +214,7 @@ curl -sv -X PUT \
     -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{"memory": "24GB",
      "capacity": "750GB"}' \
-   'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+   'http://localhost:8080/api/virtshell/v1/hosts/host-01-pdn'
 \end{lstlisting}
 
 Response:
@@ -219,13 +226,13 @@ Content-Type: application/json
 { "update": "success" }
 \end{lstlisting}
 
-\paragraph{Eliminar un host - DELETE /api/virtshell/v1/hosts/:id} ~\\
+\paragraph{Eliminar un host - DELETE /api/virtshell/v1/hosts/:name} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X DELETE \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://localhost:8080/api/virtshell/v1/hosts?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+   'http://localhost:8080/api/virtshell/v1/hosts/host-01-pdn'
 \end{lstlisting}
 
 Response:

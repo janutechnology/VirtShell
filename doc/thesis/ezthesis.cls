@@ -19,13 +19,13 @@
 \newif\if@bibnumbers\@bibnumbersfalse
 
 \def\PassLayoutOptions#1{%
-	\PassOptionsToClass{#1}{report}
-	\PassOptionsToPackage{#1}{geometry}}
+  \PassOptionsToClass{#1}{report}
+  \PassOptionsToPackage{#1}{geometry}}
 
 %% class options
 \DeclareOption{draft}{%
-	\@drafttrue\PassOptionsToClass{draft}{report}
-	\PassOptionsToClass{draft}{graphicx}}
+  \@drafttrue\PassOptionsToClass{draft}{report}
+  \PassOptionsToClass{draft}{graphicx}}
 \DeclareOption{draftmarks}{\@drafttrue\PassOptionsToClass{draft}{report}}
 \DeclareOption{spanish}{\@spanishtrue}
 \DeclareOption{final}{\@draftfalse}
@@ -33,8 +33,8 @@
 \DeclareOption{a4paper}{\PassLayoutOptions{a4paper}}
 \DeclareOption{twoside}{\PassLayoutOptions{twoside}}
 \DeclareOption{oneside}{%
-	\PassOptionsToClass{oneside}{report}%
-	\PassOptionsToPackage{twoside=false}{geometry}}
+  \PassOptionsToClass{oneside}{report}%
+  \PassOptionsToPackage{twoside=false}{geometry}}
 \DeclareOption{singlespace}{\gdef\select@spacing{\singlespacing}}
 \DeclareOption{onehalfspace}{\gdef\select@spacing{\onehalfspacing}}
 \DeclareOption{doublespace}{\gdef\select@spacing{\doublespacing}}
@@ -106,9 +106,9 @@
 \def\shorttime{\number\hours:\ifnum\minutes<10 0\fi\number\minutes\ hrs}
 
 \if@draft
-	\def\draftmark{\draftlabel: \shortdate\ -- \shorttime}
+  \def\draftmark{\draftlabel: \shortdate\ -- \shorttime}
 \else
-	\def\draftmark{}
+  \def\draftmark{}
 \fi
 
 %% spacing
@@ -164,7 +164,7 @@
 
 %% sectioning commands
 \def\prefacesection#1{\clearpage\phantomsection
-	\addcontentsline{toc}{chapter}{#1}\chapter*{#1}\markboth{#1}{}}
+  \addcontentsline{toc}{chapter}{#1}\chapter*{#1}\markboth{#1}{}}
 
 %% Bibliography - natbib
 \if@natbib
@@ -185,66 +185,66 @@
 %% in table of contents, and makes it work nice
 %% with hyperref
 \def\bibliographyfix{%
-	\let\old@bibliography\bibliography
-	\def\bibliography{%
-		\clearpage
-		\phantomsection
-		\addcontentsline{toc}{chapter}{\bibname}%
-		\old@bibliography}}
+  \let\old@bibliography\bibliography
+  \def\bibliography{%
+    \clearpage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{\bibname}%
+    \old@bibliography}}
 
 \if@bibfix
-	\AtBeginDocument{\bibliographyfix}
+  \AtBeginDocument{\bibliographyfix}
 \fi
 
 %% title page building blocks
 \renewenvironment{titlepage}%
-	{\let\ez@blockfill\relax
-	 \thispagestyle{empty}\centering\null\vskip1in}
-	{\vskip.5in\newpage}
+  {\let\ez@blockfill\relax
+   \thispagestyle{empty}\centering\null\vskip1in}
+  {\vskip.5in\newpage}
 
 \newcommand{\TitleBlock}[2][\ez@blockfill]{#1{#2\par}\let\ez@blockfill\vfill}
 
 %% Graphics and colors
 \if@graphicx
-	\RequirePackage{graphicx}
+  \RequirePackage{graphicx}
 \fi
 
 \if@colors
-	\RequirePackage{xcolor}
-	\definecolor{dark-red}{rgb}{0.4,0.15,0.15}
-	\definecolor{dark-blue}{rgb}{0.15,0.15,0.4}
-	\definecolor{medium-blue}{rgb}{0,0,0.5}
+  \RequirePackage{xcolor}
+  \definecolor{dark-red}{rgb}{0.4,0.15,0.15}
+  \definecolor{dark-blue}{rgb}{0.15,0.15,0.4}
+  \definecolor{medium-blue}{rgb}{0,0,0.5}
 \fi
 
 % Linking and pdf options
 \let\phantomsection\@empty
 \def\hyperlinking{%
-	\providecommand\theHalgorithm{\thealgorithm}
-	\providecommand\theHdefinition{\thedefinition}
-	\providecommand\theHexample{\theexample}
-	\providecommand\theHlemma{\thelemma}
-	\providecommand\theHproposition{\theproposition}
-	\providecommand\theHcorollary{\thecorollary}
+  \providecommand\theHalgorithm{\thealgorithm}
+  \providecommand\theHdefinition{\thedefinition}
+  \providecommand\theHexample{\theexample}
+  \providecommand\theHlemma{\thelemma}
+  \providecommand\theHproposition{\theproposition}
+  \providecommand\theHcorollary{\thecorollary}
 
-	\RequirePackage[final,breaklinks,bookmarks]{hyperref}
+  \RequirePackage[final,breaklinks,bookmarks]{hyperref}
 
-	% properties of pdf file
-	\hypersetup{%
-		pdftitle={\inserttitle},pdfauthor={\insertauthor},
-		pdfsubject={\insertdegree\ Thesis, \insertdepartment}}
+  % properties of pdf file
+  \hypersetup{%
+    pdftitle={\inserttitle},pdfauthor={\insertauthor},
+    pdfsubject={\insertdegree\ Thesis, \insertdepartment}}
 
-	% color links
-	\if@colors
-		\hypersetup{%
-			colorlinks,linkcolor={dark-red},citecolor={dark-blue},
-			urlcolor={medium-blue}}
-	\fi
+  % color links
+  \if@colors
+    \hypersetup{%
+      colorlinks,linkcolor={dark-red},citecolor={dark-blue},
+      urlcolor={medium-blue}}
+  \fi
 
-	\renewcommand{\chapterautorefname}{Chapter}
-	\renewcommand{\sectionautorefname}{Section}
-	\renewcommand{\subsectionautorefname}{Section}
-	\renewcommand{\subsubsectionautorefname}{Section}
-	\RequirePackage[all]{hypcap}
+  \renewcommand{\chapterautorefname}{Chapter}
+  \renewcommand{\sectionautorefname}{Section}
+  \renewcommand{\subsectionautorefname}{Section}
+  \renewcommand{\subsubsectionautorefname}{Section}
+  \RequirePackage[all]{hypcap}
 }
 
 \endinput

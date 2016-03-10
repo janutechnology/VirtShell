@@ -9,7 +9,6 @@ SRC = tesis.tex
 
 pdf: 
 	pdflatex tesis.tex
-	pdflatex tesis.tex
 	evince tesis.pdf
 
 clean:

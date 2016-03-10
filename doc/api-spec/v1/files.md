@@ -7,10 +7,10 @@ Represents an individual file on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| get | GET | /files/id | Gets one file by ID. |
+| get | GET | /files/:id | Gets one file by ID. |
 | create | POST | /files/ | Upload a new file. | 
-| delete | DELETE | /files/id | Deletes an existing file. |
-| update | PUT | /files/id | Updates an existing file. |
+| delete | DELETE | /files/:id | Deletes an existing file. |
+| update | PUT | /files/:id | Updates an existing file. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -23,6 +23,7 @@ Resource representation
   "name": "file_name.extension",
   "folder_name" : "folder_name",
   "download_url": "https://<host>:<port>/api/virtshell/v1/files/folder_name/file.txt",
+  "permissions": string,
   "created":["at":"timestamp", "by":user_id]
 }
 ```
@@ -69,7 +70,7 @@ Then, retrieve the actual file content (or link) using the download URL.
 ```sh
 curl -sv -H 'accept: application/json' 
 		 -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-		 'http://<host>:<port>/api/virtshell/v1/files/?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+		 'http://<host>:<port>/api/virtshell/v1/files/ab8076c0-db91-11e2-82ce-0002a5d5c51b'
 ```
 
 Response:
@@ -99,7 +100,7 @@ curl -sv -X PUT \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -H "Content-Type: multipart/form-data" \
   -F "file_data=@/path/to/file/seed_file.txt;filename=seed_file_ubuntu-14_04_v2.txt" \
-   'http://localhost:8080/api/virtshell/v1/files?id=8de7b824-d7d1-4265-a3a6-5b46cc9b8ed5'
+   'http://localhost:8080/api/virtshell/v1/files/8de7b824-d7d1-4265-a3a6-5b46cc9b8ed5'
 ```
 
 Response:
@@ -120,7 +121,7 @@ Delete an existing file.
 curl -sv -X DELETE \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://<host>:<port>/api/virtshell/v1/files?id=ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+   'http://<host>:<port>/api/virtshell/v1/files/ab8076c0-db91-11e2-82ce-0002a5d5c51b'
 ```
 
 Response:

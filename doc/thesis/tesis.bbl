@@ -12,11 +12,17 @@
 \newcommand{\noopsort}[1]{}
 \begin{thebibliography}{Mil92}
 
-\bibitem{Nixes13}EECS Department, Northwestern University, \url{http://www.aqualab.cs.northwestern.edu/projects/149-nixes-tool-set}, 2013.
+\bibitem{fabfile16}Fabric, \url{http://www.fabfile.org/}, 2016.
+
+\bibitem{juju16}Ubuntu Juju, \url{http://www.ubuntu.com/cloud/juju}, 2016.
+
+\bibitem{doccom16}Docker Composer, \url{https://docs.docker.com/compose/}, 2016.
 
 \bibitem{Smart09}SmartFrog, \url{http://smartfrog.org/display/sf/SmartFrog+Home}, 2009.
 
-\bibitem{Radia15}SmartFrog, \url{https://radia.accelerite.com/solutions}, 2015.
+\bibitem{ans16}Ansible, \url{https://www.ansible.com/}, 2016.
+
+\bibitem{Amazon16}Amazon EC2, \url{https://aws.amazon.com/ec2/}, 2016.
 
 \bibitem{Chef15}Chef, \url{https://docs.chef.io/}, 2015.
 
@@ -27,5 +33,11 @@
 \bibitem{bdfg215}Bdfg2, \url{http://bcfg2.org/}, 2015.
 
 \bibitem{Cobbler15}Cobbler, \url{https://cobbler.github.io/}, 2016.
+
+\bibitem{Vag15}Vagrant, \url{https://www.vagrantup.com/}, 2016.
+
+\bibitem{Salt15}SaltStack, \url{http://saltstack.com/community/}, 2016.
+
+
 
 \end{thebibliography}
