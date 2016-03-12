@@ -57,7 +57,7 @@ curl -sv -X POST \
         "description": "Server transactional only for store logs", 
         "provisioner": "all_backend",
         "host_type": "GeneralPurpose",
-        "drive": "lxc"
+        "driver": "lxc"
       }' \
    'http://localhost:8080/api/virtshell/v1/instances'
 ```
