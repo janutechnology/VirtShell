@@ -151,7 +151,7 @@ Content-Type: application/json
 ```
 ```json
 { "execute_command": "in progress" }
-
+```
 
 Copy file
 =========
