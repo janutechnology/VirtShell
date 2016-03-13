@@ -27,7 +27,8 @@ Resource representations
   "version": "14.04.2", 
   "variant": "server|desktop", 
   "arch": "i386|amd64", 
-  "timezone": "America/Bogota", 
+  "timezone": "America/Bogota",
+  "permissions": "xwrxwrxwr",
   "ssh_key": "-------- BEGIN PUBLIC KEY ----and a valid key here",
   "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
   "download_url": "https://<host>:<port>/api/virtshell/v1/files/images/3514296#file-lxc-ubuntu",
@@ -95,7 +96,8 @@ Content-Type: application/json
   "release": "trusty",
   "version": "14.04.2", 
   "variant": "server", 
-  "arch": "amd64", 
+  "arch": "amd64",
+  "permissions": "xwrxwrxwr",
   "timezone": "America/Bogota", 
   "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu_14_04.txt",
   "created":["at":"20130625105211","by":10]
@@ -129,7 +131,8 @@ Content-Type: application/json
       "release": "trusty",
       "version": "14.04.2", 
       "variant": "server", 
-      "arch": "amd64", 
+      "arch": "amd64",
+      "permissions": "xwrxwrxwr", 
       "timezone": "America/Bogota", 
       "preseed_file": "/home/callanor/seed_file.txt",
       "created":["at":"20130625105211","by":10]
@@ -140,7 +143,8 @@ Content-Type: application/json
       "type": "container",
       "os": "centos", 
       "version": "7", 
-      "arch": "x86_64", 
+      "arch": "x86_64",
+      "permissions": "xwrxwrxwr",
       "download_url": "https://<host>:<port>/api/virtshell/v1/files/images/3514296#file-lxc-centos"
       "created":["at":"20140625105211","by":12]
     }

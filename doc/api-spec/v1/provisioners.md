@@ -29,6 +29,7 @@ Resource representation
   "executor": "run1.sh",
   "tag": "backend",
   "depends": [ ... list of dependencies necessary for the builder ... ],
+  "permissions": "xwrxwrxwr",
   "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
   "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
 }
@@ -90,6 +91,7 @@ Content-Type: application/json
       "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
       "executor": "run1.sh",
       "tag": "backend",
+      "permissions": "xwrxwrxwr",
       "depends": [
           {"provisioner_name": "db-users", "version": "2.0.0"},
           {"provisioner_name": "db-transactional"}
@@ -99,6 +101,7 @@ Content-Type: application/json
       "name": "db-transactional",
       "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
       "executor": "run_db.sh",
+      "permissions": "xwrxwrxwr",      
       "tag": "db"
     }
   ]
@@ -131,6 +134,7 @@ Content-Type: application/json
         {"provisioner_name": "db-users", "version": "2.0.0"},
         {"provisioner_name": "db-transactional"}
     ],
+    "permissions": "xwrxwrxwr",
     "created": {"at":"1429207233", "by":"420aa2c4-8d96-11e5-8994-feff819cdc9f"},
     "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}    
   }

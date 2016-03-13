@@ -37,6 +37,7 @@ Representaci'on del recurso de un provisioner:
   "ipv4": string,
   "ipv6": string,
   "driver": string,
+  "permissions": string,
   "created": {"at": timestamp, "by": string},
   "modified": {"at": timestamp, "by": string}
 }
@@ -60,6 +61,7 @@ Ejemplo:
   "ipv4": "172.16.56.104",
   "ipv6": "FE80:0000:0000:0000:0202:B3FF:FE1E:8329",
   "driver": "lxc | virtualbox | vmware | ec2 | kvm | docker",
+  "permissions": "xwrxwrxwr",
   "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
   "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
 }
@@ -150,6 +152,7 @@ Content-Type: application/json
       "provisioner": "all_backend",
       "host_type": "GeneralPurpose",
       "drive": "lxc",
+      "permissions": "xwrxwrxwr",
       "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
       "modified": {"at":"1529207233", "by":"cf744732-8f12-11e5-8994-feff819cdc9f"}
     },
@@ -164,6 +167,7 @@ Content-Type: application/json
       "provisioner": "all_backend",
       "host_type": "StorageOptimized",
       "drive": "docker",
+      "permissions": "xwrxwrxwr",
       "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
       "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
     }    
