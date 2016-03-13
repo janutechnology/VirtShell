@@ -29,6 +29,7 @@ Resource representation
   "enviroment": "Enviroment name to which it belongs",
   "operating_system": "ubuntu_server_14.04.2_amd64",
   "provisioner": "all_backend",
+  "permissions": "xwrxwrxwr",
   "host_type": "GeneralPurpose | ComputeOptimized | MemoryOptimized | StorageOptimized",
   "ipv4": "172.16.56.104",
   "ipv6": "FE80:0000:0000:0000:0202:B3FF:FE1E:8329",
@@ -101,6 +102,7 @@ Content-Type: application/json
       "provisioner": "all_backend",
       "host_type": "GeneralPurpose",
       "drive": "lxc",
+      "permissions": "xwrxwrxwr",
       "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
       "modified": {"at":"1529207233", "by":"cf744732-8f12-11e5-8994-feff819cdc9f"}
     },
@@ -115,6 +117,7 @@ Content-Type: application/json
       "provisioner": "all_backend",
       "host_type": "StorageOptimized",
       "drive": "docker",
+      "permissions": "xwrxwrxwr",
       "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
       "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
     }    
@@ -150,6 +153,7 @@ Content-Type: application/json
   "provisioner": "all_backend",
   "host_type": "GeneralPurpose",
   "drive": "lxc",
+  "permissions": "xwrxwrxwr",
   "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
   "modified": {"at":"1529207233", "by":"cf744732-8f12-11e5-8994-feff819cdc9f"}
   }
