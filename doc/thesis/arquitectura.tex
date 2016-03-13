@@ -1,38 +1,28 @@
 \chapter{Arquitectura y Diseño}
 \label{Arquitectura}
 
-VirtShell Framework es una plataforma que proporciona herramientas para la automatización y gestión de infraestructura a través del protocolo HTTP. En otros terminos, VirtShell facilita la creación, despliegue, mantenimiento y monitoreo tanto de recursos virtuales como fisicos por medio de una API REST. Esto permite que cualquier desarrollo de software con acceso a internet (sitio web, aplicación móvil, etc.) pueda utilizar VirtShell e interactuar con la infraestructura tan solo haciendo llamadas a direcciones de internet. \\
+VirtShell Framework es una plataforma que proporciona herramientas para la automatización y gestión de infraestructura a través del protocolo HTTP. En otros terminos, VirtShell facilita la creación, despliegue, mantenimiento y monitoreo tanto de recursos virtuales como físicos por medio de una API REST. Esto permite que cualquier desarrollo de software con acceso a internet (sitio web, aplicación móvil, etc.) pueda utilizar VirtShell e interactuar con la infraestructura tan solo haciendo llamadas a direcciones de internet. \\
 \\
-VirtShell basa principalmente su funcionamiento en scripts de shell re-utilizables, que facilitan la instalación y configuraración de cualquier tipo de servidor o grandes soluciones que involucren varios recursos virtuales sin importar su tamaño. Sin embargo el lenguaje de los scripts no necesariamente debe ser el shell tambien puede interactuar con cualquier lenguaje de programación que el usuario prefiera.\\
+VirtShell basa principalmente su funcionamiento en scripts de shell re-utilizables, que facilitan la instalación y configuración de cualquier tipo de servidor o grandes soluciones que involucren varios recursos virtuales sin importar su tamaño. Sin embargo el lenguaje de los scripts no necesariamente debe ser el shell también puede interactuar con cualquier lenguaje de programación que el usuario prefiera.\\
 \\
 VirtShell es un framework de código abierto y bajo la licencia BSD, que permite utilizarlo para proyectos de cualquier tipo, incluso comerciales. 
-
-
-% En este sentido otra ventaja importantísima es la posibilidad de crear tantos frontales como necesites con la misma API. Igual comienzas desarrollando una web, pero con la misma API podrás desarrollar también una aplicación para iOS, Android y si mañana gustas para Windows 8, Windows Phone, el próximo Windows 10, Blackberry, FirefoxOS y tantos como vengan en el futuro a encajar con tu estrategia de negocio.
-
-
-% A la hora de ejecutar tu aplicación también tienes una flexibilidad mucho mayor. Las páginas del front las puedes enviar desde unos servidores y las API pueden estar alojadas en servidores independientes, tantos como necesites. Por las características de REST (principalmente no guardar estado) es indiferente qué servidor atienda cada solicitud, pues es el propio cliente el que tiene que mandar el estado al servidor, así que el balanceo de carga es mucho más simple que en aplicaciones tradicionales donde el front está mezclado con el back. También tienes la aproximación de las "micro APIs", en las que puedes dividir los procesos en diferentes servidores que atiendan a diferentes tipos de operaciones del API. 
-
-% No mantener el estado, no requiere memoria, se pueden atender más peticiones
-
-% -------------
 
 \section{Características}
 
 \begin{description}
-\item [Programable] VirtShell esta orientado a realizar el aprovisionamiento de sus instancias principalmente por medio de scripts en shell, permitiendo aprovechar todas las estructuras y utilidades del lenguaje de programacion. Adicionalmente VirtShell permite extender el comportamiento del shell desplegando comandos propios que proporcionan ahorro en tiempo y en complejidad. Sin embargo, el lenguaje de shell no es de uso obligatorio, el  metodo de aprovisionamiento puede ser el de la preferencia del usuario. 
-\item [Repetible] VirtShell ofrece herramientas para que los scritps de aprovisionamiento sean configurables y  puedan ser ejecutados varias veces en diferentes ambientes de desarrollo o produccion.
-\item [Modular] VirtShell es un framework organizado de forma modular. Los modulos se encuentran agrupados en categorias que ofrecen las herramientas necesarias para la administracion de y aprovisionamiento de multiples recursos virtuales. De igual manera y dada las características de REST, los modulos estan diseñados para que se puedan dividir en diferentes servidores obteniendo "micro APIs", lo que permite dividir los procesos y atender diferentes tipos de operaciones del API. 
-\item [Escalable] Al ser VirtShell de código abierto, el API puede modificarse, crecer facilmente y versionarse como se desee. 
-\item [Seguro] VirtShell provee varias capacidades y servicios para aumentar la privacidad y el control de acceso a los diferentes recursos. Los servicios de seguridad permiten crear redes y controlar el acceso a las instancias creadas, asi como definir y administrar politicas de accesso a usuarios y permisos sobre cualquier recurso del sistema como por ejemplo scripts de creacion y aprovisionamiento.
-\item [Extensible] VirtShell fue diseñado con la idea de cargar codigo dinamicamente facilmente, permitiendo extender el comportamiento del framework agregando plugins en tiempo de ejecucion.
-\item [Inyección de dependencias virtuales] VirtShell adopta la idea del patrón de Inyección de Dependencias, para conseguir scripts de aprovisionamiento mas desacoplados. De esta manera facilita las configuración de las dependencias que tiene un recurso virtual de otras máquinas virtuales. Para ello, el framework permiten declarar el listado de dependencias de recursos virtuales que tiene un script aprovisionamiento encargandose del correcto acople entre los diferentes recursos virtuales.
-\item [Interoperable] 
-\item [Balanceable]
+\item [Programable] VirtShell esta orientado a realizar el aprovisionamiento de sus instancias principalmente por medio de scripts escritos en shell, permitiendo aprovechar todas las estructuras y utilidades del lenguaje de programación. Sin embargo, el lenguaje de shell no es de uso obligatorio, el  metodo de aprovisionamiento puede ser el de la preferencia del usuario. 
+\item [Repetible] VirtShell ofrece herramientas para que los scritps de aprovisionamiento sean configurables y  puedan ser ejecutados varias veces en diferentes ambientes de desarrollo o producción.
+\item [Modular] VirtShell es un framework organizado de forma modular. Los módulos se encuentran agrupados en categorías que ofrecen las herramientas necesarias para la administración de y aprovisionamiento de múltiples recursos virtuales. De igual manera y dada las características de REST, los módulos están diseñados para que se puedan dividir en diferentes servidores obteniendo "micro APIs", lo que permite dividir los procesos y atender diferentes tipos de operaciones del API. 
+\item [Escalable] Al ser VirtShell de código abierto, el API puede modificarse, crecer fácilmente y versionarse de diferentes maneras. 
+\item [Seguro] VirtShell provee varias capacidades y servicios para aumentar la privacidad y el control de acceso a los diferentes recursos. Los servicios de seguridad permiten crear redes y controlar el acceso a las instancias creadas, asi como definir y administrar políticas de accesso a usuarios y permisos sobre cualquier recurso del sistema como por ejemplo scripts de creación y aprovisionamiento.
+\item [Extensible] VirtShell fue diseñado con la idea de cargar código dinamicamente fácilmente, permitiendo extender el comportamiento del framework agregando plugins en tiempo de ejecución.  Adicionalmente VirtShell permite extender el comportamiento del shell desplegando comandos propios que proporcionan ahorro en tiempo y en complejidad.
+\item [Inyección de dependencias virtuales] VirtShell adopta la idea del patrón de Inyección de Dependencias, para conseguir scripts de aprovisionamiento mas desacoplados. De esta manera facilita las configuración de las dependencias que tiene un recurso virtual de otras máquinas virtuales. Para ello, el framework permiten declarar el listado de dependencias de recursos virtuales que tiene un script aprovisionamiento encargándose del correcto acople entre los diferentes recursos virtuales.
+\item [Interoperable] Al seguir el estilo arquitectónico REST y contar con la documentación detallada sobre cada uno de los recursos y urls que expone el API de VirtShell, se logra una capacidad clave para la administración remota de la infraestructura virtual. Esta capacidad se refiere al hecho de poder desarrollar aplicaciones en cualquier plataforma y para cualquier dispositivo electrónico, lo que permite funcionar con otros productos o sistemas existentes o futuros.
+
 \end{description}
 
 \section{Arquitectura}
-VirtShell Framework consiste de caracteristicas organizadas en 12 modulos. Estos modulos son agrupados en Seguridad, Administracion y Aprovisionamiento. Estos elementos se usan de manera separada pero trabajan juntos para proveer la informacion necesaria para que los agentes realicen su trabajo en los hosts que albergaran los recursos virtuales, como se muestra en la figura. \\
+VirtShell Framework consiste de características organizadas en 13 módulos. Estos módulos son agrupados en Seguridad, Administración y Aprovisionamiento. Estos elementos se usan de manera separada pero trabajan juntos para proveer la información necesaria para que los agentes realicen su trabajo en los hosts que albergaran los recursos virtuales, como se muestra en la figura. \\
 
 \begin{figure}
 	\caption{Overview of the VirtShell Framework}
@@ -42,20 +32,29 @@ VirtShell Framework consiste de caracteristicas organizadas en 12 modulos. Estos
 Las siguientes secciones detallan los módulos disponibles para cada característica. 
 
 \subsection{Security}
-El modulo de seguridad consisten en los modulos de usuarios, grupos y el modulo de autenticacion. El control de los usuarios y grupos es un elemento clave en la administración del framework.\\
+Seguridad consiste de los módulos de usuarios (users), grupos (groups) y el modulo de autenticación (authenticator). El control de los usuarios y grupos son elementos clave en la administración del framework. Los \textbf{Usuarios} pueden ser personas reales, es decir, cuentas ligadas a un usuario físico en particular o cuentas que existen para ser usadas por aplicaciones específicas. \\
 \\
-Los Usuarios pueden ser personas reales, es decir, cuentas ligadas a un usuario físico en particular o cuentas que existen para ser usadas por aplicaciones específicas.\\
+Los \textbf{Grupos} son expresiones lógicas de organización, reuniendo usuarios para un propósito común. Los usuarios dentro de un mismo grupo pueden leer, escribir o ejecutar los recursos que pertenecen a ese grupo.\\
 \\
-Los Grupos son expresiones lógicas de organización, reuniendo usuarios para un propósito común. Los usuarios dentro de un mismo grupo pueden leer, escribir o ejecutar los recursos que pertenecen a ese grupo.\\
-\\
-El modulo de autenticación soporta el proceso por el cual cuando un usuario se presenta a la aplicación puede validar su identidad es, de hecho, quien decide si tiene permiso para ingresar al sistema y el nivel de acceso a un recurso dado. En el capitulo 4 se detalla el proceso de autenticacion y autorizacion.
+El módulo de \textbf{autenticación} soporta el proceso por el cual cuando un usuario se presenta a la aplicación puede validar su identidad es, de hecho, quien decide si tiene permiso para ingresar al sistema y el nivel de acceso a un recurso dado. En el capitulo 4 se detalla el proceso de autenticación y autorización.
 
 \subsection{Managment}
-
+Administración consiste de los modulos anfitriónes (hosts), particiones (partitions), ambientes (enviroments), instancias (instances), propiedades (properties) y tareas (tasks). \\
+\\
+El módulo de \textbf{anfitriónes} lleva registro de nodos físicos, servidores o máquinas virtuales, que se encuentren conectados a la red y que permitan albergar instancias virtuales. Los anfitriónes son clasificados de acuerdo a diferentes combinaciones de CPU, memoria, almacenamiento y capacidad de trabajo en red, dando flexibilidad para elegir la opcion mas adecuada para las necesidades de las aplicaciones destino. En otras palabras el tipo de anfitrion determina el hardware del nodo fisico que sera usado por los recursos virtuales.\\
+\\
+El módulo de \textbf{particiones} permite dividir los anfitriones en secciones aisladas de disponibilidad. Cada partición puede ser usada para definir aréas geográficas separadas o simplemente para dividir los nodos físcos en subgrupos destinados a diferentes usos o equipos de trabajo o tipos de clientes.\\
+\\
+El módulo de \textbf{ambientes} permite dividir logicamente una particion en subredes de trabajo más pequeñas, con lo que se crean grupos más pequeños con diferentes fines. En Los ambientes de trabajo se configuran los usuarios que tienen permiso para interactuar trabajar en el.\\
+\\
+El módulo de \textbf{instancias} es un recurso virtual o máquina virtual o contenedor con párametros y capacidades definidas en la cual se puede instalar el software deseado. Un usuario puede crear, aprovisionar, actualizar y finalizar instancias en VirtShell tanto como necesite dando la sensación de elasticidad de la red.\\
+\\
+El módulo de \textbf{propiedades} permite consultar informacion de sistema, de las instancias o de los anfitriones fisicos. La informacion que puede ser consultada es toda aquella que el sistema tenga disponible o que se pueda consultar por medio de comandos de sistema o comandos propios de VirtShell. Ejemplos de informacion que se puede consultar por medio de las propiedades es porcentajes de memoria y cpu usada, numero de procesos en ejecucion, etc. Las propiedades pueden ser consultadas en una sola maquina o simultaneamente a varias maquinas o a un conjunto de maquinas de acuerdo a prefijos en su nombre.\\
+\\
+Finalmente, el módulo de \textbf{tareas} da la informacion y estado sobre las diferentes tareas o trabajos ejecutados en el sistema. Debido a que el medio para interactuar con los modulos de VirtShell es a traves de un API REST, una peticion de creacion de un nuevo recurso virtual, puede tomar algo de tiempo, y puede ser un tiempo largo, si el aprovisionamiento involucra varias maquinas. Para evitar, tener una peticion esperando respuesta, VirtShell crea una tarea que sera ejecutada de manera asincronica, dando como respuesta, un identificador de la tarea, para que esta pueda ser consultada posteriormente y conocer el estado de la peticion.
 
 
 \subsection{Provisioning}
 
 \subsection{Agents}
-
 
