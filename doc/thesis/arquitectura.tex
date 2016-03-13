@@ -55,7 +55,13 @@ Finalmente, el módulo de \textbf{tareas} da la información y estado sobre las 
 
 
 \subsection{Provisioning}
-Aprovisionamiento consiste de los módulos aprovisonadores (provisioners), imágenes (images), archivos (files) y paquetes (packages).
+Aprovisionamiento consiste de los módulos aprovisonadores (provisioners), imágenes (images), archivos (files) y paquetes (packages).\\
+\\
+El módulo de \textbf{aprovisionadores} define un marco de aprovisionamiento de un recurso virtual y contiene las configuraciones necesarias para apoyar ese marco. La configuración fundamental de un aprovisionador, es la ruta del repositorio git, donde se encuentran los scripts y archivos necesarios para realizar el aprovisionamiento. Del mismo modo la forma de ejecutar los scripts, hace parte de la configuración básica. Para ser mas liviano a VirtShell, los scripts de aprovisionamiento, deben estar registrados en un repositorio git publico. VirtShell se encarga de descargar el repositorio y de ejecutar los scripts de aprovisionamiento, de acuerdo a la forma configurada en que se deba ejecutar. \\
+\\
+Adicionalmente, los aprovisonadores, cuentan con una manera de especificar las dependencias del nuevo recurso virtual. VirtShell se encarga de resolver las dependencias antes y de suministrar información de esas dependencias a los scripts de aprovisionamiento si estos lo requieren. \\
+\\
+VirtShell utiliza como lenguaje de referencia, para la creación de scripts de aprovisionamiento el lenguaje shell, el cual cuenta con los recursos suficientes para interactuar con los diferentes sistemas operativos de las instancias; Sin embargo estos comandos se pueden extender usando el paquete de comandos propios de VirtShell, los cuales pueden abstraer muchas de las operaciones del shell, facilitando la escritura de los mismos o permitiendo hacerlos independientes del sistema operativo en el cual van a ejecutarse.
 
 \subsection{Agents}
 
