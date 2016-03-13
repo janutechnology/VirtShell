@@ -21,7 +21,7 @@ VirtShell es un framework de código abierto y bajo la licencia BSD, que permite
 
 \end{description}
 
-\section{Arquitectura}
+\section{Módulos}
 VirtShell Framework consiste de características organizadas en 13 módulos. Estos módulos son agrupados en Seguridad, Administración y Aprovisionamiento. Estos elementos se usan de manera separada pero trabajan juntos para proveer la información necesaria para que los agentes realicen su trabajo en los hosts que albergaran los recursos virtuales, como se muestra en la figura \ref{fig:framework}. \\
 
 \begin{figure}[h]
@@ -65,11 +65,16 @@ Adicionalmente, los aprovisonadores, cuentan con una manera de especificar las d
 \\
 VirtShell utiliza como lenguaje de referencia, para la creación de scripts de aprovisionamiento, el lenguaje shell, el cual cuenta con los recursos suficientes para interactuar con los diferentes sistemas operativos de las instancias; Sin embargo estos comandos se pueden extender usando el paquete de comandos propios de VirtShell, los cuales pueden abstraer muchas de las operaciones del shell, facilitando la escritura de los mismos o permitiendo hacerlos independientes del sistema operativo en el cual van a ejecutarse.\\
 \\
-El módulo de \textbf{imagenes} 
+El módulo de \textbf{imágenes} proporciona la información necesaria de las imágenes que encuentran registradas en el sistema. Cada vez que se crea un nuevo recurso virtual en un anfitrión, se especifica el nombre de la imagen que sera usada, de una de las que se encuentra en el sistema. \\
+\\
+Las imágenes que se manejan en VirtShell son de dos tipos: iso y contenedores. Las de tipo iso, se encuentran guardadas en el repositorio de VirtShell, y su uso se enfoca a maquinas virtuales que interactuan con hypervisors. Las imágenes de tipo contenedor, se emplean para tecnologías de visualización de sistema operativo como lxc y docker, estas son descargadas automáticamente de los repositorios de dominio publico de los diferentes proveedores. \\
+\\
+El módulo de imágenes cuenta también, con la característica de crear automáticamente nuevas imágenes de tipo iso a partir de los releases base de las diferentes distribuciones de sistemas operativos linux. Una vez creada la nueva iso esta sera guardada en el repositorio interno para su posterior uso.\\
+\\
+El módulo de \textbf{archivos}\\
+\\
 
-El módulo de \textbf{archivos} 
-
-El módulo de \textbf{paquetes} 
+El módulo de \textbf{paquetes}
 
 \subsection{Agents}
 Los Agentes son servicios que se ejecutan localmente en cada anfitrión, y que se encuentra bajo la gestión de VirtShell. Los agentes actúan con un cierto grado de autonomía con el fin de completar tareas en nombre del servidor.\\
