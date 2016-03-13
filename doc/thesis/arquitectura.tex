@@ -1,4 +1,4 @@
-\chapter{Arquitectura y Diseño}
+\chapter{Arquitectura de VirtShell}
 \label{Arquitectura}
 
 VirtShell Framework es una plataforma que proporciona herramientas para la automatización y gestión de infraestructura a través del protocolo HTTP. En otros términos, VirtShell facilita la creación, despliegue, mantenimiento y monitoreo tanto de recursos virtuales como físicos por medio de una API REST. Esto permite que cualquier desarrollo de software con acceso a internet (sitio web, aplicación móvil, etc.) pueda utilizar VirtShell e interactuar con la infraestructura tan solo haciendo llamadas a direcciones de internet. \\
@@ -22,10 +22,12 @@ VirtShell es un framework de código abierto y bajo la licencia BSD, que permite
 \end{description}
 
 \section{Arquitectura}
-VirtShell Framework consiste de características organizadas en 13 módulos. Estos módulos son agrupados en Seguridad, Administración y Aprovisionamiento. Estos elementos se usan de manera separada pero trabajan juntos para proveer la información necesaria para que los agentes realicen su trabajo en los hosts que albergaran los recursos virtuales, como se muestra en la figura. \\
+VirtShell Framework consiste de características organizadas en 13 módulos. Estos módulos son agrupados en Seguridad, Administración y Aprovisionamiento. Estos elementos se usan de manera separada pero trabajan juntos para proveer la información necesaria para que los agentes realicen su trabajo en los hosts que albergaran los recursos virtuales, como se muestra en la figura \ref{fig:framework}. \\
 
-\begin{figure}
-	\caption{Overview of the VirtShell Framework}
+\begin{figure}[h]
+    \centering
+	\caption{Visión general del framework de VirtShell}
+	\label{fig:framework}
 	\includegraphics[width = 0.8\textwidth]{../architecture/v1/diagrams/framework}
 \end{figure}
 
@@ -61,7 +63,20 @@ El módulo de \textbf{aprovisionadores} define un marco de aprovisionamiento de 
 \\
 Adicionalmente, los aprovisonadores, cuentan con una manera de especificar las dependencias del nuevo recurso virtual. VirtShell se encarga de resolver las dependencias antes y de suministrar información de esas dependencias a los scripts de aprovisionamiento si estos lo requieren. \\
 \\
-VirtShell utiliza como lenguaje de referencia, para la creación de scripts de aprovisionamiento el lenguaje shell, el cual cuenta con los recursos suficientes para interactuar con los diferentes sistemas operativos de las instancias; Sin embargo estos comandos se pueden extender usando el paquete de comandos propios de VirtShell, los cuales pueden abstraer muchas de las operaciones del shell, facilitando la escritura de los mismos o permitiendo hacerlos independientes del sistema operativo en el cual van a ejecutarse.
+VirtShell utiliza como lenguaje de referencia, para la creación de scripts de aprovisionamiento, el lenguaje shell, el cual cuenta con los recursos suficientes para interactuar con los diferentes sistemas operativos de las instancias; Sin embargo estos comandos se pueden extender usando el paquete de comandos propios de VirtShell, los cuales pueden abstraer muchas de las operaciones del shell, facilitando la escritura de los mismos o permitiendo hacerlos independientes del sistema operativo en el cual van a ejecutarse.\\
+\\
+El módulo de \textbf{imagenes} 
+
+El módulo de \textbf{archivos} 
+
+El módulo de \textbf{paquetes} 
 
 \subsection{Agents}
+Los Agentes son servicios que se ejecutan localmente en cada anfitrión, y que se encuentra bajo la gestión de VirtShell. Los agentes actúan con un cierto grado de autonomía con el fin de completar tareas en nombre del servidor.\\
+\\ 
+VirtShell, cuenta con dos tipos de agentes: de aprovisionamiento y monitoreo. El agente de aprovisionamiento es de tipo reactivo y se encarga de dar respuesta a todas las peticiones de administración sobre uno o mas recursos virtuales en el anfitrión.\\
+\\
+El agente de monitoreo es completamente autónomo y su función es la de supervisar al agente de aprovisionamiento y reportar el estado de salud de los anfitriones y recursos virtuales que se encuentran creados en su interior.\\
+\\
+Los agentes son instalados de manera automática en el anfitrión cuando este es agregado al sistema por medio del API REST, liberando de esta tarea al administrador del sistema.
 
