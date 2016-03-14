@@ -70,7 +70,6 @@ target/
 *.lof
 *.loa
 *.ps
-*.pdf
 *.idx
 *.ind
 *.ilg

@@ -24,7 +24,6 @@ clean:
 	rm -f *.lof
 	rm -f *.loa
 	rm -f *.ps
-	rm -f *.pdf
 	rm -f *.idx
 	rm -f *.ind
 	rm -f *.ilg
