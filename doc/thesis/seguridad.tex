@@ -67,6 +67,7 @@ Un sello de tiempo v'alido (utilizando el HTTP header Date) es obligatorio para 
 \subsection{Ejemplos de autenticaci'on}
 
 \scriptsize
+\captionof{table}{Ejemplos de autenticaci'on}
 \begin{tabular}{|l|l|} \hline
 \textbf{Parametro} & \textbf{Valor} \\ \hline
 VirtShellUserId  & 13010f3e-3f46-4889-b989-592ce8fb30c6 \\ \hline
@@ -84,6 +85,7 @@ Este es un ejemplo que consulta por un host dado su identificador. \\
 \\
 \vspace{1cm}
 \scriptsize
+\captionof{table}{Autenticaci'on de un objeto con el método GET}
 \begin{tabular}{|l|l|} \hline
 \textbf{Request} & \textbf{StringToSign} \\ \hline
 \multicolumn{1}{|m{7.5cm}|}{
@@ -108,6 +110,7 @@ Este ejemplo remueve un usuario.\\
 \\
 \vspace{1cm}
 \scriptsize
+\captionof{table}{Autenticaci'on de un objeto con el método DELETE}
 \begin{tabular}{|l|l|} \hline
 \textbf{Request} & \textbf{StringToSign} \\ \hline
 \multicolumn{1}{|m{7.4cm}|}%
@@ -124,40 +127,68 @@ Este ejemplo remueve un usuario.\\
 
 \normalsize
 \section{Autorización}
-
-VirtShell es un framework multi-usuario que ofrece protecci'on a recursos basado en los conceptos de permisos de Unix. El mecanismo de protecci'on proporciona un acceso controlado limitando los tipos de acceso a los diferentes recursos del sistema. Al igual que en Unix, la t'ecnica usada para ofrecer protecci'on a los recursos consiste en hacer que el acceso dependa de la identidad del usuario. El esquema usado es usar una lista de accesso condensada por cada recurso.\\
+VirtShell es un framework multi-usuario que ofrece protecci'on a recursos basado en los conceptos de permisos de Unix. El mecanismo de protección determina que usuarios están autorizados para acceder a los recursos de: archivos, imágenes, instancias y aprovisionadores, presentes en el sistema. \\
 \\
-VirtShell clasifica los usuarios en tres grupos, en lo que respecta a cada recurso:\\
+Al igual que en Unix, la técnica usada para ofrecer protección a los recursos consiste en hacer que el acceso dependa de la identidad del usuario. El esquema usado es una lista de acceso condensada por cada recurso que se desea proteger. La lista de acceso se divide en tres grupos de caracteres, representando los permisos del usuario propietario, del grupo propietario, y de los otros, respectivamente, como se muestra en la tabla \ref{tab:permisos}.
+
+\begin{center}
+ \captionof{table}{Tipos de permisos}
+ \label{tab:permisos}
+ \begin{tabular}{| c | p{2.2cm} |}
+ \hline
+  \rowcolor{blueapi}
+  \textbf{Permisos} & \textbf{Pertenece}  \\ [0.2ex] 
+  \hline\hline
+  rwx------ &  usuario \\
+  \hline
+  ---r-x--- & grupo \\  
+  \hline
+  ------r-x & otros \\
+  \hline
+\end{tabular}
+\end{center}
+
+Por ejemplo, los caracteres -rw-r--r-- indican que el usuario propietario del recurso tiene permisos de lectura y escritura, pero no de ejecución (rw-), mientras que los usuarios que pertenecen al grupo propietario y los demás usuarios solo tienen permiso de lectura (r-- y r--). Mientras tanto, los caracteres rwxrwx--- indican que el usuario propietario del recurso y todos los usuarios que pertenecen al grupo propietario tienen permisos de lectura, escritura y ejecución (rwx y rwx), mientras que los demás usuarios no pueden acceder (---). \\
 \\
-\begin{itemize}
-\item \textbf{Propietario}: El usuario que cre'o el recurso ser'a su propietario
-\item \textbf{Grupo}: Un conjunto de usuarios que est'an compartiendo el recurso y necesitan un acceso similar al mismo es un grupo, o grupo de trabajo.
-\item \textbf{Universo}: Todos los dem'as usuarios del sistema constituyen el universo.
-\end{itemize}
+La siguiente una descripción de los tres atributos básicos que se manejan en VirtShell:
 
+\begin{center}
+ \captionof{table}{Atributos básicos}
+ \begin{tabular}{| l | p{12cm} |}
+ \hline
+  \rowcolor{blueapi}
+  \textbf{Atributo} & \textbf{Descripción}  \\ [0.2ex] 
+  \hline\hline
+  Lectura &  Permite a un usuario ver el contenido de cualquier recurso. \\
+  \hline
+  Escritura & Permite a un usuario crear, modificar y eliminar un recurso. \\  
+  \hline
+  Ejecución & Permite a un usuario ejecutar instancias virtuales. 
+  por ejemplo: iniciar, detener, pausar, clonar o actualizar paquetes. 
+   (El usuario también debe tener permiso de lectura). \\
+  \hline
+\end{tabular}
+\end{center}
 
-% VirtShell is a multi-user framework that is based on the Unix permissions concepts to provide security.
+Un ejemplo que muestra la asignación de permisos para una instancia es el siguiente:
 
-% VirtShell provides mechanisms to control access by  limiting the types of
-% resource access that can be made. Access is permitted or denied depending on
-% several factors, one of which is the type of access requested. Several different
-% types of operations may be controlled:
+\medskip
+\begin{lstlisting}[style=json]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{ "name": "transactional_log",
+        "memory": 1024,
+        "cpus": 2,
+        "hdsize": "2GB",
+        "operating_system": "ubuntu_server_14.04.2_amd64",
+        "description": "Server transactional only for store logs", 
+        "provisioner": "all_backend",
+        "host_type": "GeneralPurpose",
+        "driver": "lxc",
+        "permissions": "rwx------"
+      }' \
+   'http://localhost:8080/virtshell/api/v1/instances'
+\end{lstlisting}
 
-% Read. Read from the resouce.
-% Write. Write or rewrite of resoures.
-% Execute. Load the resource into host and execute it.
-
-% Here is a quick breakdown of the access that the three basic permission types grant a user.
-
-% Read
-% ----
-% Read permission allows a user to view the contents of any resource in VirtShell.
-
-% Write
-% -----
-% Write permission allows a user to create, modify and delete whatever resources.
-
-% Execute
-% -------
-% Execute permission allows a user to execute virtual machines or containers, for example: start, stop, pause, snapshot. (the user must also have read permission). 
-
+Como se observa, en la información enviada en la petición POST al servidor HTTP de VirtShell, el usuario esta solicitando crear una instancia en donde especifica en los tres primeros caracteres que solo el como propietario tiene permiso para interactuar con ella. Cabe aclarar que si no se especifican los permisos en la información enviada, VirtShell asigna todos los permisos al recurso creado dejándolo publico para todos los usuarios del sistema.
