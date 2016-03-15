@@ -44,15 +44,14 @@ Create a new user.
 curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{"uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
+  -d '{
        "username": "virtshell",
        "type": "system/regular",
        "login": "user@mail.com",
-       "groups": [ {"name": "web_development_team"},
-                    {"name": "production"}
-        ],
-       "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
-       "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
+       "groups": [ 
+                  {"name": "web_development_team"},
+                  {"name": "production"}
+                 ]
       }' \
    'http://localhost:8080/api/virtshell/v1/users'
 ```

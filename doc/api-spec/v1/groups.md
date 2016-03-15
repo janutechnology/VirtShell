@@ -37,7 +37,9 @@ Create a new group.
 curl -sv -X POST \
   -H 'accept: application/json' \
     -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{ "name": "web_development_team" }' \
+  -d '{ 
+        "name": "web_development_team" 
+      }' \
    'http://localhost:8080/api/virtshell/v1/groups'
 ```
 

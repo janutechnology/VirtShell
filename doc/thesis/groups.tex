@@ -56,7 +56,9 @@ curl -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -H "Content-Type: multipart/form-data" \
-  -d '{"name": "database_team"}' \
+  -d '{
+        "name": "database_team"
+      }' \
   'http://<host>:<port>/api/virtshell/v1/groups'
 \end{lstlisting}
 
