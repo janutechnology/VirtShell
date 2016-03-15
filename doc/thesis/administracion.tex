@@ -1,20 +1,36 @@
 \chapter{Adminsitración}
 \label{capadministracion}
 
-La capa de Administración de VirtShell proporciona una infraestructura de servicios para la gestión de cualquier dispositivo registrado en el sistema. Este capitulo busca darle explicación a las funcionalidades de administración para utilizarlos en su beneficio.
+La capa de Administración de VirtShell proporciona una infraestructura de servicios para la gestión de cualquier dispositivo registrado en el sistema. Este capitulo busca darle explicación a las funcionalidades de administración para utilizarlas en su beneficio.
 
-\section{Particiones y Ambientes en VirtShell}
-En VirtShell hay dos conceptos que son muy importantes y se extiende a través de todos los servicios, y que simplemente no puede dejar de tener en cuenta: Las particiones y los ambientes. Ambos se asocian con la mayoría de las cosas en VirtShell, y el dominio de ellos es crucial para una buena administración de los dispositivos. 
+\section{Particiones, Ambientes e Instancias en VirtShell}
+En VirtShell hay tres conceptos que son muy importantes y se extiende a través de todos los servicios, y que simplemente no puede dejar de tener en cuenta: Las particiones, los ambientes y las instancias. Las tres se asocian con la mayoría de las cosas en VirtShell, y el dominio de ellos es crucial para una buena administración de los dispositivos. 
 
 \subsection{Particiones}
-- Particiones pueden estar dispersas geograficamente
-- 
+Las particiones consisten de uno o más anfitriones, los cuales pueden ser nodos físicos, servidores o incluso máquinas virtuales. El objetivo principal que busca una partición, es organizar las máquinas que albergaran recursos virtuales en partes aisladas de las demás. Estas partes pueden pueden estar ubicadas en un mismo sitio físico o por el contrario puede estar distribuidas es diferentes zonas geográficas de todo el mundo.\\
+\\
+Si solo se cuenta con un numero fijo de maquinas (o anfitriones) ubicadas en un mismo sitio físico como por ejemplo un datacenter, lo que se obtiene con las particiones es la posibilidad de dividir esas maquinas en subgrupos que puedan ser destinados para diferentes equipos o divisiones dentro de una organización.\\ 
+\\
+Al contar con maquinas distribuidas en diferentes zonas geográficas la elección de una partición u otra se basa principalmente en la cercanía de los visitantes o clientes, ya que a menor distancia entre los servidores y ellos, menores son los tiempos de respuesta y mejor la experiencia de usuario.\\
+\\
+Cuando se crea una nueva partición, VirtShell la crea completamente vaciá, sin anfitriones. Para asociar anfitriones a una partición se debe crear un anfitrión y vincularlo con la partición como se vera mas adelante en este mismo capitulo. Un ejemplo de como crear una partición usando el API se muestra en el siguiente código:
+\begin{lstlisting}[style=json, caption=Petición HTTP para crear una partición]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{
+  	   "name": "development_co",
+       "description": "Collection of servers oriented to development team in colombia."
+      }' \
+   'http://localhost:8080/api/virtshell/v1/partitions'
+\end{lstlisting}
+
+\subsection{División de particiones en ambientes}
+Las particiones se refieren a la forma de organizar lugares físicos. Los ambientes por el contrario, son lugares lógicos y aislados dentro de una partición. Cada partición puede estar compuesta por uno o varios ambientes. Cada ambiente pertenece a una sola partición. La siguiente imagen explica el concepto: \\
+\\
+colocar aquí la figura
+\\
 
 
-\subsection{Division de partciones en ambientes}
-Un ambiente es un lugar aislado dentro de una partición. Cada partición está compuesta por varios ambientes. Cada ambiente pertenece a una sola región. La siguiente imagen explica el concepto:
-
-\section{Instancias}
-- el api ofrece funcionalidad para empezar y parar instancias de servidor, aplicar permisos de acceso y red o gestionar tus imágenes de servidor.
-
-
+\subsection{Instancias}
+El api ofrece funcionalidad para empezar y parar instancias de servidor, aplicar permisos de acceso y red o gestionar tus imágenes de servidor.

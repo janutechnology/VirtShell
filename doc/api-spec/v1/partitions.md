@@ -24,7 +24,7 @@ Resource representation
   "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
   "name": "development_co",
   "description": "Collection of servers oriented to development team in Colombia.", 
-  "hosts": [ ... list of hosts associated with the section ...],
+  "hosts": [ ... list of hosts associated with the partition ...],
   "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
   "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
 }
@@ -41,11 +41,9 @@ Create a new partition.
 curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{"uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
+  -d '{
        "name": "development_co",
-       "description": "Collection of servers oriented to development team in colombia.", 
-       "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
-       "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
+       "description": "Collection of servers oriented to development team in colombia."
       }' \
    'http://localhost:8080/api/virtshell/v1/partitions'
 ```

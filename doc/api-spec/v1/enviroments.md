@@ -43,12 +43,11 @@ Create a new enviroment.
 curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{"name": "bigdata_test_01",
+  -d '{
+       "name": "bigdata_test_01",
        "description": "Collection of servers oriented to big data.", 
        "users": [ ... list of users allowed to use the enviroment ...],
-       "partition": "partition associated with the enviroment",
-       "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
-       "modified": {"at":"1529207233", "by":"92d31132-8c9c-11e5-8994-feff819cdc9f"}
+       "partition": "partition associated with the enviroment"
       }' \
    'http://localhost:8080/api/virtshell/v1/enviroments'
 ```
@@ -59,7 +58,7 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 ```
 ```json
-{ "create": "in progress" }
+{ "create": "success" }
 ```
 
 `GET /api/virtshell/v1/enviroments/`
