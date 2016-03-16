@@ -57,7 +57,8 @@ Ejemplo:
 curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{"name": "bigdata_test_01",
+  -d '{
+       "name": "bigdata_test_01",
        "description": "Collection of servers oriented to big data.", 
        "users": [ ... list of users allowed to use the enviroment ...],
        "partition": "partition associated with the enviroment"
