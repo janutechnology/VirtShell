@@ -79,9 +79,11 @@ El módulo de \textbf{paquetes} facilita realizar funciones tales como la instal
 \subsection{Agents}
 Los Agentes son servicios que se ejecutan localmente en cada anfitrión, y que se encuentra bajo la gestión de VirtShell. Los agentes actúan con un cierto grado de autonomía con el fin de completar tareas en nombre del servidor.\\
 \\ 
-VirtShell, cuenta con dos tipos de agentes: de aprovisionamiento y monitoreo. El agente de aprovisionamiento es de tipo reactivo y se encarga de dar respuesta a todas las peticiones de administración sobre uno o mas recursos virtuales en el anfitrión.\\
+VirtShell, cuenta con tres tipos de agentes: de aprovisionamiento, monitoreo y administración. El agente de aprovisionamiento es de tipo reactivo y se encarga de dar respuesta a todas las peticiones de aprovisionamiento sobre uno o mas recursos virtuales en el anfitrión.\\
 \\
 El agente de monitoreo es completamente autónomo y su función es la de supervisar al agente de aprovisionamiento y reportar el estado de salud de los anfitriones y recursos virtuales que se encuentran creados en su interior.\\
+\\
+El agente de administración se encarga de gestionar las instancias, permite detener, iniciar, clonar, eliminar y obtener información especifica de cada instancia que se ejecuta en el anfitrión.\\
 \\
 Los agentes son instalados de manera automática en el anfitrión cuando este es agregado al sistema por medio del API REST, liberando de esta tarea al administrador del sistema.
 

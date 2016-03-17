@@ -13,6 +13,8 @@ Si solo se cuenta con un numero fijo de maquinas (o anfitriones) ubicadas en un 
 \\
 Al contar con maquinas distribuidas en diferentes zonas geográficas la elección de una partición u otra se basa principalmente en la cercanía de los visitantes o clientes, ya que a menor distancia entre los servidores y ellos, menores son los tiempos de respuesta y mejor la experiencia de usuario.\\
 \\
+Las particiones también favorecen la disponibilidad. Si distribuye sus instancias a través de múltiples particiones y una instancia falla, puede diseñar su aplicación para que una instancia en otra partición pueda atender las peticiones.\\
+\\
 Cuando se crea una nueva partición, VirtShell la crea completamente vaciá, sin anfitriones. Para asociar anfitriones a una partición se debe crear un anfitrión y vincularlo con la partición como se vera mas adelante en este mismo capitulo. Un ejemplo de como crear una partición usando el API se muestra en el siguiente código:
 
 \begin{lstlisting}[style=json, caption=Petición HTTP para crear una partición]
@@ -88,7 +90,7 @@ Content-Type: application/json
 Adicionalmente, cuando un anfitrión es agregado a una partición, VirtShell instala automáticamente los agentes  que realizaran tareas de aprovisionamiento y monitoreo. Los agentes se explicaran mas adelante.
 
 \subsection{División de particiones en ambientes}
-Las particiones se refieren a la forma de organizar lugares físicos. Los ambientes por el contrario, son lugares lógicos y aislados dentro de una partición. Cada partición puede estar compuesta por uno o varios ambientes. Cada ambiente pertenece a una sola partición. La figura \ref{fig:enviroment} muestra un ejemplo de como dos particiones contiene varios ambientes destinados a equipos de trabajo diferentes. \\
+Las particiones se refieren a la forma de organizar lugares físicos. Los ambientes por el contrario, son lugares lógicos y aislados dentro de una partición. Cada partición puede estar compuesta por uno o varios ambientes, y un ambiente puede contener uno o mas instancias. Cada ambiente pertenece a una sola partición. La figura \ref{fig:enviroment} muestra un ejemplo de como dos particiones contiene varios ambientes destinados a equipos de trabajo diferentes. \\
 
 \begin{figure}[h]
     \centering
@@ -112,10 +114,33 @@ curl -sv -X POST \
 \end{lstlisting}
 
 \section{Instancias}
-A un servidor virtual en VirtShell, se le denomina instancia. Una instancia no es mas que un recurso virtual que se ejecuta sobre un anfitrión. Las instancias pueden ser maquinas virtuales que corren sobre algún hipervisor o también pueden ser contenedores que se ejecutan directamente sobre el sistema operativo del anfitrión.
+A un servidor virtual en VirtShell, se le denomina instancia. Las instancias pueden ser maquinas virtuales que corren sobre algún hipervisor o también pueden ser contenedores que se ejecutan directamente sobre el sistema operativo del anfitrión. La elección de la tecnología de virtualización depende de las preferencias u objetivos que se busque con las aplicaciones de la instancia.\\
 \\
-Las instancias se crean sobre los ambientes de trabajo.
+Las instancias son designadas a un particular ambiente de trabajo en el momento de ser creadas. En el momento de su creación se debe especificar las características de CPU, memoria y capacidad de disco que se desea. De igual manera, se configura el sistema operativo, los permisos para los demás usuarios del sistema, el tipo de anfitrión que necesita y la tecnología que se desea usar para virtualizar.\\ 
 \\
-Una buena razón para tener ambientes es la disponibilidad. Si distribuye sus instancias a través de múltiples ambientes y una instancia falla, puede diseñar su aplicación para que una instancia en otra ambiente pueda atender las peticiones. Una especie de equilibrador de carga de emergencia sin necesidad de utilizar un equilibrador de carga real.
+\subsection{Creación de instancias en un ambiente}
+Cuando se recibe una solicitud de creación de una instancia, VirtShell selecciona uno anfitrión de los que se encuentran configurados en la partición a la cual pertenece el ambiente definido en la petición, y de acuerdo al tipo de anfitrión solicitado. Si la partición no cuenta con el tipo de anfitrión solicitado, se rechazara la petición detallando el inconveniente. Si por el contrario la selección del anfitrión es exitosa, VirtShell procede a enviar la solicitud al agente de aprovisionamiento del anfitrión escogido. \\
+\\
+Debido a que una solicitud de aprovisionamiento puede involucrar mas de una instancia, el servidor de VirtShell responde la solicitud de aprovisionamiento con el estado de recibido y con el identificador de una tarea. La tarea será ejecutada de manera asincrónica y el usuario por medio del API REST puede consultar el estado y avance de la misma.\\
+\\
+Un ejemplo de la creación de una instancia usando el API se muestra en el siguiente código:
+
+\begin{lstlisting}[style=json, caption=Petición HTTP para crear un ambiente]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{ "name": "transactional_log",
+        "memory": 1024,
+        "cpus": 2,
+        "hdsize": "2GB",
+        "operating_system": "ubuntu_server_14.04.2_amd64",
+        "description": "Server transactional only for store logs", 
+        "provisioner": "all_backend",
+        "host_type": "GeneralPurpose",
+        "driver": "lxc"
+      }' \
+   'http://localhost:8080/api/virtshell/v1/instances'
+\end{lstlisting}
+
 
 
