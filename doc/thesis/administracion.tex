@@ -112,9 +112,10 @@ curl -sv -X POST \
 \end{lstlisting}
 
 \section{Instancias}
-Un servidor virtual en VirtShell, se denomina instancia.
+A un servidor virtual en VirtShell, se le denomina instancia. Una instancia no es mas que un recurso virtual que se ejecuta sobre un anfitrión. Las instancias pueden ser maquinas virtuales que corren sobre algún hipervisor o también pueden ser contenedores que se ejecutan directamente sobre el sistema operativo del anfitrión.
 \\
-Under construction (Ideas): \\
-El api ofrece funcionalidad para empezar y parar instancias de servidor, aplicar permisos de acceso y red o gestionar tus imágenes de servidor.\\
+Las instancias se crean sobre los ambientes de trabajo.
 \\
 Una buena razón para tener ambientes es la disponibilidad. Si distribuye sus instancias a través de múltiples ambientes y una instancia falla, puede diseñar su aplicación para que una instancia en otra ambiente pueda atender las peticiones. Una especie de equilibrador de carga de emergencia sin necesidad de utilizar un equilibrador de carga real.
+
+
