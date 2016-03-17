@@ -42,6 +42,9 @@
 
 \bibitem{Salt15}SaltStack, \url{http://saltstack.com/community/}, 2016.
 
+\bibitem{fielding00} Architectural Styles and
+the Design of Network-based Software Architectures, \url{https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm}, 2000.
+
 \bibitem{rfc2104}HMAC: Keyed-Hashing for Message Authentication, https://www.ietf.org/rfc/rfc2104.txt, 1997
 
 \end{thebibliography}
