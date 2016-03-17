@@ -12,6 +12,10 @@
 \newcommand{\noopsort}[1]{}
 \begin{thebibliography}{Mil92}
 
+\bibitem{socc15}ACM Symposium on Cloud Computing 2015, \url{http://acmsocc.github.io/2015/}, 2015.
+
+\bibitem{tanembaum14} Andrew S. Tanembaum, Modern Operating Systems 4th Edition, 2014.
+
 \bibitem{fabfile16}Fabric, \url{http://www.fabfile.org/}, 2016.
 
 \bibitem{juju16}Ubuntu Juju, \url{http://www.ubuntu.com/cloud/juju}, 2016.
