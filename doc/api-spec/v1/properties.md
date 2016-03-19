@@ -56,9 +56,9 @@ Content-Type: application/json
 ```
 ```json
 {
-  "id": "kj5436c0-dc94-13tg-82ce-9992b5d5c51b",
-  "name": "Database001",
-  "memory": 1024
+  "name": "WebServer",
+  "memory": 1024,
+  "cpu": 87.4
 }
 ```
 
