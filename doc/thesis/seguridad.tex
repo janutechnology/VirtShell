@@ -53,6 +53,8 @@ A continuaci'on se muestra la pseudo-gram'atica que ilustra la construcci'on de 
   to the query string (resource path)>
 \end{lstlisting}
 
+\vspace{5mm}
+
 HMAC-SHA1 es un algoritmo definido por la RFC 2104 (ver la RFC 2104 con llave Hashing para la autenticaci'on de mensajes \cite{rfc2104}).\\
 \\
 El algoritmo toma como entrada dos cadenas de bytes: una clave y un mensaje. Para la solicitud de autenticaci'on, se utiliza la clave secreta (YourSecretAccessKeyID) como la clave, y la codificaci'on UTF-8 del StringToSign como el mensaje. La salida de HMAC-SHA1 es tambi'en una cadena de bytes, llamado "el resumen". El par'ametro de la petici'on de la firma se construye codificado en Base64.
@@ -110,7 +112,11 @@ La es siguiente una descripción de los tres atributos básicos que se manejan e
 \end{tabular}
 \end{center}
 
+\vspace{5mm}
+
 Un ejemplo que muestra la asignación de permisos para una instancia es el siguiente:
+
+\vspace{5mm}
 
 \medskip
 \begin{lstlisting}[style=json]
@@ -130,5 +136,7 @@ curl -sv -X POST \
       }' \
    'http://localhost:8080/virtshell/api/v1/instances'
 \end{lstlisting}
+
+\vspace{5mm}
 
 Como se observa, en la información enviada en la petición POST al servidor HTTP de VirtShell, el usuario esta solicitando crear una instancia en donde especifica que solo el propietario tiene permiso para interactuar con ella. Cabe aclarar que si no se especifican los permisos en la información enviada, VirtShell asigna todos los permisos al recurso creado, dejándolo publico para todos los usuarios del sistema.
