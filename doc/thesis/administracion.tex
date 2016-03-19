@@ -1,7 +1,7 @@
 \chapter{Adminsitración}
 \label{capadministracion}
 
-La capa de Administración de VirtShell proporciona una infraestructura de servicios para la gestión de cualquier dispositivo registrado en el sistema. Este capítulo busca darle explicación a las funcionalidades de administración para utilizarlas en su beneficio.
+La capa de Administración de VirtShell proporciona una infraestructura de servicios para la gestión de cualquier dispositivo registrado y creado a traves del sistema. Este capítulo busca darle explicación a las funcionalidades de administración para utilizarlas en su beneficio.
 
 \section{Particiones, anfitriones y Ambientes en VirtShell}
 En VirtShell hay tres conceptos que son muy importantes y se extiende a través de todos los servicios, y que simplemente no puede dejar de tener en cuenta: Las particiones, los ambientes y las instancias. Las tres se asocian con la mayoría de las cosas en VirtShell, y el dominio de ellos es crucial para una buena administración de los dispositivos. 
@@ -22,7 +22,7 @@ curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{
-  	   "name": "development_co",
+       "name": "development_co",
        "description": "Collection of servers oriented to development team in colombia."
       }' \
    'http://localhost:8080/api/virtshell/v1/partitions'
@@ -62,9 +62,13 @@ curl -sv -X POST \
    'http://localhost:8080/virtshell/api/v1/hosts'
 \end{lstlisting}
 
-En este ejemplo se muestra la creación de un host con nombre host-01-pdn que esta clasificado como de uso general y que queda asociado a la partición development\_co creada en la sección anterior.\\
+\vspace{5mm}
+
+En este ejemplo se muestra la creación de un anfitrión con nombre host-01-pdn que esta clasificado como de uso general y que queda asociado a la partición development\_co creada en la sección anterior.\\
 \\
-Al consultar la partición nuevamente por medio del API se puede observar como el anfitrión se encuentra asociado a la partición developtment\_co. En la siguiente consulta al API se muestra el resultado de la asociación: 
+Al consultar la partición nuevamente por medio del API se puede observar como el anfitrión se encuentra asociado a la partición developtment\_co. En la siguiente consulta al API se muestra el resultado de la asociación:
+
+\vspace{5mm} 
 
 \begin{lstlisting}[style=json, , caption=Petición HTTP para consultar una partición por su nombre]
 curl -sv -H 'accept: application/json' 
@@ -72,7 +76,11 @@ curl -sv -H 'accept: application/json'
      'http://<host>:<port>/api/virtshell/v1/partitions/development_co'
 \end{lstlisting}
 
+\vspace{5mm}
+
 Response:
+
+\vspace{5mm}
 
 \begin{lstlisting}[style=json]
 HTTP/1.1 200 OK
@@ -87,6 +95,8 @@ Content-Type: application/json
 }
 \end{lstlisting}
 
+\vspace{5mm}
+
 Adicionalmente, cuando un anfitrión es agregado a una partición, VirtShell instala automáticamente los agentes  que realizaran tareas de aprovisionamiento y monitoreo. Los agentes se explicaran mas adelante.
 
 \subsection{División de particiones en ambientes}
@@ -94,9 +104,9 @@ Las particiones se refieren a la forma de organizar lugares físicos. Los ambien
 
 \begin{figure}[h]
     \centering
-	\caption{Ejemplo de ambientes en un partición}
-	\label{fig:enviroment}
-	\includegraphics[width = 0.95\textwidth]{../architecture/v1/diagrams/enviroments}
+  \caption{Ejemplo de ambientes en un partición}
+  \label{fig:enviroment}
+  \includegraphics[width = 0.95\textwidth]{../architecture/v1/diagrams/enviroments}
 \end{figure}
 
 Un ejemplo de como crear un ambiente asociado a una partición usando el API se muestra en el siguiente código:
@@ -116,14 +126,14 @@ curl -sv -X POST \
 \section{Instancias}
 A un servidor virtual en VirtShell, se le denomina instancia, las cuales pueden ser maquinas virtuales que corren sobre algún hipervisor o también pueden ser contenedores que se ejecutan directamente sobre el sistema operativo del anfitrión. \\
 \\
-La elección de la tecnología de virtualización depende de las preferencias u objetivos que se busque con las aplicaciones de la instancia.En la actualidad VirtShell soporta Virtualbox como hipervisor para maquinas virtuales y para los contenedores soporta LXC \footnote{LXC (Linux Containers) es una tecnología de virtualización en el nivel de sistema operativo (SO) para Linux. } \cite{lxc16} y Docker \footnote{Docker es un proyecto de código abierto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de Virtualización a nivel de sistema operativo en Linux.} \cite{docker16}.\\
+La elección de la tecnología de virtualización depende de las preferencias u objetivos que se busque con las aplicaciones de la instancia. En la actualidad VirtShell soporta Virtualbox como hipervisor para maquinas virtuales y para los contenedores soporta LXC \footnote{LXC (Linux Containers) es una tecnología de virtualización en el nivel de sistema operativo (SO) para Linux. } \cite{lxc16} y Docker \footnote{Docker es un proyecto de código abierto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de Virtualización a nivel de sistema operativo en Linux.} \cite{docker16}.\\
 \\
-Las instancias son designadas a solo ambiente de trabajo en el momento de ser creadas. En el instante de su creación, se debe especificar las características de CPU, memoria y capacidad de disco que se desea. De igual manera, se configura el sistema operativo, los permisos para los demás usuarios del sistema, el tipo de anfitrión que necesita y la tecnología que se desea usar para virtualizar.\\ 
-\\
+Las instancias son designadas a solo ambiente de trabajo en el momento de ser creadas. En el instante de su creación, se debe especificar las características de CPU, memoria y capacidad de disco que se desea. De igual manera, se configura el sistema operativo, los permisos para los demás usuarios del sistema, el tipo de anfitrión que necesita y la tecnología que se desea usar para virtualizar.
+
 \subsection{Creación de instancias en un ambiente}
-Cuando se recibe una solicitud de creación de una instancia, VirtShell selecciona un anfitrión, de los que se encuentran configurados en la partición a la cual pertenece el ambiente donde se quiere crear la instancia. En la solicitud de creacion se debe especificar el tipo de anfitrión que se requiere para el correcto funcionamiento de las aplicaciones que se ejecutaran ahi. Si la partición no cuenta con el tipo de anfitrión solicitado, se rechazara la petición detallando el inconveniente. Si por el contrario la selección del anfitrión es exitosa, VirtShell procede a enviar la solicitud al agente de aprovisionamiento del anfitrión escogido. \\
+Cuando se recibe una solicitud de creación de una instancia, VirtShell selecciona un anfitrión, de los que se encuentran configurados en la partición a la cual pertenece el ambiente donde se quiere crear la instancia. En la solicitud de creación se debe especificar el tipo de anfitrión que se requiere para el correcto funcionamiento de las aplicaciones que se ejecutaran ahí. Si la partición no cuenta con el tipo de anfitrión solicitado, se rechazara la petición detallando el inconveniente. Si por el contrario la selección del anfitrión es exitosa, VirtShell procede a enviar la solicitud al agente de aprovisionamiento del anfitrión escogido. \\
 \\
-Debido a que una solicitud de aprovisionamiento puede involucrar mas de una instancia, el servidor de VirtShell responde la solicitud de aprovisionamiento con el estado de recibido y a su vez con el identificador de una tarea. La tarea será ejecutada de manera asincrónica y el usuario por medio del API REST puede consultar el estado y avance de la misma (Las tareas se ampliaran en la siguiente seccion).\\
+Debido a que una solicitud de aprovisionamiento puede involucrar mas de una instancia, el servidor de VirtShell responde la solicitud de aprovisionamiento con el estado de recibido y a su vez con el identificador de una tarea. La tarea será ejecutada de manera asincrónica y el usuario por medio del API REST puede consultar el estado y avance de la misma (Las tareas se ampliaran en la siguiente sección).\\
 \\
 Un ejemplo de la creación de una instancia usando el API se muestra en el siguiente código:
 
@@ -145,9 +155,11 @@ curl -sv -X POST \
    'http://localhost:8080/api/virtshell/v1/instances'
 \end{lstlisting}
 
-En esta solicitud HTTP se observa que la instancia a crear debe tener el  sistema operativo es Linux Ubuntu, contar con 8 gigabytes de memoria RAM, dos nucleos, 20 gigabytes de disco duro, y que debe ser creada en el ambiente de nombre development\_co en una maquina fisica de uso general. Adicionalmente la instancia debe ser un contenedor que se ejecute sobre LXC.\\
+\vspace{5mm}
+
+En esta solicitud HTTP se observa que la instancia a crear debe tener el  sistema operativo es Linux Ubuntu, contar con 8 Gigabytes de memoria RAM, dos núcleos, 20 Gigabyte de disco duro, y que debe ser creada en el ambiente de nombre development\_co en una maquina física de uso general. Adicionalmente la instancia debe ser un contenedor que se ejecute sobre LXC.\\
 \\
-Si la solicitud de las caracteristicas es exitosa, el servidor respondera de la siguiente manera:
+Si la solicitud de las características es exitosa, el servidor responderá de la siguiente manera:\\
 
 \begin{lstlisting}[style=json]
 HTTP/1.1 200 OK
@@ -155,7 +167,7 @@ Content-Type: application/json
 { "create": "received", "task": "bbf6669b-1b83-4fe7-ae2a-2b31738c4165" }
 \end{lstlisting}
 
-Si por el contrario, la solicitud no es exitosa, el servidor respondera con el respectivo codigo de error HTTP y la razon por la cual no se pudo procesar exitosamente la peticion. Un ejemplo de una peticion no procesada es la siguiente:
+Si por el contrario, la solicitud no es exitosa, el servidor responderá con el respectivo código de error HTTP y la razón por la cual no se pudo procesar exitosamente la petición. Un ejemplo de una petición no procesada es la siguiente: \\
 
 \begin{lstlisting}[style=json]
 HTTP/1.1 500 OK
@@ -163,11 +175,19 @@ Content-Type: application/json
 { "create": "error", "reason": "The enviroment doesn't have the host_type requested" }
 \end{lstlisting}
 
+\vspace{5mm}
+
+Adicional a la creación de instancias, el API REST de VirtShell proporciona URIs para su gestión. Las operaciones sobre el ciclo de vida de una instancia que permite realizar son: iniciar, detener, reiniciar, cerrar y clonar. Así mismo, el API posibilita la fácil y rápida búsqueda de una o mas instancias.  
+
+\section{Tareas}
+Una tarea es una actividad asincrónica, que se ejecuta en \emph{background} (segundo plano), y se crea de manera automática cuando se solicita una acción al servidor, y esta pueda tomar un largo periodo de tiempo para completar su trabajo.\\
+\\
+Las tareas asíncronas resuelven los problemas relacionados con los tiempos de espera de las conexiones, los tiempos de espera de la solicitudes o los tiempos de vida de las peticiones HTTP antes de que estas sean cerradas por el servidor de aplicaciones web o por el navegador de manera automática de acuerdo a sus parámetros de configuración.\\
+\\
+VirtShell usa las tareas principalmente en las operaciones que involucren las instancias, las cuales son denominadas de larga duración, al igual que el envio de múltiples archivos o instalar paquetes en las instancias.
+Los resultados pueden 
+ UNDER CONSTRUCTION!!!!
 
 
-
-
-
-
-
-
+\section{Propiedades}
+UNDER CONSTRUCTION!!!!
