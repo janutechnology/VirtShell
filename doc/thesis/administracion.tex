@@ -78,7 +78,7 @@ curl -sv -H 'accept: application/json'
 
 \vspace{5mm}
 
-Response:
+Respuesta:
 
 \vspace{5mm}
 
@@ -133,11 +133,11 @@ Las instancias son designadas a solo ambiente de trabajo en el momento de ser cr
 \subsection{Creación de instancias en un ambiente}
 Cuando se recibe una solicitud de creación de una instancia, VirtShell selecciona un anfitrión, de los que se encuentran configurados en la partición a la cual pertenece el ambiente donde se quiere crear la instancia. En la solicitud de creación se debe especificar el tipo de anfitrión que se requiere para el correcto funcionamiento de las aplicaciones que se ejecutaran ahí. Si la partición no cuenta con el tipo de anfitrión solicitado, se rechazara la petición detallando el inconveniente. Si por el contrario la selección del anfitrión es exitosa, VirtShell procede a enviar la solicitud al agente de aprovisionamiento del anfitrión escogido. \\
 \\
-Debido a que una solicitud de aprovisionamiento puede involucrar mas de una instancia, el servidor de VirtShell responde la solicitud de aprovisionamiento con el estado de recibido y a su vez con el identificador de una tarea. La tarea será ejecutada de manera asincrónica y el usuario por medio del API REST puede consultar el estado y avance de la misma (Las tareas se ampliaran en la siguiente sección).\\
+Debido a que una solicitud de aprovisionamiento puede involucrar mas de una instancia, el servidor de VirtShell responde la solicitud de aprovisionamiento con el estado de \emph{in-progress} (en progreso) y a su vez con el identificador de una tarea. La tarea será ejecutada de manera asincrónica y el usuario por medio del API REST puede consultar el estado y avance de la misma (Las tareas se ampliaran en la siguiente sección).\\
 \\
 Un ejemplo de la creación de una instancia usando el API se muestra en el siguiente código:
 
-\begin{lstlisting}[style=json, caption=Petición HTTP para crear un ambiente]
+\begin{lstlisting}[style=json, caption=Petición HTTP para crear una instancia]
 curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
@@ -159,17 +159,21 @@ curl -sv -X POST \
 
 En esta solicitud HTTP se observa que la instancia a crear debe tener el  sistema operativo es Linux Ubuntu, contar con 8 Gigabytes de memoria RAM, dos núcleos, 20 Gigabyte de disco duro, y que debe ser creada en el ambiente de nombre development\_co en una maquina física de uso general. Adicionalmente la instancia debe ser un contenedor que se ejecute sobre LXC.\\
 \\
-Si la solicitud de las características es exitosa, el servidor responderá de la siguiente manera:\\
+Si la solicitud de las características es exitosa, el servidor responderá de la siguiente manera:
 
-\begin{lstlisting}[style=json]
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Ejemplo de respuesta HTTP a la solicitud de crear una instancia]
 HTTP/1.1 200 OK
 Content-Type: application/json
-{ "create": "received", "task": "bbf6669b-1b83-4fe7-ae2a-2b31738c4165" }
+{ "create": "in progress", "task": "bbf6669b-1b83-4fe7-ae2a-2b31738c4165" }
 \end{lstlisting}
 
-Si por el contrario, la solicitud no es exitosa, el servidor responderá con el respectivo código de error HTTP y la razón por la cual no se pudo procesar exitosamente la petición. Un ejemplo de una petición no procesada es la siguiente: \\
+Si por el contrario, la solicitud no es exitosa, el servidor responderá con el respectivo código de error HTTP y la razón por la cual no se pudo procesar exitosamente la petición. Un ejemplo de una petición no procesada es la siguiente: 
 
-\begin{lstlisting}[style=json]
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Ejemplo de respuesta HTTP con error a la solicitud de crear una instancia]
 HTTP/1.1 500 OK
 Content-Type: application/json
 { "create": "error", "reason": "The enviroment doesn't have the host_type requested" }
@@ -184,10 +188,49 @@ Una tarea es una actividad asincrónica, que se ejecuta en \emph{background} (se
 \\
 Las tareas asíncronas resuelven los problemas relacionados con los tiempos de espera de las conexiones, los tiempos de espera de la solicitudes o los tiempos de vida de las peticiones HTTP antes de que estas sean cerradas por el servidor de aplicaciones web o por el navegador de manera automática de acuerdo a sus parámetros de configuración.\\
 \\
-VirtShell usa las tareas principalmente en las operaciones que involucren las instancias, las cuales son denominadas de larga duración, al igual que el envio de múltiples archivos o instalar paquetes en las instancias.
-Los resultados pueden 
- UNDER CONSTRUCTION!!!!
+Las operaciones de larga duración en VirtShell son las que involucran acciones en las instancias. Debido a que estas ultimas pueden estar físicamente lejanas del servidor, el tiempo de espera de una petición HTTP puede incrementarse lo suficiente para que esta sea finalizada por el servidor web. Asimismo, las operaciones de aprovisionamiento de las instancias, las cuales consisten principalmente en instalación y configuración de paquetes son tareas que involucran componentes realizados por terceros sobre los cuales no se tiene control sobre sus tiempos de respuesta.\\
+\\
+Cuando VirtShell recibe una petición y esta es considerada de larga duración, en el cuerpo de la respuesta se enviá la acción recibida con el estado de \emph{in progress} acompañado del identificador único UUID \footnote{UUID son las siglas en inglés del Identificador Universalmente Único.} de la tarea. Por ejemplo, si se recibe una petición de instalación de un paquete en una o mas instancias, la respuesta HTTP seria de la siguiente forma:
+
+\begin{lstlisting}[style=json, caption=Ejemplo de respuesta HTTP referenciando a una tarea]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "install-package": "in progress", "task": "908b4d78-8b7a-40d7-9ecf-5036eeb5526b" }
+\end{lstlisting}
+
+\vspace{5mm}
+
+Para consultar por el estado de una tarea, se invoca el API de VirtShell, enviando en la url, el identificador UUID recibido de la primera petición, el servidor responderá con un documento en formato JSON detallando la tarea y su estado. El siguiente es un ejemplo de una consulta sobre una tarea y la respuesta del servidor:
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Ejemplo de consulta de una tarea]
+curl -sv -H 'accept: application/json' 
+     -H 'X-VirtShell-Authorization: UserId:Signature' \ 
+     'http://<host>:<port>/api/virtshell/v1/tasks/908b4d78-8b7a-40d7-9ecf-5036eeb5526b'
+\end{lstlisting}
+
+\vspace{5mm}
+
+Respuesta:
+
+\vspace{5mm}
+
+
+\begin{lstlisting}[style=json, caption=Ejemplo del detalle de una tarea]
+HTTP/1.1 200 OK
+Content-Type: application/json
+```
+```json
+{
+  "uuid": "908b4d78-8b7a-40d7-9ecf-5036eeb5526b",
+  "description": "install-package in instance database_01",
+  "status" : "installing",
+  "created": {"at":"1429207233", "by":"92d30f0c-8c9c-11e5-8994-feff819cdc9f"},
+  "last_update": "1429207435",
+  "log": "installing package couchdb"
+}
+\end{lstlisting}
 
 
 \section{Propiedades}
-UNDER CONSTRUCTION!!!!
