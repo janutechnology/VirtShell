@@ -47,4 +47,9 @@ the Design of Network-based Software Architectures, \url{https://www.ics.uci.edu
 
 \bibitem{rfc2104}HMAC: Keyed-Hashing for Message Authentication, https://www.ietf.org/rfc/rfc2104.txt, 1997
 
+
+\bibitem{lxc16}Linux Containers, https://linuxcontainers.org, 2016
+
+\bibitem{docker16}Docker, https://docker.com, 2016
+
 \end{thebibliography}

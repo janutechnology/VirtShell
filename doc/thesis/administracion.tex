@@ -114,14 +114,16 @@ curl -sv -X POST \
 \end{lstlisting}
 
 \section{Instancias}
-A un servidor virtual en VirtShell, se le denomina instancia. Las instancias pueden ser maquinas virtuales que corren sobre algún hipervisor o también pueden ser contenedores que se ejecutan directamente sobre el sistema operativo del anfitrión. La elección de la tecnología de virtualización depende de las preferencias u objetivos que se busque con las aplicaciones de la instancia.\\
+A un servidor virtual en VirtShell, se le denomina instancia, las cuales pueden ser maquinas virtuales que corren sobre algún hipervisor o también pueden ser contenedores que se ejecutan directamente sobre el sistema operativo del anfitrión. \\
 \\
-Las instancias son designadas a un particular ambiente de trabajo en el momento de ser creadas. En el momento de su creación se debe especificar las características de CPU, memoria y capacidad de disco que se desea. De igual manera, se configura el sistema operativo, los permisos para los demás usuarios del sistema, el tipo de anfitrión que necesita y la tecnología que se desea usar para virtualizar.\\ 
+La elección de la tecnología de virtualización depende de las preferencias u objetivos que se busque con las aplicaciones de la instancia.En la actualidad VirtShell soporta Virtualbox como hipervisor para maquinas virtuales y para los contenedores soporta LXC \footnote{LXC (Linux Containers) es una tecnología de virtualización en el nivel de sistema operativo (SO) para Linux. } \cite{lxc16} y Docker \footnote{Docker es un proyecto de código abierto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de Virtualización a nivel de sistema operativo en Linux.} \cite{docker16}.\\
+\\
+Las instancias son designadas a solo ambiente de trabajo en el momento de ser creadas. En el instante de su creación, se debe especificar las características de CPU, memoria y capacidad de disco que se desea. De igual manera, se configura el sistema operativo, los permisos para los demás usuarios del sistema, el tipo de anfitrión que necesita y la tecnología que se desea usar para virtualizar.\\ 
 \\
 \subsection{Creación de instancias en un ambiente}
-Cuando se recibe una solicitud de creación de una instancia, VirtShell selecciona uno anfitrión de los que se encuentran configurados en la partición a la cual pertenece el ambiente definido en la petición, y de acuerdo al tipo de anfitrión solicitado. Si la partición no cuenta con el tipo de anfitrión solicitado, se rechazara la petición detallando el inconveniente. Si por el contrario la selección del anfitrión es exitosa, VirtShell procede a enviar la solicitud al agente de aprovisionamiento del anfitrión escogido. \\
+Cuando se recibe una solicitud de creación de una instancia, VirtShell selecciona un anfitrión, de los que se encuentran configurados en la partición a la cual pertenece el ambiente donde se quiere crear la instancia. En la solicitud de creacion se debe especificar el tipo de anfitrión que se requiere para el correcto funcionamiento de las aplicaciones que se ejecutaran ahi. Si la partición no cuenta con el tipo de anfitrión solicitado, se rechazara la petición detallando el inconveniente. Si por el contrario la selección del anfitrión es exitosa, VirtShell procede a enviar la solicitud al agente de aprovisionamiento del anfitrión escogido. \\
 \\
-Debido a que una solicitud de aprovisionamiento puede involucrar mas de una instancia, el servidor de VirtShell responde la solicitud de aprovisionamiento con el estado de recibido y con el identificador de una tarea. La tarea será ejecutada de manera asincrónica y el usuario por medio del API REST puede consultar el estado y avance de la misma.\\
+Debido a que una solicitud de aprovisionamiento puede involucrar mas de una instancia, el servidor de VirtShell responde la solicitud de aprovisionamiento con el estado de recibido y a su vez con el identificador de una tarea. La tarea será ejecutada de manera asincrónica y el usuario por medio del API REST puede consultar el estado y avance de la misma (Las tareas se ampliaran en la siguiente seccion).\\
 \\
 Un ejemplo de la creación de una instancia usando el API se muestra en el siguiente código:
 
@@ -130,9 +132,10 @@ curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{ "name": "transactional_log",
-        "memory": 1024,
+        "memory": 8024,
         "cpus": 2,
-        "hdsize": "2GB",
+        "hdsize": "20GB",
+        "enviroment": "development_co",
         "operating_system": "ubuntu_server_14.04.2_amd64",
         "description": "Server transactional only for store logs", 
         "provisioner": "all_backend",
@@ -141,6 +144,30 @@ curl -sv -X POST \
       }' \
    'http://localhost:8080/api/virtshell/v1/instances'
 \end{lstlisting}
+
+En esta solicitud HTTP se observa que la instancia a crear debe tener el  sistema operativo es Linux Ubuntu, contar con 8 gigabytes de memoria RAM, dos nucleos, 20 gigabytes de disco duro, y que debe ser creada en el ambiente de nombre development\_co en una maquina fisica de uso general. Adicionalmente la instancia debe ser un contenedor que se ejecute sobre LXC.\\
+\\
+Si la solicitud de las caracteristicas es exitosa, el servidor respondera de la siguiente manera:
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "create": "received", "task": "bbf6669b-1b83-4fe7-ae2a-2b31738c4165" }
+\end{lstlisting}
+
+Si por el contrario, la solicitud no es exitosa, el servidor respondera con el respectivo codigo de error HTTP y la razon por la cual no se pudo procesar exitosamente la peticion. Un ejemplo de una peticion no procesada es la siguiente:
+
+\begin{lstlisting}[style=json]
+HTTP/1.1 500 OK
+Content-Type: application/json
+{ "create": "error", "reason": "The enviroment doesn't have the host_type requested" }
+\end{lstlisting}
+
+
+
+
+
+
 
 
 
