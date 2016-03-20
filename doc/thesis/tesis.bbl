@@ -45,6 +45,8 @@
 \bibitem{fielding00} Architectural Styles and
 the Design of Network-based Software Architectures, \url{https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm}, 2000.
 
+\bibitem{fowler04} Inversion of Control Containers and the Dependency Injection pattern, \url{http://martinfowler.com/articles/injection.html}, 2004.
+
 \bibitem{rfc2104}HMAC: Keyed-Hashing for Message Authentication, https://www.ietf.org/rfc/rfc2104.txt, 1997
 
 
