@@ -35,6 +35,7 @@ Representaci'on del recurso de una imagen:
   "arch": string, 
   "timezone": "America/Bogota", 
   "key": string,
+  "iso_url": url,
   "preseed_url": url,
   "download_url": url,
   "permissions" : string,
@@ -56,8 +57,10 @@ Ejemplo:
   "version": "14.04.2", 
   "variant": "server", 
   "arch": "amd64", 
-  "timezone": "America/Bogota", 
+  "timezone": "America/Bogota",
+  "iso_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso",
   "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
+  "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso",
   "permissions" : "rwxrw----",
   "created":["at":"20150625105211","by":10]
 }
