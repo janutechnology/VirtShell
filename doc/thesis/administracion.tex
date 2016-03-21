@@ -146,7 +146,7 @@ curl -sv -X POST \
         "cpus": 2,
         "hdsize": "20GB",
         "enviroment": "development_co",
-        "operating_system": "ubuntu_server_14.04.2_amd64",
+        "image": "centos6",
         "description": "Server transactional only for store logs", 
         "provisioner": "all_backend",
         "host_type": "GeneralPurpose",
@@ -157,7 +157,7 @@ curl -sv -X POST \
 
 \vspace{5mm}
 
-En esta solicitud HTTP se observa que la instancia a crear debe tener el  sistema operativo es Linux Ubuntu, contar con 8 Gigabytes de memoria RAM, dos núcleos, 20 Gigabyte de disco duro, y que debe ser creada en el ambiente de nombre development\_co en una maquina física de uso general. Adicionalmente la instancia debe ser un contenedor que se ejecute sobre LXC.\\
+En esta solicitud HTTP se observa que la instancia a crear debe tener la imagen llamada centos6, contar con 8 Gigabytes de memoria RAM, dos núcleos, 20 Gigabyte de disco duro, y que debe ser creada en el ambiente de nombre development\_co en una maquina física de uso general. Adicionalmente la instancia debe ser un contenedor que se ejecute sobre LXC.\\
 \\
 Si la solicitud de las características es exitosa, el servidor responderá de la siguiente manera:
 
