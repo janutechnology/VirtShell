@@ -21,7 +21,7 @@ Resource representations
 {
   "id": "kj5436c0-dc94-13tg-82ce-9992b5d5c51b",
   "name": "ubuntu_server_14.04.2_amd64",
-  "type": "iso|container",
+  "type": "iso|lxc-container|docker-container",
   "os": "ubuntu", 
   "release": "trusty",
   "version": "14.04.2", 
@@ -143,12 +143,10 @@ Content-Type: application/json
     {
       "id": "ca326181-bc84-4edb-bfc5-843037e7195e",
       "name": "centos_server",
-      "type": "container",
+      "type": "docker-container",
       "os": "centos", 
-      "version": "7", 
-      "arch": "x86_64",
+      "version": "centos6", 
       "permissions": "xwrxwrxwr",
-      "download_url": "https://<host>:<port>/api/virtshell/v1/files/images/3514296#file-lxc-centos"
       "created":["at":"20140625105211","by":12]
     }
   ]
