@@ -169,7 +169,7 @@ Execute command in many instances, combining names, patterns and tags.
 curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{ "path": "https://<host>:<port>/api/virtshell/v1/files/database_servers/msql/my.cnf",
+  -d '{ "uuid_file": "0d832c60-7066-4d37-bd72-ce6ac4f61bcc",
         "destination": "$MYSQL_HOME/my.cnf"
         "instances": [
             {"name": "database_server_01"},
