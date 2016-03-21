@@ -3,8 +3,91 @@
 
 VirtShell cuenta con una colección de recursos que permite el aprovisionamiento de instancias,independientemente de la infraestructura de visualización que se use para estas. El conjunto de recursos de esta capa, esta diseñado para que sea una solución sencilla de usar, fiable y repetible, con una curva de aprendizaje muy baja para los administradores, desarrolladores y administradores de TI. Este capítulo busca describir todo lo que se requiere para llevar a cabo un correcto aprovisionamiento en las instancias creadas a través del sistema.
 
+\section{Almacenamiento y envio de archivos}
+El módulo de archivos proporciona una manera de almacenar archivos en VirtShell y de enviarlos a uno mas instancias. Para enviar archivos a las instancias, estos deben estar almacenados previamente en el sistema. En la petición HTTP de envió de archivos se debe especificar la ruta donde se encuentra el archivo, en la maquina en la que se esta invocando el API, asimismo, la carpeta donde desea guardarse y los permisos con que contara el archivo. Si la carpeta no existe, el sistema la creara automáticamente. A continuación se muestra un ejemplo de como enviar un archivo a VirtShell.
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Petición HTTP para subir un archivo al sistema]
+curl -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -H "Content-Type: multipart/form-data" \
+  -F "file_data=@/path/to/file/seed_file.txt;filename=seed_file_ubuntu-14_04.txt" \
+  -F "folder_name=ubuntu_seeds" \
+  -F "permissions=rwxrwx---",
+  'http://<host>:<port>/api/virtshell/v1/files'
+\end{lstlisting}
+
+\vspace{5mm}
+
+La respuesta que retorna VirtShell, muestra la url en donde almaceno el archivo y el identificador UUID asignado en el sistema. Un ejemplo se muestra a continuación:
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Respuesta HTTP del almacenamiento de un archivo.]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ 
+  "create": "success",
+  "location": "http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt",
+  "uuid": "51702a78-b23c-4625-bdda-3704cd0924b8" 
+}
+\end{lstlisting}
+
+\vspace{5mm}
+
+Existen dos formas para el envió de archivos a las instancias, la primera consiste en enviar un archivo a un destino en una o mas instancias, como se muestra a continuación:
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Ejemplo del envio de un archivo a una instancia.]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{ "uuid_file": "0d832c60-7066-4d37-bd72-ce6ac4f61bcc",
+        "destination": "$MYSQL_HOME/my.cnf"
+        "instances": [
+            {"name": "database\_server\_01"}
+        ] }' \
+  'http://localhost:8080/virtshell/api/v1/instances/copy\_files/'
+\end{lstlisting}
+
+\vspace{5mm}
+
+Y la segunda forma se trata de enviar el contenido una carpeta del sistema, en donde pueden existir uno o mas archivos a una carpeta destino, especificando las instancias a las cuales sera enviado. Un ejemplo se muestra a continuación:
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{ "folder_name": "mysql_configuration",
+        "destination": "$MYSQL_HOME/my.cnf"
+        "instances": [
+            {"name": "database\_server\_01"},
+            {"name": "database\_server\_02"},
+            {"name": "database\_server\_03"}
+        ] }' \
+  'http://localhost:8080/virtshell/api/v1/instances/copy\_files/'
+\end{lstlisting}
+
+\vspace{5mm}
+
+El envió de archivos a las instancias genera una tarea en el sistema. La respuesta se da la siguiente manera:
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Ejemplo de respuesta HTTP para el envio de archivos]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "copy-files": "in progress", "task": "49d0cca2-e297-47c4-976f-845e1ce8f475" }
+\end{lstlisting}
+
+
 \section{Imágenes}
-Como se describió en la arquitectura, las imágenes que se manejan en VirtShell son de dos tipos: ISO y \emph{templates} para contenedores. A continuación se presentan las características de cada una de ellas.
+Como se describió en la arquitectura, las imágenes que se manejan en VirtShell son de dos tipos: ISO y \emph{templates} para contenedores. A continuación se presentan las características de cada una de ellas.1
 
 \subsection{Imágenes tipo ISO}
 Las imágenes ISO son usadas para la creación de maquinas virtuales que interactuan con un hipervisor. Estas son versiones modificadas que se encuentran en los repositorios oficiales de las distintas distribuciones de Linux o de cualquier otro sistema operativo. Para que una imagen pueda ser usada en VirtShell, esta debe cumplir con los siguientes requisitos: 
@@ -13,7 +96,7 @@ Las imágenes ISO son usadas para la creación de maquinas virtuales que interac
 \item Debe tener instalado un servidor SSH con un usuario valido para VirtShell.
 \end{itemize}
 
-VirtShell cuenta con un servicio que permite crear versiones desatendidas de la distribución de Linux Ubuntu. Para crear una versión desatendida es necesario proveer un mecanismo para responder a las preguntas formuladas durante el proceso de instalación, sin tener que introducir manualmente las respuestas mientras la instalación está transcurriendo. Esto se hace posible creando un archivo de pre-configuración (\emph{pressed file}) con las respuestas y solicitud de instalación de paquetes como el del servidor SSH. Este archivo debe ser enviado al servidor de VirtShell a través del API REST. En la sección de archivos en este mismo capítulo se mostrará como enviar un archivo de pre-configuración al sistema. Una vez el archivo de respuestas se encuentra en el sistema, se enviá la petición HTTP al API solicitando la creación de la nueva imagen desatendida como se muestra a continuación:
+VirtShell cuenta con un servicio que permite crear versiones desatendidas de la distribución de Linux Ubuntu. Para crear una versión desatendida es necesario proveer un mecanismo para responder a las preguntas formuladas durante el proceso de instalación, sin tener que introducir manualmente las respuestas mientras la instalación está transcurriendo. Esto se hace posible creando un archivo de pre-configuración (\emph{pressed file}) con las respuestas y solicitud de instalación de paquetes como el del servidor SSH. Este archivo debe ser enviado al servidor de VirtShell a través del API REST. Previamente en la sección de archivos en este mismo capítulo se mostró como almacenar un archivo en el sistema. Una vez el archivo de respuestas se encuentra en VirtShell, se enviá la petición HTTP al API solicitando la creación de la nueva imagen desatendida como se muestra a continuación:
 
 \vspace{5mm}
 
@@ -101,7 +184,11 @@ Content-Type: application/json
 \end{lstlisting}
 
 
-\section{Instalación de paquetes y archivos}
+
+
+
+\section{Instalación y Actualización de paquetes}
+
 
 \section{Aprovisionadores}
 
