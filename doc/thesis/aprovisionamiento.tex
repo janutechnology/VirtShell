@@ -3,6 +3,9 @@
 
 VirtShell cuenta con una colección de recursos que permite el aprovisionamiento de instancias,independientemente de la infraestructura de visualización que se use para estas. El conjunto de recursos de esta capa, esta diseñado para que sea una solución sencilla de usar, fiable y repetible, con una curva de aprendizaje muy baja para los administradores, desarrolladores y administradores de TI. Este capítulo busca describir todo lo que se requiere para llevar a cabo un correcto aprovisionamiento en las instancias creadas a través del sistema.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Almacenamiento y envio de archivos %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Almacenamiento y envio de archivos}
 El módulo de archivos proporciona una manera de almacenar archivos en VirtShell y de enviarlos a uno mas instancias. Para enviar archivos a las instancias, estos deben estar almacenados previamente en el sistema. En la petición HTTP de envió de archivos se debe especificar la ruta donde se encuentra el archivo, en la maquina en la que se esta invocando el API, asimismo, la carpeta donde desea guardarse y los permisos con que contara el archivo. Si la carpeta no existe, el sistema la creara automáticamente. A continuación se muestra un ejemplo de como enviar un archivo a VirtShell.
 
@@ -85,7 +88,9 @@ Content-Type: application/json
 { "copy-files": "in progress", "task": "49d0cca2-e297-47c4-976f-845e1ce8f475" }
 \end{lstlisting}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Imagenes %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Imágenes}
 Como se describió en la arquitectura, las imágenes que se manejan en VirtShell son de dos tipos: ISO y \emph{templates} para contenedores. A continuación se presentan las características de cada una de ellas.1
 
@@ -184,15 +189,13 @@ Content-Type: application/json
 \end{lstlisting}
 
 
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Instalación y Actualización de paquetes %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Instalación y Actualización de paquetes}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Aprovisionadores %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Aprovisionadores}
-
-
-
-
-
