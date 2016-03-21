@@ -58,7 +58,8 @@ curl -sv -X PUT \
 		 "arch": "amd64", 
 		 "timezone": "America/Bogota", 
 		 "key": "/home/callanor/.ssh/id_rsa.pub",
-		 "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt"}' \
+		 "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
+     "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso"}' \
    'http://localhost:8080/api/virtshell/v1/image'
 ```
 
@@ -100,6 +101,7 @@ Content-Type: application/json
   "permissions": "xwrxwrxwr",
   "timezone": "America/Bogota", 
   "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu_14_04.txt",
+  "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso"
   "created":["at":"20130625105211","by":10]
 }
 ```
@@ -134,7 +136,8 @@ Content-Type: application/json
       "arch": "amd64",
       "permissions": "xwrxwrxwr", 
       "timezone": "America/Bogota", 
-      "preseed_file": "/home/callanor/seed_file.txt",
+      "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu_14_04.txt",
+      "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso",
       "created":["at":"20130625105211","by":10]
     },
     {
