@@ -125,6 +125,7 @@ Content-Type: application/json
   "arch": "amd64", 
   "timezone": "America/Bogota", 
   "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu_14_04.txt",
+  "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso",
   "permissions" : "rwxrwxrwx",
   "created":["at":"20130625105211","by":10]
 }
@@ -158,17 +159,16 @@ Content-Type: application/json
       "arch": "amd64", 
       "timezone": "America/Bogota", 
       "preseed_file": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_file.txt",
+      "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso",
       "permissions" : "rwxrw----",
       "created":["at":"20130625105211","by":10]
     },
     {
       "id": "ca326181-bc84-4edb-bfc5-843037e7195e",
       "name": "centos_server",
-      "type": "container",
+      "type": "docker-container",
       "os": "centos", 
-      "version": "7", 
-      "arch": "x86_64", 
-      "download_url": "https://<host>:<port>/api/virtshell/v1/files/images/3514296#file-lxc-centos",
+      "version": "centos6", 
       "permissions" : "rwxrwxr--",
       "created":["at":"20140625105211","by":12]
     }
