@@ -7,10 +7,10 @@ VirtShell cuenta con una colección de recursos, que permite el aprovisionamient
 Como se describio en la arquitectura, las imágenes que se manejan en VirtShell son de dos tipos: ISO y \emph{templates} para contenedores. Las imágenes ISO son usadas para la creación de maquinas virtuales que interactuan con un hipervisor. Estas son versiones modificadas de las que se encuentran en los repositorios oficiales de las distintas distribuciones de Linux o de cualquier otro sistema operativo. Para que una imagen pueda ser usada en VirtShell, esta debe cumplir con los siguientes requisitos: 
 \begin{itemize}
 \item Que su instalación sea completamente desatendida (o automática), esto quiere decir que no requiera intervención humana.
-\item Debe tener instalado un servidor ssh con un usuario valido para VirtShell.
+\item Debe tener instalado un servidor SSH con un usuario valido para VirtShell.
 \end{itemize}
 
-VirtShell cuenta con un servicio que permite crear versiones desatendidas de la distribucion de Linux Ubuntu. Para crear una version desatendida es necesario proveer un mecanismo para responder a las preguntas formuladas durante el proceso de instalación, sin tener que introducir manualmente las respuestas mientras la instalación está en funcionamiento. Esto se hace posible creando un archivo de pre-configuracion con las respuestas y solicitud de instalacion de paquetes como el del servidor ssh. Ese archivo debe ser enviando a traves del API REST de VirtShell como se muestra a continuación:
+VirtShell cuenta con un servicio que permite crear versiones desatendidas de la distribución de Linux Ubuntu. Para crear una versión desatendida es necesario proveer un mecanismo para responder a las preguntas formuladas durante el proceso de instalación, sin tener que introducir manualmente las respuestas mientras la instalación está en funcionamiento. Esto se hace posible creando un archivo de pre-configuración con las respuestas y solicitud de instalación de paquetes como el del servidor SSH. Ese archivo debe ser enviando a través del API REST de VirtShell como se muestra a continuación:
 
 \begin{lstlisting}[style=json, caption=Petición HTTP para crear una imagen]
 curl -sv -X PUT \
@@ -31,7 +31,7 @@ curl -sv -X PUT \
    'http://localhost:8080/api/virtshell/v1/image'
 \end{lstlisting}
 
-Como se observa en la peticion, para crear una imagen desatendida, el servicio de VirtShell bajara la ISO de la url indicada en el cambo download\_url y aplicara el archivo de respuestas indicado en el campo pressed\_url, un ejemplo del archivo de respuestas se encuentra en el apendice C.
+Como se observa en la petición, para crear una imagen desatendida, el servicio de VirtShell bajara la ISO de la url indicada en el cambo download\_url y aplicara el archivo de respuestas indicado en el campo pressed\_url, un ejemplo del archivo de respuestas se encuentra en el apéndice C.
 
 
 \section{Aprovisionadores}
