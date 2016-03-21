@@ -28,14 +28,9 @@ Representaci'on del recurso de una imagen:
   "id": string,
   "name": string,
   "type": string,
-  "os": string, 
-  "release": string,
-  "version": string, 
-  "variant": string, 
-  "arch": string, 
+  "os": string,
   "timezone": "America/Bogota", 
   "key": string,
-  "iso_url": url,
   "preseed_url": url,
   "download_url": url,
   "permissions" : string,
@@ -52,16 +47,12 @@ Ejemplo:
   "id": "kj5436c0-dc94-13tg-82ce-9992b5d5c51b",
   "name": "ubuntu_server_14.04.2_amd64",
   "type": "iso",
-  "os": "ubuntu", 
-  "release": "trusty",
-  "version": "14.04.2", 
-  "variant": "server", 
-  "arch": "amd64", 
+  "os": "ubuntu",
   "timezone": "America/Bogota",
-  "iso_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso",
   "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
   "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso",
   "permissions" : "rwxrw----",
+  "details": "ubuntu-trusty, version: 14.04.2, amd64-server"
   "created":["at":"20150625105211","by":10]
 }
 \end{lstlisting}
@@ -77,15 +68,12 @@ curl -sv -X PUT \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{"name": "ubuntu_server_14.04.2_amd64",
      "type": "iso",
-     "os": "ubuntu", 
-     "release": "trusty",
-     "version": "14.04.2", 
-     "variant": "server", 
-     "arch": "amd64", 
+     "os": "ubuntu",
      "timezone": "America/Bogota", 
      "key": "/home/callanor/.ssh/id_rsa.pub",
      "permissions" : "rwxrwxr--",
-     "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt"}' \
+     "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
+     "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso"}' \
    'http://localhost:8080/api/virtshell/v1/image'
 \end{lstlisting}
 
@@ -119,10 +107,6 @@ Content-Type: application/json
   "name": "ubuntu_server_14.04.2_amd64",
   "type": "iso",
   "os": "ubuntu", 
-  "release": "trusty",
-  "version": "14.04.2", 
-  "variant": "server", 
-  "arch": "amd64", 
   "timezone": "America/Bogota", 
   "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu_14_04.txt",
   "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso",
@@ -152,11 +136,7 @@ Content-Type: application/json
       "id": "b180ef2c-e798-4a8f-b23f-aaac2fb8f7e8",
       "name": "ubuntu_server_14.04.2_amd64",
       "type": "iso",
-      "os": "ubuntu", 
-      "release": "trusty",
-      "version": "14.04.2", 
-      "variant": "server", 
-      "arch": "amd64", 
+      "os": "ubuntu",  
       "timezone": "America/Bogota", 
       "preseed_file": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_file.txt",
       "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso",
@@ -165,10 +145,9 @@ Content-Type: application/json
     },
     {
       "id": "ca326181-bc84-4edb-bfc5-843037e7195e",
-      "name": "centos_server",
+      "name": "centos:centos6",
       "type": "docker-container",
       "os": "centos", 
-      "version": "centos6", 
       "permissions" : "rwxrwxr--",
       "created":["at":"20140625105211","by":12]
     }

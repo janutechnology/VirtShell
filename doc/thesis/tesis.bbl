@@ -52,6 +52,8 @@ the Design of Network-based Software Architectures, \url{https://www.ics.uci.edu
 
 \bibitem{lxc16}Linux Containers, https://linuxcontainers.org, 2016
 
+\bibitem{lxcubuntu16}LXC Templates Documentation, https://help.ubuntu.com/lts/serverguide/lxc.html, 2016
+
 \bibitem{docker16}Docker, https://docker.com, 2016
 
 \end{thebibliography}

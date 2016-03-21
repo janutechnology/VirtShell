@@ -1,42 +1,111 @@
 \chapter{Aprovisionamiento}
 \label{capaprovisionamiento}
 
-VirtShell cuenta con una colección de recursos, que permite el aprovisionamiento de instancias,independientemente de la infraestructura de visualización que se use para estas. El conjunto de recursos de esta capa, esta diseñado para que sea una solución sencilla de usar, fiable y repetible, con una curva de aprendizaje muy baja para los administradores, desarrolladores y administradores de TI. Este capítulo busca describir todo lo que se requiere para llevar a cabo un correcto aprovisionamiento en las instancias creadas a traves el sistema.
+VirtShell cuenta con una colección de recursos que permite el aprovisionamiento de instancias,independientemente de la infraestructura de visualización que se use para estas. El conjunto de recursos de esta capa, esta diseñado para que sea una solución sencilla de usar, fiable y repetible, con una curva de aprendizaje muy baja para los administradores, desarrolladores y administradores de TI. Este capítulo busca describir todo lo que se requiere para llevar a cabo un correcto aprovisionamiento en las instancias creadas a través del sistema.
 
-\section{Imagenes}
-Como se describio en la arquitectura, las imágenes que se manejan en VirtShell son de dos tipos: ISO y \emph{templates} para contenedores. Las imágenes ISO son usadas para la creación de maquinas virtuales que interactuan con un hipervisor. Estas son versiones modificadas de las que se encuentran en los repositorios oficiales de las distintas distribuciones de Linux o de cualquier otro sistema operativo. Para que una imagen pueda ser usada en VirtShell, esta debe cumplir con los siguientes requisitos: 
+\section{Imágenes}
+Como se describió en la arquitectura, las imágenes que se manejan en VirtShell son de dos tipos: ISO y \emph{templates} para contenedores. A continuación se presentan las características de cada una de ellas.
+
+\subsection{Imágenes tipo ISO}
+Las imágenes ISO son usadas para la creación de maquinas virtuales que interactuan con un hipervisor. Estas son versiones modificadas que se encuentran en los repositorios oficiales de las distintas distribuciones de Linux o de cualquier otro sistema operativo. Para que una imagen pueda ser usada en VirtShell, esta debe cumplir con los siguientes requisitos: 
 \begin{itemize}
-\item Que su instalación sea completamente desatendida (o automática), esto quiere decir que no requiera intervención humana.
+\item Que su proceso de instalación sea completamente desatendido (o automático), esto quiere decir que no requiera intervención humana.
 \item Debe tener instalado un servidor SSH con un usuario valido para VirtShell.
 \end{itemize}
 
-VirtShell cuenta con un servicio que permite crear versiones desatendidas de la distribución de Linux Ubuntu. Para crear una versión desatendida es necesario proveer un mecanismo para responder a las preguntas formuladas durante el proceso de instalación, sin tener que introducir manualmente las respuestas mientras la instalación está en funcionamiento. Esto se hace posible creando un archivo de pre-configuración con las respuestas y solicitud de instalación de paquetes como el del servidor SSH. Ese archivo debe ser enviando a través del API REST de VirtShell como se muestra a continuación:
+VirtShell cuenta con un servicio que permite crear versiones desatendidas de la distribución de Linux Ubuntu. Para crear una versión desatendida es necesario proveer un mecanismo para responder a las preguntas formuladas durante el proceso de instalación, sin tener que introducir manualmente las respuestas mientras la instalación está transcurriendo. Esto se hace posible creando un archivo de pre-configuración (\emph{pressed file}) con las respuestas y solicitud de instalación de paquetes como el del servidor SSH. Este archivo debe ser enviado al servidor de VirtShell a través del API REST. En la sección de archivos en este mismo capítulo se mostrará como enviar un archivo de pre-configuración al sistema. Una vez el archivo de respuestas se encuentra en el sistema, se enviá la petición HTTP al API solicitando la creación de la nueva imagen desatendida como se muestra a continuación:
 
-\begin{lstlisting}[style=json, caption=Petición HTTP para crear una imagen]
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Petición HTTP para crear una imagen desatendida]
 curl -sv -X PUT \
   -H 'accept: application/json' \
   -H "Content-Type: text/plain" \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{"name": "ubuntu_server_14.04.2_amd64",
-     "type": "iso",
-     "os": "ubuntu", 
-     "release": "trusty",
-     "version": "14.04.2", 
-     "variant": "server", 
-     "arch": "amd64", 
-     "timezone": "America/Bogota", 
-     "permissions" : "rwxrwxr--",
-     "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
-     "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso"}' \
+       "type": "iso",
+       "os": "ubuntu", 
+       "timezone": "America/Bogota", 
+       "permissions" : "rwxrwxr--",
+       "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
+       "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso"}' \
    'http://localhost:8080/api/virtshell/v1/image'
 \end{lstlisting}
 
-Como se observa en la petición, para crear una imagen desatendida, el servicio de VirtShell bajara la ISO de la url indicada en el cambo download\_url y aplicara el archivo de respuestas indicado en el campo pressed\_url, un ejemplo del archivo de respuestas se encuentra en el apéndice C.
+\vspace{5mm}
 
+Como se observa en la anterior petición, para crear una imagen desatendida, ademas de especificar el archivo de respuestas, se debe definir la url (en el campo download\_url) donde se encuentra la imagen ISO que el servicio de VirtShell usara para la creación. Un ejemplo de un archivo de respuestas se encuentra en el apéndice C.\\
+\\
+La creación de una imagen desatendida es un proceso que puede tomar algunos minutos en completarse, como se mencionó en el capitulo de administración, VirtShell crea una tarea asíncrona retornando un identificador que permite consultar el estado de la creación de la imagen más adelante. La respuesta HTTP seria de la siguiente forma:
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Ejemplo de respuesta HTTP para la creación de una imagen]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "create-image": "in progress", "task": "84de8acd-6095-40b1-a318-e7c6706213a3" }
+\end{lstlisting}
+
+\vspace{5mm}
+
+\subsection{Imágenes tipo contenedor}
+Este tipo de imágenes son usadas para la creación de contenedores que interactuan directamente con el sistema operativo. Se encuentran divididas en dos subtipos, las imágenes para contenedores creados con tecnología LXC, y las imágenes para contenedores creados con tecnología Docker.\\
+\\
+La Creación de un contenedor LXC, en general, implica la creación de un sistema de ficheros raíz propio para el contenedor. LXC delega este trabajo a \emph{templates} (plantillas), las cuales pueden ser encontradas en las distribuciones de Linux bajo el directorio /usr/share/lxc/templates, e incluyen \emph{templates} para crear contenedores con los sistemas operativos Ubuntu, Debian, Fedora, Oracle, Centos y Gentoo entre otros \cite{lxcubuntu16}. La idea con estos \emph{templates} es modificarlos de acuerdo a las necesidades del usuario y subirlos al sistema por medio del API REST,  una vez el \emph{template} se encuentre en el sistema, se debe crear como una imagen disponible para contenedores LXC como se muestra a continuación:
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Petición HTTP para crear una imagen para contenedores LXC]
+curl -sv -X PUT \
+  -H 'accept: application/json' \
+  -H "Content-Type: text/plain" \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{"name": "Oracle",
+       "type": "lxc-container",
+       "os": "oracle",
+       "permissions" : "rwxrwxr--",
+       "download_url": "https://<host>:<port>/api/virtshell/v1/files/images/3514296#file-lxc-oracle}' \
+   'http://localhost:8080/api/virtshell/v1/image'
+\end{lstlisting}
+
+\vspace{5mm}
+
+Como se observa en la petición HTTP, se debe especificar que la imagen es de tipo lxc-container y precisar la ubicación del template en el sistema. La creación de este tipo de imágenes no genera una tarea, dado que el template ya esta creado previamente por el usuario.\\
+\\
+La Creación de contenedores usando Docker, requiere de imágenes que se encuentran en repositorios públicos administrados por el equipo de Docker \footnote{Repositorio oficial de imágenes Docker: https://github.com/docker-library/official-images}. En un repositorio de imágenes Docker, las imágenes son guardadas por medio de la combinación del nombre del sistema operativo y un \emph{tag} (etiqueta) suministrado por el creador de la imagen, lo que permite contar con mas de una imagen por sistema operativo. La especificación de una imagen Docker en VirtShell, se hace de la siguiente manera:
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Petición HTTP para crear una imagen para contenedores Docker]
+curl -sv -X PUT \
+  -H 'accept: application/json' \
+  -H "Content-Type: text/plain" \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{"name": "centos:centos6",
+       "type": "docker-container",
+       "os": "centos",
+       "permissions" : "rwxrwxr--"}' \
+   'http://localhost:8080/api/virtshell/v1/image'
+\end{lstlisting}
+
+\vspace{5mm}
+
+En la petición HTTP, con el fin de mantener el estándar con los repositorios Docker, el nombre de la imagen en VirtShell debe ser el mismo que se maneja en los repositorios públicos, esto es, la combinación del nombre del sistema operativo y el tab dado por el creador, separados por el carácter dos puntos (:). La creación de una imagen Docker en VirtShell genera una tarea, la cual consiste en verificar la existencia de la imagen en el repositorio público. Si la imagen es válida, su referencia será agregada al sistema para que el agente de aprovisionamiento sea el que la descargue del repositorio público, en caso contrario, se notificará la razón del error en la tarea. Un ejemplo del mensaje que retorna la creación de una imagen Docker se muestra a continuación:
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Ejemplo de respuesta HTTP para la creación de una imagen]
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ "create-image": "checking", "task": "44ab19d5-7967-4bb9-b39e-f61f983af72b" }
+\end{lstlisting}
+
+
+\section{Instalación de paquetes y archivos}
 
 \section{Aprovisionadores}
 
-\section{Instalación de paquetes y archivos}
+
 
 
 
