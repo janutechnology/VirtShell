@@ -24,9 +24,13 @@ Resource representation
   "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
   "name": "backend-services-provisioner",
   "description": "Installs/Configures a backend server",
-  "version": "1.5.8",
+  "memory": 4096,
+  "cpus": 2,
+  "hdsize": 20480,
+  "image": "ubuntu_server_14.04.2_amd64",
+  "driver": "docker",
   "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
-  "executor": "run1.sh",
+  "executor": "sh run1.sh",
   "tag": "backend",
   "depends": [ ... list of dependencies necessary for the builder ... ],
   "permissions": "xwrxwrxwr",
@@ -47,13 +51,20 @@ curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{"name": "backend-services-provisioner",
+       "memory": 4096,
+       "cpus": 2,
+       "hdsize": 20480,
+       "image": "ubuntu_server_14.04.2_amd64",
+       "driver": "docker",
        "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
-       "executor": "run1.sh",
+       "executor": "sh run1.sh",
        "tag": "backend",
        "depends": [
-            {"provisioner_name": "db-users", "version": "2.0.0"},
+            {"provisioner_name": "db-users"},
             {"provisioner_name": "db-transactional"}
-        ]
+        ],
+       "permissions": "xwrxwrxwr",
+       "description": "Installs/Configures a backend server",
       }' \
    'http://localhost:8080/api/virtshell/v1/provisioners'
 ```
@@ -88,19 +99,29 @@ Content-Type: application/json
   "provisioners": [
     {
       "name": "backend-services-provisioner",
+      "memory": 4096,
+      "cpus": 2,
+      "hdsize": 20480,
+      "image": "ubuntu_server_14.04.2_amd64",
+      "driver": "docker",
       "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
-      "executor": "run1.sh",
+      "executor": "sh run1.sh",
       "tag": "backend",
       "permissions": "xwrxwrxwr",
       "depends": [
-          {"provisioner_name": "db-users", "version": "2.0.0"},
+          {"provisioner_name": "db-users"},
           {"provisioner_name": "db-transactional"}
       ]
     },
     {
       "name": "db-transactional",
+      "memory": 2096,
+      "cpus": 1,
+      "hdsize": 20480,
+      "image": "ubuntu_server_14.04.2_amd64",
+      "driver": "lxc",
       "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
-      "executor": "run_db.sh",
+      "executor": "sh run_db.sh",
       "permissions": "xwrxwrxwr",      
       "tag": "db"
     }
@@ -127,11 +148,16 @@ Content-Type: application/json
 ```json
   {
     "name": "backend-services-provisioner",
+    "memory": 4096,
+    "cpus": 2,
+    "hdsize": 20480,
+    "image": "ubuntu_server_14.04.2_amd64",
+    "driver": "docker",
     "repository": "https://github.com/janutechnology/VirtShell_Provisioners_Examples.git",
-    "executor": "run1.sh",
+    "executor": "sh run1.sh",
     "tag": "backend",
     "depends": [
-        {"provisioner_name": "db-users", "version": "2.0.0"},
+        {"provisioner_name": "db-users"},
         {"provisioner_name": "db-transactional"}
     ],
     "permissions": "xwrxwrxwr",
@@ -149,7 +175,7 @@ Update an existing provisioner.
 curl -sv -X PUT \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{ "executor": "run_backend.sh" }' \
+  -d '{ "executor": "sh run_backend.sh" }' \
    'http://localhost:8080/api/virtshell/v1/provisioners/backend-services-provisioner
 ```
 
