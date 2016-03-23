@@ -22,12 +22,8 @@ Resource representation
 {
   "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
   "name": "transactional_log",
-  "memory": 1024,
-  "cpus": 2,
-  "hdsize": "2GB",
   "description": "Server transactional only for store logs", 
   "enviroment": "Enviroment name to which it belongs",
-  "image": "ubuntu_server_14.04.2_amd64",
   "provisioner": "all_backend",
   "permissions": "xwrxwrxwr",
   "host_type": "GeneralPurpose | ComputeOptimized | MemoryOptimized | StorageOptimized",
@@ -51,11 +47,7 @@ curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{ "name": "transactional_log",
-        "memory": 1024,
-        "cpus": 2,
-        "hdsize": "2GB",
         "enviroment": "development_co", 
-        "image": "ubuntu_server_14.04.2_amd64",
         "description": "Server transactional only for store logs", 
         "provisioner": "all_backend",
         "host_type": "GeneralPurpose",
@@ -95,10 +87,6 @@ Content-Type: application/json
     {
       "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
       "name": "transactional_log",
-      "memory": 1024,
-      "cpus": 2,
-      "hdsize": "2GB",
-      "image": "ubuntu_server_14.04.2_amd64",
       "description": "Server transactional only for store logs", 
       "provisioner": "all_backend",
       "host_type": "GeneralPurpose",
@@ -111,10 +99,6 @@ Content-Type: application/json
     { 
       "uuid": "cf744476-8f12-11e5-8994-feff819cdc9f",
       "name": "orders_colombia",
-      "memory": 2024,
-      "cpus": 2,
-      "hdsize": "4GB",
-      "image": "ubuntu_server_14.04.2_amd64",
       "description": "Server transactional dedicated to receive orders", 
       "provisioner": "orders_admin",
       "host_type": "StorageOptimized",
@@ -148,10 +132,6 @@ Content-Type: application/json
 {
   "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
   "name": "transactional_log",
-  "memory": 1024,
-  "cpus": 2,
-  "hdsize": "2GB",
-  "image": "ubuntu_server_14.04.2_amd64",
   "description": "Server transactional only for store logs", 
   "provisioner": "all_backend",
   "host_type": "GeneralPurpose",
