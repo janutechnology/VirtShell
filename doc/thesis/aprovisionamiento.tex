@@ -189,13 +189,37 @@ Content-Type: application/json
 \end{lstlisting}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Aprovisionadores %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aprovisionadores}
+Este modulo permite definir la configuración necesaria para crear una nueva instancia y aprovisionarla. Cuando se crea un aprovisionador se debe seleccionar una imagen del repositorio, las características de memoria RAM, numero de CPUs y el tamaño en disco que se espera tenga la instancia. \\
+\\
+De igual manera el aprovisionador cuenta con un elemento fundamental para el aprovisionamiento de las instancias, 
+
+
+Ideas:
+- Redactados usando scripts deshell.
+- Debe definir todo lo que se requiere para configurar el sistema
+- Se almacena en un repositorio git
+- Puede tener dependencia de uno mas aprovisionadores
+- Puede etiquetar una instancia para facilitar busquedas por medio de agrupaciones
+- Se ejecuta por medio del executor
+- Define un escenario y contiene todo lo que se requiere para apoyar ese escenario
+  - Especifican los paquetes que se van a instalar y configurar y el orden en que han de ser aplicados
+  - Los valores de otras dependencias
+  - Plantillas
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%% Instalación y Actualización de paquetes %%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Instalación y Actualización de paquetes}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%% Aprovisionadores %%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Aprovisionadores}
+
+
