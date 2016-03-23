@@ -128,7 +128,7 @@ A un servidor virtual en VirtShell, se le denomina instancia, las cuales pueden 
 \\
 La elección de la tecnología de virtualización depende de las preferencias u objetivos que se busque con las aplicaciones de la instancia. En la actualidad VirtShell soporta Virtualbox como hipervisor para maquinas virtuales y para los contenedores soporta LXC \footnote{LXC (Linux Containers) es una tecnología de virtualización en el nivel de sistema operativo (SO) para Linux. } \cite{lxc16} y Docker \footnote{Docker es un proyecto de código abierto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de Virtualización a nivel de sistema operativo en Linux.} \cite{docker16}.\\
 \\
-Las instancias son designadas a solo ambiente de trabajo en el momento de ser creadas. En el instante de su creación, se debe especificar las características de CPU, memoria y capacidad de disco que se desea. De igual manera, se configura el sistema operativo, los permisos para los demás usuarios del sistema, el tipo de anfitrión que necesita y la tecnología que se desea usar para virtualizar.
+Las instancias son designadas a solo ambiente de trabajo en el momento de ser creadas. En el instante de su creación, se debe especificar el aprovisionador encargado de instalar los paquetes y aplicaciones, los permisos para los demás usuarios del sistema, el tipo de anfitrión que necesita y la tecnología que se desea usar para virtualizar.
 
 \subsection{Creación de instancias en un ambiente}
 Cuando se recibe una solicitud de creación de una instancia, VirtShell selecciona un anfitrión, de los que se encuentran configurados en la partición a la cual pertenece el ambiente donde se quiere crear la instancia. En la solicitud de creación se debe especificar el tipo de anfitrión que se requiere para el correcto funcionamiento de las aplicaciones que se ejecutaran ahí. Si la partición no cuenta con el tipo de anfitrión solicitado, se rechazara la petición detallando el inconveniente. Si por el contrario la selección del anfitrión es exitosa, VirtShell procede a enviar la solicitud al agente de aprovisionamiento del anfitrión escogido. \\
@@ -142,11 +142,7 @@ curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{ "name": "transactional_log",
-        "memory": 8024,
-        "cpus": 2,
-        "hdsize": "20GB",
         "enviroment": "development_co",
-        "image": "centos6",
         "description": "Server transactional only for store logs", 
         "provisioner": "all_backend",
         "host_type": "GeneralPurpose",
@@ -157,7 +153,7 @@ curl -sv -X POST \
 
 \vspace{5mm}
 
-En esta solicitud HTTP se observa que la instancia a crear debe tener la imagen llamada centos6, contar con 8 Gigabytes de memoria RAM, dos núcleos, 20 Gigabyte de disco duro, y que debe ser creada en el ambiente de nombre development\_co en una maquina física de uso general. Adicionalmente la instancia debe ser un contenedor que se ejecute sobre LXC.\\
+En esta solicitud HTTP se observa que la instancia a crear tiene asociado el aprovisionador de nombre all\_backend, el cual como se vera en el capitulo de aprovisionamiento, es el que contiene la configuración de la imagen y características físicas de la maquina como memoria RAM, CPU y tamaño en disco. También se nota en la solicitud que la instancia debe ser creada en el ambiente de nombre development\_co en una maquina física de uso general. Adicionalmente la instancia debe ser un contenedor que se ejecute sobre LXC.\\
 \\
 Si la solicitud de las características es exitosa, el servidor responderá de la siguiente manera:
 
