@@ -193,9 +193,32 @@ Content-Type: application/json
 %%%%%%%% Aprovisionadores %%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Aprovisionadores}
-Este modulo permite definir la configuración necesaria para crear una nueva instancia y aprovisionarla. Cuando se crea un aprovisionador se debe seleccionar una imagen del repositorio, las características de memoria RAM, numero de CPUs y el tamaño en disco que se espera tenga la instancia. \\
-\\
-De igual manera el aprovisionador cuenta con un elemento fundamental para el aprovisionamiento de las instancias, 
+Este modulo permite definir la configuración necesaria para crear una nueva instancia y aprovisionarla. Un aprovisionador debe tener definidas las características de memoria RAM, el numero de CPUs y el tamaño en disco que se espera tenga el nuevo recurso virtual. El sistema operativo que se ejecutara en la instancia se resuelve seleccionando una imagen del repositorio. Los paquetes, aplicaciones y configuraciones que serán aplicados se especifican por medio de scripts escritos en shell. Así mismo si el correcto funcionamiento de la instancia depende de la existencia de otras instancias, estas pueden ser definidas en el aprovisionador. Un ejemplo de un aprovisionador se muestra a continuación:
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Ejemplo de un aprovisionador]
+{
+  "name": "backend-services",
+  "description": "Installs/Configures a backend server",
+  "launch", 1,
+  "memory": 16384,
+  "cpus": 4,
+  "hdsize": 40960,
+  "image": "ubuntu_server_14",
+  "driver": "docker",
+  "builder": "https://github.com/janutechnology/backend_server.git",
+  "executor": "sh run.sh",
+  "tag": "backend",
+  "permissions": "xwrxwrxwr",
+  "depends": [ "mysql_database", "rabbitmq_server", "analytic_server" ]
+}
+\end{lstlisting}
+
+\vspace{5mm}
+
+El aprovisionador cuenta con un elemento fundamental para el aprovisionamiento de las instancias, el \emph{builder} (constructor), el cual contiene los paquetes, acciones y configuraciones que seran aplicadas a la instancia.
+
 
 
 Ideas:
@@ -209,9 +232,7 @@ Ideas:
   - Especifican los paquetes que se van a instalar y configurar y el orden en que han de ser aplicados
   - Los valores de otras dependencias
   - Plantillas
-
-
-
+- configuraciones aplicadas en tiempo de construcion
 
 
 
