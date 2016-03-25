@@ -289,6 +289,7 @@ Shell fue escogido como el lenguaje base para los scripts de aprovisionamiento, 
 \item [vs\_directory] Permite crear directorios en el sistema de archivos y configurarle sus permisos de usuario y grupo.
 \item [vs\_copy\_file] Permite copiar archivos locales del repositorio o archivos remotos a la nueva instancia, al igual que vs\_directory, también permite configurarle permisos de usuario y grupo.
 \item [vs\_service] Permite iniciar, detener o reiniciar servicios instalados en una instancia.
+\item [vs\_property] Permite consultar propiedades de instancias remotas, como por ejemplo: la ip, memoria, nombre de la maquina. 
 \end{description}
 
 \vspace{3mm}
@@ -321,16 +322,9 @@ vs_service nginx restart
 Los comandos pueden ser modificados o extendidos de acuerdo a las necesidades del usuario o de aprovisionamiento.
 
 \subsection{Dependencias}
-
-
-Ideas:
-- Puede tener dependencia de uno mas aprovisionadores
-- Define un escenario y contiene todo lo que se requiere para apoyar ese escenario
-  - Los valores de otras dependencias
-  - Plantillas
-- configuraciones aplicadas en tiempo de construcion
-
-
+En el momento de crear un aprovisionador, las dependencias de este, son aquellas aplicaciones o servicios externos hospedados en otras instancias de las cuales se depende, para el correcto funcionamiento de los servicios o aplicaciones que se ejecutaran en la instancia que define el nuevo aprovisionador.\\
+\\
+Las dependencias no son mas que un listado de aprovisionadores que deben existir antes de la ejecución del aprovisionador padre. Si al crear una instancia su aprovisionador tiene configurado un listado de dependencias "hijas", VirtShell verifica primero en el ambiente al cual pertenece, si estas dependencias ya se encuentran creadas con anterioridad, sino es asi, planea primero la ejecución de las dependencias hijas y cuando estas ya se encuentren listas, enviá el aprovisionador padre de la instancia deseada.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%% Instalación y Actualización de paquetes %%%%%%%%
