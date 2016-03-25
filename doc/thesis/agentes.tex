@@ -1,14 +1,13 @@
 \chapter{Agentes}
 \label{capagents}
 
-Los agentes son servicios que se ejecutan localmente en cada anfitrión. VirtShell instala y configura los agentes en cada uno de los anfitriones de manera automática. Existen tres tipos de agentes: de aprovisionamiento, monitoreo y administración.
+Los agentes son servicios que se ejecutan localmente en cada anfitrión. VirtShell instala y configura los agentes en cada uno de los anfitriones de manera automática, liberando de esta tarea al administrador del sistema. Existen tres tipos de agentes: de aprovisionamiento, monitoreo y administración.
 
-\section{Agente de Aprovisionamiento}
-El agente de aprovisionamiento se encarga de instalar y configurar paquetes, librerías y aplicaciones en las instancias. De igual manera se encarga de resolver las depedencias de otras instancias que tenga la instancia que se este procesando. Es decir, .....
-
-
-\section{Agente de Monitoreo}
-El agente de monitoreo es completamente autónomo y su función es la de supervisar al agente de aprovisionamiento y reportar el estado de salud de los anfitriones y recursos virtuales que se encuentran creados en su interior. 
-
-\section{Agente de Administración}
-El agente de administración se encarga de gestionar las instancias, permite detener, iniciar, clonar, eliminar y obtener información especifica de cada instancia que se ejecuta en el anfitrión.
+\begin{description}
+\item [Agente de Aprovisionamiento]
+El agente de aprovisionamiento se encarga de instalar y configurar: paquetes, librerías y aplicaciones en las instancias. 
+\item [Agente de Monitoreo]
+El agente de monitoreo es completamente autónomo y sus funciones consisten en supervisar al agente de aprovisionamiento y reportar el estado de salud de los anfitriones e instancias que se encuentran creados en su interior. 
+\item [Agente de Administración]
+El agente de administración se encarga de gestionar las instancias, permitiendo detener, iniciar, clonar, eliminar y obtener información especifica de cada instancia que se ejecuta en el anfitrión.
+\end{description}
