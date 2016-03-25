@@ -330,7 +330,20 @@ Las dependencias no son mas que un listado de aprovisionadores que deben existir
 %%%%%%%% Instalación y Actualización de paquetes %%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Instalación y Actualización de paquetes}
+Este módulo proporciona una manera de instalar o actualizar paquetes a una o mas instancias. En una petición HTTP se debe especificar el o los nombres de los paquetes asi como el o los nombres de las instancias en las cuales se va instalar o actualizar los paquetes definidos. Una peticion de este estilo genera una tarea en el sistema, retornando el identificador de la misma para ser consultado posteriormente. A continuación se muestra un ejemplo de como instalar paquetes en varias instancias.
 
+\vspace{5mm}
 
+\begin{lstlisting}[style=json, caption=Petición HTTP para instalar paquetes en las instancias]
+curl -sv -X POST \
+  -H 'accept: application/json' \
+  -H "Content-Type: text/plain" \
+  -H 'X-VirtShell-Authorization: UserId:Signature' \
+  -d '{ "packages": [{"name": "git"}, {"name": "nginx"}],
+        "instances": [{"name": "WebServer_", "range": "[1-9]"}]}' \
+   'http://localhost:8080/api/virtshell/v1/install_packages'
+\end{lstlisting}
 
+\vspace{5mm}
 
+En esta solicitud se desea que a las instancias que contengan en su nombre el prefijo WebServer\_, y cuyo sufijo se encuentre en el rango entre 1 y 9, se les instale los paquetes git y nginx. Esta solicitud generara una tarea para consultar su estado como se ha indicado anteriormente.
