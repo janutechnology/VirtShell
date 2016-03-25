@@ -22,7 +22,7 @@ Resource representation
       {"name": "package_name1"},
       {"name": "package_name2"}
   ],
-  "hosts": [ 
+  "instances": [ 
       {"name": "Host_", "range": "[1-3]"}, 
       {"name": "database_001"}
   ],
@@ -46,7 +46,7 @@ curl -sv -X POST \
   -H "Content-Type: text/plain" \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{ "packages": [{"name": "git"}, {"name": "nginx"}],
-        "hosts": [{"name": "WebServer_", "range": "[1-3]"}]}' \
+        "instances": [{"name": "WebServer_", "range": "[1-3]"}]}' \
    'http://localhost:8080/api/virtshell/v1/install_packages'
 ```
 
@@ -73,7 +73,7 @@ curl -sv -X PUT \
   -H "Content-Type: text/plain" \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{ "packages": [{"name": "git"}, {"name": "nginx"}],
-        "hosts": [{"name": "WebServer_", "range": "[1-3]"}]}' \
+        "instances": [{"name": "WebServer_", "range": "[1-3]"}]}' \
    'http://localhost:8080/api/virtshell/v1/upgrade_packages'
 ```
 
@@ -100,7 +100,7 @@ curl -sv -X DELETE \
   -H "Content-Type: text/plain" \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{ "packages": [{"name": "git"}, {"name": "nginx"}],
-        "hosts": [{"name": "WebServer_", "range": "[1-3]"}]}' \
+        "instances": [{"name": "WebServer_", "range": "[1-3]"}]}' \
    'http://localhost:8080/api/virtshell/v1/packages'
 ```
 
