@@ -92,7 +92,7 @@ Content-Type: application/json
 %%%%%%%% Imagenes %%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Imágenes}
-Como se describió en la arquitectura, las imágenes que se manejan en VirtShell son de dos tipos: ISO y \emph{templates} para contenedores. A continuación se presentan las características de cada una de ellas.1
+Como se describió en la arquitectura, las imágenes que se manejan en VirtShell son de dos tipos: ISO y \emph{templates} para contenedores. A continuación se presentan las características de cada una de ellas.
 
 \subsection{Imágenes tipo ISO}
 Las imágenes ISO son usadas para la creación de maquinas virtuales que interactuan con un hipervisor. Estas son versiones modificadas que se encuentran en los repositorios oficiales de las distintas distribuciones de Linux o de cualquier otro sistema operativo. Para que una imagen pueda ser usada en VirtShell, esta debe cumplir con los siguientes requisitos: 
@@ -193,43 +193,113 @@ Content-Type: application/json
 %%%%%%%% Aprovisionadores %%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Aprovisionadores}
-Este modulo permite definir la configuración necesaria para crear una nueva instancia y aprovisionarla. Un aprovisionador debe tener definidas las características de memoria RAM, el numero de CPUs y el tamaño en disco que se espera tenga el nuevo recurso virtual. El sistema operativo que se ejecutara en la instancia se resuelve seleccionando una imagen del repositorio. Los paquetes, aplicaciones y configuraciones que serán aplicados se especifican por medio de scripts escritos en shell. Así mismo si el correcto funcionamiento de la instancia depende de la existencia de otras instancias, estas pueden ser definidas en el aprovisionador. Un ejemplo de un aprovisionador se muestra a continuación:
+Este módulo permite definir la configuración física necesaria para crear una nueva instancia y como aprovisionarla. La definición de un aprovisionador de manera general, consiste en especificar las características de memoria RAM, el numero de CPUs y el tamaño en disco que se espera tenga el nuevo recurso virtual; seleccionar una imagen del repositorio; especificar el numero de instancias del mismo tipo que se van a crear; determinar la ubicación de los scripts encargados de instalar y configurar la instancia y finalmente, de especificar las dependencias de otras instancias. La estructura de un aprovisionador se muestra a continuación:
 
 \vspace{5mm}
 
-\begin{lstlisting}[style=json, caption=Ejemplo de un aprovisionador]
+\begin{lstlisting}[style=json, caption=Estructura de un aprovisionador]
 {
   "name": "backend-services",
   "description": "Installs/Configures a backend server",
   "launch", 1,
-  "memory": 16384,
+  "memory": 16,
   "cpus": 4,
-  "hdsize": 40960,
+  "hdsize": 40,
   "image": "ubuntu_server_14",
-  "driver": "docker",
   "builder": "https://github.com/janutechnology/backend_server.git",
   "executor": "sh run.sh",
   "tag": "backend",
   "permissions": "xwrxwrxwr",
-  "depends": [ "mysql_database", "rabbitmq_server", "analytic_server" ]
+  "depends": [
+        {"provisioner_name": "mysql_database"},
+        {"provisioner_name": "rabbitmq_server"},
+        {"provisioner_name": "analytic_server"}
+  ]
 }
 \end{lstlisting}
 
 \vspace{5mm}
 
-El aprovisionador cuenta con un elemento fundamental para el aprovisionamiento de las instancias, el \emph{builder} (constructor), el cual contiene los paquetes, acciones y configuraciones que seran aplicadas a la instancia.
+Para configurar exitosamente un aprovisionador, se debe tener en cuenta que la unidad de medida manejada para la memoria y el tamaño en disco es el giga-byte (GB). También hay que tener en cuenta, que el campo \emph{launch} (lanzar), permite especificar el numero de instancias del mismo tipo que deben ser creadas y aprovisionadas, todas conservando las mismas características físicas y de aprovisionamiento. Si este campo no es definido por defecto se creara una sola instancia. El campo de \emph{tag} permite clasificar los aprovisionadores para facilitar búsquedas por medio de agrupaciones. Los campos para definir los scripts de aprovisionamiento y las dependencias serán explicados en los siguientes párrafos.
 
+\subsection{Scripts de aprovisionamiento}
+El elemento fundamental para el aprovisionamiento es el \emph{builder} (constructor), este referencia a un repositorio git que contiene los archivos, instruciones y scripts necesarios que serán aplicados en tiempo de construcción de la instancia. Si un aprovisionador no contiene un \emph{builder}, VirtShell simplemente instalara en la instancia la imagen seleccionada, configurándola para que permita el acceso por medio del protocolo SSH.\\
+\\
+El \emph{builder} no tiene predeterminado una estructura de directorios ni define los archivos que debe contener, su organización y contenido queda al libre criterio del usuario, el cual debe garantizar que el \emph{builder} cuente con todos los recursos para realizar un aprovisionamiento exitoso. El único requisito esencial, es la existencia de un script que actuá como punto de partida y el cual es definido en el campo executor del aprovisionador. En este campo se define el nombre del script principal y la forma en que debe ser invocado. Este script contiene el orden de las instrucciones de aprovisionamiento, puede ser un script con un solo conjunto de instrucciones que hace todo el trabajo o por el contrario puede ser un script tipo director que contiene el orden de llamado a otros scripts encargados de tareas especificas como instalación y configuración, ambos escenarios se muestran a continuación:
+
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Escenarios de estructura de un constructor]
++ basic_web_server    |   + rabbitmq_server
+  + files             |     + etc
+    - example.com     |       + rabbitmq
+    - index.html      |         - rabbitmq.config
+  - install.sh        |       + default
+                      |         - rabbitmq-server
+                      |    - install.sh
+                      |    - configure.sh
+                      |    - main.sh
+\end{lstlisting}  
+
+\vspace{5mm}
+
+En el ejemplo de la izquierda, el script en shell install.sh actuá como punto entrada del aprovisionamiento, y contiene todas las instrucciones de instalación y configuración de un sitio web sencillo. La carpeta de nombre files en el directorio contiene dos archivos creados previamente, que facilitan la configuración de un sitio web estático. El listado \ref{lst:installsh} muestra el contenido del script install.sh y la forma en que aprovisiona el sitio web.\\
+\\
+Por otro lado, en el ejemplo de la derecha, se ha separado la instalación y la configuración en scripts diferentes, el script main.sh es el punto de partida, el cual se encarga de llamar los otros scripts. De igual manera existe una carpeta con el nombre etc, que contiene archivos para completar el aprovisionamiento.
+  
+\vspace{5mm}
+
+\begin{lstlisting}[style=json, caption=Ejemplo de un script shell, label={lst:installsh}]
+#!/bin/bash
+
+echo "Installing nginx..."
+sudo apt-get install -y nginx
+
+echo "Creating root directory..."
+sudo mkdir -p /var/www/example.com/public_html
+
+echo "Setting up permissions..."
+sudo chown -R www-data:www-data /var/www/example.com/public_html
+sudo chmod 755 /var/www
+
+echo "Creating the page..."
+sudo cp files/index.html /var/www/example.com/public_html
+
+echo "Creating the new virtual host file..."
+sudo cp files/example.com /etc/nginx/sites-available/example.com
+sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/example.com
+sudo rm /etc/nginx/sites-enabled/default
+
+echo "Restarting nginx..."
+sudo service nginx restart
+\end{lstlisting}
+
+\vspace{5mm}
+
+Los scripts de aprovisionamiento pueden estar escritos en cualquier lenguaje de programación. El uso de shell para escribir los scripts no es mandatorio. El usuario puede usar el lenguaje de su preferencia siempre y cuando la imagen base del sistema operativo cuente con las librerías y ejecutables necesarios para que VirtShell invoque el script inicial con la forma definida en el campo executor y este no presente errores en su ejecución.\\
+\\
+Shell fue escogido como el lenguaje base para los scripts de aprovisionamiento, debido a que soporta todas las estructuras propias de los lenguajes modernos. Además permite la utilización de todas las primitivas del sistema operativo de control de procesos, interrupciones y utilidades para diseñar programas de comandos por el usuario. VirtShell cuenta con un conjunto propio de comandos que simplifican la escritura de los scripts de aprovisionamiento abstrayendo por ejemplo el sistema operativo en el cual se ejecutan o uniendo varios comandos de shell en uno solo. los comandos con los que cuenta VirtShell son:
+
+\vspace{3mm}
+
+\begin{description}
+\item [vs\_package] Permite instalar o remover paquetes al sistema operativo.
+\item [vs\_repository] Permite agregar repositorios al sistema operativo.
+\item [vs\_network] Permite configurar dispositivos de red.
+\item [vs\_directory] Permite crear directorios en el sistema de archivos y configurarle sus permisos de usuario y grupo.
+\item [vs\_copy\_file] Permite copiar archivos locales del repositorio o archivos remotos a la nueva instancia, al igual que vs\_directory, también permite configurarle permisos de usuario y grupo.
+\end{description}
+
+\vspace{3mm}
+
+Los comandos pueden ser modificados o extendidos de acuerdo a las necesidades de aprovisionamiento.
+
+\subsection{Dependencias}
 
 
 Ideas:
-- Redactados usando scripts deshell.
-- Debe definir todo lo que se requiere para configurar el sistema
-- Se almacena en un repositorio git
 - Puede tener dependencia de uno mas aprovisionadores
-- Puede etiquetar una instancia para facilitar busquedas por medio de agrupaciones
-- Se ejecuta por medio del executor
 - Define un escenario y contiene todo lo que se requiere para apoyar ese escenario
-  - Especifican los paquetes que se van a instalar y configurar y el orden en que han de ser aplicados
   - Los valores de otras dependencias
   - Plantillas
 - configuraciones aplicadas en tiempo de construcion
