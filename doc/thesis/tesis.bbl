@@ -47,13 +47,14 @@ the Design of Network-based Software Architectures, \url{https://www.ics.uci.edu
 
 \bibitem{fowler04} Inversion of Control Containers and the Dependency Injection pattern, \url{http://martinfowler.com/articles/injection.html}, 2004.
 
-\bibitem{rfc2104}HMAC: Keyed-Hashing for Message Authentication, https://www.ietf.org/rfc/rfc2104.txt, 1997
+\bibitem{rfc2104}HMAC: Keyed-Hashing for Message Authentication, \url{https://www.ietf.org/rfc/rfc2104.txt}, 1997.
 
+\bibitem{lxc16}Linux Containers, \url{https://linuxcontainers.org}, 2016..
 
-\bibitem{lxc16}Linux Containers, https://linuxcontainers.org, 2016
+\bibitem{lxcubuntu16}LXC Templates Documentation, \url{https://help.ubuntu.com/lts/serverguide/lxc.html}, 2016.
 
-\bibitem{lxcubuntu16}LXC Templates Documentation, https://help.ubuntu.com/lts/serverguide/lxc.html, 2016
+\bibitem{docker16}Docker, \url{https://docker.com}, 2016.
 
-\bibitem{docker16}Docker, https://docker.com, 2016
+\bibitem{Xinyang09} REST - An Alternative to RPC for Web Services Architecture, \url{http://web.uvic.ca/~erikj/seng422/resources/rest_paper.pdf}, 2009.
 
 \end{thebibliography}
