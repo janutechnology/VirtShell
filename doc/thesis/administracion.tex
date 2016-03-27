@@ -44,6 +44,8 @@ Los tipos de anfitriones se agrupan en familias basadas en perfiles de aplicaci�
 Cuando se crea un anfitrión en VirtShell este debe ser asociado a una sola partición, asignándole un tipo, con alguno de los mencionados anteriormente, estableciendo las capacidad de disco y memoria RAM con las que cuenta,  
 indicando también el sistema operativo y las ip con las que se conecta a la red. Una vez el anfitrión es creado en el sistema este queda asignado a la partición elegida. El siguiente ejemplo muestra como crear un anfitrión usando el API:
 
+\vspace{5mm}
+
 \begin{lstlisting}[style=json, caption=Petición HTTP para crear un host]
 curl -sv -X POST \
   -H 'accept: application/json' \

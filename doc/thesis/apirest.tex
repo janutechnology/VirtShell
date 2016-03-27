@@ -1,62 +1,10 @@
 \chapter{API}
 \label{capapi}
 
-\section{Definición de API?}
+\section{Definición de API}
 API significa ``Application Programming Interface", y como término, especifica cómo debe interactuar el software.\\
 \\
 En términos generales, cuando nos referimos a las API de hoy, nos referimos más concretamente a las API web, que son manejadas a través del protocolo de transferencia de hipertexto (HTTP). Para este caso específico, entonces, una API especifica cómo un consumidor puede consumir el servicio que el API expone: cuales URI están disponibles, qué métodos HTTP puede utilizarse con cada URI, que parámetros de consulta se acepta, lo que los datos que pueden ser enviados en el cuerpo de la petición, y lo que el consumidor puede esperar como respuesta.
-
-\section{Tipos de APIs}
-Las APIs web pueden ser divididas en dos categorías generales:
-\begin{itemize}
-\item Remote Procedure Call (RPC)
-\item REpresentational State Transfer (REST)
-\end{itemize}
-
-\subsection{RPC}
-RPC se caracteriza generalmente como un único URI a través del protocolo HTTP en el que se pueden llamar muchas operaciones, por lo general solo se usan las operaciones GET y POST. Cuando se pasa una solicitud estructurada, esta incluye el nombre de la operación a invocar y los argumentos que desea pasar a la operación; la respuesta será devuelta también en un formato estructurado.\\
-\\
-Una cosa a tener en cuenta es que por lo general RPC hace todo el informe de errores en el cuerpo de la respuesta; el código de estado HTTP no variará, lo que significa que hay que fijarse en el valor de retorno para determinar si se ha producido un error.\\
-\\
-Muchas implementaciones de RPC también proporcionan documentación para sus usuarios finales a través del protocolo en sí. Por ejemplo para SOAP lo hace a través del WSDL. Esta característica de autodocumentado puede proporcionar información muy valiosa para el consumidor sobre cómo interactuar con el servicio.\\
-\\
-En resumen, los puntos a tener en cuenta acerca de RPC son:
-
-\begin{itemize}
-\item Un extremo de servicio, muchas operaciones.
-\item Un extremo de servicio, un método HTTP (normalmente POST).
-\item Formato de solicitud predecible estructurada, formato de respuesta estructurada y predecible.
-\item Formato de informe de errores predecibles estructurada.
-\item Documentación estructurada de operaciones disponibles.
-\end{itemize}
-
-Dicho todo esto, RPC es a menudo un mal elección para las API web:\\
-\\
-\begin{itemize}
-\item No se puede determinar a través de la URI la disponibilidad de varios recursos.
-\item Falta de almacenamiento en caché de HTTP
-\item La imposibilidad de usar verbos HTTP nativos para operaciones comunes 
-\item Falta de códigos de respuesta, se requiere la introspección de los resultados para determinar si se ha producido un error.
-\item Los clientes no podrán consumir formatos de serialización alternativos.
-\item Los formatos de mensajes a menudo imponen restricciones innecesarias sobre los tipos de datos que se pueden enviar o devolver.
-\end{itemize}
-
-En pocas palabras, RPC no utiliza las capacidades completas del protocolo HTTP.
-
-\subsection{REST}
-REST es un estilo de arquitectura de software que proporciona un enfoque practico y consistente para solicitar y modificar datos en torno a la especificación del protocolo HTTP. \\
-\\
-El termino REST es la abreviatura para ``Representational State Transfer.", el cual aprovecha las fortalezas de los protocolos HTTP y HTTPS. Un buen API REST debe constar de:
-\begin{itemize}
-\item Usar URIs como identificadores únicos de los recursos.
-\item Aprovechar el espectro completo de verbos HTTP para las operaciones sobre los recursos.
-\item Permitir el manejo de varios formatos de representación de recursos.
-\item Proporcionar vinculación entre los recursos para indicar las relaciones. (Por ejemplo, enlaces hipermedia, como los encontrados en los antiguos documentos HTML plano)
-\end{itemize}
-
-Todo esta teoría dice cómo deben actuar los servicios REST, pero dice muy poco acerca de la forma de implementarlos. REST es más una consideración arquitectónica. Sin embargo, esto significa que al momento de diseñar un API REST se debe considerar muchas opciones, algunas como que formato se va a exponer, como se reportaran los errores, como se comunicara los metodos HTTP disponibles, como se manejaran características de autenticación, como se suministraran las credenciales en cada petición, etc.\\
-\\
-En pocas palabras, la mayoría un API REST proporciona una increíble flexibilidad y potencia, pero requiere de tomar muchas decisiones con el fin de proporcionar una sólida experiencia y calidad para los consumidores.
 
 \subsection{VirtShell API REST}
 En el VirtShell API REST un usuario enviá una solicitud al servidor para realizar una acción determinada (como la creación, recuperación, actualización o eliminación de un recurso virtual), y el servidor realiza la acción y enviá una respuesta, a menudo en la forma de una representación del recurso especificado.\\
