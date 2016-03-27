@@ -1,11 +1,19 @@
 \chapter{Arquitectura de VirtShell}
 \label{Arquitectura}
+VirtShell Framework es concebido como una plataforma que proporciona herramientas para la automatización y gestión de infraestructura, facilitando tareas como la creación, despliegue, mantenimiento y monitoreo tanto de recursos virtuales como físicos vía web. Así mismo, es pensada para permitir que cualquier desarrollo de software con acceso a Internet (sitio web, aplicación móvil, etc.) pueda utilizarlo e interactuar con la infraestructura tan solo haciendo llamadas a direcciones de Internet.\\
+\\
+Las motivaciones mencionadas conducen a los requisitos para una arquitectura destinada a separar claramente responsabilidades, usando protocolos abiertos, modificables, escalables, y al mismo tiempo adecuado para la creación rápida de acciones. VirtShell se articula alrededor de unos pocos conceptos y principios esenciales, los cuales se mencionan a continuación:
+
+\section{Estilo arquitectural REST}
+
 
 VirtShell Framework es una plataforma que proporciona herramientas para la automatización y gestión de infraestructura a través del protocolo HTTP \footnote{Hypertext Transfer Protocol o HTTP, es el protocolo de comunicación que permite las transferencias de información en la World Wide Web}. En otros términos, VirtShell facilita la creación, despliegue, mantenimiento y monitoreo tanto de recursos virtuales como físicos por medio de una API REST \footnote{La Transferencia de Estado Representacional (Representational State Transfer) o REST es un estilo de arquitectura software para sistemas hipermedia distribuidos como la World Wide Web.} \cite{fielding00}. Esto permite que cualquier desarrollo de software con acceso a internet (sitio web, aplicación móvil, etc.) pueda utilizar VirtShell e interactuar con la infraestructura tan solo haciendo llamadas a direcciones de internet. \\
 \\
-VirtShell basa principalmente su funcionamiento en scripts de shell re-utilizables, que facilitan la instalación y configuración de cualquier tipo de servidor o grandes soluciones que involucren varios recursos virtuales sin importar su tamaño. Sin embargo el lenguaje de los scripts no necesariamente debe ser el shell también puede interactuar con cualquier lenguaje de programación que el usuario prefiera.\\
+VirtShell basa principalmente su funcionamiento en scripts de shell re-utilizables, que facilitan la instalación y configuración de cualquier tipo de servidor o grandes soluciones que involucren varios recursos virtuales sin importar su tamaño. Sin embargo, el lenguaje de los scripts no necesariamente debe ser shell también puede interactuar con cualquier lenguaje de programación que el usuario prefiera.\\
 \\
 VirtShell es un framework de código abierto y bajo la licencia BSD, que permite utilizarlo para proyectos de cualquier tipo, incluso comerciales. 
+
+
 
 \section{Características}
 
