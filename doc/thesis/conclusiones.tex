@@ -1,0 +1,17 @@
+\chapter{Conclusiones}
+\label{capconslusiones}
+
+Como resultado del presente trabajo, se concluye que el diseño de VirtShell framework permite administrar y aprovisionar servicios de infraestructura de TI, debido a que se apoya en las actuales tecnologías de virtualización, permitiendo utilizar diferentes sistemas operativos a través de su interfaz web, personalizarlos, gestionar sus permisos y crear tantos como se requiera.\\
+\\
+Por otro lado al comparar VirtShell contra las soluciones de virtualización actuales, se observa que el API REST proporciona todas las funcionalidades requeridas para controlar completamente los recursos físicos y virtuales reduciendo el tiempo necesario para crear e iniciar instancias. Así mismo, al adoptar el estilo arquitectural REST, se heredan nada menos que las propiedades del World Wide Web, las cuales ofrecen mayores ventajas sobre las demás soluciones, estas se explican a continuación:
+
+\begin{description}
+\item [Rendimiento] Se puede soportar usando caches que permitan mantener la información cerca del procesamiento. Esto puede ayudar aún más, reduciendo la sobrecarga asociada con la creación de solicitudes complejas.
+\item [Escalibilidad] Si el aumento de la demanda exige aumentar el número de servidores de VirtShell, esto puede hacerse sin preocuparse por la sincronización entre los mismos, debido a que los datos de la sesión están contenidos en cada petición.
+\item [Simplicidad] REST es un estilo de arquitectura orientado a la simpleza. El argumento  central de esta propiedad es el HTTP mismo, con su conjunto mínimo de métodos y su semántica simplísima, es suficientemente general para modelar el dominio de VirtShell.
+\item [Visibilidad] Rest está diseñado para ser visible y simple, lo que significa que cada aspecto del servicio debe ser auto-descriptivo siguiendo las normas HTTP.
+\item [Portabilidad] Un Software es portable si el puede correr en diferentes ambientes, el estilo arquitectural REST permite separar las preocupaciones de interfaz de usuario de las preocupaciones de almacenamiento de datos, mejorando la portabilidad. Adicionalmente el World Wide Web es altamente portable debido a su nivel de estandarización.
+\end{description}
+
+Por lo anterior se concluye que la principal fortaleza de VirtShell y su diferencia frente a
+ las demás soluciones de virtualización consiste en exponer sus funcionalidades por medio de un API REST, lo que le concede ademas capacidades de integración con diferentes plataformas de desarrollo.
