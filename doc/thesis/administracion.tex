@@ -21,7 +21,7 @@ Los tipos de anfitriones se agrupan en familias basadas en perfiles de aplicaci�
 \section{Instancias}
 A un servidor virtual en VirtShell, se le denomina instancia, las cuales pueden ser maquinas virtuales que corren sobre algún hipervisor o también pueden ser contenedores que se ejecutan directamente sobre el sistema operativo del anfitrión. \\
 \\
-La elección de la tecnología de virtualización depende de las preferencias u objetivos que se busque con las aplicaciones de la instancia. En la actualidad VirtShell soporta Virtualbox como hipervisor para maquinas virtuales y para los contenedores soporta LXC \footnote{LXC (Linux Containers) es una tecnología de virtualización a nivel de sistema operativo (SO) para Linux. } \cite{lxc16} y Docker \footnote{Docker es un proyecto de código abierto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de Virtualización a nivel de sistema operativo en Linux.} \cite{docker16}.
+La elección de la tecnología de virtualización depende de las preferencias u objetivos que se busque con las aplicaciones de la instancia. En la actualidad VirtShell soporta Virtualbox como hipervisor para maquinas virtuales y para los contenedores soporta LXC y Docker.
 
 \subsection{Particiones}
 Las particiones consisten de uno o más anfitriones, los cuales pueden ser nodos físicos, servidores o incluso máquinas virtuales. El objetivo principal que busca una partición, es agrupar las máquinas que albergaran recursos virtuales en partes aisladas, de tal manera que una partición no tenga acceso a los recursos de otra. Estas partes pueden pueden estar ubicadas en un mismo sitio físico o por el contrario pueden estar distribuidas en diferentes zonas geográficas de todo el mundo.\\
@@ -34,16 +34,14 @@ Las particiones también favorecen la disponibilidad. Si se distribuyen sus inst
 \\
 Cuando se crea una nueva partición, VirtShell la crea completamente vacia, sin anfitriones. Para asociar anfitriones a una partición se debe crear un anfitrión y vincularlo con la partición como se verá mas adelante en este mismo capítulo. Un ejemplo de como crear una partición usando el API se muestra en el siguiente código:
 
-\vspace{5cm}
+%\vspace{6cm}
 
 \begin{lstlisting}[style=json, caption=Petición HTTP para crear una partición]
 curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{
-       "name": "development_co",
-       "description": "Collection of servers oriented to development team in colombia."
-      }' \
+  -d '{ "name": "development_co",
+        "description": "Collection of servers to development team in Colombia." }' \
    'http://localhost:8080/api/virtshell/v1/partitions'
 \end{lstlisting}
 
@@ -127,6 +125,8 @@ Las particiones se refieren a la forma de organizar lugares físicos. Los ambien
 
 Un ejemplo de como crear un ambiente asociado a una partición usando el API se muestra en el siguiente código:
 
+\vspace{4cm}
+
 \begin{lstlisting}[style=json, caption=Petición HTTP para crear un ambiente]
 curl -sv -X POST \
   -H 'accept: application/json' \
@@ -149,6 +149,8 @@ Debido a que una solicitud de aprovisionamiento puede involucrar mas de una inst
 \\
 Un ejemplo de la creación de una instancia usando el API se muestra en el siguiente código:
 
+\vspace{5mm}
+
 \begin{lstlisting}[style=json, caption=Petición HTTP para crear una instancia]
 curl -sv -X POST \
   -H 'accept: application/json' \
@@ -168,13 +170,15 @@ En esta solicitud HTTP se observa que la instancia a crear tiene asociado el apr
 \\
 Si la solicitud de las características es exitosa, el servidor responderá de la siguiente manera:
 
-\vspace{5mm}
+\vspace{2cm}
 
 \begin{lstlisting}[style=json, caption=Ejemplo de respuesta HTTP a la solicitud de crear una instancia]
 HTTP/1.1 200 OK
 Content-Type: application/json
 { "create": "in progress", "task": "bbf6669b-1b83-4fe7-ae2a-2b31738c4165" }
 \end{lstlisting}
+
+\vspace{5mm}
 
 Si por el contrario, la solicitud no es exitosa, el servidor responderá con el respectivo código de error HTTP y la razón por la cual no se pudo procesar exitosamente la petición. Un ejemplo de una petición no procesada es la siguiente: 
 
@@ -199,6 +203,8 @@ Las operaciones de larga duración en VirtShell son las que involucran acciones 
 \\
 Cuando VirtShell recibe una petición y esta es considerada de larga duración, en el cuerpo de la respuesta se envía la acción recibida con el estado de \emph{in progress} acompañado del identificador único UUID \footnote{UUID son las siglas en inglés del Identificador Universalmente Único.} de la tarea. Por ejemplo, si se recibe una petición de instalación de un paquete en una o mas instancias, la respuesta HTTP seria de la siguiente forma:
 
+\vspace{5mm}
+
 \begin{lstlisting}[style=json, caption=Ejemplo de respuesta HTTP referenciando a una tarea]
 HTTP/1.1 200 OK
 Content-Type: application/json
@@ -209,7 +215,7 @@ Content-Type: application/json
 
 Para consultar por el estado de una tarea, se invoca el API de VirtShell, enviando en la url, el identificador UUID recibido de la primera petición. El servidor responderá con un documento en formato JSON detallando la tarea y su estado. El siguiente es un ejemplo de una consulta sobre una tarea y la respuesta del servidor:
 
-\vspace{5mm}
+\vspace{3cm}
 
 \begin{lstlisting}[style=json, caption=Ejemplo de consulta de una tarea]
 curl -sv -H 'accept: application/json' 
@@ -227,8 +233,6 @@ Respuesta:
 \begin{lstlisting}[style=json, caption=Ejemplo del detalle de una tarea]
 HTTP/1.1 200 OK
 Content-Type: application/json
-```
-```json
 {
   "uuid": "908b4d78-8b7a-40d7-9ecf-5036eeb5526b",
   "description": "install-package in instance database_01",
@@ -266,8 +270,6 @@ Respuesta:
 \begin{lstlisting}[style=json, caption=Respuesta]
 HTTP/1.1 200 OK
 Content-Type: application/json
-```
-```json
 {
   "name": "WebServer001",
   "memory": 8024,
@@ -280,11 +282,10 @@ Content-Type: application/json
 
 En el segundo ejemplo se muestra la forma de consultar varias propiedades a una o mas instancias:
 
-\vspace{5mm}
+\vspace{3.5cm}
 
 \begin{lstlisting}[style=json, caption=Ejemplo consultando propiedades a varias instancias]
-curl -sv -X GET \
-  -H 'accept: application/json' \
+curl -sv -X GET -H 'accept: application/json' \
   -H "Content-Type: text/plain" \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{ "properties": [{"name": "memory"}, {"name": "cpu"}],
@@ -299,27 +300,21 @@ Respuesta:
 \begin{lstlisting}[style=json, caption=Respuesta]
 HTTP/1.1 200 OK
 Content-Type: application/json
-```
-```json
-{
-  properties: [
-    {
-     "id": "kj5436c0-dc94-13tg-82ce-9992b5d5c51b",
-     "name": "Database001",
-     "memory": 4024,
-     "cpu": 2
+{ properties: [
+    { "id": "kj5436c0-dc94-13tg-82ce-9992b5d5c51b",
+      "name": "Database001",
+      "memory": 4024,
+      "cpu": 2
     },
-    {
-     "id": "591b3828-7aaf-4833-a94c-ad0df44d59a4",
-     "name": "Database002",
-     "memory": 4024,
-     "cpu": 1  
+    { "id": "591b3828-7aaf-4833-a94c-ad0df44d59a4",
+      "name": "Database002",
+      "memory": 4024,
+      "cpu": 1  
     },
-    {
-     "id": "f7c81039-5c88-423b-8b0d-c124483d586b",
-     "name": "Database003",
-     "memory": 4024,
-     "cpu": 3  
+    { "id": "f7c81039-5c88-423b-8b0d-c124483d586b",
+      "name": "Database003",
+      "memory": 4024,
+      "cpu": 3  
     }
   ]  
 }
