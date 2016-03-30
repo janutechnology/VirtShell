@@ -42,7 +42,7 @@ Content-Type: application/json
 
 Existen dos formas para el envió de archivos a las instancias, la primera consiste en enviar un archivo a un destino en una o mas instancias, como se muestra a continuación:
 
-\vspace{5mm}
+\vspace{2cm}
 
 \begin{lstlisting}[style=json, caption=Ejemplo del envio de un archivo a una instancia.]
 curl -sv -X POST \
@@ -62,7 +62,7 @@ Y la segunda forma se trata de enviar el contenido una carpeta del sistema, en d
 
 \vspace{5mm}
 
-\begin{lstlisting}[style=json]
+\begin{lstlisting}[style=json, caption=Ejemplo del envio de un archivo a varias instancias.]
 curl -sv -X POST \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
@@ -92,7 +92,7 @@ Content-Type: application/json
 %%%%%%%% Imagenes %%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Imágenes}
-Como se describió en la arquitectura, las imágenes que se manejan en VirtShell son de dos tipos: ISO y \emph{templates} para contenedores. A continuación se presentan las características de cada una de ellas.
+Como se describió en la arquitectura, las imágenes que se manejan en VirtShell son de dos tipos: ISO y \emph{templates} (plantillas) para contenedores. A continuación se presentan las características de cada una de ellas.
 
 \subsection{Imágenes tipo ISO}
 Las imágenes ISO son usadas para la creación de maquinas virtuales que interactuan con un hipervisor. Estas son versiones modificadas que se encuentran en los repositorios oficiales de las distintas distribuciones de Linux o de cualquier otro sistema operativo. Para que una imagen pueda ser usada en VirtShell, esta debe cumplir con los siguientes requisitos: 
@@ -139,9 +139,11 @@ Content-Type: application/json
 \subsection{Imágenes tipo contenedor}
 Este tipo de imágenes son usadas para la creación de contenedores que interactuan directamente con el sistema operativo. Se encuentran divididas en dos subtipos, las imágenes para contenedores creados con tecnología LXC, y las imágenes para contenedores creados con tecnología Docker.\\
 \\
-La Creación de un contenedor LXC, en general, implica la creación de un sistema de ficheros raíz propio para el contenedor. LXC delega este trabajo a \emph{templates} (plantillas), las cuales pueden ser encontradas en las distribuciones de Linux bajo el directorio /usr/share/lxc/templates, e incluyen \emph{templates} para crear contenedores con los sistemas operativos Ubuntu, Debian, Fedora, Oracle, Centos y Gentoo entre otros \cite{lxcubuntu16}. La idea con estos \emph{templates} es modificarlos de acuerdo a las necesidades del usuario y subirlos al sistema por medio del API REST,  una vez el \emph{template} se encuentre en el sistema, se debe crear como una imagen disponible para contenedores LXC como se muestra a continuación:
+La Creación de un contenedor LXC, en general, implica la creación de un sistema de ficheros raíz propio para el contenedor. LXC delega este trabajo a \emph{templates}, las cuales pueden ser encontradas en las distribuciones de Linux bajo el directorio /usr/share/lxc/templates, e incluyen \emph{templates} para crear contenedores con los sistemas operativos Ubuntu, Debian, Fedora, Oracle, Centos y Gentoo entre otros \cite{lxcubuntu16}. \\
+\\
+La idea con estos \emph{templates} es modificarlos de acuerdo a las necesidades del usuario y subirlos al sistema por medio del API REST,  una vez el \emph{template} se encuentre en el sistema, se debe crear como una imagen disponible para contenedores LXC como se muestra a continuación:
 
-\vspace{5mm}
+\vspace{3.5cm}
 
 \begin{lstlisting}[style=json, caption=Petición HTTP para crear una imagen para contenedores LXC]
 curl -sv -X PUT \
@@ -227,7 +229,7 @@ El elemento fundamental para el aprovisionamiento es el \emph{builder} (construc
 \\
 El \emph{builder} no tiene predeterminado una estructura de directorios ni define los archivos que debe contener, su organización y contenido queda al libre criterio del usuario, el cual debe garantizar que el \emph{builder} cuente con todos los recursos para realizar un aprovisionamiento exitoso. El único requisito esencial, es la existencia de un script que actuá como punto de partida y el cual es definido en el campo executor del aprovisionador. En este campo se define el nombre del script principal y la forma en que debe ser invocado. Este script contiene el orden de las instrucciones de aprovisionamiento, puede ser un script con un solo conjunto de instrucciones que hace todo el trabajo o por el contrario puede ser un script tipo director que contiene el orden de llamado a otros scripts encargados de tareas especificas como instalación y configuración, ambos escenarios se muestran a continuación:
 
-\vspace{5mm}
+\vspace{4mm}
 
 \begin{lstlisting}[style=json, caption=Escenarios de estructura de un constructor]
 + basic_web_server    |   + rabbitmq_server
@@ -247,7 +249,7 @@ En el ejemplo de la izquierda, el script en shell install.sh actuá como punto e
 \\
 Por otro lado, en el ejemplo de la derecha, se ha separado la instalación y la configuración en scripts diferentes, el script main.sh es el punto de partida, el cual se encarga de llamar los otros scripts. De igual manera existe una carpeta con el nombre etc, que contiene archivos para completar el aprovisionamiento.
   
-\vspace{5mm}
+\vspace{4mm}
 
 \begin{lstlisting}[style=json, caption=Ejemplo de un script shell, label={lst:installsh}]
 #!/bin/bash
@@ -296,15 +298,15 @@ Shell fue escogido como el lenguaje base para los scripts de aprovisionamiento, 
 
 Los comandos de VirtShell favorecen la portabilidad de los scripts, permitiendo que estos puedan ser ejecutados en diferentes versiones de sistema operativo sin modificar sus instrucciones. A continuación se muestra la portabilidad y también la forma en que simplifica el script de aprovisionamiento mostrado en el listado \ref{lst:installsh} usando los comandos de VirtShell:
 
+\vspace{5mm}
+
 \begin{lstlisting}[style=json, caption=Ejemplo de un script shell usando los comandos de VirtShell]
 #!/bin/bash
-
 echo "Installing nginx..."
 vs_package install nginx
 
 echo "Creating root directory..."
 vs_directory -d /var/www/example.com/public_html -g www-data:www-data -p 755
-
 echo "Creating the page..."
 vs_copy_file files/index.html /var/www/example.com/public_html
 
