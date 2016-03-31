@@ -3,7 +3,7 @@
 
 La capa de Administración de VirtShell proporciona una infraestructura de servicios para la gestión de cualquier dispositivo registrado y creado a traves del sistema. Este capítulo busca darle explicación a las funcionalidades de administración.
 
-\section{Particiones, anfitriones y Ambientes en VirtShell}
+\section{Anfitriones, instancias, particiones y Ambientes}
 En VirtShell hay tres conceptos que son muy importantes y se extienden a través de todos los servicios: las particiones, los ambientes y las instancias. Las tres se asocian con la mayoría de los componentes en VirtShell, y el dominio de ellos es crucial para una buena administración de los dispositivos. 
 
 \subsection{Anfitriones}
@@ -18,7 +18,7 @@ Los tipos de anfitriones se agrupan en familias basadas en perfiles de aplicaci�
 \item [Almacenamiento optimizado] Esta familia promete anfitriones con alta capacidad de almacenamiento, optimizado para un desempeño de E/S muy alto.
 \end{description}
 
-\section{Instancias}
+\subsection{Instancias}
 A un servidor virtual en VirtShell, se le denomina instancia, las cuales pueden ser maquinas virtuales que corren sobre algún hipervisor o también pueden ser contenedores que se ejecutan directamente sobre el sistema operativo del anfitrión. \\
 \\
 La elección de la tecnología de virtualización depende de las preferencias u objetivos que se busque con las aplicaciones de la instancia. En la actualidad VirtShell soporta Virtualbox como hipervisor para maquinas virtuales y para los contenedores soporta LXC y Docker.
