@@ -4,7 +4,7 @@
 La capa de Administración de VirtShell proporciona una infraestructura de servicios para la gestión de cualquier dispositivo registrado y creado a traves del sistema. Este capítulo busca darle explicación a las funcionalidades de administración.
 
 \section{Anfitriones, instancias, particiones y Ambientes}
-En VirtShell hay tres conceptos que son muy importantes y se extienden a través de todos los servicios: las particiones, los ambientes y las instancias. Las tres se asocian con la mayoría de los componentes en VirtShell, y el dominio de ellos es crucial para una buena administración de los dispositivos. 
+En VirtShell hay cuatro conceptos que son muy importantes y se extienden a través de todos los servicios: los anfitriones, las instancias, las particiones y los ambientes. Los cuatro se asocian con la mayoría de los componentes en VirtShell, y el dominio de ellos es crucial para una buena administración de los dispositivos. 
 
 \subsection{Anfitriones}
 Los anfitriones no son mas que nodos físicos, servidores o máquinas virtuales, que alojaran recursos virtuales. VirtShell ofrece la posibilidad de clasificarlos de acuerdo a combinaciones de capacidad de CPU, memoria, almacenamiento y red. El objetivo que busca la clasificación es proporcionar flexibilidad para elegir la combinación de recursos adecuada para las aplicaciones.\\
@@ -37,8 +37,7 @@ Cuando se crea una nueva partición, VirtShell la crea completamente vacia, sin 
 %\vspace{6cm}
 
 \begin{lstlisting}[style=json, caption=Petición HTTP para crear una partición]
-curl -sv -X POST \
-  -H 'accept: application/json' \
+curl -sv -X POST -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -d '{ "name": "development_co",
         "description": "Collection of servers to development team in Colombia." }' \
@@ -201,7 +200,7 @@ Las tareas asíncronas resuelven los problemas relacionados con los tiempos de e
 \\
 Las operaciones de larga duración en VirtShell son las que involucran acciones en las instancias. Debido a que estas ultimas pueden estar físicamente lejanas del servidor, el tiempo de espera de una petición HTTP puede incrementarse lo suficiente para que esta sea finalizada por el servidor web. Asimismo, las operaciones de aprovisionamiento de las instancias, las cuales consisten principalmente en instalación y configuración de paquetes son tareas que involucran componentes realizados por terceros sobre los cuales no se tiene control sobre sus tiempos de respuesta.\\
 \\
-Cuando VirtShell recibe una petición y esta es considerada de larga duración, en el cuerpo de la respuesta se envía la acción recibida con el estado de \emph{in progress} acompañado del identificador único UUID \footnote{UUID son las siglas en inglés del Identificador Universalmente Único.} de la tarea. Por ejemplo, si se recibe una petición de instalación de un paquete en una o mas instancias, la respuesta HTTP seria de la siguiente forma:
+Cuando VirtShell recibe una petición y esta es considerada de larga duración, en el cuerpo de la respuesta se envía la acción recibida con el estado de \emph{in progress} acompañado del identificador único UUID \footnote{UUID son las siglas en inglés del Identificador Universalmente Único. Es un número de 16 bytes (128 bits), que se expresa mediante 32 dígitos hexadecimales,  divididos en cinco grupos separados por guiones.} de la tarea. Por ejemplo, si se recibe una petición de instalación de un paquete en una o mas instancias, la respuesta HTTP seria de la siguiente forma:
 
 \vspace{5mm}
 
@@ -257,7 +256,9 @@ curl -sv -X GET \
   -H 'accept: application/json' \
   -H "Content-Type: text/plain" \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{ "properties": [{"name": "memory"}, {"name": "cpu"}],
+  -d '{ "properties": [{"name": "memory"}, 
+                       {"name": "cpu"}
+                      ],
         "hosts": [{"name": "WebServer001"}]}' \
    'http://localhost:8080/api/virtshell/v1/properties'
 \end{lstlisting}
@@ -288,8 +289,9 @@ En el segundo ejemplo se muestra la forma de consultar varias propiedades a una 
 curl -sv -X GET -H 'accept: application/json' \
   -H "Content-Type: text/plain" \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
-  -d '{ "properties": [{"name": "memory"}, {"name": "cpu"}],
-        {"name": "Database00", "range": "[1-3]"}]}' \
+  -d '{ "properties": [ {"name": "memory"}, 
+                          {"name": "cpu"}],
+        {"name": "Database00", "range": "[1-3]"} }' \
    'http://localhost:8080/api/virtshell/v1/properties'
 \end{lstlisting}
 
