@@ -7,6 +7,11 @@
 
 SRC = tesis.tex
 
+article:
+	pdflatex articulo.tex
+	pdflatex articulo.tex
+	evince articulo.pdf
+
 pdf: clean
 	pdflatex tesis.tex
 	pdflatex tesis.tex
