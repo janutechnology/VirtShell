@@ -570,49 +570,6 @@ Representan los usuarios registrados en VirtShell. Los métodos soportados son:
 \end{tabular}
 \end{center}
 
-\subsection{Images}
-Representan imagenes de máquinas virtuales o contenedores. Los métodos soportados son:
-
-\begin{center}
- \captionof{table}{Métodos HTTP para images}
- \begin{tabular}{| l | l | l |}
- \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
-  \hline\hline
-  GET & /images/:name & Gets one image by name. \\
-  \hline
-  GET & /images & Retrieves the list of images. \\
-  \hline  
-  POST & /images/ & Inserts a new image. \\
-  \hline
-  DELETE & /images/:name & Deletes an existing image. \\ [1ex] 
-  \hline
-\end{tabular}
-\end{center}
-
-\subsection{Tasks}
-Representan una tarea en VirtShell. Los métodos soportados son:
-
-\begin{center}
- \captionof{table}{Métodos HTTP para tasks}
- \small
- \begin{tabular}{| l | l | l |}
- \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
-  \hline\hline
-  GET & /tasks/:id & Gets one task by ID. \\
-  \hline
-  GET & /tasks & Gets the list of tasks. \\
-  \hline
-  GET & /tasks/status & Gets all task by status. \\
-  \hline 
-  POST & /tasks/ & Creates a new task \\
-  \hline  
-  PUT & /tasks/:id & Updates an existing task. \\ [1ex] 
-  \hline
-\end{tabular}
-\end{center}
-
 \subsection{Partitions}
 Las particones permiten organizar las máquinas que albergaran recursos virtuales en partes aisladas de las demás.Los métodos soportados son:
 
@@ -659,6 +616,7 @@ Representan las maquinas físicas; un host es un anfitrión de maquinas virtuale
 \end{tabular}
 \end{center}
 
+
 \subsection{Instances}
 Representan las instancias de las máquinas virtuales o los contenedores. Los métodos soportados son:
 
@@ -679,6 +637,153 @@ Representan las instancias de las máquinas virtuales o los contenedores. Los m�
   \hline
 \end{tabular}
 \end{center}
+
+
+\subsection{Tasks}
+Representan una tarea en VirtShell. Los métodos soportados son:
+
+\begin{center}
+ \captionof{table}{Métodos HTTP para tasks}
+ \small
+ \begin{tabular}{| l | l | l |}
+ \hline
+  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \hline\hline
+  GET & /tasks/:id & Gets one task by ID. \\
+  \hline
+  GET & /tasks & Gets the list of tasks. \\
+  \hline
+  GET & /tasks/status & Gets all task by status. \\
+  \hline 
+  POST & /tasks/ & Creates a new task \\
+  \hline  
+  PUT & /tasks/:id & Updates an existing task. \\ [1ex] 
+  \hline
+\end{tabular}
+\end{center}
+
+\subsection{Properties}
+Representan propiedades de configuracián de las máquinas virtuales o contenedores. Los métodos soportados son:
+
+\begin{center}
+ \captionof{table}{Métodos HTTP para properties}
+ \begin{tabular}{| l | l | l |}
+ \hline
+  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \hline\hline
+  GET & /properties/ & Install one or more packages. \\ [1ex] 
+  \hline
+\end{tabular}
+\end{center}
+
+
+\subsection{Provisioners}
+Representan los scripts que aprovisionan las m'aquinas virtuales o los contenedores. Los métodos soportados son:
+
+\begin{center}
+ \captionof{table}{Métodos HTTP para provisioners}
+ \begin{tabular}{| l | l | l |}
+ \hline
+  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \hline\hline
+  GET & /provisioners/:name & Gets one provisioner by ID. \\
+  \hline
+  GET & /provisioners & Gets the list of provisioners. \\
+  \hline  
+  POST & /provisioners/ & Creates a new provisioner. \\
+  \hline
+  DELETE & /provisioners/:name & Deletes an provisioner. \\
+  \hline  
+  PUT & /provisioners/:name & Updates a provisioner. \\ [1ex] 
+  \hline
+\end{tabular}
+\end{center}
+
+\subsection{Images}
+Representan imagenes de máquinas virtuales o contenedores. Los métodos soportados son:
+
+\begin{center}
+ \captionof{table}{Métodos HTTP para images}
+ \begin{tabular}{| l | l | l |}
+ \hline
+  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \hline\hline
+  GET & /images/:name & Gets one image by name. \\
+  \hline
+  GET & /images & Retrieves the list of images. \\
+  \hline  
+  POST & /images/ & Inserts a new image. \\
+  \hline
+  DELETE & /images/:name & Deletes an existing image. \\ [1ex] 
+  \hline
+\end{tabular}
+\end{center}
+
+
+\subsection{Packages}
+Representan paquetes de software que se ejecutan en las máquinas virtuales o contenedores. Los métodos soportados son:
+
+\begin{center}
+ \captionof{table}{Métodos HTTP para packages}
+ \begin{tabular}{| l | l | l |}
+ \hline
+  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \hline\hline
+  POST & /install\_packages/ & Install one or more packages. \\
+  \hline
+  POST & /upgrade\_packages/ & Upgrade one or more packages. \\
+  \hline
+  POST & /remove\_packages/ & Remove one or more packages. \\ [1ex] 
+  \hline
+\end{tabular}
+\end{center}
+
+\subsection{Files}
+Representan toda clase de archivos que se requieran para crear o aprovisionar máquinas virtuales o contenedores. Los métodos soportados son:
+
+\begin{center}
+\captionof{table}{Métodos HTTP para files}
+ \begin{tabular}{| l | l | l |}
+ \hline
+  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \hline\hline
+  GET & /files/:id & Gets one file by ID. \\
+  \hline
+  POST & /files/ & upload a new file. \\
+  \hline
+  DELETE & /files/:id & Deletes an existing file. \\
+  \hline  
+  PUT & /files/:id & Updates an existing file. \\ [1ex]  
+  \hline
+\end{tabular}
+\end{center}
+
+
+\subsection{API Calls}
+
+\begin{center}
+\captionof{table}{Métodos HTTP para API Calls}
+ \begin{tabular}{| l | l | l |}
+ \hline
+  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \hline\hline
+  POST & instances/start\_instance/:id & Start one instance. \\
+  \hline
+  POST & instances/stop\_instance/:id & Stop one instance. \\
+  \hline
+  POST & instances/restart\_instance/:id & Restart one instance. \\
+  \hline
+  POST & instances/clone\_instance/:id & Clone one instance. \\
+  \hline
+  POST & instances/execute\_command & Execute commands. \\
+  \hline
+  POST & instances/copy\_files & Copy files. \\
+  \hline
+\end{tabular}
+\end{center}
+
+
+
 
 
 
@@ -822,9 +927,9 @@ The authors would like to thank...
 % (used to reserve space for the reference number labels box)
 \begin{thebibliography}{1}
 
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+% \bibitem{IEEEhowto:kopka}
+% H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%   0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
 
 
 
