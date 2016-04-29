@@ -393,7 +393,7 @@ Email: john.sanabria@correounivalle.edu.co}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-The abstract goes here.
+En la actualidad, con la creciente adopción de modelos de computación como el \emph{Cloud Computing} \footnote{conocida también como servicios en la nube, es un paradigma que permite ofrecer servicios de computación a través de una red, que usualmente es Internet.} y el \emph{Grid Computing} \footnote{Un grid es un sistema de computación distribuido que permite coordinar computadoras de diferente hardware y software y cuyo fin es procesar una tarea que demanda una gran cantidad de recursos y poder de procesamiento.}, los ambientes computacionales se han tornado cada vez más sofisticados y complejos, requiriendo de soluciones que traten de manera integral el aprovisionamiento de diferentes servicios sobre ambientes virtuales capaces de atender la variable demanda computacional, a través del despliegue de infraestructuras elásticas de computación. Hoy en día, se encuentran diversas soluciones que abordan el problema de aprovisionamiento usando diferentes enfoques para el despliegue y orquestación de plataformas y servicios. Sin embargo, los enfoques actuales carecen de mecanismos de comunicación que permitan interoperar entre diferentes aplicaciones; En general, las soluciones actuales presentan dificultades para ser accedidas en una red, como internet y ejecutadas de manera remota. Este proyecto propone como objetivo principal, plantear el diseño de un framework orientado al web, cuyas partes permitan el eficiente aprovisionamiento de software de manera automática para ambientes virtualizados.\\
 \end{abstract}
 
 % no keywords
@@ -418,15 +418,15 @@ La aparición de ambientes de computación centrados en la nube, los cuales se c
 \\
 Las herramientas de aprovisionamiento automático de infraestructura son el eje central de estos equipos ya que es a través de ellas que el personal de desarrollo y operaciones son capaces de hablar un mismo lenguaje y establecer los requerimientos y necesidades a satisfacer. Sin embargo, las herramientas actuales de aprovisionamiento adolecen de servicios que faciliten la especificación de infraestructura a través de un API \footnote{ API: Application Programming Interface, conjunto de subrutinas, funciones y procedimientos que ofrece un software para ser utilizado por otro software como una capa de abstracción.} estandarizado que posibilite la orquestación del despliegue de infraestructura a través de Internet.\\
 \\
-En este artículo se presenta una herramienta de aprovisionamiento con orientación a servicios que permite el despliegue y orquestación de plataformas y servicios a través de un API RESTful \footnote{RESTful hace referencia a un servicio web que implementa la arquitectura REST}. Además de lo mencionado anteriormente, la artículo consta de 8 secciones.\\
+En este artículo se presenta una herramienta de aprovisionamiento con orientación a servicios que permite el despliegue y orquestación de plataformas y servicios a través de un API RESTful \footnote{RESTful hace referencia a un servicio web que implementa la arquitectura REST}. Además de lo mencionado anteriormente, la artículo consta de 3 secciones.\\
 \\
-La segunda sección presenta el planteamiento del problema, en donde se aclara el objeto y alcance del trabajo realizado. La definición del marco teórico que permite entender la importancia de la virtualización en la actualidad, las técnicas de virtualización usadas y la sinopsis de las soluciones de aprovisionamiento mas conocidas actualmente, son presentadas en la tercera sección.\\
+La segunda sección introduce y elabora la arquitectura planteada en VirtShell. Se describe los requisitos que se tuvieron en cuenta para elaborar la estructura del framework, las alternativas estudiadas y las características que conforman a VirtShell.\\
 \\
-En la cuarta sección se introduce y elabora la arquitectura planteada en VirtShell. Se describe los requisitos que se tuvieron en cuenta para elaborar la estructura del framework, las alternativas estudiadas y se reseña los módulos y sus características que conforman a VirtShell.\\
+Las tercera sección se encargan de describir cada uno de los módulos diseñados, ilustrando sus funcionalidades y la forma en que interactúan de manera conjunta para administrar la infraestructura y realizar el aprovisionamiento de los recursos virtualizados.\\
 \\
-Las siguientes 4 secciones se encargan de describir cada uno de los módulos diseñados, ilustrando sus funcionalidades y la forma en que interactúan de manera conjunta para administrar la infraestructura y realizar el aprovisionamiento de los recursos virtualizados. Adicionalmente se muestran ejemplos del uso del API.\\
+En la cuarta sección se indican los métodos HTTP con que cuenta cada módulo que permiten interactuar con el API.\\
 \\
-En la ultima sección se muestra la documentación del API de VirtShell. Se indican los recursos y los métodos HTTP con que cuenta cada módulo que permiten interactuar con el API.\\
+Finalmente, la ultima sección se presentan las conclusiones.
 
 
 \section{Arquitectura}
@@ -440,13 +440,13 @@ En la búsqueda del adecuado estilo arquitectural para el API de VirtShell, se e
 VirtShell es un framework de código abierto y bajo la licencia BSD, que permite utilizarlo para proyectos de cualquier tipo, incluso comerciales, sus características principales son: 
 
 \begin{itemize}
-\item \emph{Programable} VirtShell esta orientado a realizar el aprovisionamiento de sus instancias principalmente por medio de scripts escritos en shell, permitiendo aprovechar todas las estructuras y utilidades del lenguaje de programación. Sin embargo, el lenguaje de shell no es de uso obligatorio, el  metodo de aprovisionamiento puede ser el de la preferencia del usuario. 
-\item \emph{Repetible} VirtShell ofrece herramientas para que los scritps de aprovisionamiento sean configurables y  puedan ser ejecutados varias veces en diferentes ambientes de desarrollo o producción.
-\item \emph{Modular} VirtShell es un framework organizado de forma modular. Los módulos se encuentran agrupados en categorías que ofrecen las herramientas necesarias para la administración y aprovisionamiento de múltiples recursos virtuales. De igual manera y dada las características de REST, los módulos están diseñados para que se puedan dividir en diferentes servidores obteniendo "micro APIs", lo que permite dividir los procesos y atender diferentes tipos de operaciones del API. 
-\item \emph{Seguro} VirtShell provee varias capacidades y servicios para aumentar la privacidad y el control de acceso a los diferentes recursos. Los servicios de seguridad permiten crear redes y controlar el acceso a las instancias creadas, así como definir y administrar políticas de acceso a usuarios y permisos sobre cualquier recurso del sistema como por ejemplo scripts de creación y aprovisionamiento.
-\item \emph{Extensible} Al ser VirtShell de código abierto, el API puede modificarse, crecer fácilmente y versionarse de diferentes maneras. Adicionalmente, VirtShell fue diseñado con la idea de cargar código dinámicamente, permitiendo extender el comportamiento del framework agregando plugins en tiempo de ejecución.  Asi mismo, VirtShell permite extender el comportamiento del shell desplegando comandos propios que proporcionan ahorro en tiempo y en complejidad.
-\item \emph{Inyección de dependencias virtuales} VirtShell adopta la idea del patrón de Inyección de Dependencias \footnote{es un patrón de diseño orientado a objetos, en el que se suministran objetos a una clase en lugar de ser la propia clase quien cree el objeto. El término fue acuñado por primera vez por Martin Fowler.} \cite{fowler04} para conseguir scripts de aprovisionamiento mas desacoplados. De esta manera facilita la configuración de las dependencias que tiene un recurso virtual de otras máquinas virtuales. Para ello, el framework permite declarar el listado de dependencias de recursos virtuales que tiene un script de aprovisionamiento encargándose del correcto acople entre los diferentes recursos virtuales.
-\item \emph{Interoperable} Al seguir el estilo arquitectónico REST y contar con la documentación detallada sobre cada uno de los recursos y urls que expone el API de VirtShell, se logra una capacidad clave para la administración remota de la infraestructura virtual. Esta capacidad se refiere al hecho de poder desarrollar aplicaciones en cualquier plataforma y para cualquier dispositivo electrónico, lo que permite funcionar con otros productos o sistemas existentes o futuros.
+\item \emph{Programable}: VirtShell esta orientado a realizar el aprovisionamiento de sus instancias principalmente por medio de scripts escritos en shell, permitiendo aprovechar todas las estructuras y utilidades del lenguaje de programación. Sin embargo, el lenguaje de shell no es de uso obligatorio, el  método de aprovisionamiento puede ser el de la preferencia del usuario. 
+\item \emph{Repetible}: VirtShell ofrece herramientas para que los scritps de aprovisionamiento sean configurables y  puedan ser ejecutados varias veces en diferentes ambientes de desarrollo o producción.
+\item \emph{Modular}: VirtShell es un framework organizado de forma modular. Los módulos se encuentran agrupados en categorías que ofrecen las herramientas necesarias para la administración y aprovisionamiento de múltiples recursos virtuales. De igual manera y dada las características de REST, los módulos están diseñados para que se puedan dividir en diferentes servidores obteniendo "micro APIs", lo que permite dividir los procesos y atender diferentes tipos de operaciones del API. 
+\item \emph{Seguro}: VirtShell provee varias capacidades y servicios para aumentar la privacidad y el control de acceso a los diferentes recursos. Los servicios de seguridad permiten crear redes y controlar el acceso a las instancias creadas, así como definir y administrar políticas de acceso a usuarios y permisos sobre cualquier recurso del sistema como por ejemplo scripts de creación y aprovisionamiento.
+\item \emph{Extensible}: Al ser VirtShell de código abierto, el API puede modificarse, crecer fácilmente y versionarse de diferentes maneras. Adicionalmente, VirtShell fue diseñado con la idea de cargar código dinámicamente, permitiendo extender el comportamiento del framework agregando plugins en tiempo de ejecución.  Asi mismo, VirtShell permite extender el comportamiento del shell desplegando comandos propios que proporcionan ahorro en tiempo y en complejidad.
+\item \emph{Inyección de dependencias virtuales}: VirtShell adopta la idea del patrón de Inyección de Dependencias \footnote{es un patrón de diseño orientado a objetos, en el que se suministran objetos a una clase en lugar de ser la propia clase quien cree el objeto. El término fue acuñado por primera vez por Martin Fowler.} \cite{fowler04} para conseguir scripts de aprovisionamiento mas desacoplados. De esta manera facilita la configuración de las dependencias que tiene un recurso virtual de otras máquinas virtuales. Para ello, el framework permite declarar el listado de dependencias de recursos virtuales que tiene un script de aprovisionamiento encargándose del correcto acople entre los diferentes recursos virtuales.
+\item \emph{Interoperable}: Al seguir el estilo arquitectónico REST y contar con la documentación detallada sobre cada uno de los recursos y urls que expone el API de VirtShell, se logra una capacidad clave para la administración remota de la infraestructura virtual. Esta capacidad se refiere al hecho de poder desarrollar aplicaciones en cualquier plataforma y para cualquier dispositivo electrónico, lo que permite funcionar con otros productos o sistemas existentes o futuros.
 
 \end{itemize}
 
@@ -511,6 +511,10 @@ El módulo de \textbf{paquetes} facilita realizar funciones tales como la instal
 Los Agentes son servicios que se ejecutan localmente en cada anfitrión, y que se encuentra bajo la gestión de VirtShell. Estos son instalados y configurados en cada anfitrión de manera automática. Los agentes actúan con un cierto grado de autonomía con el fin de completar tareas en nombre del servidor.\\
 
 \section{API}
+API significa ``Application Programming Interface", y como término, especifica cómo debe interactuar el software.\\
+\\
+En términos generales, cuando nos referimos a las API de hoy, nos referimos más concretamente a las API web, que son manejadas a través del protocolo de transferencia de hipertexto (HTTP). Para este caso específico, entonces, una API especifica cómo un consumidor puede consumir el servicio que el API expone: cuales URI están disponibles, qué métodos HTTP puede utilizarse con cada URI, que parámetros de consulta se acepta, lo que los datos que pueden ser enviados en el cuerpo de la petición, y lo que el consumidor puede esperar como respuesta.\\
+\\
 En el VirtShell API REST un usuario enviá una solicitud al servidor para realizar una acción determinada (como la creación, recuperación, actualización o eliminación de un recurso virtual), y el servidor realiza la acción y enviá una respuesta, a menudo en la forma de una representación del recurso especificado.\\
 \\
 En el VirtShell API, el usuario especifica una acción con un verbo HTTP como POST, GET, PUT o DELETE. Especificando un recurso por un URI único global de la siguiente forma: \\
@@ -524,10 +528,12 @@ En esta sección se detalla los recursos y operaciones que puede realizar un usu
 \subsection{Formato de entrada y salida}
 JSON (JavaScript Object Notation) es un formato de datos común, independiente del lenguaje que proporciona una representación de texto simple de estructuras de datos arbitrarias. Para obtener mas información, ver json.org.\\
 \\
-El VirtShell API solo soporta el formato json para intercambio de información. Cualquier solicitud que no se encuentre en formato json resultara en un error con código 406 (Content Not Acceptable Error).
+El VirtShell API solo soporta el formato json para intercambio de información. Cualquier solicitud que no se encuentre en formato json resultara en un error con código 406 (Content Not Acceptable Error).\\
+\\
+Las siguientes secciones muestran los métodos disponibles para cada módulo.\\
 
 \subsection{Groups}
-Representan los grupos registrados en VirtShell. Los metodos soportados son:
+Representan los grupos registrados en VirtShell. Los métodos soportados son:
 
 \begin{center}
  \captionof{table}{Métodos HTTP para groups}
@@ -571,7 +577,7 @@ Representan los usuarios registrados en VirtShell. Los métodos soportados son:
 \end{center}
 
 \subsection{Partitions}
-Las particones permiten organizar las máquinas que albergaran recursos virtuales en partes aisladas de las demás.Los métodos soportados son:
+Las particones permiten organizar las máquinas que albergaran recursos virtuales en partes aisladas de las demás. Los métodos soportados son:
 
 \begin{center}
  \captionof{table}{Métodos HTTP para partitions}
@@ -678,7 +684,7 @@ Representan propiedades de configuracián de las máquinas virtuales o contenedo
 
 
 \subsection{Provisioners}
-Representan los scripts que aprovisionan las m'aquinas virtuales o los contenedores. Los métodos soportados son:
+Representan los scripts que aprovisionan las máquinas virtuales o los contenedores. Los métodos soportados son:
 
 \begin{center}
  \captionof{table}{Métodos HTTP para provisioners}
@@ -729,11 +735,11 @@ Representan paquetes de software que se ejecutan en las máquinas virtuales o co
  \hline
   \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  POST & /install\_packages/ & Install one or more packages. \\
+  POST & /install\_packages/ & \pbox{4cm}{Install one or more\\ packages.} \\ 
   \hline
-  POST & /upgrade\_packages/ & Upgrade one or more packages. \\
+  POST & /upgrade\_packages/ & \pbox{4cm}{Upgrade one or more\\ packages.} \\
   \hline
-  POST & /remove\_packages/ & Remove one or more packages. \\ [1ex] 
+  POST & /remove\_packages/ & \pbox{4cm}{Remove one or more \\packages.} \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
@@ -761,21 +767,23 @@ Representan toda clase de archivos que se requieran para crear o aprovisionar m�
 
 \subsection{API Calls}
 
+Representan las acciones que no encajan en las operaciones CRUD \footnote{En computación CRUD es el acrónimo de Crear, Leer, Actualizar y Borrar (del original en inglés: Create, Read, Update and Delete). Se usa para referirse a las funciones básicas en bases de datos o la capa de persistencia en un software.}de cada uno de los módulos.
+
 \begin{center}
 \captionof{table}{Métodos HTTP para API Calls}
  \begin{tabular}{| l | l | l |}
  \hline
   \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  POST & instances/start\_instance/:id & Start one instance. \\
+  POST & instances/start\_instance/:id & Start instance. \\
   \hline
-  POST & instances/stop\_instance/:id & Stop one instance. \\
+  POST & instances/stop\_instance/:id & Stop instance. \\
   \hline
-  POST & instances/restart\_instance/:id & Restart one instance. \\
+  POST & instances/restart\_instance/:id & Restart instance. \\
   \hline
-  POST & instances/clone\_instance/:id & Clone one instance. \\
+  POST & instances/clone\_instance/:id & Clone instance. \\
   \hline
-  POST & instances/execute\_command & Execute commands. \\
+  POST & instances/execute\_command & Exec. commands. \\
   \hline
   POST & instances/copy\_files & Copy files. \\
   \hline
@@ -885,7 +893,20 @@ Representan toda clase de archivos que se requieran para crear o aprovisionar m�
 
 
 \section{Conclusion}
-The conclusion goes here.
+Como resultado del presente articulo, se concluye que el diseño de VirtShell framework permite administrar y aprovisionar servicios de infraestructura de TI, debido a que se apoya en las actuales tecnologías de virtualización, permitiendo utilizar diferentes sistemas operativos a través de su interfaz web, personalizarlos, gestionar sus permisos y crear tantos como se requiera.\\
+\\
+Por otro lado al comparar VirtShell contra las soluciones de virtualización actuales, se observa que el API REST proporciona todas las funcionalidades requeridas para controlar completamente los recursos físicos y virtuales reduciendo el tiempo necesario para crear e iniciar instancias. Así mismo, al adoptar el estilo arquitectural REST, se heredan nada menos que las propiedades del World Wide Web, las cuales ofrecen mayores ventajas sobre las demás soluciones, estas se explican a continuación:
+
+\begin{itemize}
+\item \emph{Rendimiento}: Se puede soportar usando caches que permitan mantener la información cerca del procesamiento. Esto puede ayudar aún más, reduciendo la sobrecarga asociada con la creación de solicitudes complejas.
+\item \emph{Escalibilidad}: Si el aumento de la demanda exige aumentar el número de servidores de VirtShell, esto puede hacerse sin preocuparse por la sincronización entre los mismos, debido a que los datos de la sesión están contenidos en cada petición.
+\item \emph{Simplicidad}: REST es un estilo de arquitectura orientado a la simpleza. El argumento  central de esta propiedad es el HTTP mismo, con su conjunto mínimo de métodos y su semántica simplísima, es suficientemente general para modelar el dominio de VirtShell.
+\item \emph{Visibilidad}: Rest está diseñado para ser visible y simple, lo que significa que cada aspecto del servicio debe ser auto-descriptivo siguiendo las normas HTTP.
+\item \emph{Portabilidad}: Un Software es portable si el puede correr en diferentes ambientes, el estilo arquitectural REST permite separar las preocupaciones de interfaz de usuario de las preocupaciones de almacenamiento de datos, mejorando la portabilidad. Adicionalmente el World Wide Web es altamente portable debido a su nivel de estandarización.
+\end{itemize}
+
+Por lo anterior se concluye que la principal fortaleza de VirtShell y su diferencia frente a
+ las demás soluciones de virtualización consiste en exponer sus funcionalidades por medio de un API REST, lo que le concede ademas capacidades de integración con diferentes plataformas de desarrollo.
 
 
 
@@ -894,10 +915,10 @@ The conclusion goes here.
 
 
 % use section* for acknowledgment
-\section*{Acknowledgment}
+% \section*{Acknowledgment}
 
 
-The authors would like to thank...
+% The authors would like to thank...
 
 
 
