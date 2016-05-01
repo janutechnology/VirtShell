@@ -1,4 +1,4 @@
-\subsection{Hosts}
+\subsection{Enviroments}
 Representan subredes de trabajo más pequeñas asociadas a una partición. Los métodos soportados son:
 
 \begin{center}
@@ -10,9 +10,9 @@ Representan subredes de trabajo más pequeñas asociadas a una partición. Los m
   \hline\hline
   get & GET & /enviroments/:name & Gets one enviroment by name. \\
   \hline
-  list & GET & /enviroments & Retrieves the list of enviroments. \\
+  list & GET & /enviroments & \pbox{5cm}{\vspace{0.2cm} Retrieves the list of \\ enviroments. \vspace{0.2cm}} \\
   \hline  
-  create & POST & /enviroments/ & Inserts a new enviroment configuration. \\
+  create & POST & /enviroments/ & Inserts a new enviroment. \\
   \hline
   delete & DELETE & /enviroments/:name & Deletes an existing enviroment. \\
   \hline
@@ -74,7 +74,7 @@ Content-Type: application/json
 { "create": "success" }
 \end{lstlisting}
 
-\paragraph{Obtener un ambiente- GET /api/virtshell/v1/enviroments/:name} ~\\
+\paragraph{Obtener un ambiente- GET \\ /api/virtshell/v1/enviroments/:name} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -98,7 +98,7 @@ Content-Type: application/json
 }
 \end{lstlisting}
 
-\paragraph{Obtener todos los ambientes - GET /api/virtshell/v1/enviroments} ~\\
+\paragraph{Obtener todos los ambientes - GET \\ /api/virtshell/v1/enviroments} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -135,7 +135,7 @@ Content-Type: application/json
 }   
 \end{lstlisting}
 
-\paragraph{Eliminar un ambiente - DELETE /api/virtshell/v1/enviroments/:name} ~\\
+\paragraph{Eliminar un ambiente - DELETE \\ /api/virtshell/v1/enviroments/:name} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X DELETE \
