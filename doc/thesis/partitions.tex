@@ -12,11 +12,11 @@ Las particones permiten organizar las máquinas que albergaran recursos virtuale
   \hline
   list & GET & /partitions & Retrieves the list of partitions. \\
   \hline  
-  create & POST & /partitions/ & Inserts a new partition configuration. \\
+  create & POST & /partitions/ & Inserts a new partition. \\
   \hline
   delete & DELETE & /partitions/:name & Deletes an existing partition. \\
   \hline  
-  update & PUT & /partitions/:name/host/:hostname & Add a host to partition. \\ [1ex] 
+  update & PUT & \pbox{5cm}{/partitions/:name/ \\host/:hostname} & Add a host to partition. \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
@@ -72,7 +72,7 @@ Content-Type: application/json
 { "create": "success" }
 \end{lstlisting}
 
-\paragraph{Obtener una partición- GET /api/virtshell/v1/partitions/:name} ~\\
+\paragraph{Obtener una partición- GET \\/api/virtshell/v1/partitions/:name} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -95,7 +95,7 @@ Content-Type: application/json
 }
 \end{lstlisting}
 
-\paragraph{Obtener todas las particiones - GET /api/virtshell/v1/partitions} ~\\
+\paragraph{Obtener todas las particiones -  GET \\ /api/virtshell/v1/partitions} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -H 'accept: application/json' 
@@ -130,7 +130,7 @@ Content-Type: application/json
 }  
 \end{lstlisting}
 
-\paragraph{Eliminar una partición - DELETE /api/virtshell/v1/partitions/:name} ~\\
+\paragraph{Eliminar una partición - DELETE \\ /api/virtshell/v1/partitions/:name} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X DELETE \
@@ -149,7 +149,7 @@ Content-Type: application/json
 { "delete": "success" }
 \end{lstlisting}
 
-\paragraph{Agregar un host a una partición - PUT /api/virtshell/v1/partitions/:name/host/:hostname} ~\\
+\paragraph{Agregar un host a una partición - PUT \\ /api/virtshell/v1/partitions/:name/host/:hostname} ~\\
 
 \begin{lstlisting}[style=json]
 curl -sv -X PUT \
