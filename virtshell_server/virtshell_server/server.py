@@ -1,38 +1,52 @@
-import tornado.ioloop
+import logger
 import tornado.web
-
-import managment
-import config as CONFIG
-from managment.hosts_api import HostsResources
+import tornado.ioloop
+import config
 from security.users_api import UsersResources
+from managment.tasks_api import TasksResources
+from managment.hosts_api import HostsResources
 from security.groups_api import GroupsResources
-from provisioning.provisioners_api import ProvisionersResources
+from managment.tasks_api import StatusTasksResources
 from managment.instances_api import InstancesResources
 from managment.partitions_api import PartitionsResources
-from managment.partitions_api import PartitionsHostResources
 from managment.enviroments_api import EnviromentsResources
-from managment.tasks_api import TasksResources
-from managment.tasks_api import StatusTasksResources
+from managment.partitions_api import PartitionsHostResources
+from provisioning.provisioners_api import ProvisionersResources
 
-def main(debug = True, port = CONFIG.PORT):
-    try:
-        print("Start virtshell-server")
-        application = tornado.web.Application([HostsResources, 
-                                               UsersResources,
-                                               GroupsResources,
-                                               ProvisionersResources,
-                                               InstancesResources,
-                                               EnviromentsResources,
-                                               PartitionsResources,
-                                               PartitionsHostResources,
-                                               TasksResources,
-                                               StatusTasksResources], 
-                                              debug = debug, 
-                                              autoreload = debug)
-        application.listen(port)
-        tornado.ioloop.IOLoop.current().start()
-    except KeyboardInterrupt:
-        print("\nStop virtshell-server")        
+def get_handlers(log):
+  handlers_without_arguments = [HostsResources, 
+                                UsersResources,
+                                GroupsResources,
+                                ProvisionersResources,
+                                InstancesResources,
+                                EnviromentsResources,
+                                PartitionsResources,
+                                PartitionsHostResources,
+                                TasksResources,
+                                StatusTasksResources]
+
+  logger_argument = (dict(logger=log), )
+  handlers_with_arguments = []
+  for handler in handlers_without_arguments:
+    handler += logger_argument
+    handlers_with_arguments.append(handler)
+
+  return handlers_with_arguments
+
+def main(debug = True, port = config.PORT):
+  try:
+    log = logger.get_logger('virtshell_server')
+    log.info("server started...")  
+
+    handlers = get_handlers(log)
+
+    application = tornado.web.Application(handlers,
+                                          debug = debug, 
+                                          autoreload = debug)
+    application.listen(port)
+    tornado.ioloop.IOLoop.current().start()
+  except KeyboardInterrupt:
+    log.info("server stoped...")       
 
 if __name__ == '__main__':
-    main()    
+  main(debug = False)    
