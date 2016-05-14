@@ -4,10 +4,12 @@ from security.users import Users
 import json
 
 class UsersHandler(tornado.web.RequestHandler):
-    def initialize(self):
+    def initialize(self, logger):
         self.users = Users()
+        self.logger = logger
 
     def get(self, name=None):
+        self.logger.info("users GET " + name)
         if name:
             result = self.users.get_user(name)
             if result['status'] == 'ok':
@@ -24,6 +26,7 @@ class UsersHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def post(self, name=None):
+        self.logger.info("users POST " + name)
         user = tornado.escape.json_decode(self.request.body)
         result = self.users.create_user(user)
         if result['status'] == 'ok':
@@ -33,6 +36,7 @@ class UsersHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def put(self, name=None):
+        self.logger.info("users PUT " + name)
         if name:
             user = tornado.escape.json_decode(self.request.body)
             result = self.users.update_user(name, user)
@@ -45,6 +49,7 @@ class UsersHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def delete(self, name=None):
+        self.logger.info("users DELETE " + name)
         if name:
             result = self.users.delete_user(name)
             if result['status'] == 'ok':

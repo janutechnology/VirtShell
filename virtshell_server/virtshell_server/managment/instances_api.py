@@ -13,7 +13,7 @@ class InstancesHandler(tornado.web.RequestHandler):
         self.logger = logger
 
     def get(self, parameter=None):
-        self.logger.info("instances GET " + name)
+        self.logger.info("instances GET " + parameter)
         if parameter:
             pattern = re.compile(UUID_REGULAR_EXPRESION)
             if pattern.match(parameter):

@@ -27,4 +27,3 @@ print(host_id)
 for host in mongodb.hosts.find():
 	print (host)
 
-#mongo virtshell_server_db --eval "db.dropDatabase()"

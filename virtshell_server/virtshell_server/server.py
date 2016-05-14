@@ -49,4 +49,4 @@ def main(debug = True, port = config.PORT):
     log.info("server stoped...")       
 
 if __name__ == '__main__':
-  main(debug = False)    
+  main(debug = True)    

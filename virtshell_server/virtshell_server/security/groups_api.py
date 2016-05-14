@@ -4,10 +4,12 @@ from security.groups import Groups
 import json
 
 class GroupsHandler(tornado.web.RequestHandler):
-    def initialize(self):
+    def initialize(self, logger):
         self.groups = Groups()
+        self.logger = logger
 
     def get(self, name=None):
+        self.logger.info("groups GET " + name)
         if name:
             result = self.groups.get_group(name)
             if result['status'] == 'ok':
@@ -24,6 +26,7 @@ class GroupsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def post(self, name=None):
+        self.logger.info("groups POST " + name)
         group = tornado.escape.json_decode(self.request.body)
         result = self.groups.create_group(group)
         if result['status'] == 'ok':
@@ -33,6 +36,7 @@ class GroupsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def put(self, name=None):
+        self.logger.info("groups PUT " + name)
         if name:
             group = tornado.escape.json_decode(self.request.body)
             result = self.groups.update_group(name, group)
@@ -45,6 +49,7 @@ class GroupsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def delete(self, name=None):
+        self.logger.info("groups DELETE " + name)
         if name:
             result = self.groups.delete_group(name)
             if result['status'] == 'ok':

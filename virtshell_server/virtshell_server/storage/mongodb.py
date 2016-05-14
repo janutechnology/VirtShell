@@ -1,13 +1,14 @@
 import storage
 from config import MONGODB
+from config import DATABASE_NAME
 from pymongo import MongoClient
 
 class MongoDB(object):
     """ CRUD operations on any collection in MongoDB """
  
     def __init__(self, collection_name):
-        CLIENT = MongoClient(MONGODB)
-        self.mongodb = CLIENT.virtshell_server_db
+        client = MongoClient(MONGODB)
+        self.mongodb = client[DATABASE_NAME]
         self.collection_name = collection_name
         self.collection = self._get_collection()
 
