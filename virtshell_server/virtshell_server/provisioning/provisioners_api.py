@@ -4,10 +4,12 @@ from provisioning.provisioners import Provisioners
 import json
 
 class ProvisionersHandler(tornado.web.RequestHandler):
-    def initialize(self):
+    def initialize(self, logger):
         self.provisioners = Provisioners()
+        self.logger = logger
 
     def get(self, name=None):
+        self.logger.info("provisioners GET " + name)
         if name:
             result = self.provisioners.get_provisioner(name)
             if result['status'] == 'ok':
@@ -24,6 +26,7 @@ class ProvisionersHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def post(self, name=None):
+        self.logger.info("provisioners POST " + name)
         provisioner = tornado.escape.json_decode(self.request.body)
         result = self.provisioners.create_provisioner(provisioner)
         if result['status'] == 'ok':
@@ -33,6 +36,7 @@ class ProvisionersHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def put(self, name=None):
+        self.logger.info("provisioners PUT " + name)
         if name:
             provisioner = tornado.escape.json_decode(self.request.body)
             result = self.provisioners.update_provisioner(name, provisioner)
@@ -45,6 +49,7 @@ class ProvisionersHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def delete(self, name=None):
+        self.logger.info("provisioners DELETE " + name)
         if name:
             result = self.provisioners.delete_provisioner(name)
             if result['status'] == 'ok':

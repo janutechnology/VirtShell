@@ -1,13 +1,16 @@
 import json
+import logger
 import tornado.web
 import tornado.ioloop
 from managment.tasks import Tasks
 
 class StatusTasksHandler(tornado.web.RequestHandler):
-    def initialize(self):
+    def initialize(self, logger):
         self.tasks = Tasks()
+        self.logger = logger
 
     def get(self, status_name=None):
+        self.logger.info("statustasks GET " + status_name)
         if status_name:
             result = self.tasks.get_tasks_by_status(status_name)
             if result['status'] == 'ok':
@@ -20,10 +23,12 @@ class StatusTasksHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
 class TasksHandler(tornado.web.RequestHandler):
-    def initialize(self):
+    def initialize(self, logger):
         self.tasks = Tasks()
+        self.logger = logger
 
     def get(self, uuid=None):
+        self.logger.info("tasks GET " + str(uuid))
         if uuid:
             result = self.tasks.get_task(uuid)
             if result['status'] == 'ok':
@@ -40,6 +45,7 @@ class TasksHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def post(self, uuid=None):
+        self.logger.info("tasks POST " + str(uuid))
         task = tornado.escape.json_decode(self.request.body)
         result = self.tasks.create_task(task)
         if result['status'] == 'ok':
@@ -49,6 +55,7 @@ class TasksHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def put(self, uuid=None):
+        self.logger.info("tasks PUT " + str(uuid))
         if uuid:
             task = tornado.escape.json_decode(self.request.body)
             result = self.tasks.update_task(uuid, task)
@@ -60,9 +67,10 @@ class TasksHandler(tornado.web.RequestHandler):
             response = {"update": "error", "reason": "missing uuid parameter"}
         return self.write(json.dumps(response))
 
-    def delete(self, name=None):
-        if name:
-            result = self.tasks.delete_task(name)
+    def delete(self, uuid=None):
+        self.logger.info("tasks DELETE " + str(uuid))
+        if uuid:
+            result = self.tasks.delete_task(uuid)
             if result['status'] == 'ok':
                 response = {"delete": "success"}
             else:

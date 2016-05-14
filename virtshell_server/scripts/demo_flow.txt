@@ -1,8 +1,49 @@
 #############################################################################
-############################# VirtShell-Server ##############################
+################################# Machines ##################################
 #############################################################################
 
-rsync -azP virtshell_server/ ssh callanor@192.168.56.103:/home/callanor/virtshell_server
+VirtShell-Server: 192.168.56.103
+VirtShell-Hosts (containers): 192.168.56.101, 192.168.56.102
+VirtShell-Hosts (VirtualBox): 192.168.56.1
+
+
+#############################################################################
+######################## Create required folders ############################
+#############################################################################
+
+mkdir /var/janu -p
+chown callanor.callanor janu -R
+
+#############################################################################
+###################### Synchronize VirtShell-Server #########################
+#############################################################################
+
+rsync -vazP virtshell_server/ callanor@192.168.56.103:/var/janu/virtshell_server
+
+#############################################################################
+#################### Synchronize VirtShell-Dispatcher #######################
+#############################################################################
+
+rsync -azP virtshell_dispatcher/ ssh callanor@192.168.56.103:/var/janu/virtshell_dispatcher
+
+#####################
+# 1. Open log files #
+#####################
+tail -f /var/janu/log/virtshell_dispatcher.log
+tail -f /var/log/syslog
+
+#############################
+# 2. Start VirtShell-Server #
+#############################
+cd /var/janu/virtshell_server/virtshell_server
+sudo python3 server.py 
+
+################################
+# 3. Start VirtShell-Dispacher #
+################################
+cd /var/janu/virtshell_server/virtshell_server
+sudo python3 server.py
+
 
 #########################
 # Create partition test #

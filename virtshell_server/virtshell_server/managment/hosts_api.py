@@ -1,13 +1,16 @@
 import json
 import tornado.web
 import tornado.ioloop
+import logger
 from managment.hosts import Hosts
 
 class HostsHandler(tornado.web.RequestHandler):
-    def initialize(self):
+    def initialize(self, logger):
         self.hosts = Hosts()
+        self.logger = logger
 
     def get(self, name=None):
+        self.logger.info("hosts GET " + name)
         if name:
             result = self.hosts.get_host(name)
             if result['status'] == 'ok':
@@ -24,6 +27,7 @@ class HostsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def post(self, name=None):
+        self.logger.info("hosts POST " + name)
         host = tornado.escape.json_decode(self.request.body)
         result = self.hosts.create_host(host)
         if result['status'] == 'ok':
@@ -33,6 +37,7 @@ class HostsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def put(self, name=None):
+        self.logger.info("hosts PUT " + name)
         if name:
             host = tornado.escape.json_decode(self.request.body)
             result = self.hosts.update_host(name, host)
@@ -45,6 +50,7 @@ class HostsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def delete(self, name=None):
+        self.logger.info("hosts DELETE " + name)
         if name:
             result = self.hosts.delete_host(name)
             if result['status'] == 'ok':

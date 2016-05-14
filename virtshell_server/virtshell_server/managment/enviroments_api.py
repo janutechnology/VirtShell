@@ -4,10 +4,12 @@ import tornado.ioloop
 from managment.enviroments import Enviroments
 
 class EnviromentsHandler(tornado.web.RequestHandler):
-    def initialize(self):
+    def initialize(self, logger):
         self.enviroments = Enviroments()
+        self.logger = logger
 
     def get(self, name=None):
+        self.logger.info("enviroments GET " + name)
         if name:
             result = self.enviroments.get_enviroment(name)
             if result['status'] == 'ok':
@@ -24,6 +26,7 @@ class EnviromentsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def post(self, name=None):
+        self.logger.info("enviroments POST " + name)
         enviroment = tornado.escape.json_decode(self.request.body)
         result = self.enviroments.create_enviroment(enviroment)
         if result['status'] == 'ok':
@@ -33,6 +36,7 @@ class EnviromentsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def delete(self, name=None):
+        self.logger.info("enviroments DELETE " + name)
         if name:
             result = self.enviroments.delete_enviroment(name)
             if result['status'] == 'ok':

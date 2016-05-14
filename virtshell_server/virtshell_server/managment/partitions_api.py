@@ -1,13 +1,16 @@
 import json
 import tornado.web
 import tornado.ioloop
+import config as CONFIG
 from managment.partitions import Partitions
 
 class PartitionsHostHandler(tornado.web.RequestHandler):
-    def initialize(self):
+    def initialize(self, logger):
         self.partitions = Partitions()
+        self.logger = logger
 
     def put(self, name=None, host=False):
+        self.logger.info("partitions PUT name: " + name + "host: " + host)
         print("name:", name, "host:", host)
         if name and host:
             result = self.partitions.add_host(name, host)
@@ -20,10 +23,12 @@ class PartitionsHostHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
 class PartitionsHandler(tornado.web.RequestHandler):
-    def initialize(self):
+    def initialize(self, logger):
         self.partitions = Partitions()
+        self.logger = logger
 
     def get(self, name=None):
+        self.logger.info("partitions GET " + name)
         if name:
             result = self.partitions.get_partition(name)
             if result['status'] == 'ok':
@@ -40,6 +45,7 @@ class PartitionsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def post(self, uuid=None):
+        self.logger.info("partitions POST " + name)
         partition = tornado.escape.json_decode(self.request.body)
         result = self.partitions.create_partition(partition)
         if result['status'] == 'ok':
@@ -49,6 +55,7 @@ class PartitionsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def put(self, name=None):
+        self.logger.info("partitions PUT " + name)
         if name:
             partition = tornado.escape.json_decode(self.request.body)
             result = self.partitions.update_partition(name, partition)
@@ -61,6 +68,7 @@ class PartitionsHandler(tornado.web.RequestHandler):
         return self.write(json.dumps(response))
 
     def delete(self, name=None):
+        self.logger.info("partitions DELETE " + name)
         if name:
             result = self.partitions.delete_partition(name)
             if result['status'] == 'ok':
