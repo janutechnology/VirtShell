@@ -12,8 +12,8 @@ import time
 import json
 import signal
 import psutil
+import logger
 import os.path
-import logging
 import datetime
 import threading
 import tornado.web
@@ -56,7 +56,6 @@ class ListenerHandler(object):
     def register_plugin_actions(self):
         for plugin_name in self.plugins:
             plugin_class = self.load_plugin(plugin_name)
-            # Asignar aqui el logger para no pasarlo mas
             plugin_methods = plugin_class.catalogue()
             for plugin_method_name in plugin_methods:
                 plugin_method = getattr(plugin_class, plugin_method_name)
@@ -65,11 +64,13 @@ class ListenerHandler(object):
 
     def register(self, action, listener):
         self.listeners[action] = listener
+        main_logger.info("action registered: " + action + " listener: " + str(listener))
 
     def dispatch(self, request):
         message = json.loads(request)
         action = message['driver'] + '-' + message['action']
         plugin, method = self.listeners[action]
+        main_logger.info("dispatch action: " + action + " plugin: " + str(plugin) + " method: " + str(method))
         create_daemon = threading.Thread(name = 'create_daemon',
                                          args = (request,),
                                          target = method)
@@ -88,6 +89,7 @@ class ListenerHandler(object):
                 main_logger.info("plugin %s.py found" % module)
 
     def load_plugin(self, name):
+        main_logger.info("loading plugin " + name)
         return imp.load_module(name, *(self.plugins[name]))
 
 ################################################################################
@@ -96,8 +98,7 @@ class ListenerHandler(object):
 class RequestHandler(tornado.websocket.WebSocketHandler):
     clients = []
     def open(self):
-        main_logger.info("new connection")
-        main_logger.info("Connection stablished")
+        main_logger.info("New connection stablished")
         RequestHandler.clients.append(self)
 
     def on_message(self, json_message):
@@ -111,31 +112,11 @@ class RequestHandler(tornado.websocket.WebSocketHandler):
 
 application = tornado.web.Application([(r'/', RequestHandler)])
 
-################################################################################
-# Logging plumbing
-################################################################################
-def init_logger(LoggerName):
-    # Create logger
-    logger = logging.getLogger(LoggerName)
-    logger.setLevel(logging.INFO)
-    # Create handler
-    handler = logging.FileHandler('/var/janu/log/virtshell_provisioning_agent.log')
-    handler.setLevel(logging.INFO)
-    # Create formatter
-    formatter = logging.Formatter('%(asctime)s %(name)s '
-                                  '%(levelname)s %(message)s')
-    # Add formatter and handler
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-    # Return logger
-    return logger
-
 if __name__ == "__main__":
-    main_logger = init_logger('virtshell-provisioning-agent')
+    main_logger = logger.get_logger('virtshell-provisioning-agent')
     listener_handler = ListenerHandler()
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(8080)
-    main_logger.info("started...")
-    print("virtshell-provisioning-agent started...")
+    main_logger.info("agent started...")
     #tornado.ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=15), WSHandler.write_to_clients)
     tornado.ioloop.IOLoop.instance().start()

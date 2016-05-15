@@ -22,24 +22,28 @@ class Database(object):
         self.database_conn = None
 
         if not os.path.exists(database_file):
-            self.database_conn = sqlite3.connect(database_file,
-                                                 timeout=5,
-                                                 check_same_thread = False)
-            self.logger.info("Database %s doesn't exists..." % database_file)
-            cursor = self.database_conn.cursor()
-            cursor.execute('''
-                CREATE TABLE requests(
-                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-                    message JSON NOT NULL,
-                    status INTEGER DEFAULT 0 NOT NULL, 
-                    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-                    message_log TEXT NULL,
-                    status_date TIMESTAMP NULL)
-            ''')
-            self.database_conn.commit()
-            cursor.close()
-            self.database_conn.close()
-            self.logger.info("Created database successfully...")
+            try:
+                self.database_conn = sqlite3.connect(database_file,
+                                                     timeout=5,
+                                                     check_same_thread = False)
+                self.logger.info("Database %s doesn't exists..." % database_file)
+                cursor = self.database_conn.cursor()
+                cursor.execute('''
+                    CREATE TABLE requests(
+                        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                        message JSON NOT NULL,
+                        status INTEGER DEFAULT 0 NOT NULL, 
+                        creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                        message_log TEXT NULL,
+                        status_date TIMESTAMP NULL)
+                ''')
+                self.database_conn.commit()
+                cursor.close()
+                self.database_conn.close()
+                self.logger.info("Created database successfully...")
+            except Exception as e:
+                self.logger.error("Error in database " + database_file)
+                raise
         else:
             self.database_conn = sqlite3.connect(database_file)
             self.logger.info("Connected database successfully...")

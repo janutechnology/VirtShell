@@ -6,8 +6,8 @@ class PartitionsRepository(object):
     def __init__(self):
         self.storage_db = StorageFactory.get_storage('partitions')
 
-    def create_partition(self, host):
-        return self.storage_db.create(host)
+    def create_partition(self, partition):
+        return self.storage_db.create(partition)
 
     def get_all_partitions(self):
         return self.storage_db.get()

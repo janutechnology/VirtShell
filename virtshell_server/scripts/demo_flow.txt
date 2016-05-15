@@ -1,30 +1,31 @@
 #############################################################################
 ################################# Machines ##################################
 #############################################################################
-
 VirtShell-Server: 192.168.56.103
 VirtShell-Hosts (containers): 192.168.56.101, 192.168.56.102
 VirtShell-Hosts (VirtualBox): 192.168.56.1
 
-
 #############################################################################
 ######################## Create required folders ############################
 #############################################################################
-
 mkdir /var/janu -p
 chown callanor.callanor janu -R
 
 #############################################################################
 ###################### Synchronize VirtShell-Server #########################
 #############################################################################
-
 rsync -vazP virtshell_server/ callanor@192.168.56.103:/var/janu/virtshell_server
 
 #############################################################################
 #################### Synchronize VirtShell-Dispatcher #######################
 #############################################################################
-
 rsync -vazP virtshell_dispatcher/ callanor@192.168.56.103:/var/janu/virtshell_dispatcher
+
+#############################################################################
+############### Synchronize VirtShell-Provisioning-Agent ####################
+#############################################################################
+rsync -vazP virtshell_provisioning_agent callanor@192.168.56.101:/var/janu/
+rsync -vazP virtshell_provisioning_agent callanor@192.168.56.102:/var/janu/
 
 #####################
 # 1. Open log files #
@@ -44,11 +45,9 @@ sudo python3 server.py
 cd /var/janu/virtshell_server/virtshell_server
 sudo python3 server.py
 
-
 #########################
 # Create partition test #
 #########################
-
 curl -s http://192.168.56.103:80/partitions/ | jq .
 
 curl -X POST http://192.168.56.103:80/partitions/ -d "{\"name\":\"development_co\",\"description\":\"Collection of servers oriented to development team in Colombia.\"}" -H "accept:application/json" | jq .
@@ -58,7 +57,6 @@ curl -X DELETE http://192.168.56.103:80/partitions/development_co  | jq .
 ######################
 # Create hosts tests #
 ######################
-
 curl -s http://192.168.56.103:80/hosts/ | jq .
 
 curl -X POST http://192.168.56.103:80/hosts/ -d "{\"name\": \"host-server-01\", \"os\": \"ubuntu-14.04.4-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.56.101\"}" -H "accept:application/json" | jq .
@@ -73,7 +71,6 @@ curl -X PUT http://192.168.56.103:80/hosts/host-server-01 -d "{\"local_ipv4\": \
 ############################
 # Create enviroments tests #
 ############################
-
 curl -s http://192.168.56.103:80/enviroments/ | jq .
 
 curl -X POST http://192.168.56.103:80/enviroments/ -d "{\"name\":\"development\",\"description\":\"Collection of servers for development.\", \"partition\": \"development_co\", \"users\": [{\"login\": \"development_user\"}, {\"login\": \"guest\"}]}" -H "accept:application/json" | jq .
@@ -83,17 +80,15 @@ curl -X DELETE http://192.168.56.103:80/enviroments/development_co  | jq .
 #########################
 # Create instance tests #
 #########################
-
 curl -s http://192.168.56.103:80/instances/ | jq .
 
 curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website2\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"development\", \"operating_system\": \"ubuntu-14.04-amd64\", \"provisioner\": \"https://github.com/janutechnology/VirtShell_Provisioner_Simple_WebSite_Example.git\", \"executor\": \"install.sh\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
 
-curl -X DELETE http://192.168.56.103:80/instances/transactional_log  | jq .
+curl -X DELETE http://192.168.56.103:80/instances/website2  | jq .
 
 ###############
 # Check tasks #
 ###############
-
 curl -s http://192.168.56.103:80/tasks/status/pending | jq .
 curl -X DELETE http://192.168.56.103:80/tasks/b9bc6d72-cf78-4c92-bc34-c06809d4d52b  | jq .
 
