@@ -24,7 +24,7 @@ rsync -vazP virtshell_server/ callanor@192.168.56.103:/var/janu/virtshell_server
 #################### Synchronize VirtShell-Dispatcher #######################
 #############################################################################
 
-rsync -azP virtshell_dispatcher/ ssh callanor@192.168.56.103:/var/janu/virtshell_dispatcher
+rsync -vazP virtshell_dispatcher/ callanor@192.168.56.103:/var/janu/virtshell_dispatcher
 
 #####################
 # 1. Open log files #

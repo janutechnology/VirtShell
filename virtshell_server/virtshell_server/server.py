@@ -1,7 +1,7 @@
 import logger
+import config
 import tornado.web
 import tornado.ioloop
-import config
 from security.users_api import UsersResources
 from managment.tasks_api import TasksResources
 from managment.hosts_api import HostsResources
