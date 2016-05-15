@@ -6,17 +6,17 @@ import imp
 import time
 import json
 import urllib
+import logger
+import config
 import os.path
 import logging
 import requests
 import logging.handlers
-from daemon import Daemon
 from config import VIRTSHELL_SERVER
-import logging.handlers
- 
+
 class Dispatcher(object):
     def __init__(self):
-        self.init_logger("virtshell_dispatcher")
+        self.logger = logger.get_logger('virtshell_dispatcher')
         self.listeners_tasks = {}
         self.tasks_folder = "./tasks"
         self.special_files = ["__init__.py", "__pycache__"]
@@ -59,7 +59,7 @@ class Dispatcher(object):
             pending_tasks = self.get_pending_tasks()
             for task in pending_tasks:
                 self.execute_task(task['type'], task)
-            time.sleep(10)
+            time.sleep(20)
 
     def get_pending_tasks(self):
         self.logger.info("Get pending tasks from server...")
@@ -70,28 +70,13 @@ class Dispatcher(object):
             self.logger.info("Number of tasks pending: " + str(len(pending_tasks)))
             return pending_tasks
         except requests.exceptions.RequestException as e:
-            self.logger.error("The server does not respond...", e)
+            self.logger.error("The server does not respond...")
             return []
 
     def update_task(self, task, state , log):
         url = "%s/tasks/%s" % (VIRTSHELL_SERVER, task['uuid'])
         r = requests.put(url, data = json.dumps({'status': state, 'log': log}))
 
-    def init_logger(self, LoggerName):
-        # Create logger
-        self.logger = logging.getLogger(LoggerName)
-        self.logger.setLevel(logging.INFO)
-        # Create handler
-        handler = logging.FileHandler('/var/janu/log/virtshell_dispatcher.log')
-        #handler = SysLogHandler(address='/dev/log')
-        handler.setLevel(logging.INFO)
-        # Create formatter
-        formatter = logging.Formatter('%(asctime)s %(name)s '
-                                      '%(levelname)s %(message)s')
-        # Add formatter and handler
-        handler.setFormatter(formatter)
-        self.logger.addHandler(handler)
- 
 if __name__ == "__main__":
     dispatcher = Dispatcher()
     dispatcher.run()
