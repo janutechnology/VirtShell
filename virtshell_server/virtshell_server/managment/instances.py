@@ -17,6 +17,7 @@ class Instances(object):
 
     def create_instance(self, instance):
         instance['uuid'] = str(uuid.uuid4())
+        instance['status'] = 'pending'
         task_uuid = self._create_task("Create a new instance %s using driver %s" 
                                         % (instance['name'],instance['driver']),
                                         instance['uuid'])

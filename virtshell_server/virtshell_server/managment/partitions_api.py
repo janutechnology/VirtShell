@@ -44,8 +44,8 @@ class PartitionsHandler(tornado.web.RequestHandler):
                 response = {'error': result['reason']}
         return self.write(json.dumps(response))
 
-    def post(self, uuid=None):
-        self.logger.info("partitions POST " + name)
+    def post(self, name=None):
+        self.logger.info("partitions POST")
         partition = tornado.escape.json_decode(self.request.body)
         result = self.partitions.create_partition(partition)
         if result['status'] == 'ok':

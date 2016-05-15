@@ -16,8 +16,10 @@ def init_logger(LoggerName):
     # Create logger
     logger = logging.getLogger(LoggerName)
     logger.setLevel(logging.INFO)
-    # Create handler
-    handler = SysLogHandler(address='/dev/log')
+
+    handler = logging.handlers.SysLogHandler(address='/dev/log')
+        
+    #handler = SysLogHandler(address='/dev/log')
     handler.setLevel(logging.INFO)
     # Create formatter
     formatter = logging.Formatter('%(asctime)s %(name)s '
@@ -25,10 +27,10 @@ def init_logger(LoggerName):
     # Add formatter and handler
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    # Return logger
-    return logger
 
-logger = init_logger('lxc-container')
+    return logger  
+
+logger = init_logger('lxc-container-plugin')
 database = Database(logger)
 
 def create(request):        

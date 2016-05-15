@@ -16,8 +16,10 @@ def init_logger(LoggerName):
     # Create logger
     logger = logging.getLogger(LoggerName)
     logger.setLevel(logging.INFO)
-    # Create handler
-    handler = logging.FileHandler('/var/janu/log/virtshell_provisioning_agent.log')
+
+    handler = logging.handlers.SysLogHandler(address='/dev/log')
+        
+    #handler = SysLogHandler(address='/dev/log')
     handler.setLevel(logging.INFO)
     # Create formatter
     formatter = logging.Formatter('%(asctime)s %(name)s '
@@ -25,10 +27,10 @@ def init_logger(LoggerName):
     # Add formatter and handler
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    # Return logger
-    return logger    
 
-logger = init_logger('virtshell-provisioning-agent')
+    return logger  
+
+logger = init_logger('docker-container-plugin')
 database = Database(logger)
 
 def create(request):
@@ -102,7 +104,7 @@ def _create_container(request_json):
     message_log = "docker-container %s created successfully, ipv4: %s.\n" % (name, ip)
     logger.info(message_log)
     request_json['local_ipv4'] = ip
-    request_json['message_log'] += message_log
+    #request_json['message_log'] += message_log  Fix this!!!
     request_json['status'] = 3
 
     database.update_request(request_json)
@@ -116,6 +118,7 @@ def _provisioning_container(request_json):
     executor = request_json['executor']
 
     message_log = "provisioning docker-container %s, with ip %s..." % (name, ip)
+    logger.info(message_log)
     request_json['status'] = 4
 
     database.update_request(request_json)
