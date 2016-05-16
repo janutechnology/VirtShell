@@ -1,4 +1,5 @@
 import uuid
+import datetime
 from managment.tasks import Tasks
 from managment.instances_repository import InstancesRepository
 
@@ -32,7 +33,10 @@ class Instances(object):
     def _create_task(self, description, instance_uuid):
         task = {}
         task['description'] = description
-        task['status'] = "pending"
+        task['status'] = 'pending'
+        task['date'] = datetime.datetime.now().time().isoformat()
+        task['status_history'] = []
+        task['log'] = "received in tasks"
         task['type'] = "create_instance"
         task['object_uuid'] = instance_uuid
         tasks = Tasks()

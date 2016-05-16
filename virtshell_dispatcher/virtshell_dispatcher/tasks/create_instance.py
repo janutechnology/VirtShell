@@ -54,10 +54,12 @@ def select_host(instance_type, hosts):
     else:
         raise Exception('hosts not found for partition')
 
-def send_request_to_agent(ip_host, instance_data):
+def send_request_to_agent(ip_host, instance_data, task):
     distribution, version, arch = instance_data['operating_system'].split('-')
 
-    data = {'action': 'create',
+    data = {'task_uuid': task['uuid'],
+            'instance_uuid': task['object_uuid'],
+            'action': 'create',
             'driver': instance_data['driver'],
             'name': instance_data['name'], 
             'distribution': distribution,
@@ -69,7 +71,7 @@ def send_request_to_agent(ip_host, instance_data):
             'executor': instance_data['executor'],
             'user':'virtshell',
             'password':'virtshell',            
-            'memory':1024}          
+            'memory':1024}
 
     websocket.enableTrace(True)
     ws = websocket.create_connection("ws://%s:8080/" % (ip_host))
@@ -81,16 +83,20 @@ def send_request_to_agent(ip_host, instance_data):
 def main(task, logger):
     try:
         log = logger
-        log.info("[create_instance] started...")
+        log.info("[dispatch create_instance] started...")
         instance_data = get_instance(task['object_uuid'])
         enviroment_data = get_enviroment(instance_data['enviroment'])
         hosts = get_hosts_from_partition(enviroment_data['partition'])
         ip_host_selected = select_host(instance_data['host_type'], hosts)
-        response = send_request_to_agent(ip_host_selected, instance_data)
+        response = send_request_to_agent(ip_host_selected, 
+                                         instance_data,
+                                         task)
         if response == "received":
-            message_response = "creating instance in host : %s" % ip_host_selected
+            message_response = "task dispatched to host: %s" % ip_host_selected
+            status = "dispatched"
         else:
-            message_response = "error processing the task."
-        return response, message_response
+            message_response = "error dispatching the task."
+            status = "error"
+        return status, message_response
     except Exception as e:
-        return "error", str(e)
+        return "error", "Exception: " + str(e)

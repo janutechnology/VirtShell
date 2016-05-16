@@ -7,7 +7,6 @@ import time
 import json
 import urllib
 import logger
-import config
 import os.path
 import logging
 import requests
@@ -41,24 +40,25 @@ class Dispatcher(object):
                 self.logger.info("task %s.py found" % module)
         self.logger.info("plugins tasks finished...")
 
-    def execute_task(self, task_name, task):
-        if task_name in self.listeners_tasks:
-            module, function = self.listeners_tasks[task_name]
+    def execute_task(self, task):
+        if task['type'] in self.listeners_tasks:
+            module, function = self.listeners_tasks[task['type']]
+            self.update_task(task['uuid'], 'dispatching', 'creating message to agent')
             status, message = function(task, self.logger)
             if status != "error":
                 self.logger.info(message)
             else:
                 self.logger.error(message)
-            self.update_task(task, status, message)
+            self.update_task(task['uuid'], status, message)
         else:
             self.logger.info("task not supported...")
-            self.update_task(task, 'failed', 'task not supported')
+            self.update_task(task['uuid'], 'error', 'task not supported')
 
     def run(self):
         while True:
             pending_tasks = self.get_pending_tasks()
             for task in pending_tasks:
-                self.execute_task(task['type'], task)
+                self.execute_task(task)
             time.sleep(20)
 
     def get_pending_tasks(self):
@@ -73,8 +73,8 @@ class Dispatcher(object):
             self.logger.error("The server does not respond...")
             return []
 
-    def update_task(self, task, state , log):
-        url = "%s/tasks/%s" % (VIRTSHELL_SERVER, task['uuid'])
+    def update_task(self, task_uuid, state , log):
+        url = "%s/tasks/%s" % (VIRTSHELL_SERVER, task_uuid)
         r = requests.put(url, data = json.dumps({'status': state, 'log': log}))
 
 if __name__ == "__main__":

@@ -11,10 +11,12 @@ import imp
 import time
 import json
 import signal
+import config
 import psutil
 import logger
 import os.path
 import datetime
+import requests
 import threading
 import tornado.web
 import tornado.ioloop
@@ -66,8 +68,13 @@ class ListenerHandler(object):
         self.listeners[action] = listener
         main_logger.info("action registered: " + action + " listener: " + str(listener))
 
+    def update_task(self, uuid, state , log):
+        url = "%s/tasks/%s" % (config.VIRTSHELL_SERVER, uuid)
+        r = requests.put(url, data = json.dumps({'status': state, 'log': log}))        
+
     def dispatch(self, request):
         message = json.loads(request)
+        self.update_task(message['task_uuid'], "received", "by provisioning_agent")
         action = message['driver'] + '-' + message['action']
         plugin, method = self.listeners[action]
         main_logger.info("dispatch action: " + action + " plugin: " + str(plugin) + " method: " + str(method))
@@ -117,6 +124,6 @@ if __name__ == "__main__":
     listener_handler = ListenerHandler()
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(8080)
-    main_logger.info("agent started...")
+    main_logger.info("provisioning_agent started...")
     #tornado.ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=15), WSHandler.write_to_clients)
     tornado.ioloop.IOLoop.instance().start()

@@ -1,7 +1,9 @@
 import json
 import time
+import config
 import logging
 import paramiko
+import requests
 from io import BytesIO
 from docker import Client
 from database import Database
@@ -48,12 +50,20 @@ def create(request):
         request_json['message_log'] = message_error
         database.update_request(request_json)
 
+def _update_task(uuid, state , log):
+    url = "%s/tasks/%s" % (config.VIRTSHELL_SERVER, uuid)
+    r = requests.put(url, data = json.dumps({'status': state, 'log': log}))        
+
 def _create_container(request_json):
     name = request_json['name']
     distribution = request_json['distribution']
     version = request_json['version']
     user = request_json['user']
     password = request_json['password']
+
+    _update_task(request_json['task_uuid'], 
+                 "creating", 
+                 "docker_container_plugin")
 
     message_log = "creating docker-container %s..." % name
     
@@ -102,6 +112,11 @@ def _create_container(request_json):
     link_path = client.inspect_container(container_id)
     ip = link_path['NetworkSettings']['IPAddress']
     message_log = "docker-container %s created successfully, ipv4: %s.\n" % (name, ip)
+
+    _update_task(request_json['task_uuid'], 
+                  "created", 
+                  "docker_container_plugin")
+
     logger.info(message_log)
     request_json['local_ipv4'] = ip
     #request_json['message_log'] += message_log  Fix this!!!
@@ -121,13 +136,16 @@ def _provisioning_container(request_json):
     logger.info(message_log)
     request_json['status'] = 4
 
+    _update_task(request_json['task_uuid'], 
+                 "provisioning", 
+                 "docker_container_plugin")
+
     database.update_request(request_json)
     
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.load_system_host_keys()
     ssh.connect(ip, port=22, username='root', password='virtshell')
-
     stdin, stdout, stderr = ssh.exec_command("git clone " + provisioner)
     message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
 
@@ -139,6 +157,10 @@ def _provisioning_container(request_json):
     message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
     logger.info(message_log)
 
+    _update_task(request_json['task_uuid'], 
+                 "provisioned", 
+                 "docker_container_plugin")
+    
     ssh.close()
 
     request_json['status'] = 5
