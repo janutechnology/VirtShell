@@ -89,6 +89,7 @@ curl -X DELETE http://192.168.56.103:80/instances/website2  | jq .
 ###############
 # Check tasks #
 ###############
+curl -s http://192.168.56.103:80/tasks/ | jq .
 curl -s http://192.168.56.103:80/tasks/status/pending | jq .
 curl -X DELETE http://192.168.56.103:80/tasks/b9bc6d72-cf78-4c92-bc34-c06809d4d52b  | jq .
 

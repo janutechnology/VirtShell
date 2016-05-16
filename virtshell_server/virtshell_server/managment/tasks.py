@@ -1,4 +1,5 @@
 import uuid
+import datetime
 from managment.tasks_repository import TasksRepository
 
 class Tasks(object):
@@ -21,7 +22,32 @@ class Tasks(object):
         return result
 
     def update_task(self, uuid, task):
-        return self.tasks_repository.update_task(uuid, task)
+        result = self.get_task(uuid)
+
+        if result['status'] == 'ok':
+            current_task = result['document']
+        else:
+            return result
+
+        current_status = current_task['status']
+        current_status_history = current_task['status_history']
+        current_date_status = current_task['date']
+        current_log = current_task['log']
+
+        new_status = task['status']
+        new_date_status = datetime.datetime.now().time().isoformat()
+        new_log = task['log']
+
+        current_status_history.append( [ current_status, 
+                                         current_date_status,
+                                         current_log ] )
+
+        current_task['status'] = new_status
+        current_task['date'] = new_date_status
+        current_task['log'] = new_log
+        current_task['status_history'] = current_status_history
+
+        return self.tasks_repository.update_task(uuid, current_task)
 
     def delete_task(self, name):
         return self.tasks_repository.delete_task(name)
