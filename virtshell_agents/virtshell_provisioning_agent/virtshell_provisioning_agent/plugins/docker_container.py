@@ -135,6 +135,7 @@ def _provisioning_container(request_json):
     message_log = "provisioning docker-container %s, with ip %s..." % (name, ip)
     logger.info(message_log)
     request_json['status'] = 4
+    request_json['message_log'] = message_log
 
     _update_task(request_json['task_uuid'], 
                  "provisioning", 
@@ -148,6 +149,9 @@ def _provisioning_container(request_json):
     ssh.connect(ip, port=22, username='root', password='virtshell')
     stdin, stdout, stderr = ssh.exec_command("git clone " + provisioner)
     message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
+
+    request_json['message_log'] = message_log
+    database.update_request(request_json)
 
     dot = provisioner.rfind('.')
     slash = provisioner.rfind('/')
@@ -164,6 +168,7 @@ def _provisioning_container(request_json):
     ssh.close()
 
     request_json['status'] = 5
+    request_json['message_log'] = message_log
 
     database.update_request(request_json)
 
