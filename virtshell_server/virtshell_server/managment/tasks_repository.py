@@ -10,7 +10,7 @@ class TasksRepository(object):
         return self.storage_db.get()
 
     def get_task(self, uuid):
-        return self.storage_db.get(uuid)
+        return self.storage_db.get("uuid", uuid)
 
     def get_tasks_by_status(self, status_name):
         return self.storage_db.get_all_tasks_by_status(status_name)
