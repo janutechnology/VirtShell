@@ -28,9 +28,14 @@ def init_logger(LoggerName):
 
     return logger  
 
-logger = init_logger('virtualbox-plugin')  
+logger = init_logger('virtualbox-plugin')
+database = Database(logger)
 
 def create(request, logge):
+    request_id = database.insert_new_request(request)
+    request_json = json.loads(request)
+    request_json['id'] = request_id
+
     try:
         request = _register(request)
         request = _modify(request)
@@ -46,7 +51,7 @@ def _register(name, distribution, arch):
         name = request.message['name']
         distribution = request.message['distribution']
         arch = request.message['arch']
-        logger.info("[virtualbox] registering machine %s", request.message['name'])
+        logger.info("[virtualbox] registering virtual machine %s", request.message['name'])
         if '64' in request.message['arch']:
             ostype = request.message['distribution'].titel() + '_64'
         else:

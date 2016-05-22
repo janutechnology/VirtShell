@@ -84,6 +84,8 @@ curl -s http://192.168.56.103:80/instances/ | jq .
 
 curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website1\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"development\", \"operating_system\": \"ubuntu-14.04-amd64\", \"provisioner\": \"https://github.com/janutechnology/VirtShell_Provisioner_Simple_WebSite_Example.git\", \"executor\": \"install.sh\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
 
+curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website2\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"development\", \"operating_system\": \"ubuntu-14.04-amd64\", \"provisioner\": \"https://github.com/janutechnology/VirtShell_Provisioner_Simple_WebSite_Example.git\", \"executor\": \"install.sh\", \"host_type\": \"GeneralPurpose\", \"driver\": \"virtualbox\"}" -H "accept:application/json" | jq .
+
 curl -X DELETE http://192.168.56.103:80/instances/website1  | jq .
 
 ###############
