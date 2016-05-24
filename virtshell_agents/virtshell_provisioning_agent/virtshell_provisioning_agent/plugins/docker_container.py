@@ -20,8 +20,7 @@ def init_logger(LoggerName):
     logger.setLevel(logging.INFO)
 
     handler = logging.handlers.SysLogHandler(address='/dev/log')
-        
-    #handler = SysLogHandler(address='/dev/log')
+
     handler.setLevel(logging.INFO)
     # Create formatter
     formatter = logging.Formatter('%(asctime)s %(name)s '
@@ -61,7 +60,7 @@ def _create_container(request_json):
     user = request_json['user']
     password = request_json['password']
 
-    _update_task(request_json['task_uuid'], 
+    _update_task(request_json['task_uuid'],
                  "creating", 
                  "docker_container_plugin")
 
@@ -113,7 +112,7 @@ def _create_container(request_json):
     ip = link_path['NetworkSettings']['IPAddress']
     message_log = "docker-container %s created successfully, ipv4: %s.\n" % (name, ip)
 
-    _update_task(request_json['task_uuid'], 
+    _update_task(request_json['task_uuid'],
                   "created", 
                   "docker_container_plugin")
 

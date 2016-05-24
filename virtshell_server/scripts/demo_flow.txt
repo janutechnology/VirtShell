@@ -59,10 +59,13 @@ curl -X DELETE http://192.168.56.103:80/partitions/development_co  | jq .
 ######################
 curl -s http://192.168.56.103:80/hosts/ | jq .
 
-curl -X POST http://192.168.56.103:80/hosts/ -d "{\"name\": \"host-server-01\", \"os\": \"ubuntu-14.04.4-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.56.101\"}" -H "accept:application/json" | jq .
+curl -X POST http://192.168.56.103:80/hosts/ -d "{\"name\": \"host-server-01\", \"os\": \"ubuntu-14.04.4-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.56.101\", \"scope\": \"containers\"}" -H "accept:application/json" | jq .
 
-curl -X POST http://192.168.56.103:80/hosts/ -d "{\"name\": \"host-server-02\", \"os\": \"ubuntu-14.04.4-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.56.102\"}" -H "accept:application/json" | jq .
+curl -X POST http://192.168.56.103:80/hosts/ -d "{\"name\": \"host-server-02\", \"os\": \"ubuntu-14.04.4-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.56.102\", \"scope\":\"containers\"}" -H "accept:application/json" | jq .
 
+curl -X POST http://192.168.56.103:80/hosts/ -d "{\"name\": \"host-server-03\", \"os\": \"ubuntu-12.04.4-amd64\", \"memory\": \"12GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.56.1\", \"scope\":\"vmx\"}" -H "accept:application/json" | jq .
+
+curl -X DELETE http://192.168.56.103:80/hosts/host-server-03  | jq .
 curl -X DELETE http://192.168.56.103:80/hosts/host-server-02  | jq .
 curl -X DELETE http://192.168.56.103:80/hosts/host-server-01  | jq .
 
@@ -84,7 +87,9 @@ curl -s http://192.168.56.103:80/instances/ | jq .
 
 curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website1\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"development\", \"operating_system\": \"ubuntu-14.04-amd64\", \"provisioner\": \"https://github.com/janutechnology/VirtShell_Provisioner_Simple_WebSite_Example.git\", \"executor\": \"install.sh\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
 
-curl -X DELETE http://192.168.56.103:80/instances/website1  | jq .
+curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website2\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"development\", \"operating_system\": \"ubuntu-14.04-amd64\", \"provisioner\": \"https://github.com/janutechnology/VirtShell_Provisioner_Simple_WebSite_Example.git\", \"executor\": \"install.sh\", \"host_type\": \"GeneralPurpose\", \"driver\": \"virtualbox\"}" -H "accept:application/json" | jq .
+
+curl -X DELETE http://192.168.56.103:80/instances/website2  | jq .
 
 ###############
 # Check tasks #
