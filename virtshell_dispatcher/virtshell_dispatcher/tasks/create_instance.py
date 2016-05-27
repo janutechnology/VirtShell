@@ -33,12 +33,12 @@ def get_hosts_from_partition(partition_name):
     partition_data = json.loads(r.text)
     return partition_data['hosts']
 
-def select_host(instance_type, hosts):
+def select_host(instance_type, driver, hosts):
     candidate_hosts = []
     if hosts is not None:
         for host_name in hosts:
             host = get_info_host(host_name)
-            if instance_type == host['type']:
+            if instance_type == host['type'] and driver in host['drivers']:
                 if 'instances' in host:
                     number_instances = len(host['instances'])
                 else:
@@ -87,7 +87,10 @@ def main(task, logger):
         instance_data = get_instance(task['object_uuid'])
         enviroment_data = get_enviroment(instance_data['enviroment'])
         hosts = get_hosts_from_partition(enviroment_data['partition'])
-        ip_host_selected = select_host(instance_data['host_type'], hosts)
+        ip_host_selected = select_host(instance_data['host_type'],
+                                       instance_data['driver'],
+                                       hosts)
+        log.info("[dispatcher ip_host_selected]: " + ip_host_selected)
         response = send_request_to_agent(ip_host_selected, 
                                          instance_data,
                                          task)
