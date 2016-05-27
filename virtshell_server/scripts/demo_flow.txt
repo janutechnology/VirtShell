@@ -59,9 +59,9 @@ curl -X DELETE http://192.168.56.103:80/partitions/development_co  | jq .
 ######################
 curl -s http://192.168.56.103:80/hosts/ | jq .
 
-curl -X POST http://192.168.56.103:80/hosts/ -d "{\"name\": \"host-server-01\", \"os\": \"ubuntu-14.04.4-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.56.101\", \"drivers\": [\"containers\"]}" -H "accept:application/json" | jq .
+curl -X POST http://192.168.56.103:80/hosts/ -d "{\"name\": \"host-server-01\", \"os\": \"ubuntu-14.04.4-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.56.101\", \"drivers\": [\"docker\", \"lxc\"]}" -H "accept:application/json" | jq .
 
-curl -X POST http://192.168.56.103:80/hosts/ -d "{\"name\": \"host-server-02\", \"os\": \"ubuntu-14.04.4-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.56.102\", \"drivers\": [\"containers\"]}" -H "accept:application/json" | jq .
+curl -X POST http://192.168.56.103:80/hosts/ -d "{\"name\": \"host-server-02\", \"os\": \"ubuntu-14.04.4-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.56.102\", \"drivers\": [\"docker\", \"lxc\"]}" -H "accept:application/json" | jq .
 
 curl -X POST http://192.168.56.103:80/hosts/ -d "{\"name\": \"host-server-03\", \"os\": \"ubuntu-12.04.4-amd64\", \"memory\": \"12GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\", \"local_ipv4\": \"192.168.56.1\", \"drivers\": [\"virtualbox\"]}" -H "accept:application/json" | jq .
 
