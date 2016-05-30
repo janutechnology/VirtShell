@@ -9,6 +9,7 @@ VirtShell-Hosts (VirtualBox): 192.168.56.1
 ######################## Create required folders ############################
 #############################################################################
 mkdir /var/janu -p
+mkdir /var/janu/data/virtshell_provisioning_agent -p
 chown callanor.callanor janu -R
 
 #############################################################################
@@ -78,7 +79,7 @@ curl -s http://192.168.56.103:80/enviroments/ | jq .
 
 curl -X POST http://192.168.56.103:80/enviroments/ -d "{\"name\":\"development\",\"description\":\"Collection of servers for development.\", \"partition\": \"development_co\", \"users\": [{\"login\": \"development_user\"}, {\"login\": \"guest\"}]}" -H "accept:application/json" | jq .
 
-curl -X DELETE http://192.168.56.103:80/enviroments/development_co  | jq .
+curl -X DELETE http://192.168.56.103:80/enviroments/development | jq .
 
 #########################
 # Create instance tests #

@@ -119,7 +119,6 @@ def _create_container(request_json):
     logger.info(message_log)
     request_json['local_ipv4'] = ip
     #request_json['message_log'] += message_log  Fix this!!!
-    request_json['status'] = 3
 
     database.update_request(request_json)
 
@@ -133,7 +132,6 @@ def _provisioning_container(request_json):
 
     message_log = "provisioning docker-container %s, with ip %s..." % (name, ip)
     logger.info(message_log)
-    request_json['status'] = 4
     request_json['message_log'] = message_log
 
     _update_task(request_json['task_uuid'], 
@@ -141,6 +139,8 @@ def _provisioning_container(request_json):
                  "docker_container_plugin")
 
     database.update_request(request_json)
+
+    logger.info("----------------1")
     
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -148,6 +148,8 @@ def _provisioning_container(request_json):
     ssh.connect(ip, port=22, username='root', password='virtshell')
     stdin, stdout, stderr = ssh.exec_command("git clone " + provisioner)
     message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
+
+    logger.info(message_log)
 
     request_json['message_log'] = message_log
     database.update_request(request_json)
@@ -166,7 +168,7 @@ def _provisioning_container(request_json):
     
     ssh.close()
 
-    request_json['status'] = 5
+    request_json['status'] = -1
     request_json['message_log'] = message_log
 
     database.update_request(request_json)
