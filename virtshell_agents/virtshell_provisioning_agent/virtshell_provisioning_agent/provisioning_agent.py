@@ -74,7 +74,9 @@ class ListenerHandler(object):
 
     def dispatch(self, request):
         message = json.loads(request)
-        self.update_task(message['task_uuid'], "received", "by provisioning_agent")
+        self.update_task(message['task_uuid'], 
+                         "received", 
+                         "by provisioning_agent")
         action = message['driver'] + '-' + message['action']
         plugin, method = self.listeners[action]
         main_logger.info("dispatch action: " + action + " plugin: " + str(plugin) + " method: " + str(method))
@@ -111,7 +113,7 @@ class RequestHandler(tornado.websocket.WebSocketHandler):
     def on_message(self, json_message):
         main_logger.info("message received %s" % json_message)
         listener_handler.dispatch(json_message)
-        self.write_message(u"received")
+        self.write_message("received")
 
     def on_close(self):
         main_logger.info("connection closed")

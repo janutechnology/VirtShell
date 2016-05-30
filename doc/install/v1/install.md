@@ -7,6 +7,7 @@ sqlite3
 tornado 4.2.1
 lxc
 python3-lxc
+paramiko
 
 Install python 3.2.3
 ====================
@@ -40,13 +41,19 @@ or
 
 sudo pip3.2 install tornado
 
+Install paramiko
+================
+git clone https://github.com/paramiko/paramiko.git
+cd paramiko
+sudo python3 setup.py install
+
 
 Install lxc
-----------------------------------------------
+===========
 sudo apt-get install lxc
 
 Other packages
-----------------------------------------------
+==============
 sudo pip3.2 install psutil
 sudo pip3.2 install websocket
 sudo pip3.2 install websocket-client
