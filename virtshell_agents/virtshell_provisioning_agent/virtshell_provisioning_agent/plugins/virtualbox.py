@@ -41,8 +41,9 @@ def create(request):
     request_json['id'] = request_id
 
     try:
-        request = _register(request_json)
-        request = _modify(request_json)
+        request_json = _register(request_json)
+        request_json = _modify(request_json)
+        request_json = _create_storage(request_json)
     except Exception as err:
         message_error = "[virtualbox] Error: Failed to create the machine, %s, reason: %s" % (request_json['name'], err)
         logger.error(message_error)
@@ -140,4 +141,93 @@ def _modify(request_json):
     except Exception as err:
         message_error = "[virtualbox] Error: Failed to register the machine, %s" % err
         logger.error(message_error)
-    return request_json   
+    return request_json
+
+def _create_storage(request_json):
+    try:
+        name = request_json['name']
+
+        message_log = "creating storate for the machine %s", name
+
+        logger.info(message_log)
+
+        request_json['message_log'] = message_log
+        database.update_request(request_json)  
+
+        _update_task(request_json['task_uuid'],
+             "creating_storage", 
+             "virtualbox_plugin")
+
+        subprocess.call(["VBoxManage", 
+                         "createhd",
+                         "--filename",
+                         name + ".vdi",
+                         "--size",
+                         18000,
+                         "--format",
+                         "VDI")
+
+        subprocess.call(["VBoxManage",
+                         "storagectl",
+                         name,
+                         "--name",
+                         "SATA Controller",
+                         "--add",
+                         "sata",
+                         "--controller",
+                         "IntelAhci")
+
+        subprocess.call(["VBoxManage", 
+                         "storageattach",
+                         name,
+                         "--storagectl",
+                         "SATA Controller",
+                         "--port",
+                         0,
+                         "--device",
+                         0,
+                         "--type",
+                         "dvddrive",
+                         "--medium",
+                         name + ".vdi")
+
+        subprocess.call(["VBoxManage", 
+                         "storagectl",
+                         name,
+                         "--name",
+                         "IDE Controller",
+                         "--add",
+                         "ide",
+                         "--controller",
+                         "PIIX4")
+
+        subprocess.call(["VBoxManage", 
+                         "storageattach",
+                         name,
+                         "--storagectl",
+                         "IDE Controller",
+                         "--port",
+                         1,
+                         "--device",
+                         0,
+                         "--type",
+                         "dvddrive",
+                         "--medium",
+                         "/tmp/ubuntu.iso")                                                      
+                                
+
+        message_log = "storage of machine %s created successfully." % name
+
+        logger.info(message_log)
+
+        _update_task(request_json['task_uuid'],
+             "storage_created", 
+             "virtualbox_plugin")
+
+        request_json['message_log'] = message_log
+        database.update_request(request_json)                    
+
+    except Exception as err:
+        message_error = "[virtualbox] Error: Failed to create storage for machine, %s" % err
+        logger.error(message_error)
+    return request_json       
