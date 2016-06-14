@@ -3,7 +3,9 @@ Images API Reference
 
 Image
 =====
-Represents an individual image on VirtShell.
+Represents an individual image on VirtShell. The image's name has this structure:
+
+<< operatingsystem_(server/desktop)_version_architecture >>
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |

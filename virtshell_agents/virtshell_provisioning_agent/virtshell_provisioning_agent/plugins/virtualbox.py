@@ -213,7 +213,7 @@ def _create_storage(request_json):
                          "--type",
                          "dvddrive",
                          "--medium",
-                         "/tmp/ubuntu.iso")                                                      
+                         config.ISO_DIR + "/tmp/ubuntu.iso")                                                      
                                 
 
         message_log = "storage of machine %s created successfully." % name
