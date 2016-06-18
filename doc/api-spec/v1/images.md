@@ -9,10 +9,10 @@ Represents an individual image on VirtShell. The image's name has this structure
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| get | GET | /image/:name | Gets one image by name. |
-| list | GET | /image | Retrieves the list of images. |
-| create | POST | /image/:name | Inserts a new image. | 
-| delete | DELETE | /image/:name | Deletes an existing image. |
+| get | GET | /images/:name | Gets one image by name. |
+| list | GET | /images | Retrieves the list of images. |
+| create | POST | /images/:name | Inserts a new image. | 
+| delete | DELETE | /images/:name | Deletes an existing image. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -43,7 +43,7 @@ Resource representations
 Create a new image type iso.
 
 ```sh
-curl -sv -X PUT \
+curl -sv -X POST \
 	-H 'accept: application/json' \
 	-H "Content-Type: text/plain" \
 	-H 'X-VirtShell-Authorization: UserId:Signature' \
@@ -54,7 +54,7 @@ curl -sv -X PUT \
 		 "key": "/home/callanor/.ssh/id_rsa.pub",
 		 "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
      "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso"}' \
-   'http://localhost:8080/api/virtshell/v1/image'
+   'http://localhost:8080/api/virtshell/v1/images'
 ```
 
 Response:
