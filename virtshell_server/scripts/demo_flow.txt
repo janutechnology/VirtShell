@@ -81,6 +81,13 @@ curl -X POST http://192.168.56.103:80/enviroments/ -d "{\"name\":\"development\"
 
 curl -X DELETE http://192.168.56.103:80/enviroments/development | jq .
 
+#######################
+# Create images tests #
+#######################
+curl -s http://192.168.56.103:80/images/ | jq .
+
+curl -sv -X POST http://192.168.56.103:80/images/ -d "{\"name\":\"ubuntu_server_14.04.2_amd64\",\"type\":\"docker-container\",\"os\":\"ubuntu\"}" -H 'accept: application/json' | jq .
+
 #########################
 # Create instance tests #
 #########################
