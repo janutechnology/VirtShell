@@ -61,6 +61,13 @@ class MongoDB(object):
         except Exception as e:
             return {"status": "error", "reason": e}
 
+    def delete_all(self):
+        try:
+            result = self.collection.delete_many({})
+            return {"status": "ok"}
+        except Exception as e:
+            return {"status": "error", "reason": e}
+
     def get_property(self, property_name, instance, enviroment):
         try:
             data = self.collection.find_one({"instance": instance,

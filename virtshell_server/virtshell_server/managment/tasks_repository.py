@@ -23,3 +23,6 @@ class TasksRepository(object):
 
     def delete_task(self, uuid):
         return self.storage_db.delete("uuid", uuid)
+
+    def delete_all_tasks(self):
+        return self.storage_db.delete_all()

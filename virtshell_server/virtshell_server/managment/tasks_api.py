@@ -76,7 +76,11 @@ class TasksHandler(tornado.web.RequestHandler):
             else:
                 response = {"delete": "error", "reason": result['reason']}
         else:
-            response = {"delete": "error", "reason": "missing name parameter"}
+            result = self.tasks.delete_all_tasks()
+            if result['status'] == 'ok':
+                response = {"delete": "success"}
+            else:
+                response = {"delete": "error", "reason": result['reason']}
         return self.write(json.dumps(response))        
 
 StatusTasksResources = (r'/tasks/status/(.*)', StatusTasksHandler)

@@ -51,7 +51,7 @@ def create(request):
 
 def _update_task(uuid, state , log):
     url = "%s/tasks/%s" % (config.VIRTSHELL_SERVER, uuid)
-    r = requests.put(url, data = json.dumps({'status': state, 'log': log}))        
+    r = requests.put(url, data = json.dumps({'status': state, 'log': log}))
 
 def _create_container(request_json):
     name = request_json['name']
@@ -60,11 +60,11 @@ def _create_container(request_json):
     user = request_json['user']
     password = request_json['password']
 
+    message_log = "docker_container_plugin creating docker-container %s... with %s:%s" % (name, distribution, version)
+
     _update_task(request_json['task_uuid'],
                  "creating", 
-                 "docker_container_plugin")
-
-    message_log = "creating docker-container %s..." % name
+                 message_log)
     
     request_json['status'] = 1
     request_json['message_log'] = message_log
@@ -110,11 +110,11 @@ def _create_container(request_json):
     client.start(container_id)
     link_path = client.inspect_container(container_id)
     ip = link_path['NetworkSettings']['IPAddress']
-    message_log = "docker-container %s created successfully, ipv4: %s.\n" % (name, ip)
+    message_log = "docker-container-plugin %s created successfully, ipv4: %s.\n" % (name, ip)
 
     _update_task(request_json['task_uuid'],
-                  "created", 
-                  "docker_container_plugin")
+                 "created",
+                 message_log)
 
     logger.info(message_log)
     request_json['local_ipv4'] = ip
@@ -127,26 +127,26 @@ def _create_container(request_json):
 def _provisioning_container(request_json):
     name = request_json['name']
     ip = request_json['local_ipv4']
-    provisioner = str(request_json['provisioner'])
+    builder = str(request_json['builder'])
     executor = request_json['executor']
 
-    message_log = "provisioning docker-container %s, with ip %s..." % (name, ip)
+    message_log = "docker_container_plugin provisioning docker-container %s, with ip %s..." % (name, ip)
     logger.info(message_log)
     request_json['message_log'] = message_log
 
-    _update_task(request_json['task_uuid'], 
-                 "provisioning", 
-                 "docker_container_plugin")
+    _update_task(request_json['task_uuid'],
+                 "provisioning",
+                 message_log)
+
+    logger.info(request_json)
 
     database.update_request(request_json)
 
-    logger.info("----------------1")
-    
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.load_system_host_keys()
     ssh.connect(ip, port=22, username='root', password='virtshell')
-    stdin, stdout, stderr = ssh.exec_command("git clone " + provisioner)
+    stdin, stdout, stderr = ssh.exec_command("git clone " + builder)
     message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
 
     logger.info(message_log)
@@ -154,18 +154,18 @@ def _provisioning_container(request_json):
     request_json['message_log'] = message_log
     database.update_request(request_json)
 
-    dot = provisioner.rfind('.')
-    slash = provisioner.rfind('/')
-    repository_name = provisioner[slash+1:dot]
+    dot = builder.rfind('.')
+    slash = builder.rfind('/')
+    repository_name = builder[slash+1:dot]
+    stdin, stdout, stderr = ssh.exec_command("cd " + repository_name + ";" + executor)
+    message_log = "docker_container_plugin stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
 
-    stdin, stdout, stderr = ssh.exec_command("cd " + repository_name + "; ./" + executor)
-    message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
     logger.info(message_log)
 
-    _update_task(request_json['task_uuid'], 
-                 "provisioned", 
-                 "docker_container_plugin")
-    
+    _update_task(request_json['task_uuid'],
+                 "provisioned",
+                 message_log)
+
     ssh.close()
 
     request_json['status'] = -1
@@ -177,4 +177,4 @@ def start(request):
     return "successfully"
 
 def stop(request):
-    return "successfully"        
+    return "successfully"
