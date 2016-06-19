@@ -45,6 +45,7 @@ def main(debug = True, port = config.PORT):
     handlers = get_handlers(log)
 
     application = tornado.web.Application(handlers,
+                                          static_path=os.path.join(os.path.dirname(__file__), "files")
                                           debug = debug, 
                                           autoreload = debug)
     application.listen(port)
