@@ -136,7 +136,7 @@ def _modify(request_json):
              "virtualbox_plugin")
 
         request_json['message_log'] = message_log
-        database.update_request(request_json)                    
+        database.update_request(request_json)
 
     except Exception as err:
         message_error = "[virtualbox] Error: Failed to register the machine, %s" % err
@@ -165,7 +165,7 @@ def _create_storage(request_json):
                          "--size",
                          18000,
                          "--format",
-                         "VDI")
+                         "VDI"])
 
         subprocess.call(["VBoxManage",
                          "storagectl",
@@ -175,7 +175,7 @@ def _create_storage(request_json):
                          "--add",
                          "sata",
                          "--controller",
-                         "IntelAhci")
+                         "IntelAhci"])
 
         subprocess.call(["VBoxManage", 
                          "storageattach",
@@ -189,7 +189,7 @@ def _create_storage(request_json):
                          "--type",
                          "dvddrive",
                          "--medium",
-                         name + ".vdi")
+                         name + ".vdi"])
 
         subprocess.call(["VBoxManage", 
                          "storagectl",
@@ -199,7 +199,7 @@ def _create_storage(request_json):
                          "--add",
                          "ide",
                          "--controller",
-                         "PIIX4")
+                         "PIIX4"])
 
         subprocess.call(["VBoxManage", 
                          "storageattach",
@@ -213,7 +213,7 @@ def _create_storage(request_json):
                          "--type",
                          "dvddrive",
                          "--medium",
-                         config.ISO_DIR + "/tmp/ubuntu.iso")                                                      
+                         config.ISO_DIR + "/tmp/ubuntu.iso"])
                                 
 
         message_log = "storage of machine %s created successfully." % name
@@ -225,7 +225,7 @@ def _create_storage(request_json):
              "virtualbox_plugin")
 
         request_json['message_log'] = message_log
-        database.update_request(request_json)                    
+        database.update_request(request_json)
 
     except Exception as err:
         message_error = "[virtualbox] Error: Failed to create storage for machine, %s" % err

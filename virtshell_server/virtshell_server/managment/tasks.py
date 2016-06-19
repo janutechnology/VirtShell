@@ -51,3 +51,6 @@ class Tasks(object):
 
     def delete_task(self, name):
         return self.tasks_repository.delete_task(name)
+
+    def delete_all_tasks(self):
+        return self.tasks_repository.delete_all_tasks()

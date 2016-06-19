@@ -6,6 +6,8 @@ import requests
 import websocket
 from config import VIRTSHELL_SERVER
 from config import PORT_AGENT
+from config import USER
+from config import PASSWORD
 
 log = None
 
@@ -20,6 +22,13 @@ def get_enviroment(enviroment_name):
     r = requests.get(url)
     enviroment_data = json.loads(r.text)
     return enviroment_data
+
+def get_provisioner(provisioner_name):
+    url = "%s/provisioners/%s" % (VIRTSHELL_SERVER, provisioner_name)
+    r = requests.get(url)
+    provisioner_data = json.loads(r.text)
+    return provisioner_data
+
 
 def get_info_host(host_name):
     url = "%s/hosts/%s" % (VIRTSHELL_SERVER, host_name)
@@ -54,24 +63,27 @@ def select_host(instance_type, driver, hosts):
     else:
         raise Exception('hosts not found for partition')
 
-def send_request_to_agent(ip_host, instance_data, task):
-    distribution, version, arch = instance_data['operating_system'].split('-')
+def send_request_to_agent(ip_host, instance_data, provisioner_data, task):
+    # For example: ubuntu_server_14.04.2_amd64
+    operating_system, type_operating_system, version, architecture = provisioner_data['image'].split('_')
+
+    launch = instance_data['launch'] if 'launch' in instance_data else 1
 
     data = {'task_uuid': task['uuid'],
             'instance_uuid': task['object_uuid'],
             'action': 'create',
             'driver': instance_data['driver'],
             'name': instance_data['name'], 
-            'distribution': distribution,
+            'distribution': operating_system,
             'version': version,
-            'arch': arch,
-            'launch':1,
-            'cpus':1,
-            'provisioner': instance_data['provisioner'],
-            'executor': instance_data['executor'],
-            'user':'virtshell',
-            'password':'virtshell',            
-            'memory':1024}
+            'arch': architecture,
+            'launch': launch,
+            'cpus': instance_data['cpus'],
+            'builder': provisioner_data['builder'],
+            'executor': provisioner_data['executor'],
+            'user': USER,
+            'password': PASSWORD,
+            'memory': instance_data['memory']}
 
     websocket.enableTrace(True)
     ws = websocket.create_connection("ws://%s:8080/" % (ip_host))
@@ -91,8 +103,10 @@ def main(task, logger):
                                        instance_data['driver'],
                                        hosts)
         log.info("[dispatcher ip_host_selected]: " + ip_host_selected)
+        provisioner_data = get_provisioner(instance_data['provisioner'])
         response = send_request_to_agent(ip_host_selected, 
                                          instance_data,
+                                         provisioner_data,
                                          task)
         if response == "received":
             message_response = "task dispatched to host: %s" % ip_host_selected
