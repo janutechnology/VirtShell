@@ -11,6 +11,7 @@ Roadmap
 
 + Deploy
     - Scripts to deploy two or more servers with one balancer
+    - Run tornado in nginx
 
 + Integrate
     - Service to build images to virtualbox 
