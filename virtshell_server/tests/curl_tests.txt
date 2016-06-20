@@ -122,3 +122,8 @@ curl -X PUT http://127.0.0.1:80/tasks/11ef00f7-d923-47f3-9d62-1a38caf33e62 -d "{
 
 # Delete a task
 curl -X DELETE http://127.0.0.1:80/tasks/cfca1a23-a34a-4ca4-9098-5e543fe06e06  | jq .
+
+############################################################################################
+
+# Get files
+curl -s http://localhost:80/files/ | jq .

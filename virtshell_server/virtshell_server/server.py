@@ -1,3 +1,4 @@
+import os
 import logger
 import config
 import tornado.web
@@ -40,12 +41,12 @@ def get_handlers(log):
 def main(debug = True, port = config.PORT):
   try:
     log = logger.get_logger('virtshell_server')
-    log.info("server started...")  
+    log.info("server started...") 
 
     handlers = get_handlers(log)
 
     application = tornado.web.Application(handlers,
-                                          static_path=os.path.join(os.path.dirname(__file__), "files")
+                                          static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static"),
                                           debug = debug, 
                                           autoreload = debug)
     application.listen(port)
