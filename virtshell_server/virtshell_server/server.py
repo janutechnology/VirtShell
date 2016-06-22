@@ -46,7 +46,7 @@ def main(debug = True, port = config.PORT):
     handlers = get_handlers(log)
 
     application = tornado.web.Application(handlers,
-                                          static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static"),
+                                          static_path = config.PATH_STATIC_FILES,
                                           debug = debug, 
                                           autoreload = debug)
     application.listen(port)

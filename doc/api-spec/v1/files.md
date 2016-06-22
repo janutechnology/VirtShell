@@ -7,10 +7,11 @@ Represents an individual file on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| get | GET | /files/:id | Gets one file by ID. |
+| get | GET | /files/:uri | Gets one file by URI. |
+| get | GET | /files/ | Gets all files. |
 | create | POST | /files/ | Upload a new file. | 
-| delete | DELETE | /files/:id | Deletes an existing file. |
-| update | PUT | /files/:id | Updates an existing file. |
+| delete | DELETE | /files/:uri | Deletes an existing file. |
+| update | PUT | /files/:uri | Updates an existing file. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -21,8 +22,9 @@ Resource representation
 {
   "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
   "name": "file_name.extension",
-  "folder_name" : "folder_name",
-  "download_url": "https://<host>:<port>/api/virtshell/v1/files/folder_name/file.txt",
+  "directory_path" : "directory_path",
+  "location": "path in the server",
+  "uri": "https://<host>:<port>/api/virtshell/v1/files/directory_path/file.txt",
   "permissions": string,
   "created":["at":"timestamp", "by":user_id]
 }
@@ -42,6 +44,8 @@ curl -X POST \
   -H "Content-Type: multipart/form-data" \
   -F "file_data=@/path/to/file/seed_file.txt;filename=seed_file_ubuntu-14_04.txt" \
   -F "folder_name=ubuntu_seeds" \
+  -F "directory_path=docker/ubuntu"
+  -F "permissions=xwrxwrxwr" \
   http://<host>:<port>/api/virtshell/v1/files/
 ```
 
@@ -54,23 +58,23 @@ Content-Type: application/json
 ```json
 { 
   "create": "success",
-  "location": "http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt" 
+  "uri": "http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt"
 }
 ```
 
-`GET /api/virtshell/v1/files/:id
+`GET /api/virtshell/v1/files/:uri
 ----------------------------------------------
 
 To download a file:
 
-First, retrieve the appropriate download URL provided in the file's metadata.
+First, retrieve the appropriate download URL (URI) provided in the file's metadata.
 Then, retrieve the actual file content (or link) using the download URL.
 
 
 ```sh
 curl -sv -H 'accept: application/json' 
 		 -H 'X-VirtShell-Authorization: UserId:Signature' \ 
-		 'http://<host>:<port>/api/virtshell/v1/files/ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+		 'http://<host>:<port>/api/virtshell/v1/static/files/dockerfile_ubuntu_server_14.04.2'
 ```
 
 Response:
@@ -84,12 +88,12 @@ Content-Type: application/json
   "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
   "name": "file_name.extension",
   "folder_name" : "folder_name",
-  "download_url": "http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt",
+  "uri": "http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt",
   "created":["at":"timestamp", "by":user_id] 
 }
 ```
 
-`PUT /api/virtshell/v1/files/:id`
+`PUT /api/virtshell/v1/files/:uri`
 ----------------------------------------------
 
 Update an existing file.
@@ -99,8 +103,9 @@ curl -sv -X PUT \
   -H 'accept: application/json' \
   -H 'X-VirtShell-Authorization: UserId:Signature' \
   -H "Content-Type: multipart/form-data" \
+  -F "permissions=xwrxwrxwr" \
   -F "file_data=@/path/to/file/seed_file.txt;filename=seed_file_ubuntu-14_04_v2.txt" \
-   'http://localhost:8080/api/virtshell/v1/files/8de7b824-d7d1-4265-a3a6-5b46cc9b8ed5'
+   'http://localhost:8080/api/virtshell/v1/files/http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt'
 ```
 
 Response:
@@ -112,7 +117,7 @@ Content-Type: application/json
 { "update": "success" }
 ```
 
-`DELETE /api/virtshell/v1/files/:id`
+`DELETE /api/virtshell/v1/files/:uri`
 ----------------------------------------------
 
 Delete an existing file.
@@ -121,7 +126,7 @@ Delete an existing file.
 curl -sv -X DELETE \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://<host>:<port>/api/virtshell/v1/files/ab8076c0-db91-11e2-82ce-0002a5d5c51b'
+   'http://<host>:<port>/api/virtshell/v1/files/http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt'
 ```
 
 Response:
