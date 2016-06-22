@@ -9,6 +9,7 @@ VirtShell-Hosts (VirtualBox): 192.168.56.1
 ######################## Create required folders ############################
 #############################################################################
 mkdir /var/janu -p
+mkdir /var/janu/static -p
 mkdir /var/janu/data/virtshell_provisioning_agent -p
 chown callanor.callanor janu -R
 
@@ -80,6 +81,15 @@ curl -s http://192.168.56.103:80/enviroments/ | jq .
 curl -X POST http://192.168.56.103:80/enviroments/ -d "{\"name\":\"development\",\"description\":\"Collection of servers for development.\", \"partition\": \"development_co\", \"users\": [{\"login\": \"development_user\"}, {\"login\": \"guest\"}]}" -H "accept:application/json" | jq .
 
 curl -X DELETE http://192.168.56.103:80/enviroments/development | jq .
+
+######################
+# Create files tests #
+######################
+curl -s http://192.168.56.103:80/files/ | jq .
+
+curl -sv -X POST  -H 'accept: application/json' -H "Content-Type: multipart/form-data" -F "permissions=xwrxwrxwr" -F "file=@/home/callanor/Documents/Tesis/Repositories/VirtShell/virtshell_server/tests/files/dockerfile_ubuntu_server_14.04.2" -F "directory_path=docker/ubuntu" -F "permissions=xwrxwrxwr" http://192.168.56.103:80/files/  | jq .
+
+curl -X DELETE http://192.168.56.103:80/files/http://192.168.56.103/static/docker/ubuntu/dockerfile_ubuntu_server_14.04.2 | jq .
 
 #######################
 # Create images tests #

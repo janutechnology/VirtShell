@@ -12,11 +12,11 @@ class FilesRepository(object):
     def get_all_files(self):
         return self.storage_db.get()
 
-    def get_file(self, name):
-        return self.storage_db.get("name", name)
+    def get_file(self, uri):
+        return self.storage_db.get("uri", uri)
 
-    def update_file(self, name, file):
-        return self.storage_db.update("name", name, file)
+    def update_file(self, uri, file):
+        return self.storage_db.update("uri", uri, file)
 
-    def delete_file(self, name):
-        return self.storage_db.delete("name", name)
+    def delete_file(self, uri):
+        return self.storage_db.delete("uri", uri)
