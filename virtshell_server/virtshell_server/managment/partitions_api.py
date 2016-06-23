@@ -11,7 +11,6 @@ class PartitionsHostHandler(tornado.web.RequestHandler):
 
     def put(self, name=None, host=False):
         self.logger.info("partitions PUT name: " + name + "host: " + host)
-        print("name:", name, "host:", host)
         if name and host:
             result = self.partitions.add_host(name, host)
             if result['status'] == 'ok':

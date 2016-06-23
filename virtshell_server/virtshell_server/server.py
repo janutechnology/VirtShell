@@ -15,6 +15,7 @@ from managment.partitions_api import PartitionsHostResources
 from provisioning.provisioners_api import ProvisionersResources
 from provisioning.images_api import ImagesResources
 from provisioning.files_api import FilesResources
+from provisioning.files_api import FileResource
 
 def get_handlers(log):
   handlers_without_arguments = [HostsResources, 
@@ -28,7 +29,8 @@ def get_handlers(log):
                                 TasksResources,
                                 StatusTasksResources,
                                 ImagesResources,
-                                FilesResources]
+                                FilesResources,
+                                FileResource]
 
   logger_argument = (dict(logger=log), )
   handlers_with_arguments = []

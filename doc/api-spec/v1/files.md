@@ -7,11 +7,11 @@ Represents an individual file on VirtShell.
 
 | Method | HTTP request | Description |
 | --- | --- | ---- |
-| get | GET | /files/:uri | Gets one file by URI. |
+| get | GET | /files/:name | Gets one file by name. |
 | get | GET | /files/ | Gets all files. |
 | create | POST | /files/ | Upload a new file. | 
-| delete | DELETE | /files/:uri | Deletes an existing file. |
-| update | PUT | /files/:uri | Updates an existing file. |
+| delete | DELETE | /files/:name | Deletes an existing file. |
+| update | PUT | /files/:name | Updates an existing file. |
 
 Note:
 URIs relative to https://www.yourhostname.com/api/virtshell/v1, unless otherwise noted.
@@ -44,7 +44,6 @@ curl -X POST \
   -H "Content-Type: multipart/form-data" \
   -F "file_data=@/path/to/file/seed_file.txt;filename=seed_file_ubuntu-14_04.txt" \
   -F "folder_name=ubuntu_seeds" \
-  -F "directory_path=docker/ubuntu"
   -F "permissions=xwrxwrxwr" \
   http://<host>:<port>/api/virtshell/v1/files/
 ```
@@ -58,11 +57,11 @@ Content-Type: application/json
 ```json
 { 
   "create": "success",
-  "uri": "http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt"
+  "uri": "http://<host>:<port>/api/virtshell/v1/files/seed_file_ubuntu-14_04.txt"
 }
 ```
 
-`GET /api/virtshell/v1/files/:uri
+`GET /api/virtshell/v1/files/:name
 ----------------------------------------------
 
 To download a file:
@@ -87,13 +86,12 @@ Content-Type: application/json
 {
   "uuid": "ab8076c0-db91-11e2-82ce-0002a5d5c51b",
   "name": "file_name.extension",
-  "folder_name" : "folder_name",
-  "uri": "http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt",
+  "uri": "http://<host>:<port>/api/virtshell/v1/files/seed_file_ubuntu-14_04.txt",
   "created":["at":"timestamp", "by":user_id] 
 }
 ```
 
-`PUT /api/virtshell/v1/files/:uri`
+`PUT /api/virtshell/v1/files/:name`
 ----------------------------------------------
 
 Update an existing file.
@@ -117,7 +115,7 @@ Content-Type: application/json
 { "update": "success" }
 ```
 
-`DELETE /api/virtshell/v1/files/:uri`
+`DELETE /api/virtshell/v1/files/:name`
 ----------------------------------------------
 
 Delete an existing file.
@@ -126,7 +124,7 @@ Delete an existing file.
 curl -sv -X DELETE \
    -H 'accept: application/json' \
    -H 'X-VirtShell-Authorization: UserId:Signature' \
-   'http://<host>:<port>/api/virtshell/v1/files/http://<host>:<port>/api/virtshell/v1/files/ubuntu_seeds/seed_file_ubuntu-14_04.txt'
+   'http://<host>:<port>/api/virtshell/v1/files/http://<host>:<port>/api/virtshell/v1/files/seed_file_ubuntu-14_04.txt'
 ```
 
 Response:
