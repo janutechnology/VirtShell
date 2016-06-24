@@ -17,6 +17,12 @@ def get_instance(instance_uuid):
     instance_data = json.loads(r.text)
     return instance_data
 
+def get_image(image_name):
+    url = "%s/images/%s" % (VIRTSHELL_SERVER, image_name)
+    r = requests.get(url)
+    image_data = json.loads(r.text)
+    return image_data
+
 def get_enviroment(enviroment_name):
     url = "%s/enviroments/%s" % (VIRTSHELL_SERVER, enviroment_name)
     r = requests.get(url)
@@ -63,7 +69,7 @@ def select_host(instance_type, driver, hosts):
     else:
         raise Exception('hosts not found for partition')
 
-def send_request_to_agent(ip_host, instance_data, provisioner_data, task):
+def send_request_to_agent(ip_host, instance_data, image_data, provisioner_data, task):
     # For example: ubuntu_server_14.04.2_amd64
     operating_system, type_operating_system, version, architecture = provisioner_data['image'].split('_')
 
@@ -81,6 +87,7 @@ def send_request_to_agent(ip_host, instance_data, provisioner_data, task):
             'cpus': instance_data['cpus'],
             'builder': provisioner_data['builder'],
             'executor': provisioner_data['executor'],
+            'image' : image_data['container_resource'] if 'container_resource' in image_data else "",
             'user': USER,
             'password': PASSWORD,
             'memory': instance_data['memory']}
@@ -104,8 +111,10 @@ def main(task, logger):
                                        hosts)
         log.info("[dispatcher ip_host_selected]: " + ip_host_selected)
         provisioner_data = get_provisioner(instance_data['provisioner'])
+        image_data = get_image(provisioner_data['image'])
         response = send_request_to_agent(ip_host_selected, 
                                          instance_data,
+                                         image_data,
                                          provisioner_data,
                                          task)
         if response == "received":
