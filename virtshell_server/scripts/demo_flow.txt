@@ -99,7 +99,11 @@ curl -sv -X PUT  -H 'accept: application/json' -H "Content-Type: multipart/form-
 #######################
 curl -s http://192.168.56.103:80/images/ | jq .
 
-curl -sv -X POST http://192.168.56.103:80/images/ -d "{\"name\":\"ubuntu_server_14.04.2_amd64\",\"type\":\"docker-container\",\"os\":\"ubuntu\"}" -H 'accept: application/json' | jq .
+curl -s http://192.168.56.103:80/images/ubuntu_server_14.04.2_amd64 | jq .
+
+curl -sv -X DELETE http://192.168.56.103:80/images/ubuntu_server_14.04.2_amd64 | jq .
+
+curl -sv -X POST http://192.168.56.103:80/images/ -d "{\"name\":\"ubuntu_server_14.04.2_amd64\",\"type\":\"docker-container\",\"container_resource\":\"http://192.168.56.103/file/dockerfile_ubuntu_server_14.04.2\"}" -H 'accept: application/json' | jq .
 
 curl -sv -X POST http://192.168.56.103:80/images/ -d "{\"name\":\"centos_server_7_amd64\",\"type\":\"docker-container\",\"os\":\"centos\"}" -H 'accept: application/json' | jq .
 
