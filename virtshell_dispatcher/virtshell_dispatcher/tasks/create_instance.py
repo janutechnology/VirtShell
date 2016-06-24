@@ -21,7 +21,7 @@ def get_image(image_name):
     url = "%s/images/%s" % (VIRTSHELL_SERVER, image_name)
     r = requests.get(url)
     image_data = json.loads(r.text)
-    return image_name
+    return image_data
 
 def get_enviroment(enviroment_name):
     url = "%s/enviroments/%s" % (VIRTSHELL_SERVER, enviroment_name)
@@ -87,7 +87,7 @@ def send_request_to_agent(ip_host, instance_data, image_data, provisioner_data, 
             'cpus': instance_data['cpus'],
             'builder': provisioner_data['builder'],
             'executor': provisioner_data['executor'],
-            'image' : image_data['resourse'] if 'resourse' in image_data else ""
+            'image' : image_data['container_resource'] if 'container_resource' in image_data else "",
             'user': USER,
             'password': PASSWORD,
             'memory': instance_data['memory']}

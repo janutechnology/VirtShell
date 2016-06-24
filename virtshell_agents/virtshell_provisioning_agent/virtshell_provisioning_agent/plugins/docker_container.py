@@ -4,6 +4,7 @@ import config
 import logging
 import paramiko
 import requests
+import urllib.request
 from io import BytesIO
 from docker import Client
 from database import Database
@@ -53,6 +54,11 @@ def _update_task(uuid, state , log):
     url = "%s/tasks/%s" % (config.VIRTSHELL_SERVER, uuid)
     r = requests.put(url, data = json.dumps({'status': state, 'log': log}))
 
+def _get_dockerfile(url):
+    headers = {'Accept': 'application/json'}
+    r = requests.get(url, headers=headers)
+    return r.content
+
 def _create_container(request_json):
     name = request_json['name']
     distribution = request_json['distribution']
@@ -75,30 +81,9 @@ def _create_container(request_json):
 
     distribution = "%s:%s" % (distribution, version)
 
-    dockerfile = '''
-    FROM ''' + distribution + '''
-    MAINTAINER Carlos Llano <carlos_llano@hotmail.com>
-    RUN sed 's/#$ModLoad imudp/$ModLoad imudp/' -i /etc/rsyslog.conf
-    RUN sed 's/#$UDPServerRun 514/$UDPServerRun 514/' -i /etc/rsyslog.conf
-    RUN sed 's/#$ModLoad imtcp/$ModLoad imtcp/' -i /etc/rsyslog.conf
-    RUN sed 's/#$InputTCPServerRun 514/$InputTCPServerRun 514/' -i /etc/rsyslog.conf
-    EXPOSE 514/tcp 514/udp 
-    CMD ["/usr/sbin/rsyslogd", "-dn", "-f", "/etc/rsyslog.conf"]
-    RUN apt-get install -y openssh-server git
-    RUN mkdir /var/run/sshd
-    RUN useradd -s /bin/bash -m ''' + user + '''
-    RUN echo "''' + user + ":" + password + '''" | chpasswd
-    RUN echo "''' + user + ''' ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-    RUN echo "root:virtshell" | chpasswd
-    RUN sed -i "s/PermitRootLogin without-password/PermitRootLogin yes/" /etc/ssh/sshd_config
-    RUN sed "s@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g" -i /etc/pam.d/sshd
-    ENV NOTVISIBLE "in users profile"
-    RUN echo "export VISIBLE=now" >> /etc/profile
-    EXPOSE 22
-    CMD ["/usr/sbin/sshd", "-D"]
-    '''
+    dockerfile = _get_dockerfile(request_json['image'])
 
-    dockerfile_binary = BytesIO(dockerfile.encode('utf-8'))
+    dockerfile_binary = BytesIO(dockerfile)
     client = Client(version='1.20', base_url='tcp://127.0.0.1:2376')
     response = [line for line in client.build(fileobj=dockerfile_binary,
                                               rm=True,
@@ -147,6 +132,7 @@ def _provisioning_container(request_json):
     ssh.load_system_host_keys()
     ssh.connect(ip, port=22, username='root', password='virtshell')
     stdin, stdout, stderr = ssh.exec_command("git clone " + builder)
+
     message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
 
     logger.info(message_log)
