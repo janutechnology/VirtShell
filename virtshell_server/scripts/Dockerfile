@@ -46,7 +46,7 @@ RUN apt-get install -y openssh-server
 
 RUN mkdir /var/run/sshd
 RUN mkdir /var/run/virtshell_dispatcher
-RUN chmod a+w /virtshell_dispatcher
+RUN chmod a+w /var/virtshell_dispatcher
 
 # Add user virtshell to the image
 RUN useradd -s /bin/bash -m virtshell

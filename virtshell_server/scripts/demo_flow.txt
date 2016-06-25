@@ -89,6 +89,8 @@ curl -s http://192.168.56.103:80/files/ | jq .
 
 curl -sv -X POST  -H 'accept: application/json' -H "Content-Type: multipart/form-data" -F "permissions=xwrxwrxwr" -F "file=@/home/callanor/Documents/Tesis/Repositories/VirtShell/virtshell_server/tests/files/dockerfile_ubuntu_server_14.04.2" http://192.168.56.103:80/files/  | jq .
 
+curl -sv -X POST  -H 'accept: application/json' -H "Content-Type: multipart/form-data" -F "permissions=xwrxwrxwr" -F "file=@/home/callanor/Documents/Tesis/Repositories/VirtShell/virtshell_server/tests/files/dockerfile_centos_server_7" http://192.168.56.103:80/files/  | jq .
+
 curl -X DELETE http://192.168.56.103:80/files/dockerfile_ubuntu_server_14.04.2 | jq .
 
 curl -sv -X PUT  -H 'accept: application/json' -H "Content-Type: multipart/form-data" -F "permissions=xwrxwrx__" http://192.168.56.103:80/files/  | jq .
@@ -105,7 +107,8 @@ curl -sv -X DELETE http://192.168.56.103:80/images/ubuntu_server_14.04.2_amd64 |
 
 curl -sv -X POST http://192.168.56.103:80/images/ -d "{\"name\":\"ubuntu_server_14.04.2_amd64\",\"type\":\"docker-container\",\"container_resource\":\"http://192.168.56.103/file/dockerfile_ubuntu_server_14.04.2\"}" -H 'accept: application/json' | jq .
 
-curl -sv -X POST http://192.168.56.103:80/images/ -d "{\"name\":\"centos_server_7_amd64\",\"type\":\"docker-container\",\"os\":\"centos\"}" -H 'accept: application/json' | jq .
+curl -sv -X POST http://192.168.56.103:80/images/ -d "{\"name\":\"centos_server_7_amd64\",\"type\":\"docker-container\",\"container_resource\":\"http://192.168.56.103/file/dockerfile_centos_server_7\"}" -H 'accept: application/json' | jq .
+
 
 ###########################
 # Create provisioner test #
@@ -125,11 +128,7 @@ curl -s http://192.168.56.103:80/instances/ | jq .
 
 curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website1\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"development\", \"provisioner\": \"simple_web_site\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
 
-curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website2\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"development\", \"provisioner\": \"simple_web_site\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
-
 curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website2\", \"memory\": 1024, \"cpus\": 1, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"development\", \"provisioner\": \"simple_web_site_with_centos\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
-
-curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website3\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"development\", \"provisioner\": \"https://github.com/janutechnology/VirtShell_Provisioner_Simple_WebSite_Example.git\", \"executor\": \"install.sh\", \"host_type\": \"GeneralPurpose\", \"driver\": \"virtualbox\"}" -H "accept:application/json" | jq .
 
 curl -X DELETE http://192.168.56.103:80/instances/website1  | jq .
 

@@ -1,9 +1,11 @@
+import sys
 import json
 import time
 import config
 import logging
 import paramiko
 import requests
+import linecache
 import urllib.request
 from io import BytesIO
 from docker import Client
@@ -79,7 +81,7 @@ def _create_container(request_json):
     
     logger.info(message_log)
 
-    distribution = "%s:%s" % (distribution, version)
+    #distribution = "%s:%s" % (distribution, version)
 
     dockerfile = _get_dockerfile(request_json['image'])
 
@@ -87,9 +89,9 @@ def _create_container(request_json):
     client = Client(version='1.20', base_url='tcp://127.0.0.1:2376')
     response = [line for line in client.build(fileobj=dockerfile_binary,
                                               rm=True,
-                                              tag=distribution)]
+                                              tag=request_json['image'])]
     container = client.create_container(name=name, 
-                                        image=distribution)
+                                        image=request_json['image'])
     container_id = container['Id']
 
     client.start(container_id)
@@ -110,54 +112,69 @@ def _create_container(request_json):
     return request_json
 
 def _provisioning_container(request_json):
-    name = request_json['name']
-    ip = request_json['local_ipv4']
-    builder = str(request_json['builder'])
-    executor = request_json['executor']
+    try:
+        name = request_json['name']
+        ip = request_json['local_ipv4']
+        builder = str(request_json['builder'])
+        executor = request_json['executor']
 
-    message_log = "docker_container_plugin provisioning docker-container %s, with ip %s..." % (name, ip)
-    logger.info(message_log)
-    request_json['message_log'] = message_log
+        message_log = "docker_container_plugin provisioning docker-container %s, with ip %s..." % (name, ip)
+        logger.info(message_log)
+        request_json['message_log'] = message_log
 
-    _update_task(request_json['task_uuid'],
-                 "provisioning",
-                 message_log)
+        _update_task(request_json['task_uuid'],
+                     "provisioning",
+                     message_log)
 
-    logger.info(request_json)
+        logger.info(request_json)
 
-    database.update_request(request_json)
+        database.update_request(request_json)
 
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.load_system_host_keys()
-    ssh.connect(ip, port=22, username='root', password='virtshell')
-    stdin, stdout, stderr = ssh.exec_command("git clone " + builder)
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.load_system_host_keys()
+        ssh.connect(ip, port=22, username='root', password='virtshell')
+        stdin, stdout, stderr = ssh.exec_command("git clone " + builder)
 
-    message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
+        message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
 
-    logger.info(message_log)
+        logger.info(message_log)
 
-    request_json['message_log'] = message_log
-    database.update_request(request_json)
+        request_json['message_log'] = message_log
+        database.update_request(request_json)
 
-    dot = builder.rfind('.')
-    slash = builder.rfind('/')
-    repository_name = builder[slash+1:dot]
-    stdin, stdout, stderr = ssh.exec_command("cd " + repository_name + ";" + executor)
-    message_log = "docker_container_plugin stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
+        dot = builder.rfind('.')
+        slash = builder.rfind('/')
+        repository_name = builder[slash+1:dot]
+        stdin, stdout, stderr = ssh.exec_command("cd " + repository_name + ";" + executor)
+        message_log = "docker_container_plugin stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
 
-    logger.info(message_log)
+        logger.info(message_log)
 
-    _update_task(request_json['task_uuid'],
-                 "provisioned",
-                 message_log)
+        _update_task(request_json['task_uuid'],
+                     "provisioned",
+                     message_log)
 
-    ssh.close()
+        ssh.close()
 
-    request_json['status'] = -1
-    request_json['message_log'] = message_log
+        request_json['status'] = -1
+        request_json['message_log'] = message_log
 
-    database.update_request(request_json)
+        database.update_request(request_json)
+    except:
+        exc_type, exc_obj, tb = sys.exc_info()
+        f = tb.tb_frame
+        lineno = tb.tb_lineno
+        filename = f.f_code.co_filename
+        linecache.checkcache(filename)
+        line = linecache.getline(filename, lineno, f.f_globals)
+        reason = 'EXCEPTION IN ({}, LINE {} "{}"): {}'.format(filename, lineno, line.strip(), exc_obj)
+        message_error = "Failed to create the container %s, reason: %s" % (request_json['name'], reason)
+        logger.error(message_error)
+        request_json['status'] = 2
+        request_json['message_log'] = message_error
+        database.update_request(request_json)
+        raise
 
 def start(request):
     return "successfully"
