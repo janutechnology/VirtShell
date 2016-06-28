@@ -87,11 +87,11 @@ curl -X DELETE http://192.168.56.103:80/enviroments/development | jq .
 ######################
 curl -s http://192.168.56.103:80/files/ | jq .
 
-curl -sv -X POST  -H 'accept: application/json' -H "Content-Type: multipart/form-data" -F "permissions=xwrxwrxwr" -F "file=@/home/callanor/Documents/Tesis/Repositories/VirtShell/virtshell_server/tests/files/dockerfile_ubuntu_server_14.04.2" http://192.168.56.103:80/files/  | jq .
+curl -sv -X POST  -H 'accept: application/json' -H "Content-Type: multipart/form-data" -F "permissions=xwrxwrxwr" -F "file=@/home/callanor/Documents/Tesis/Repositories/VirtShell/virtshell_server/tests/files/dockerfile_ubuntu_server_14.04" http://192.168.56.103:80/files/  | jq .
 
 curl -sv -X POST  -H 'accept: application/json' -H "Content-Type: multipart/form-data" -F "permissions=xwrxwrxwr" -F "file=@/home/callanor/Documents/Tesis/Repositories/VirtShell/virtshell_server/tests/files/dockerfile_centos_server_7" http://192.168.56.103:80/files/  | jq .
 
-curl -X DELETE http://192.168.56.103:80/files/dockerfile_ubuntu_server_14.04.2 | jq .
+curl -X DELETE http://192.168.56.103:80/files/dockerfile_ubuntu_server_14.04 | jq .
 
 curl -sv -X PUT  -H 'accept: application/json' -H "Content-Type: multipart/form-data" -F "permissions=xwrxwrx__" http://192.168.56.103:80/files/  | jq .
 
@@ -101,11 +101,11 @@ curl -sv -X PUT  -H 'accept: application/json' -H "Content-Type: multipart/form-
 #######################
 curl -s http://192.168.56.103:80/images/ | jq .
 
-curl -s http://192.168.56.103:80/images/ubuntu_server_14.04.2_amd64 | jq .
+curl -s http://192.168.56.103:80/images/ubuntu_server_14.04_amd64 | jq .
 
-curl -sv -X DELETE http://192.168.56.103:80/images/ubuntu_server_14.04.2_amd64 | jq .
+curl -sv -X DELETE http://192.168.56.103:80/images/ubuntu_server_14.04_amd64 | jq .
 
-curl -sv -X POST http://192.168.56.103:80/images/ -d "{\"name\":\"ubuntu_server_14.04.2_amd64\",\"type\":\"docker-container\",\"container_resource\":\"http://192.168.56.103/file/dockerfile_ubuntu_server_14.04.2\"}" -H 'accept: application/json' | jq .
+curl -sv -X POST http://192.168.56.103:80/images/ -d "{\"name\":\"ubuntu_server_14.04_amd64\",\"type\":\"docker-container\",\"container_resource\":\"http://192.168.56.103/file/dockerfile_ubuntu_server_14.04\"}" -H 'accept: application/json' | jq .
 
 curl -sv -X POST http://192.168.56.103:80/images/ -d "{\"name\":\"centos_server_7_amd64\",\"type\":\"docker-container\",\"container_resource\":\"http://192.168.56.103/file/dockerfile_centos_server_7\"}" -H 'accept: application/json' | jq .
 
@@ -115,11 +115,11 @@ curl -sv -X POST http://192.168.56.103:80/images/ -d "{\"name\":\"centos_server_
 ###########################
 curl -s http://192.168.56.103:80/provisioners/ | jq .
 
-curl -sv -X POST http://192.168.56.103:80/provisioners/ -d "{\"name\": \"simple_web_site\", \"launch\": 1, \"memory\": 4, \"cpus\": 2, \"hdsize\": 20, \"image\": \"ubuntu_server_14.04.2_amd64\", \"builder\": \"https://github.com/janutechnology/VirtShell_Provisioner_Simple_WebSite_Example.git\", \"executor\": \"sh install.sh\", \"tag\": \"backend\", \"permissions\": \"xwrxwrxwr\", \"description\": \"Installs/Configures a simple web site\"}"  -H 'accept: application/json' | jq .
+curl -sv -X POST http://192.168.56.103:80/provisioners/ -d "{\"name\": \"simple_web_site\", \"launch\": 1, \"memory\": 4, \"cpus\": 2, \"hdsize\": 20, \"image\": \"ubuntu_server_14.04_amd64\", \"builder\": \"https://github.com/janutechnology/VirtShell_Provisioner_Simple_WebSite_Example.git\", \"executor\": \"sh install.sh\", \"tag\": \"backend\", \"permissions\": \"xwrxwrxwr\", \"description\": \"Installs/Configures a simple web site\"}"  -H 'accept: application/json' | jq .
 
 curl -sv -X POST http://192.168.56.103:80/provisioners/ -d "{\"name\": \"simple_web_site_with_centos\", \"launch\": 1, \"memory\": 4, \"cpus\": 2, \"hdsize\": 20, \"image\": \"centos_server_7_amd64\", \"builder\": \"https://github.com/janutechnology/VirtShell_Provisioner_Simple_WebSite_Example.git\", \"executor\": \"sh install.sh\", \"tag\": \"backend\", \"permissions\": \"xwrxwrxwr\", \"description\": \"Installs/Configures a simple web site\"}"  -H 'accept: application/json' | jq .
 
-curl -sv -X DELETE http://192.168.56.103:80/provisioners/simple_web_site_with_centos | jq .
+curl -sv -X DELETE http://192.168.56.103:80/provisioners/simple_web_site | jq .
 
 #########################
 # Create instance tests #

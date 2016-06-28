@@ -1,8 +1,8 @@
-import tornado.ioloop
-import tornado.web
-from provisioning.files import Files
-import json
 import os
+import json
+import tornado.web
+import tornado.ioloop
+from provisioning.files import Files
 
 class FileHandler(tornado.web.RequestHandler):
     def initialize(self, logger):
@@ -46,7 +46,7 @@ class FilesHandler(tornado.web.RequestHandler):
     def post(self, name=None):
         self.logger.info("files POST " + name)
         try:
-            file_content = self.request.files['file'][0]['body']
+            file_content = self.request.files['file'][0]['body'].decode("utf-8")
             file_name = self.request.files['file'][0]['filename']
         except KeyError:
             response = {"create": "error", "reason": "missing file"}

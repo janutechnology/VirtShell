@@ -1,8 +1,9 @@
-from provisioning.files_repository import FilesRepository
-import uuid
-import config
 import os
 import json
+import uuid
+import config
+from base64 import b64encode
+from provisioning.files_repository import FilesRepository
 
 class Files(object):
     def __init__(self):
@@ -21,14 +22,20 @@ class Files(object):
         try:
             file_json = self.get_file(file_name)
             file_path = file_json['document']['location']
-            with open(file_path, 'r') as content_file:
-                content = content_file.read()
+            with open(file_path, 'rb') as content_file:
+                byte_content = content_file.read()
+
+            base64_bytes = b64encode(byte_content)
+            base64_string = base64_bytes.decode("utf-8")
+
             result['status'] = 'ok'
-            result['content_file'] = content
+            result['content_file'] = base64_string
             return result
         except Exception as e:
+            print(e)
             result['status'] = 'error'
             result['reason'] = e
+            return result
 
     def create_file(self, file_content, file_name, permissions):        
         if not os.path.exists(self.static_path):
@@ -42,7 +49,7 @@ class Files(object):
             return result
 
         file_handler = open(file_path, 'w')
-        file_handler.write(file_content.decode('utf-8'))
+        file_handler.write(file_content)
         file_handler.close()
 
         file_data = {}
