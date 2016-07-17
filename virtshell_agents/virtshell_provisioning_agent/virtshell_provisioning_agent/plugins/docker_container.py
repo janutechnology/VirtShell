@@ -14,6 +14,7 @@ import subprocess
 import urllib.request
 from io import BytesIO
 from docker import Client
+from subprocess import call
 from database import Database
 
 def catalogue():
@@ -98,18 +99,7 @@ def _create_container(request_json):
     
     logger.info(message_log)
 
-    image_tag = "vs_%s:%s" % (distribution, version)
-
-    dockerfile_content = _get_dockerfile(request_json['image'])
-
-    directory_dockerfile_path = os.path.join(config.PATH_STATIC_DOCKERFILES, distribution + "_" + version)
-    if not os.path.exists(directory_dockerfile_path):
-        os.makedirs(directory_dockerfile_path)
-
-    dockerfile_path = os.path.join(directory_dockerfile_path, "Dockerfile")
-    file_handler = open(dockerfile_path, 'w')
-    file_handler.write(dockerfile_content)
-    file_handler.close()
+    directory_dockerfile_path = _create_dockerfile(image, distribution, version)
 
     message_log = "docker_container_plugin creating docker-container %s... with %s:%s" % (name, distribution, version)
 
@@ -122,7 +112,7 @@ def _create_container(request_json):
 
     database.update_request(request_json)
     
-    logger.info(message_log)    
+    logger.info(message_log)
 
     image_name = "vs/%s:%s" % (distribution, version)
     command = ['docker','build','-t', image_name, directory_dockerfile_path]
@@ -138,6 +128,7 @@ def _create_container(request_json):
     ip = execute_command(command)
     ip = ip.strip()
 
+    # Delete the ip of the known_hosts just in case
     current_home_path = _get_current_home_path()
     current_home_ssh_known_hosts = os.path.join(current_home_path, ".ssh/known_hosts")
 
@@ -176,6 +167,10 @@ def _provisioning_container(request_json):
         logger.info(request_json)
 
         database.update_request(request_json)
+
+        try:
+
+
 
         try:
             ssh = paramiko.SSHClient()
@@ -230,12 +225,46 @@ def _provisioning_container(request_json):
         database.update_request(request_json)
         raise
 
-def execute_command(command):
+def _create_dockerfile(image, distribution, version):
+    dockerfile_content = _get_dockerfile(request_json['image'])
+
+    directory_dockerfile_path = os.path.join(config.PATH_STATIC_DOCKERFILES, distribution + "_" + version)
+    if not os.path.exists(directory_dockerfile_path):
+        os.makedirs(directory_dockerfile_path)
+
+    # Get the ssh key of host and put into the dockerfile 
+    ssh_rsa_pub_content = _get_ssh_key_rsa_pub()
+
+    dockerfile_path = os.path.join(directory_dockerfile_path, "Dockerfile")
+    file_handler = open(dockerfile_path, 'w')
+    file_handler.write(dockerfile_content)
+
+    # Add the ssh pub key of the host server into the docker file
+    file_handler.write("\n\n")
+    authorized_keys_file_location = "/home/janu/.ssh/authorized_keys"
+    file_handler.write("RUN mkdir /home/janu/.ssh")
+    file_handler.write("RUN touch " + authorized_keys_file_location + "\n")
+    file_handler.write("RUN echo '" + ssh_rsa_pub_content + "' >> " + authorized_keys_file_location + "\n")
+    file_handler.close()
+
+    return directory_dockerfile_path
+
+def _get_ssh_key_rsa_pub():
+    return _execute_command(['cat', '/home/janu/.ssh/id_rsa.pub'])
+
+def _which_ssh():
+    return _execute_command(['which', 'ssh'])
+
+def _clone_repository(ssh_binary, ip, builder):
+    return _execute_command([ssh_binary, 'git', 'clone', builder])
+
+def _execute_provisioner(executor, ip, repository_name, executor):
+    return _execute_command([ssh_binary, "cd " + repository_name + ";" + executor])
+
+def _execute_command(command):
     lines=""
-    process = subprocess.Popen(command, stdout=subprocess.PIPE)
-    for line in io.TextIOWrapper(process.stdout, encoding="utf-8"):
-        lines = lines + line
-    return lines
+    output = subprocess.check_output(command)
+    return output.decode("utf-8").strip()
 
 def start(request):
     return "successfully"

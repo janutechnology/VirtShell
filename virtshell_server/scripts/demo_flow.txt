@@ -5,13 +5,16 @@ VirtShell-Server: 192.168.56.103
 VirtShell-Hosts (containers): 192.168.56.101, 192.168.56.102
 VirtShell-Hosts (VirtualBox): 192.168.56.1
 
+Create user janu in VirtShell-Hosts (adduser)
+Create ssh key with this command: ssh-keygen -t rsa -b 4096
+
 #############################################################################
 ######################## Create required folders ############################
 #############################################################################
 mkdir /var/janu -p
 mkdir /var/janu/files/ -p
 mkdir /var/janu/data/virtshell_provisioning_agent -p
-chown callanor.callanor janu -R
+chown janu.janu janu -R
 
 #############################################################################
 ###################### Synchronize VirtShell-Server #########################
