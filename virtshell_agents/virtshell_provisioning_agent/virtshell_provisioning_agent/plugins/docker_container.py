@@ -241,16 +241,15 @@ def _create_dockerfile(image, distribution, version):
 
     # Add the ssh pub key of the host server into the docker file
     file_handler.write("\n\n")
-    authorized_keys_file_location = "/home/janu/.ssh/authorized_keys"
-    file_handler.write("RUN mkdir /home/janu/.ssh")
-    file_handler.write("RUN touch " + authorized_keys_file_location + "\n")
-    file_handler.write("RUN echo '" + ssh_rsa_pub_content + "' >> " + authorized_keys_file_location + "\n")
+    file_handler.write("RUN mkdir /home/root/.ssh")
+    file_handler.write("RUN touch " + config.AUTHORIZED_KEYS_LOCATION + "\n")
+    file_handler.write("RUN echo '" + ssh_rsa_pub_content + "' >> " + config.AUTHORIZED_KEYS_LOCATION + "\n")
     file_handler.close()
 
     return directory_dockerfile_path
 
 def _get_ssh_key_rsa_pub():
-    return _execute_command(['cat', '/home/janu/.ssh/id_rsa.pub'])
+    return _execute_command(['cat', config.AUTHORIZED_KEYS_LOCATION])
 
 def _which_ssh():
     return _execute_command(['which', 'ssh'])
