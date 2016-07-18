@@ -6,7 +6,7 @@ VirtShell-Hosts (containers): 192.168.56.101, 192.168.56.102
 VirtShell-Hosts (VirtualBox): 192.168.56.1
 
 Create user janu in VirtShell-Hosts (adduser)
-Create ssh key with this command: ssh-keygen -t rsa -b 4096
+Create ssh key in /home/root/ with this command: ssh-keygen -t rsa -b 4096
 
 #############################################################################
 ######################## Create required folders ############################

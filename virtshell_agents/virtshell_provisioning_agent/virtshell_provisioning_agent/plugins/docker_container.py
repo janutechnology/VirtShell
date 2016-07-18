@@ -7,7 +7,6 @@ import zlib
 import config
 import base64
 import logging
-import paramiko
 import requests
 import linecache
 import subprocess
@@ -50,6 +49,7 @@ def create(request):
 
     try:
         request_json = _create_container(request_json)
+        time.sleep(5)
         _provisioning_container(request_json)
     except Exception as err:
         message_error = "Failed to create the container %s, reason: %s" % (request_json['name'], err)
@@ -85,6 +85,7 @@ def _create_container(request_json):
     version = request_json['version']
     user = request_json['user']
     password = request_json['password']
+    image = request_json['image']
 
     message_log = "downloading dockerfile from %s" % request_json['image']
 
@@ -114,26 +115,9 @@ def _create_container(request_json):
     
     logger.info(message_log)
 
-    image_name = "vs/%s:%s" % (distribution, version)
-    command = ['docker','build','-t', image_name, directory_dockerfile_path]
-    response = execute_command(command)
-
-    command = ['docker', 'run', '-d', '-P', '--name', name, image_name]
-    response = execute_command(command)
-
-    command = ['docker', 'inspect', '--format', '''{{ .Id }}''', name]
-    container_id = execute_command(command)
-
-    command = ['docker', 'inspect', '--format', '''{{ .NetworkSettings.IPAddress }}''', container_id.strip()]
-    ip = execute_command(command)
-    ip = ip.strip()
-
-    # Delete the ip of the known_hosts just in case
-    current_home_path = _get_current_home_path()
-    current_home_ssh_known_hosts = os.path.join(current_home_path, ".ssh/known_hosts")
-
-    command = ['ssh-keygen', '-f', current_home_ssh_known_hosts , '-R', ip]
-    response = execute_command(command)
+    image_name = _build_container(distribution, version, directory_dockerfile_path)
+    response = _start_container(name, image_name)
+    ip = _get_ip_container(name)
 
     message_log = "docker-container-plugin %s created successfully, ipv4: %s.\n" % (name, ip)
 
@@ -168,43 +152,23 @@ def _provisioning_container(request_json):
 
         database.update_request(request_json)
 
-        try:
-
-
-
-        try:
-            ssh = paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ssh.load_system_host_keys()
-            ssh.connect(ip, 
-                        port=22, 
-                        username='root', 
-                        password='virtshell')
-        except Exception as e:
-            print ('*** Failed to connect reason:',e )
-
-        stdin, stdout, stderr = ssh.exec_command("git clone " + builder)
-
-        message_log = "stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
+        message_log = _clone_repository(config.SSH_USER, ip, builder)
 
         logger.info(message_log)
-
         request_json['message_log'] = message_log
         database.update_request(request_json)
 
         dot = builder.rfind('.')
         slash = builder.rfind('/')
         repository_name = builder[slash+1:dot]
-        stdin, stdout, stderr = ssh.exec_command("cd " + repository_name + ";" + executor)
-        message_log = "docker_container_plugin stdout: " + str(stdout.readlines()) + " stderr: " + str(stderr.readlines())
+
+        message_log = _execute_provisioner(config.SSH_USER, ip, repository_name, executor)
 
         logger.info(message_log)
 
         _update_task(request_json['task_uuid'],
                      "provisioned",
                      message_log)
-
-        ssh.close()
 
         request_json['status'] = -1
         request_json['message_log'] = message_log
@@ -226,7 +190,7 @@ def _provisioning_container(request_json):
         raise
 
 def _create_dockerfile(image, distribution, version):
-    dockerfile_content = _get_dockerfile(request_json['image'])
+    dockerfile_content = _get_dockerfile(image)
 
     directory_dockerfile_path = os.path.join(config.PATH_STATIC_DOCKERFILES, distribution + "_" + version)
     if not os.path.exists(directory_dockerfile_path):
@@ -241,24 +205,43 @@ def _create_dockerfile(image, distribution, version):
 
     # Add the ssh pub key of the host server into the docker file
     file_handler.write("\n\n")
-    file_handler.write("RUN mkdir /home/root/.ssh")
+    file_handler.write("RUN mkdir /root/.ssh\n")
     file_handler.write("RUN touch " + config.AUTHORIZED_KEYS_LOCATION + "\n")
     file_handler.write("RUN echo '" + ssh_rsa_pub_content + "' >> " + config.AUTHORIZED_KEYS_LOCATION + "\n")
     file_handler.close()
 
     return directory_dockerfile_path
 
+def _build_container(distribution, version, directory_dockerfile_path):
+    image_name = "vs/%s:%s" % (distribution, version)
+    command = ['docker','build','-t', image_name, directory_dockerfile_path]
+    response = _execute_command(command)
+    return image_name
+
+def _start_container(name, image_name):
+    command = ['docker', 'run', '-d', '-P', '--name', name, image_name]
+    return _execute_command(command)
+
+def _get_ip_container(name):
+    command = ['docker', 'inspect', '--format', '''{{ .Id }}''', name]
+    container_id = _execute_command(command)
+
+    command = ['docker', 'inspect', '--format', '''{{ .NetworkSettings.IPAddress }}''', container_id.strip()]
+    ip = _execute_command(command)
+    ip = ip.strip()
+
+    command = ['sudo', 'ssh-keygen', '-f', config.SSH_KNOWN_HOSTS , '-R', ip]
+    response = _execute_command(command)
+    return ip
+
 def _get_ssh_key_rsa_pub():
-    return _execute_command(['cat', config.AUTHORIZED_KEYS_LOCATION])
+    return _execute_command(['sudo', 'cat', config.RSA_PUB_KEY_LOCATION])
 
-def _which_ssh():
-    return _execute_command(['which', 'ssh'])
+def _clone_repository(user, ip, builder):
+    return _execute_command(['sudo', 'ssh', '-o', 'StrictHostKeyChecking=no', user+'@'+ip, 'git', 'clone', builder])
 
-def _clone_repository(ssh_binary, ip, builder):
-    return _execute_command([ssh_binary, 'git', 'clone', builder])
-
-def _execute_provisioner(executor, ip, repository_name, executor):
-    return _execute_command([ssh_binary, "cd " + repository_name + ";" + executor])
+def _execute_provisioner(user, ip, repository_name, executor):
+    return _execute_command(['sudo', 'ssh', '-o', 'StrictHostKeyChecking=no', user+'@'+ip, "cd " + repository_name + ";" + executor])
 
 def _execute_command(command):
     lines=""
