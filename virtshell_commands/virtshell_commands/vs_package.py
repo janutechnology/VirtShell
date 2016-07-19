@@ -1,9 +1,9 @@
 #! /usr/local/bin/python
 import os
 import io
-import platform
 import subprocess
 from optparse import OptionParser
+from distutils.spawn import find_executable
 
 ################################################################################
 # build_command function
@@ -12,17 +12,43 @@ def build_command(option, args):
     packages_names = ""
     for name in args:
         packages_names = packages_names + name + ' '
-    id_distribution, release_distribution, name_distribution = platform.dist()
-    if id_distribution == 'Ubuntu':
+    path = find_executable('apt-get') # Debian family
+    if path is not None:
         if option == 'install':
             command = ['apt-get','install','-y', packages_names.strip()]
-        else:
+        elif option == 'remove':
             command = ['apt-get','remove','--purge', '-y', packages_names.strip()]
-    else:
-        if option == 'install':
-            command = ['yum', 'install', '-y', packages_names.strip()]
         else:
-            command = ['yum', 'remove', '-y', packages_names.strip()]
+            command = ['apt-get','update','-y']
+    else:
+        path = find_executable('yum') # Redhay family
+        if path is not None:
+            if option == 'install':
+                command = ['yum', 'install', '-y', packages_names.strip()]
+            elif option == 'remove':
+                command = ['yum', 'remove', '-y', packages_names.strip()]
+            else:
+                command = ['yum', 'update', '-y']
+        else:
+            path = find_executable('pacman') # Arch
+            if path is not None:
+                if option == 'install':
+                    command = ['pacman', '-S', packages_names.strip()]
+                elif option == 'remove':
+                    command = ['pacman', '-R', packages_names.strip()]
+                else:
+                    command = ['pacman', '-Syyu']
+            else:
+                path = find_executable('emerge') # Gentoo
+                if path is not None:
+                    if option == 'install':
+                        command = ['emerge', '-s', packages_names.strip()]
+                    elif option == 'remove':
+                        command = ['emerge', '-pvC', packages_names.strip()]
+                    else:
+                        command = ['emerge', '-uDU', ',--with-bdeps=y', '@world']
+                else:
+                    return 'error: package manager not found'
     return command
 
 ################################################################################
@@ -43,6 +69,8 @@ def process(options, args):
         command = build_command('install', args)
     elif options.remove_package:
         command = build_command('remove', args)
+    elif options.update_system:
+        command = build_command('update', args)
     print (execute_command(command))
 
 ################################################################################
@@ -62,6 +90,10 @@ def main():
                       action="store_true",
                       dest="remove_package",
                       help="Remove package")
+    parser.add_option("-u", "--update",
+                      action="store_true",
+                      dest="update_system",
+                      help="Update system")
     (options, args) = parser.parse_args()
 
     if len(args) < 1:

@@ -1,6 +1,9 @@
 FROM ubuntu:14.04
 MAINTAINER Carlos Llano <carlos_llano@hotmail.com>
 
+RUN locale-gen en_US.UTF-8
+RUN dpkg-reconfigure locales
+
 RUN sed 's/#$ModLoad imudp/$ModLoad imudp/' -i /etc/rsyslog.conf
 RUN sed 's/#$UDPServerRun 514/$UDPServerRun 514/' -i /etc/rsyslog.conf
 RUN sed 's/#$ModLoad imtcp/$ModLoad imtcp/' -i /etc/rsyslog.conf
@@ -26,6 +29,10 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
+
+RUN apt-get install -y python3-setuptools
+RUN apt-get install -y python3-pip
+RUN pip3 install virtshell_commands
 
 RUN echo  'export LC_ALL=C' >> ~/.bashrc
 CMD ["source .bashrc"]

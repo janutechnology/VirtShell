@@ -26,6 +26,10 @@ FROM centos:7
     EXPOSE 22
     CMD ["/usr/sbin/sshd", "-D"]
 
+    RUN apt-get install -y python3-setuptools
+    RUN apt-get install -y python3-pip
+    RUN pip3 install virtshell_commands
+
     RUN yum -y install python-setuptools
     RUN easy_install supervisor
     RUN mkdir -p /var/log/supervisor

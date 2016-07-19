@@ -10,16 +10,13 @@ from os import path
 
 here = path.abspath(path.dirname(__file__))
 
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
-
 setup(
     name='virtshell_commands',
 
-    version='1.0.0.dev1',
+    version='1.0.2',
 
     description='Shell commands for VirtShell',
-    long_description=long_description,
+    long_description = 'VirtShell-Command is a set of shell commands which allows flexibility in the provisioning scripts.',
 
     # The project's main homepage.
     url='https://github.com/janutechnology/VirtShell',
@@ -99,6 +96,7 @@ setup(
     entry_points={
        'console_scripts': [
            'vs_package=virtshell_commands.vs_package:main',
+           'vs_service=virtshell_commands.vs_service:main',
        ],
     },
 )
