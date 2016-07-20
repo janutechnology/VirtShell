@@ -26,15 +26,10 @@ FROM centos:7
     EXPOSE 22
     CMD ["/usr/sbin/sshd", "-D"]
 
-    RUN apt-get install -y python3-setuptools
-    RUN apt-get install -y python3-pip
+    RUN yum install -y epel-release
+    RUN yum install -y python34
+    RUN yum -y update
+    RUN curl https://bootstrap.pypa.io/get-pip.py | python3.4
+
     RUN pip3 install virtshell_commands
 
-    RUN yum -y install python-setuptools
-    RUN easy_install supervisor
-    RUN mkdir -p /var/log/supervisor
-    RUN touch /etc/supervisord.conf
-    RUN printf '[supervisord]\nnodaemon=true\n\n' >> /etc/supervisord.conf
-    RUN printf '[program:sshd]\nautostart=true\ncommand=/usr/sbin/sshd -D' >> /etc/supervisord.conf
-
-    CMD ["/usr/bin/supervisord", "--configuration=/etc/supervisord.conf"]
