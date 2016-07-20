@@ -30,8 +30,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 
-RUN apt-get install -y python3-setuptools
-RUN apt-get install -y python3-pip
+RUN apt-get install -y python3-setuptools python3-pip
 RUN pip3 install virtshell_commands
 
 RUN echo  'export LC_ALL=C' >> ~/.bashrc
