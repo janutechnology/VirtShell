@@ -219,7 +219,16 @@ def _build_container(distribution, version, directory_dockerfile_path):
     return image_name
 
 def _start_container(name, image_name):
-    command = ['docker', 'run', '-d', '-P', '--name', name, image_name]
+    if 'centos:7' in image_name:
+        # Special case for centos 7
+        # Running systemd within a Docker Container
+        # http://developerblog.redhat.com/2014/05/05/running-systemd-within-docker-container/
+        command = ['docker', 'run', '--privileged', '-d', '-ti', '-e',
+                   "container=docker", '-v', '/sys/fs/cgroup:/sys/fs/cgroup',
+                   '--name', name, image_name, '/usr/sbin/init']
+    else:
+        command = ['docker', 'run', '-d', '-P', '--name', name, image_name]
+
     return _execute_command(command)
 
 def _get_ip_container(name):

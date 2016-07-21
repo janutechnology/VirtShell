@@ -137,7 +137,7 @@ curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website2\", \"
 
 curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website3\", \"memory\": 1024, \"cpus\": 1, \"hdsize\": \"2GB\", \"description\": \"WebServer\", \"enviroment\": \"development\", \"provisioner\": \"generic_web_site_for_centos\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
 
-curl -X DELETE http://192.168.56.103:80/instances/website2  | jq .
+curl -X DELETE http://192.168.56.103:80/instances/website1  | jq .
 
 ###############
 # Check tasks #
