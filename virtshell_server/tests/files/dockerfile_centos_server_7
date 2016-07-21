@@ -33,3 +33,4 @@ FROM centos:7
 
     RUN pip3 install virtshell_commands
 
+    CMD ["/usr/sbin/init"]
