@@ -66,7 +66,6 @@
 \usepackage{caption}
 \usepackage{graphicx}
 
-
 \usepackage{listings}
 \usepackage{color}
 \usepackage{array}
@@ -77,8 +76,12 @@
 \usepackage{subfloat}
 \usepackage{subfig}
 \usepackage{pbox}
+\usepackage{url}
 
-
+\newcommand{\rowfonttype}{}% Current row font
+\newcommand{\rowfont}[1]{% Set current row font
+   \gdef\rowfonttype{#1}#1%
+}
 
 % Some very useful LaTeX packages include:
 % (uncomment the ones you want to load)
@@ -338,7 +341,8 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{VirtShell\\Framework para aprovisionamiento de soluciones virtuales}
+
+\title{IEEE 11CCC 2016\\VirtShell\\Framework para aprovisionamiento de soluciones virtuales}
 
 
 % author names and affiliations
@@ -384,7 +388,7 @@ Email: john.sanabria@correounivalle.edu.co}}
 % use for special paper notices
 %\IEEEspecialpapernotice{(Invited Paper)}
 
-
+\bibliographystyle{plainnat}
 
 
 % make the title area
@@ -393,7 +397,7 @@ Email: john.sanabria@correounivalle.edu.co}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-En la actualidad, con la creciente adopción de modelos de computación como el \emph{Cloud Computing} \footnote{conocida también como servicios en la nube, es un paradigma que permite ofrecer servicios de computación a través de una red, que usualmente es Internet.} y el \emph{Grid Computing} \footnote{Un grid es un sistema de computación distribuido que permite coordinar computadoras de diferente hardware y software y cuyo fin es procesar una tarea que demanda una gran cantidad de recursos y poder de procesamiento.}, los ambientes computacionales se han tornado cada vez más sofisticados y complejos, requiriendo de soluciones que traten de manera integral el aprovisionamiento de diferentes servicios sobre ambientes virtuales capaces de atender la variable demanda computacional, a través del despliegue de infraestructuras elásticas de computación. Hoy en día, se encuentran diversas soluciones que abordan el problema de aprovisionamiento usando diferentes enfoques para el despliegue y orquestación de plataformas y servicios. Sin embargo, los enfoques actuales carecen de mecanismos de comunicación que permitan interoperar entre diferentes aplicaciones; En general, las soluciones actuales presentan dificultades para ser accedidas en una red, como internet y ejecutadas de manera remota. Este artículo plantea el diseño de un framework orientado al web, cuyas partes permitan el eficiente aprovisionamiento de software de manera automática para ambientes virtualizados.\\
+En la actualidad, con la creciente adopción de modelos de computación como el \emph{Cloud Computing} \footnote{conocida también como servicios en la nube, es un paradigma que permite ofrecer servicios de computación a través de una red, que usualmente es Internet.} y el \emph{Grid Computing} \footnote{Un grid es un sistema de computación distribuido que permite coordinar computadoras de diferente hardware y software y cuyo fin es procesar una tarea que demanda una gran cantidad de recursos y poder de procesamiento.}, los ambientes computacionales se han tornado cada vez más sofisticados y complejos, requiriendo de soluciones que traten de manera integral el aprovisionamiento de diferentes servicios sobre ambientes virtuales capaces de atender una demanda computacional variable, a través del despliegue de infraestructuras elásticas de computación. Hoy en día, se encuentran diversas soluciones que abordan el problema de aprovisionamiento usando diferentes enfoques para el despliegue y orquestación de plataformas y servicios. Sin embargo, los enfoques actuales carecen de mecanismos de comunicación que permitan interoperar entre diferentes aplicaciones; En general, las soluciones actuales presentan dificultades para ser accedidas en una red, como internet y ejecutadas de manera remota. Este artículo plantea el diseño de un framework orientado al web, cuyas partes permitan el eficiente aprovisionamiento de software de manera automática para ambientes virtualizados.\\
 \end{abstract}
 
 % no keywords
@@ -423,7 +427,7 @@ En este artículo se presenta una herramienta de aprovisionamiento con orientaci
 La segunda sección presenta el marco conceptual de la investigación. Luego, La tercera sección introduce y elabora la arquitectura planteada en VirtShell. Se describe los requisitos que se tuvieron en cuenta para elaborar la estructura del framework, las alternativas estudiadas y las características que conforman a VirtShell. La cuarta sección se encargan de describir cada uno de los módulos diseñados, ilustrando sus funcionalidades y la forma en que interactúan de manera conjunta para administrar la infraestructura y realizar el aprovisionamiento de los recursos virtualizados. En la quinta sección se indican los métodos HTTP con que cuenta cada módulo que permiten interactuar con el API. Finalmente, la ultima sección se presentan las conclusiones de la investigación.
 
 \section{Conceptos preliminares}
-Actualmente predominan dos técnicas de virtualización. La primera técnica se denomina virtualización de hardware y consiste en que el software subyacente que ejecuta las máquinas virtuales conocido como hipervisor, crea y corre maquinas virtuales proporcionando una interfaz que es idéntica a la del servidor físico (también conocido como maquina anfitriona). El hipervisor, interactúa directamente con la CPU en el servidor físico, ofreciendo a cada uno de los servidores virtuales una total autonomía e independencia (Figura \ref{fig:hipervisor}). Incluso pueden coexistir en una misma maquina distintos servidores virtuales funcionando con distintos sistemas operativos. Esta técnica es la mas desarrollada y hay diferentes productos que cada fabricante ha ido desarrollando y adaptando, como por ejemplo Xen, KVM, VMWare y VirtualBox.\\
+Actualmente predominan dos técnicas de virtualización. La primera técnica se denomina virtualización de hardware y consiste en que el software subyacente que ejecuta las máquinas virtuales conocido como hipervisor, crea y corre máquinas virtuales proporcionando una interfaz que es idéntica a la del servidor físico (también conocido como máquina anfitriona). El hipervisor, interactúa directamente con la CPU en el servidor físico, ofreciendo a cada uno de los servidores virtuales una total autonomía e independencia (Figura \ref{fig:hipervisor}). Incluso pueden coexistir en una misma máquina distintos servidores virtuales funcionando con distintos sistemas operativos. Esta técnica es la más desarrollada y hay diferentes productos que cada fabricante ha ido desarrollando y adaptando, como por ejemplo Xen \cite{xen16}, KVM \cite{kvm16}, VMWare \cite{vmware16} y VirtualBox \cite{virtualbox16}.\\
 
 \begin{figure}[h]
   \centering
@@ -432,7 +436,7 @@ Actualmente predominan dos técnicas de virtualización. La primera técnica se 
   \label{fig:hipervisor}
 \end{figure}
 
-La segunda técnica es conocida como virtualización del sistema operativo. En esta técnica lo que se virtualiza es el sistema operativo completo el cual corre directamente sobre la maquina física. A este tipo de máquinas virtuales se les denomina contenedores, los cuales acceden por igual a todos los recursos del sistema (Figura \ref{fig:contenedores}). Esta técnica tiene una ventaja que es a su vez una desventaja: todas las máquinas virtuales usan el mismo Kernel \footnote{Kernel es un software que constituye una parte fundamental del sistema operativo, y se define como la parte que se ejecuta en modo privilegiado (conocido también como modo núcleo)}que el sistema operativo, lo que reduce los errores y multiplica el rendimiento, pero a su vez solo puede haber un mismo tipo de sistema operativo en los contenedores, no se puede combinar Windows, Linux, Etc. Este sistema también es un acercamiento a lo que seria una virtualización nativa \footnote{Tipo de virtualización en que intervienen las características del hardware. Los fabricantes preparan, sobre todo, los procesadores para que maquinas virtuales puedan trabajar con ellos más directamente.}.\\
+La segunda técnica es conocida como virtualización del sistema operativo. En esta técnica lo que se virtualiza es el sistema operativo completo el cual corre directamente sobre la máquina física. A este tipo de máquinas virtuales se les denomina contenedores, los cuales acceden por igual a todos los recursos del sistema (Figura \ref{fig:contenedores}). Esta técnica tiene una ventaja que es a su vez una desventaja: todas las máquinas virtuales usan el mismo Kernel \footnote{Kernel es un software que constituye una parte fundamental del sistema operativo, y se define como la parte que se ejecuta en modo privilegiado (conocido también como modo núcleo)}que el sistema operativo, lo que reduce los errores y multiplica el rendimiento, pero a su vez solo puede haber un mismo tipo de sistema operativo en los contenedores, no se puede combinar Windows, Linux, Etc. Este sistema también es un acercamiento a lo que sería una virtualización nativa \footnote{Tipo de virtualización en que intervienen las características del hardware. Los fabricantes preparan, sobre todo, los procesadores para que máquinas virtuales puedan trabajar con ellos más directamente.}.\\
 
 \begin{figure}[h]
   \centering
@@ -441,16 +445,57 @@ La segunda técnica es conocida como virtualización del sistema operativo. En e
   \label{fig:contenedores}  
 \end{figure}
 
-\newpage
+%\newpage
 
-De hecho, sin importar la técnica de virtualización que se use, la instalación de una maquina virtual (o de un contenedor) requiere normalmente de la generación e instalación de una imagen y a su vez de la instalación y configuración de paquetes de software. Estas tareas generalmente son realizadas por los técnicos de los proveedores de la nube. Cuando un usuario de la nube solicita un nuevo servicio o mas capacidad de computo, el administrador selecciona la imagen apropiada para clonar e instalar en los nodos de la nube. Si no existe una imagen apropiada para los requerimientos del cliente, se crea y configura una nueva que cumpla con la solicitud. Esta creación de una nueva imagen puede ser realizada modificando la imagen mas cercana de las ya existentes. En el momento de la creación optima de la imagen, un administrador puede tener dificultades y preguntas como: ¿cuál es la mejor configuración?, ¿cuáles paquetes y sus dependencias deberían ser instaladas? y ¿cómo encontrar una imagen que mejor llene las expectativas?. Esto hace que la automatización y simplificación de este proceso sea una prioridad para los proveedores, ya que la depedencia entre entre paquetes de software y la dificultad de mantenimiento agrega tiempo a la creación de las máquinas virtuales. En otras palabras, uno de los principales objetivos de los proveedores de la nube es brindar mas flexibilidad y agilidad a la hora de satisfacer los requerimientos de los usuarios finales.
+De hecho, sin importar la técnica de virtualización que se use, la instalación de una máquina virtual (o de un contenedor) requiere normalmente de la generación e instalación de una imagen y a su vez de la instalación y configuración de paquetes de software. Estas tareas generalmente son realizadas por los técnicos de los proveedores de la nube. Cuando un usuario de la nube solicita un nuevo servicio o más capacidad de cómputo, el administrador selecciona la imagen apropiada para clonar e instalar en los nodos de la nube. Si no existe una imagen apropiada para los requerimientos del cliente, se crea y configura una nueva que cumpla con la solicitud. Esta creación de una nueva imagen puede ser realizada modificando la imagen más cercana de las ya existentes. En el momento de la creación óptima de la imagen, un administrador puede tener dificultades y preguntas como: ¿cuál es la mejor configuración?, ¿cuáles paquetes y sus dependencias deberían ser instaladas? y ¿cómo encontrar una imagen que mejor llene las expectativas?. Esto hace que la automatización y simplificación de este proceso sea una prioridad para los proveedores, ya que la depedencia entre entre paquetes de software y la dificultad de mantenimiento agrega tiempo a la creación de las máquinas virtuales. En otras palabras, uno de los principales objetivos de los proveedores de la nube es brindar más flexibilidad y agilidad a la hora de satisfacer los requerimientos de los usuarios finales.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Soluciones de aprovisionamiento}
+En el mercado existen muchas soluciones que permiten la interacción con diferentes ambientes de virtualización. Estas soluciones usan diferentes enfoques para realizar despliegues de software en las máquinas virtuales de manera rápida, controlada y automática. Sin embargo la mayoría de las soluciones no tienen la capacidad de manejar de manera simultánea las dos técnicas de virtualización antes mencionadas, algunas se centran solo en manejar máquinas virtuales y otras pocas solo hacen aprovisionamiento sobre contenedores.\\
+\\
+A continuación se describirán algunas de las herramientas más conocidas actualmente, las que son descritas a continuación:
+
+\begin{itemize}
+\item \emph{Fabric} es una herramienta de automatización que usa SSH \footnote{SSH (Secure SHell, en español: intérprete de órdenes seguro) es el nombre de un protocolo y del programa que lo implementa, y sirve para acceder a máquinas remotas a través de una red} para hacer despliegues de aplicaciones y administración de tareas. Fabric es una biblioteca gratuita hecha en python y su forma de interactuar es por medio de línea de comandos. Por otra parte permite cargar y descargar archivos que pueden ser ejecutados por su conjunto de funciones \cite{fabfile16}.
+
+\item \emph{Chef} es una de las herramientas más conocidas de automatización de infraestructura de nube, esta escrita en Ruby y Erlang. Utiliza un lenguaje de dominio específico, expresado también en Ruby para la escritura y configuración de los recursos que deben ser creados, a esto se le denomina "recetas". Estas recetas contienen los recursos que deben ser creados. Chef se puede integrar con plataformas basadas en la nube, como Rackspace, Internap, Amazon EC2, Cloud Platform Google, OpenStack, SoftLayer y Microsoft Azure. Adicionalmente puede aprovisionar sobre contenedores si se instala la biblioteca indicada. Chef contiene soluciones para sistemas de pequeña y gran escala \cite{Chef15}. Es uno de los cuatro principales sistemas de gestión de configuración en Linux, junto con Cfengine, Bcfg2 y Puppet.
+
+\item \emph{Puppet} es una herramienta diseñada para administrar la configuración de sistemas similares a Unix y a Microsoft Windows de forma declarativa. El usuario describe los recursos del sistema y sus estados utilizando el lenguaje declarativo que proporciona Puppet. Esta información es almacenada en archivos denominados manifiestos Puppet. Puppet descubre la información del sistema a través de una utilidad llamada Facter, y compila los manifiestos en un catálogo específico del sistema que contiene los recursos y las dependencias de dichos recursos, estos catálogos son ejecutados en los sistemas de destino \cite{Pupet15}. Puppet es de uso gratuito para redes muy pequeñas de hasta solo 10 nodos.
+
+\item \emph{Juju} es una herramienta de configuración y administración de servicios en nubes públicas. Permite crear ambientes completos con unos pocos comandos, cuenta con cientos de servicios pre-configurados y disponibles en la tienda de juju. Se puede usar a través de una interfaz gráfica o de línea de comandos. Juju permite re-crear un ambiente de producción en portátiles usando contenedores enfocado a pruebas. El uso de juju es gratuito pero se debe pagar por el uso de la nube pública \cite{juju16}.
+
+\item \emph{CFEngine} es un sistema basado en el lenguaje escrito por Mark Burgess, diseñado específicamente para probar y configurar software. CFEngine es como un lenguaje de muy alto nivel. Su objetivo es crear un único archivo o conjunto de archivos que describen la configuración de cada máquina de la red. CFEngine se ejecuta en cada host, y analiza cada archivo (o archivos), que especifica una política para la configuración del sistema. La configuración de la máquina es verificada contra el modelo y, si es necesario, cualquier desviación de la configuración es corregida \cite{cfengine15}.
+
+\item \emph{Ansible} es una herramienta de código libre desarrollada en python y comercialmente ofrecida por AnsibleWorks los cuales la definen como un motor de orquestación muy simple que automatiza las tareas de despliegue. Ansible no usa agentes, solo necesita tener instalado Python en las máquinas hosts y las tareas las realiza por medio de ssh. Ansible puede trabajar mediante un solo archivo de configuración que contendría todo o por medio de varios archivos organizados en una estructura de directorios \cite{ans16}.
+
+\item \emph{Bcfg2} esta escrito en Python y permite gestionar la configuración de un gran número de ordenadores mediante un modelo de configuración central. Bcfg2 funciona con un modelo simple de configuración del sistema, modelando elementos intuitivos como paquetes, servicios y archivos de configuración (así como las dependencias entre ellos). Este modelo de configuración del sistema se utiliza para la verificación  y validación de las máquinas, permitiendo una auditoría robusta de los sistemas desplegados. La especificación de la configuración de Bcfg2 está escrita utilizando un modelo XML declarativo. Toda la especificación puede ser validada utilizando los validadores de esquema XML ampliamente disponibles. Bcfg2 no tiene soporte para contenedores. Es gratuito y cuenta con una lista limitada de plataformas en las cuales trabaja bien \cite{bdfg215}.
+
+\item \emph{Cobbler} es una plataforma que busca el rápido despliegue de servidores y en general computadores en una infra-estructura de red por medio de línea de comandos, se basa en el modelo de scripts y cuenta con una completa base de simples comandos, que permite hacer despliegues de manera rápida y con poca intervención humana. Cobbler es capaz de instalar máquinas físicas y máquinas virtuales. Cobbler, es una pequeña y ligera aplicacion, que es extremadamente facil de usar para pequeños o muy grandes despliegues. Es de uso gratuito y no cuenta con soporte para contenedores \cite{Cobbler15}.
+
+\item \emph{SmartFrog} es un framework para servicios de configuración, descripción, despliegue y administración del ciclo de vida de máquinas virtuales. Consiste de un lenguaje declarativo, un motor que corre en los nodos remotos y ejecuta plantillas escritas en el lenguaje de SmartFrog y un modelo de componentes. El lenguaje soporta encapsulación (que es similar a las clases de python), herencia y composición que permite personalizar y combinar configuraciones. SmartFrog, permite enlaces estáticos y dinámicos entre componentes, que ayudan a soportar diferentes formas de conexión en tiempo de despliegue \cite{smart16}.
+
+\item \emph{Amazon EC2} es un API propietario de Amazon que maneja un enfoque manual, el cual permite desplegar imágenes de máquinas virtuales conocidas como AMI (Amazon Machine Images) \cite{Amazon16}, que son las imágenes que se utilizan en Amazon para arrancar instancias virtuales. El concepto de las AMIs \footnote{La AMI de Amazon es una imagen mantenida y compatible que ofrece Amazon Web Services para su uso en Amazon Elastic Compute Cloud (Amazon EC2).} es similar a las máquinas virtuales de otros sistemas. Básicamente están compuestas de una serie de ficheros de datos que conforman la imagen y luego un xml que especifica ciertos valores necesarios para que sea una imagen válida para Amazon.
+
+\item \emph{Docker composer} permite describir un conjunto de contenedores que se relacionan entre ellos. Docker composer define una aplicación multicontenedor en un archivo con las mismas propiedades que se indicarían en un archivo individual de docker. Docker composer usa archivos en formato yaml para describir las características de los servicios en cada contenedor \cite{doccom16}. Es completamente gratuito.
+
+\item \emph{Vagrant} es una herramienta de línea de comando que permite la creación y configuración de entornos de desarrollo virtualizados. Originalmente se desarrolló para VirtualBox y sistemas de configuración tales como Chef, Salt y Puppet. Sin embargo desde la versión 1.1 Vagrant es capaz de trabajar con múltiples proveedores, como VMware, Amazon EC2, LXC y DigitalOcean \cite{Vag15}.
+
+\item \emph{SaltStack} es un sistema de manejo de configuración cuyo objetivo es garantizar que un servicio esté corriendo o que una aplicación haya sido instalada o desplegada. Salt está construido en Python y al igual que Chef, CFEngine y Puppet utiliza un esquema de cliente (salt minions) - servidor (salt master), cuyo método de conexión con los minions se realiza a través de un broker messages \footnote{es un programa intermediario que traduce los mensajes de un sistema desde un lenguaje a otro, a través de un medio de telecomunicaciones.} llamado ZeroMQ (0MQ), que no solo garantiza una conexión segura sino que la hace confiable y rápida. Salt tiene una versión gratuita llamada Salt Open sin embargo para obtener todos los beneficios se debe pagar la versión empresarial. Salt cuenta con soporte para contenedores \cite{Salt15}.
+
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \section{Arquitectura}
 VirtShell Framework es concebido como una plataforma que proporciona herramientas para la automatización y gestión de infraestructura, facilitando tareas como la creación, despliegue, mantenimiento y monitoreo tanto de recursos virtuales como físicos vía web. Así mismo, es pensada para que cualquier desarrollo de software con acceso a Internet (sitio web, aplicación móvil, etc.) pueda interactuar con la infraestructura virtual tan solo consumiendo un API de Internet.\\
 \\
 Las motivaciones mencionadas conducen a los requisitos para una arquitectura destinada a separar claramente responsabilidades, usando protocolos abiertos, modificables, escalables, y al mismo tiempo adecuado para la creación rápida de nuevas acciones. \\
 \\
-En la búsqueda del adecuado estilo arquitectural para el API de VirtShell, se evaluaron dos estilos de servicios web: el estilo \emph{Remote Procedure Call} (RPC) y el estilo arquitectural REST (\emph{Representational State Transfer}) \cite{fielding00}. La evaluación dio como resultado que el estilo arquitectural que mejor se acomodaba a los requisitos planteados era el estilo arquitectural REST, debido a que es un estilo nativo del Web, lo que hace que la información disponible esta regida por las mismas normas que rigen los sitios web, ademas, el estilo ofrece mejor escalabilidad, acoplamiento y rendimiento. Un detallado comparativo entre los dos estilos se encuentra en \cite{Xinyang09}. 
+En la búsqueda del adecuado estilo arquitectural para el API de VirtShell, se evaluaron dos estilos de servicios web: el estilo \emph{Remote Procedure Call} (RPC) y el estilo arquitectural REST (\emph{Representational State Transfer}) \cite{fielding00}. La evaluación dio como resultado que el estilo arquitectural que mejor se acomodaba a los requisitos planteados era el estilo arquitectural REST, debido a que es un estilo nativo del Web, lo que hace que la información disponible está regida por las mismas normas que rigen los sitios web, además, el estilo ofrece mejor escalabilidad, acoplamiento y rendimiento. Un detallado comparativo entre los dos estilos se encuentra en \cite{Xinyang09}. 
 
 \subsection{Características}
 VirtShell es un framework de código abierto y bajo la licencia BSD, que permite utilizarlo para proyectos de cualquier tipo, incluso comerciales, sus características principales son: 
@@ -461,13 +506,13 @@ VirtShell es un framework de código abierto y bajo la licencia BSD, que permite
 \item \emph{Modular}: VirtShell es un framework organizado de forma modular. Los módulos se encuentran agrupados en categorías que ofrecen las herramientas necesarias para la administración y aprovisionamiento de múltiples recursos virtuales. De igual manera y dada las características de REST, los módulos están diseñados para que se puedan dividir en diferentes servidores obteniendo "micro APIs", lo que permite dividir los procesos y atender diferentes tipos de operaciones del API. 
 \item \emph{Seguro}: VirtShell provee varias capacidades y servicios para aumentar la privacidad y el control de acceso a los diferentes recursos. Los servicios de seguridad permiten crear redes y controlar el acceso a las instancias creadas, así como definir y administrar políticas de acceso a usuarios y permisos sobre cualquier recurso del sistema como por ejemplo scripts de creación y aprovisionamiento.
 \item \emph{Extensible}: Al ser VirtShell de código abierto, el API puede modificarse, crecer fácilmente y versionarse de diferentes maneras. Adicionalmente, VirtShell fue diseñado con la idea de cargar código dinámicamente, permitiendo extender el comportamiento del framework agregando plugins en tiempo de ejecución.  Asi mismo, VirtShell permite extender el comportamiento del shell desplegando comandos propios que proporcionan ahorro en tiempo y en complejidad.
-\item \emph{Inyección de dependencias virtuales}: VirtShell adopta la idea del patrón de Inyección de Dependencias \footnote{es un patrón de diseño orientado a objetos, en el que se suministran objetos a una clase en lugar de ser la propia clase quien cree el objeto. El término fue acuñado por primera vez por Martin Fowler.} \cite{fowler04} para conseguir scripts de aprovisionamiento mas desacoplados. De esta manera facilita la configuración de las dependencias que tiene un recurso virtual de otras máquinas virtuales. Para ello, el framework permite declarar el listado de dependencias de recursos virtuales que tiene un script de aprovisionamiento encargándose del correcto acople entre los diferentes recursos virtuales.
+\item \emph{Inyección de dependencias virtuales}: VirtShell adopta la idea del patrón de Inyección de Dependencias \footnote{es un patrón de diseño orientado a objetos, en el que se suministran objetos a una clase en lugar de ser la propia clase quien cree el objeto. El término fue acuñado por primera vez por Martin Fowler.} \cite{fowler04} para conseguir scripts de aprovisionamiento más desacoplados. De esta manera facilita la configuración de las dependencias que tiene un recurso virtual de otras máquinas virtuales. Para ello, el framework permite declarar el listado de dependencias de recursos virtuales que tiene un script de aprovisionamiento encargándose del correcto acople entre los diferentes recursos virtuales.
 \item \emph{Interoperable}: Al seguir el estilo arquitectónico REST y contar con la documentación detallada sobre cada uno de los recursos y urls que expone el API de VirtShell, se logra una capacidad clave para la administración remota de la infraestructura virtual. Esta capacidad se refiere al hecho de poder desarrollar aplicaciones en cualquier plataforma y para cualquier dispositivo electrónico, lo que permite funcionar con otros productos o sistemas existentes o futuros.
 
 \end{itemize}
 
 \section{Módulos}
-VirtShell Framework consiste de características organizadas en 13 módulos. Estos módulos son agrupados en Seguridad, Administración y Aprovisionamiento. Estos elementos se usan de manera separada pero trabajan juntos para proveer la información necesaria para que los agentes realicen su trabajo en los hosts que albergaran los recursos virtuales, como se muestra en la figura \ref{fig:framework}. \\
+VirtShell Framework consiste de características organizadas en 13 módulos. Estos módulos son agrupados en Seguridad, Administración y Aprovisionamiento. Estos elementos se usan de manera separada pero trabajan juntos para proveer la información necesaria para que los agentes realicen su trabajo en los hosts que albergarán los recursos virtuales, como se muestra en la figura \ref{fig:framework}. \\
 
 \begin{figure}[h]
   \centering
@@ -488,39 +533,37 @@ El módulo de \textbf{autenticación} soporta el proceso por el cual cuando un u
 \subsection{Managment}
 Administración consiste de los modulos \emph{hosts} (anfitriónes), \emph{partitions} (particiones), \emph{enviroments} (ambientes), \emph{instances} (instancias), \emph{properties} (propiedades) y \emph{tasks} (tareas). \\
 \\
-El módulo de \textbf{anfitriónes} lleva registro de nodos físicos, servidores o máquinas virtuales, que se encuentren conectados a la red y que permitan albergar instancias virtuales. Los anfitriónes son clasificados de acuerdo a diferentes combinaciones de CPU, memoria, almacenamiento y capacidad de trabajo en red, dando flexibilidad para elegir la opcion mas adecuada para las necesidades de las aplicaciones destino. En otras palabras el tipo de anfitrión determina el hardware del nodo físico que sera usado por los recursos virtuales.\\
+El módulo de \textbf{anfitriónes} lleva registro de nodos físicos, servidores o máquinas virtuales, que se encuentren conectados a la red y que permitan albergar instancias virtuales. Los anfitriónes son clasificados de acuerdo a diferentes combinaciones de CPU, memoria, almacenamiento y capacidad de trabajo en red, dando flexibilidad para elegir la opción más adecuada para las necesidades de las aplicaciones destino. En otras palabras el tipo de anfitrión determina el hardware del nodo físico que será usado por los recursos virtuales.\\
 \\
 El módulo de \textbf{particiones} permite dividir los anfitriones en secciones aisladas de disponibilidad. Cada partición puede ser usada para definir áreas geográficas separadas o simplemente para dividir los nodos físicos en subgrupos destinados a diferentes usos o equipos de trabajo o tipos de clientes.\\
 \\
-El módulo de \textbf{ambientes} permite dividir lógicamente una partición en subredes de trabajo más pequeñas, con lo que se crean grupos más pequeños con diferentes fines. En los ambientes de trabajo se configuran los usuarios que tienen permiso para interactuar trabajar con el.\\
+El módulo de \textbf{ambientes} permite dividir lógicamente una partición en subredes de trabajo más pequeñas, con lo que se crean grupos más pequeños con diferentes fines. En los ambientes de trabajo se configuran los usuarios que tienen permiso para interactuar con el.\\
 \\
 El módulo de \textbf{instancias} es un recurso virtual o máquina virtual o contenedor con parámetros y capacidades definidas en la cual se puede instalar el software deseado. Un usuario puede crear, aprovisionar, actualizar y finalizar instancias en VirtShell tanto como necesite dando la sensación de elasticidad \footnote{La elasticidad es una de las propiedades fundamentales de la nube. La elasticidad consiste en la potencia de escalar los recursos informáticos ampliándolos y reduciéndolos dinámicamente.} de la red.\\
 \\
-El módulo de \textbf{propiedades} permite consultar información de sistema, de las instancias o de los anfitriones físicos. La información que puede ser consultada es toda aquella que el sistema tenga disponible o que se pueda consultar por medio de comandos de sistema o comandos propios de VirtShell. Ejemplos de información que se puede consultar por medio de las propiedades es porcentajes de memoria y cpu usada, numero de procesos en ejecución, etc. Las propiedades pueden ser consultadas en una sola maquina, o simultáneamente en varias maquinas, o a un conjunto de maquinas de acuerdo a prefijos en su nombre.\\
+El módulo de \textbf{propiedades} permite consultar información de sistema, de las instancias o de los anfitriones físicos. La información que puede ser consultada es toda aquella que el sistema tenga disponible o que se pueda consultar por medio de comandos de sistema o comandos propios de VirtShell. Ejemplos de información que se puede consultar por medio de las propiedades es porcentajes de memoria y cpu usada, número de procesos en ejecución, etc. Las propiedades pueden ser consultadas en una sola máquina, o simultáneamente en varias máquinas, o a un conjunto de máquinas de acuerdo a prefijos en su nombre.\\
 \\
-Finalmente, el módulo de \textbf{tareas} da la información y estado sobre las diferentes tareas o trabajos ejecutados en el sistema. Debido a que el medio para interactuar con los módulos de VirtShell es a través de un API REST, una petición de creación de un nuevo recurso virtual, puede ser largo si el aprovisionamiento involucra varias maquinas. Para evitar, tener una petición esperando respuesta, VirtShell crea una tarea que sera ejecutada de manera asincrónica, dando como respuesta, un identificador de la tarea, para que esta pueda ser consultada posteriormente y conocer el estado de la petición.
+Finalmente, el módulo de \textbf{tareas} da la información y estado sobre las diferentes tareas o trabajos ejecutados en el sistema. Debido a que el medio para interactuar con los módulos de VirtShell es a través de un API REST, una petición de creación de un nuevo recurso virtual, puede ser largo si el aprovisionamiento involucra varias máquinas. Para evitar, tener una petición esperando respuesta, VirtShell crea una tarea que será ejecutada de manera asincrónica, dando como respuesta, un identificador de la tarea, para que esta pueda ser consultada posteriormente y conocer el estado de la petición.
 
 
 \subsection{Provisioning}
 Aprovisionamiento consiste de los módulos \emph{provisioners} (aprovisonadores), \emph{images} (imágenes), \emph{files} (archivos) y \emph{packages} (paquetes).\\
 \\
-El módulo de \textbf{aprovisionadores} define un marco de aprovisionamiento de un recurso virtual y contiene las configuraciones necesarias para apoyar ese marco. La configuración fundamental de un aprovisionador, es la ruta del repositorio git \footnote{git es un software de control de versiones diseñado por Linus Torvalds}, donde se encuentran los scripts y archivos necesarios para realizar el aprovisionamiento. Del mismo modo la forma de ejecutar los scripts, hace parte de la configuración básica. Para ser mas ligero a VirtShell, los scripts de aprovisionamiento, deben estar registrados en un repositorio git público. VirtShell se encarga de descargar el repositorio y de ejecutar los scripts de aprovisionamiento, de acuerdo a la configuración especificada. \\
+El módulo de \textbf{aprovisionadores} define un marco de aprovisionamiento de un recurso virtual y contiene las configuraciones necesarias para apoyar ese marco. La configuración fundamental de un aprovisionador, es la ruta del repositorio git \footnote{git es un software de control de versiones diseñado por Linus Torvalds}, donde se encuentran los scripts y archivos necesarios para realizar el aprovisionamiento. Del mismo modo la forma de ejecutar los scripts, hace parte de la configuración básica. Para ser más ligero a VirtShell, los scripts de aprovisionamiento, deben estar registrados en un repositorio git público. VirtShell se encarga de descargar el repositorio y de ejecutar los scripts de aprovisionamiento, de acuerdo a la configuración especificada. \\
 \\
 Adicionalmente, los aprovisonadores cuentan con una manera de especificar las dependencias del nuevo recurso virtual. VirtShell se encarga de resolver las dependencias antes de realizar el aprovisionamiento del nuevo recurso, a su vez, suministra información de ellas a los scripts de aprovisionamiento si estos lo requieren. \\
 \\
 VirtShell utiliza como lenguaje de referencia, para la creación de scripts de aprovisionamiento, el lenguaje shell. Este cuenta con los recursos suficientes para interactuar con los diferentes sistemas operativos de las instancias. Sin embargo estos comandos se pueden extender usando el paquete de comandos propios de VirtShell, los cuales pueden abstraer muchas de las operaciones del shell. Esto facilita la escritura de los mismos o permite hacerlos independientes del sistema operativo en el cual van a ejecutarse.\\
 \\
-El módulo de \textbf{imágenes} proporciona la información necesaria de las imágenes que se encuentran registradas en el sistema. Cada vez que se crea un nuevo recurso virtual en un anfitrión, se especifica el nombre de la imagen almacenada en el sistema que sera usada, de una de las que se encuentra en el sistema. \\
+El módulo de \textbf{imágenes} proporciona la información necesaria de las imágenes que se encuentran registradas en el sistema. Cada vez que se crea un nuevo recurso virtual en un anfitrión, se especifica el nombre de la imagen almacenada en el sistema que será usada, de una de las que se encuentra en el sistema. \\
 \\
-Las imágenes que se manejan en VirtShell son de dos tipos: ISO \footnote{Una imagen ISO es un archivo informático donde se almacena una copia o imagen exacta de un sistema de archivos o ficheros de un disco óptico, normalmente un disco compacto (CD) o un disco versátil digital (DVD).} y para contenedores. Las de tipo ISO, se encuentran guardadas en el repositorio de VirtShell, y su uso se enfoca a maquinas virtuales que interactuan con hypervisors. Las imágenes de tipo contenedor, se emplean para tecnologías de visualización de sistema operativo como LXC \footnote{LXC (Linux Containers) es una tecnología de virtualización a nivel de sistema operativo (SO) para Linux. } \cite{lxc16} y Docker \footnote{Docker es un proyecto de código abierto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de Virtualización a nivel de sistema operativo en Linux.} \cite{docker16}. Estas son descargadas automáticamente de los repositorios de dominio público de los diferentes proveedores. \\
+Las imágenes que se manejan en VirtShell son de dos tipos: ISO \footnote{Una imagen ISO es un archivo informático donde se almacena una copia o imagen exacta de un sistema de archivos o ficheros de un disco óptico, normalmente un disco compacto (CD) o un disco versátil digital (DVD).} y para contenedores. Las de tipo ISO, se encuentran guardadas en el repositorio de VirtShell, y su uso se enfoca a máquinas virtuales que interactúan con hypervisors. Las imágenes de tipo contenedor, se emplean para tecnologías de visualización de sistema operativo como LXC \footnote{LXC (Linux Containers) es una tecnología de virtualización a nivel de sistema operativo (SO) para Linux. } \cite{lxc16} y Docker \footnote{Docker es un proyecto de código abierto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de Virtualización a nivel de sistema operativo en Linux.} \cite{docker16}. Estas son descargadas automáticamente de los repositorios de dominio público de los diferentes proveedores. \\
 \\
-El módulo de imágenes cuenta también, con la característica de crear automáticamente nuevas imágenes de tipo ISO a partir de las \emph{releases} (liberaciones) base de las diferentes distribuciones de sistemas operativos linux. Una vez creada la nueva ISO esta sera guardada en el repositorio interno para su posterior uso.\\
+El módulo de imágenes cuenta también, con la característica de crear automáticamente nuevas imágenes de tipo ISO a partir de las \emph{releases} (liberaciones) base de las diferentes distribuciones de sistemas operativos linux. Una vez creada la nueva ISO esta será guardada en el repositorio interno para su posterior uso.\\
 \\
-El módulo de \textbf{archivos} proporciona una manera de almacenar archivos en VirtShell, los cuales pueden ser usados para almacenar 
-
-El módulo de \textbf{archivos} proporciona una manera de almacenar archivos en VirtShell, los cuales pueden ser usados para almacenar información necesaria para crear imágenes o para enviarlos a uno o mas recursos virtuales de manera simultánea en un directorio especificado. Adicionalmente, permite especificar los permisos que tendrán los archivos.\\
+El módulo de \textbf{archivos} proporciona una manera de almacenar archivos en VirtShell, los cuales pueden ser usados para almacenar información necesaria para crear imágenes o para enviarlos a uno o más recursos virtuales de manera simultánea en un directorio especificado. Adicionalmente, permite especificar los permisos que tendrán los archivos.\\
 \\
-El módulo de \textbf{paquetes} facilita realizar funciones tales como la instalación de nuevos paquetes de software y actualización de paquetes existentes en uno o mas recursos virtuales de manera simultanea.
+El módulo de \textbf{paquetes} facilita realizar funciones tales como la instalación de nuevos paquetes de software y actualización de paquetes existentes en uno o más recursos virtuales de manera simultánea.
 
 
 \subsection{Agents}
@@ -529,7 +572,7 @@ Los Agentes son servicios que se ejecutan localmente en cada anfitrión, y que s
 \section{API}
 API significa ``Application Programming Interface", y como término, especifica cómo debe interactuar el software.\\
 \\
-En términos generales, cuando nos referimos a las API de hoy, nos referimos más concretamente a las API web, que son manejadas a través del protocolo de transferencia de hipertexto (HTTP). Para este caso específico, entonces, una API especifica cómo un consumidor puede consumir el servicio que el API expone: cuales URI están disponibles, qué métodos HTTP puede utilizarse con cada URI, que parámetros de consulta se acepta, lo que los datos que pueden ser enviados en el cuerpo de la petición, y lo que el consumidor puede esperar como respuesta.\\
+En términos generales, cuando nos referimos a las API de hoy, nos referimos más concretamente a las API web, que son manejadas a través del protocolo de transferencia de hipertexto (HTTP). Para este caso específico, entonces, una API especifica cómo un consumidor puede consumir el servicio que el API expone: cuáles URI están disponibles, qué métodos HTTP puede utilizarse con cada URI, que parámetros de consulta se acepta, lo que los datos que pueden ser enviados en el cuerpo de la petición, y lo que el consumidor puede esperar como respuesta.\\
 \\
 En el VirtShell API REST un usuario enviá una solicitud al servidor para realizar una acción determinada (como la creación, recuperación, actualización o eliminación de un recurso virtual), y el servidor realiza la acción y enviá una respuesta, a menudo en la forma de una representación del recurso especificado.\\
 \\
@@ -537,14 +580,14 @@ En el VirtShell API, el usuario especifica una acción con un verbo HTTP como PO
 \\
 \emph{https://[host]:[port]/virtshell/api/v1/resourcePath?parameters}\\
 \\
-Debido a que todos los recursos del API tienen una única URI HTTP accesible, REST permite el almacenamiento en cache de datos y esta optimizado para trabajar con una infraestructura distribuida de la web.\\
+Debido a que todos los recursos del API tienen una única URI HTTP accesible, REST permite el almacenamiento en cache de datos y está optimizado para trabajar con una infraestructura distribuida de la web.\\
 \\
-En esta sección se detalla los recursos y operaciones que puede realizar un usuario del API para realizar aprovisionamientos automáticos desde cualquier plataforma de desarrollo. El VirtShell API provee acceso a los objetos en el VirtShell Server, esto incluye los hosts, imágenes, archivos, templates, aprovisionadores, instancias, grupos y usuarios. Por medio del API podrá crear ambientes, maquinas virtuales y contenedores personalizados, realizar configuraciones y administrar los recursos físicos y virtuales de manera programática. \\
+En esta sección se detalla los recursos y operaciones que puede realizar un usuario del API para realizar aprovisionamientos automáticos desde cualquier plataforma de desarrollo. El VirtShell API provee acceso a los objetos en el VirtShell Server, esto incluye los hosts, imágenes, archivos, templates, aprovisionadores, instancias, grupos y usuarios. Por medio del API podrá crear ambientes, máquinas virtuales y contenedores personalizados, realizar configuraciones y administrar los recursos físicos y virtuales de manera programática. \\
 
 \subsection{Formato de entrada y salida}
-JSON (JavaScript Object Notation) es un formato de datos común, independiente del lenguaje que proporciona una representación de texto simple de estructuras de datos arbitrarias. Para obtener mas información, ver json.org.\\
+JSON (JavaScript Object Notation) es un formato de datos común, independiente del lenguaje que proporciona una representación de texto simple de estructuras de datos arbitrarias. Para obtener más información, ver json.org.\\
 \\
-El VirtShell API solo soporta el formato json para intercambio de información. Cualquier solicitud que no se encuentre en formato json resultara en un error con código 406 (Content Not Acceptable Error).\\
+El VirtShell API solo soporta el formato json para intercambio de información. Cualquier solicitud que no se encuentre en formato json resultará en un error con código 406 (Content Not Acceptable Error).\\
 \\
 Las siguientes secciones muestran los métodos disponibles para cada módulo.\\
 
@@ -556,15 +599,15 @@ Representan los grupos registrados en VirtShell. Los métodos soportados son:
  \small
  \begin{tabular}{| l | l | l |}
  \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  GET & /groups/:name & Gets one group by ID. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /groups/:name & \rowfont{\scriptsize} Gets one group by ID. \\
   \hline
-  GET & /groups & Gets the list of groups. \\  
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /groups & \rowfont{\scriptsize} Gets the list of groups. \\  
   \hline
-  POST & /groups/ & creates a new group. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /groups/ & \rowfont{\scriptsize} creates a new group. \\
   \hline
-  DELETE & /groups/:name & Deletes an existing group. \\
+  \rowfont{\scriptsize} DELETE & \rowfont{\scriptsize} /groups/:name & \rowfont{\scriptsize} Deletes an existing group. \\
   \hline
 \end{tabular}
 \end{center}
@@ -577,17 +620,17 @@ Representan los usuarios registrados en VirtShell. Los métodos soportados son:
  \small
  \begin{tabular}{| l | l | l |}
  \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  GET & /users/:name & Gets one user by ID. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /users/:name & \rowfont{\scriptsize} Gets one user by ID. \\
   \hline
-  POST & /users/ & creates a new user. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /users/ & \rowfont{\scriptsize} creates a new user. \\
   \hline
-  GET & /users & Gets the list of users. \\  
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /users & \rowfont{\scriptsize} Gets the list of users. \\  
   \hline
-  DELETE & /users/:name & Deletes an existing user. \\
+  \rowfont{\scriptsize} DELETE & \rowfont{\scriptsize} /users/:name & \rowfont{\scriptsize} Deletes an existing user. \\
   \hline  
-  PUT & /users/:name & Updates an existing user. \\ [1ex]  
+  \rowfont{\scriptsize} PUT & \rowfont{\scriptsize} /users/:name & \rowfont{\scriptsize} Updates an existing user. \\ [1ex]  
   \hline
 \end{tabular}
 \end{center}
@@ -600,40 +643,40 @@ Las particones permiten organizar las máquinas que albergaran recursos virtuale
  \small
  \begin{tabular}{| l | l | l |}
  \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  GET & /partitions/:name & Gets one partition. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /partitions/:name & \rowfont{\scriptsize} Gets one partition. \\
   \hline
-  GET & /partitions & Gets the list of partitions. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /partitions & \rowfont{\scriptsize} Gets the list of partitions. \\
   \hline  
-  POST & /partitions/ & Inserts a new partition. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /partitions/ & \rowfont{\scriptsize} Inserts a new partition. \\
   \hline
-  DELETE & /partitions/:name & Deletes apartition. \\
+  \rowfont{\scriptsize} DELETE & \rowfont{\scriptsize} /partitions/:name & \rowfont{\scriptsize} Deletes apartition. \\
   \hline  
-  PUT & \pbox{5cm}{/partitions/:name/ \\host/:hostname} & Add a host to partition. \\ [1ex] 
+  \rowfont{\scriptsize} PUT & \rowfont{\scriptsize} \pbox{5cm}{/partitions/:name/ \\host/:hostname} & \rowfont{\scriptsize} Add a host to partition. \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
 
 \subsection{Hosts}
-Representan las maquinas físicas; un host es un anfitrión de maquinas virtuales o contenedores. Los métodos soportados son:
+Representan las máquinas físicas; un host es un anfitrión de máquinas virtuales o contenedores. Los métodos soportados son:
 
 \begin{center}
  \captionof{table}{Métodos HTTP para hosts}
  \small
  \begin{tabular}{| l | l | l |}
  \hline
- \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+ \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  GET & /hosts/:name & Gets one host by name. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /hosts/:name & \rowfont{\scriptsize} Gets one host by name. \\
   \hline
-  GET & /hosts & Gets the list of hosts. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /hosts & \rowfont{\scriptsize} Gets the list of hosts. \\
   \hline  
-  POST & /hosts/ & Inserts a new host. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /hosts/ & \rowfont{\scriptsize} Inserts a new host. \\
   \hline
-  DELETE & /hosts/:name & Deletes an existing host. \\
+  \rowfont{\scriptsize} DELETE & \rowfont{\scriptsize} /hosts/:name & \rowfont{\scriptsize} Deletes an existing host. \\
   \hline  
-  PUT & /hosts/:name & Updates an existing host. \\ [1ex] 
+  \rowfont{\scriptsize} PUT & \rowfont{\scriptsize} /hosts/:name & \rowfont{\scriptsize} Updates an existing host. \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
@@ -647,15 +690,15 @@ Representan las instancias de las máquinas virtuales o los contenedores. Los m�
  \small
  \begin{tabular}{| l | l | l |}
  \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  GET & /provisioners/:name & Gets one provisioner by ID. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /provisioners/:name & \rowfont{\scriptsize} Gets one provisioner by ID. \\
   \hline
-  GET & /provisioners & Gets the list of provisioners. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /provisioners & \rowfont{\scriptsize} Gets the list of provisioners. \\
   \hline  
-  POST & /provisioners/ & Creates a new provisioner. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /provisioners/ & \rowfont{\scriptsize} Creates a new provisioner. \\
   \hline
-  DELETE & /provisioners/:name & Deletes an existing host. \\ [1ex] 
+  \rowfont{\scriptsize} DELETE & \rowfont{\scriptsize} /provisioners/:name & \rowfont{\scriptsize} Deletes an existing host. \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
@@ -669,17 +712,17 @@ Representan una tarea en VirtShell. Los métodos soportados son:
  \small
  \begin{tabular}{| l | l | l |}
  \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  GET & /tasks/:id & Gets one task by ID. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /tasks/:id & \rowfont{\scriptsize} Gets one task by ID. \\
   \hline
-  GET & /tasks & Gets the list of tasks. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /tasks & \rowfont{\scriptsize} Gets the list of tasks. \\
   \hline
-  GET & /tasks/status & Gets all task by status. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /tasks/status & \rowfont{\scriptsize} Gets all task by status. \\
   \hline 
-  POST & /tasks/ & Creates a new task \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /tasks/ & \rowfont{\scriptsize} Creates a new task \\
   \hline  
-  PUT & /tasks/:id & Updates an existing task. \\ [1ex] 
+  \rowfont{\scriptsize} PUT & \rowfont{\scriptsize} /tasks/:id & \rowfont{\scriptsize} Updates an existing task. \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
@@ -691,9 +734,9 @@ Representan propiedades de configuracián de las máquinas virtuales o contenedo
  \captionof{table}{Métodos HTTP para properties}
  \begin{tabular}{| l | l | l |}
  \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  GET & /properties/ & Install one or more packages. \\ [1ex] 
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /properties/ & \rowfont{\scriptsize} Install one or more packages. \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
@@ -706,17 +749,17 @@ Representan los scripts que aprovisionan las máquinas virtuales o los contenedo
  \captionof{table}{Métodos HTTP para provisioners}
  \begin{tabular}{| l | l | l |}
  \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  GET & /provisioners/:name & Gets one provisioner by ID. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /provisioners/:name & \rowfont{\scriptsize} Gets one provisioner by ID. \\
   \hline
-  GET & /provisioners & Gets the list of provisioners. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /provisioners & \rowfont{\scriptsize} Gets the list of provisioners. \\
   \hline  
-  POST & /provisioners/ & Creates a new provisioner. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /provisioners/ & \rowfont{\scriptsize} Creates a new provisioner. \\
   \hline
-  DELETE & /provisioners/:name & Deletes an provisioner. \\
+  \rowfont{\scriptsize} DELETE & \rowfont{\scriptsize} /provisioners/:name & \rowfont{\scriptsize} Deletes an provisioner. \\
   \hline  
-  PUT & /provisioners/:name & Updates a provisioner. \\ [1ex] 
+  \rowfont{\scriptsize} PUT & \rowfont{\scriptsize} /provisioners/:name & \rowfont{\scriptsize} Updates a provisioner. \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
@@ -728,15 +771,15 @@ Representan imagenes de máquinas virtuales o contenedores. Los métodos soporta
  \captionof{table}{Métodos HTTP para images}
  \begin{tabular}{| l | l | l |}
  \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  GET & /images/:name & Gets one image by name. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /images/:name & \rowfont{\scriptsize} Gets one image by name. \\
   \hline
-  GET & /images & Retrieves the list of images. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /images & \rowfont{\scriptsize} Retrieves the list of images. \\
   \hline  
-  POST & /images/ & Inserts a new image. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /images/ & \rowfont{\scriptsize} Inserts a new image. \\
   \hline
-  DELETE & /images/:name & Deletes an existing image. \\ [1ex] 
+  \rowfont{\scriptsize} DELETE & \rowfont{\scriptsize} /images/:name & \rowfont{\scriptsize} Deletes an existing image. \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
@@ -749,13 +792,13 @@ Representan paquetes de software que se ejecutan en las máquinas virtuales o co
  \captionof{table}{Métodos HTTP para packages}
  \begin{tabular}{| l | l | l |}
  \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  POST & /install\_packages/ & \pbox{4cm}{Install one or more\\ packages.} \\ 
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /install\_packages/ & \rowfont{\scriptsize} Install one or more packages. \\ 
   \hline
-  POST & /upgrade\_packages/ & \pbox{4cm}{Upgrade one or more\\ packages.} \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /upgrade\_packages/ & \rowfont{\scriptsize} Upgrade one or more packages. \\
   \hline
-  POST & /remove\_packages/ & \pbox{4cm}{Remove one or more \\packages.} \\ [1ex] 
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /remove\_packages/ & \rowfont{\scriptsize} Remove one or more packages. \\ [1ex] 
   \hline
 \end{tabular}
 \end{center}
@@ -767,15 +810,15 @@ Representan toda clase de archivos que se requieran para crear o aprovisionar m�
 \captionof{table}{Métodos HTTP para files}
  \begin{tabular}{| l | l | l |}
  \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  GET & /files/:id & Gets one file by ID. \\
+  \rowfont{\scriptsize} GET & \rowfont{\scriptsize} /files/:id & \rowfont{\scriptsize} Gets one file by ID. \\
   \hline
-  POST & /files/ & upload a new file. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} /files/ & \rowfont{\scriptsize} Upload a new file. \\
   \hline
-  DELETE & /files/:id & Deletes an existing file. \\
+  \rowfont{\scriptsize} DELETE & \rowfont{\scriptsize} /files/:id & \rowfont{\scriptsize} Deletes an existing file. \\
   \hline  
-  PUT & /files/:id & Updates an existing file. \\ [1ex]  
+  \rowfont{\scriptsize} PUT & \rowfont{\scriptsize} /files/:id & \rowfont{\scriptsize} Updates an existing file. \\ [1ex]  
   \hline
 \end{tabular}
 \end{center}
@@ -789,19 +832,19 @@ Representan las acciones que no encajan en las operaciones CRUD \footnote{En com
 \captionof{table}{Métodos HTTP para API Calls}
  \begin{tabular}{| l | l | l |}
  \hline
-  \textbf{Método} & \textbf{Solicitud} & \textbf{Descripción} \\ [0.5ex] 
+  \rowfont{\scriptsize} \textbf{Método} & \rowfont{\scriptsize} \textbf{Solicitud} & \rowfont{\scriptsize} \textbf{Descripción} \\ [0.5ex] 
   \hline\hline
-  POST & instances/start\_instance/:id & Start instance. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} instances/start\_instance/:id & \rowfont{\scriptsize} Start instance. \\
   \hline
-  POST & instances/stop\_instance/:id & Stop instance. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} instances/stop\_instance/:id & \rowfont{\scriptsize} Stop instance. \\
   \hline
-  POST & instances/restart\_instance/:id & Restart instance. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} instances/restart\_instance/:id & \rowfont{\scriptsize} Restart instance. \\
   \hline
-  POST & instances/clone\_instance/:id & Clone instance. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} instances/clone\_instance/:id & \rowfont{\scriptsize} Clone instance. \\
   \hline
-  POST & instances/execute\_command & Exec. commands. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} instances/execute\_command & \rowfont{\scriptsize} Exec. commands. \\
   \hline
-  POST & instances/copy\_files & Copy files. \\
+  \rowfont{\scriptsize} POST & \rowfont{\scriptsize} instances/copy\_files & \rowfont{\scriptsize} Copy files. \\
   \hline
 \end{tabular}
 \end{center}
@@ -905,8 +948,14 @@ Representan las acciones que no encajan en las operaciones CRUD \footnote{En com
 % footnotes above bottom floats. This can be corrected via the
 % \fnbelowfloat command of the stfloats package.
 
-
-
+\section{Experiencia y Evaluación}
+En este artículo se ha presentado dos cosas principalmente, un nuevo enfoque de aprovisionamiento de software y un API REST. En las pruebas realizadas VirtShell demostró que parece ser una herramienta útil para aprovisionar software de manera sencilla y fiable. La experiencia adquirida con la primera versión es la siguiente:
+\begin{itemize}
+\item \emph{VirtShell funciona}. Muchas personas que han trabajado aprovisionando ambientes virtuales encontrarán en VirtShell un mecanismo diferente, rápido y completo para realizar cualquier tipo de aprovisionamiento.
+\item \emph{Aprovisionar ambientes virtuales via web usando scripts escritos en el lenguaje que prefiera si es posible}.
+\item \emph{El aprovisionamiento de máquinas virtuales o contenedores es prácticamente el mismo}, solo cambian unos pocos parámetros propios de configuración de la tecnología de visualización seleccionada.
+\end{itemize}
+La primera versión de VirtShell fue desarrollada en el lenguaje Python (versión 3) y se encuentra alojada en el repositorio git: \url{https://github.com/janutechnology/VirtShell}. Esta versión inicial aun no esta terminada y se encuentra en continuo desarrollo para lograr tener todas las funcionalidades funcionando. 
 
 \section{Conclusion}
 Como resultado del presente artículo, se concluye que el diseño de VirtShell framework permite administrar y aprovisionar servicios de infraestructura de TI, debido a que se apoya en las actuales tecnologías de virtualización, permitiendo utilizar diferentes sistemas operativos a través de su interfaz web, personalizarlos, gestionar sus permisos y crear tantos como se requiera.\\
@@ -915,14 +964,14 @@ Por otro lado al comparar VirtShell contra las soluciones de virtualización act
 
 \begin{itemize}
 \item \emph{Rendimiento}: Se puede soportar usando caches que permitan mantener la información cerca del procesamiento. Esto puede ayudar aún más, reduciendo la sobrecarga asociada con la creación de solicitudes complejas.
-\item \emph{Escalibilidad}: Si el aumento de la demanda exige aumentar el número de servidores de VirtShell, esto puede hacerse sin preocuparse por la sincronización entre los mismos, debido a que los datos de la sesión están contenidos en cada petición.
-\item \emph{Simplicidad}: REST es un estilo de arquitectura orientado a la simpleza. El argumento  central de esta propiedad es el HTTP mismo, con su conjunto mínimo de métodos y su semántica simplísima, es suficientemente general para modelar el dominio de VirtShell.
-\item \emph{Visibilidad}: Rest está diseñado para ser visible y simple, lo que significa que cada aspecto del servicio debe ser auto-descriptivo siguiendo las normas HTTP.
+\item \emph{Escalabilidad}: Si el aumento de la demanda exige aumentar el número de servidores de VirtShell, esto puede hacerse sin preocuparse por la sincronización entre los mismos, debido a que los datos de la sesión están contenidos en cada petición.
+\item \emph{Simplicidad}: REST es un estilo de arquitectura orientado a la simpleza. El argumento  central de está propiedad es el HTTP mismo, con su conjunto mínimo de métodos y su semántica simplísima, es suficientemente general para modelar el dominio de VirtShell.
+\item \emph{Visibilidad}: REST está diseñado para ser visible y simple, lo que significa que cada aspecto del servicio debe ser auto-descriptivo siguiendo las normas HTTP.
 \item \emph{Portabilidad}: Un Software es portable si el puede correr en diferentes ambientes, el estilo arquitectural REST permite separar las preocupaciones de interfaz de usuario de las preocupaciones de almacenamiento de datos, mejorando la portabilidad. Adicionalmente el World Wide Web es altamente portable debido a su nivel de estandarización.
 \end{itemize}
 
 Por lo anterior se concluye que la principal fortaleza de VirtShell y su diferencia frente a
- las demás soluciones de virtualización consiste en exponer sus funcionalidades por medio de un API REST, lo que le concede ademas capacidades de integración con diferentes plataformas de desarrollo.
+ las demás soluciones de virtualización consiste en exponer sus funcionalidades por medio de un API REST, lo que le concede además capacidades de integración con diferentes plataformas de desarrollo.
 
 
 
@@ -955,7 +1004,7 @@ Por lo anterior se concluye que la principal fortaleza de VirtShell y su diferen
 % http://mirror.ctan.org/biblio/bibtex/contrib/doc/
 % The IEEEtran BibTeX style support page is at:
 % http://www.michaelshell.org/tex/ieeetran/bibtex/
-%\bibliographystyle{IEEEtran}
+\bibliographystyle{IEEEtran}
 % argument is your BibTeX string definitions and bibliography database(s)
 %\bibliography{IEEEabrv,../bib/paper}
 %
@@ -970,50 +1019,60 @@ Por lo anterior se concluye que la principal fortaleza de VirtShell y su diferen
 
 
 
-\bibitem{socc15} ACM Symposium on Cloud Computing 2015, http://acmsocc.github.io/2015, 2015.
+\bibitem{xen16} (2016, Ago.) Xen Project. [Online]. Available: \url{https://www.xenproject.org/}.
 
-\bibitem{tanembaum14} Andrew S. Tanembaum, Modern Operating Systems 4th Edition, 2014.
+\bibitem{kvm16} (2016, Ago.) Kernel-based Virtual Machine. [Online]. Available: \url{http://www.linux-kvm.org/page/Main_Page}.
 
-\bibitem{fabfile16}Fabric, http://www.fabfile.org/, 2016.
+\bibitem{vmware16} (2016, Ago.) VMware vSphere Hypervisor. [Online]. Available: \url{https://www.vmware.com/products/vsphere-hypervisor.html}.
 
-\bibitem{juju16}Ubuntu Juju, http://www.ubuntu.com/cloud/juju, 2016.
+\bibitem{virtualbox16} (2016, Ago.) Oracle Virtualbox. [Online]. Available: \url{https://www.virtualbox.org/}.
 
-\bibitem{doccom16}Docker Composer, https://docs.docker.com/compose, 2016.
+\bibitem{socc15} (2015, Jul.) ACM Symposium on Cloud Computing 2015. [Online]. Available: \url{http://acmsocc.github.io/2015}.
 
-\bibitem{Smart09}SmartFrog, http://smartfrog.org/display/sf/SmartFrog+Home, 2009.
+\bibitem{tanembaum14} Andrew S. Tanembaum, Modern Operating Systems, Amsterdam, The Netherlands: Pearson, 2014.
 
-\bibitem{ans16}Ansible, https://www.ansible.com, 2016.
+\bibitem{fabfile16} (2016, Ago.) Fabric. [Online]. Available: \url{http://www.fabfile.org/}.
 
-\bibitem{Amazon16}Amazon EC2, https://aws.amazon.com/ec2, 2016.
+\bibitem{juju16} (2016, Ago.) Ubuntu Juju. [Online]. Available: \url{http://www.ubuntu.com/cloud/juju}.
 
-\bibitem{Chef15}Chef, https://docs.chef.io, 2015.
+\bibitem{doccom16} (2016, Jul.) Docker Composer. [Online]. Available: \url{https://docs.docker.com/compose, 2016}.
 
-\bibitem{Pupet15}Puppet, http://projects.puppetlabs.com/projects/puppet, 2015.
+\bibitem{Smart09} (2009, Jun.) SmartFrog. [Online]. Available: \url{http://smartfrog.org/display/sf/SmartFrog+Home}.
 
-\bibitem{cfengine15}Cfengine, https://www.gnu.org/software/cfengine, 2001.
+\bibitem{ans16} (2016, Jun) Ansible. [Online]. Available: \url{https://www.ansible.com}.
 
-\bibitem{bdfg215}Bdfg2, http://bcfg2.org, 2015.
+\bibitem{Amazon16} (2016, Jul.) Amazon EC2. [Online]. Available: \url{https://aws.amazon.com/ec2}.
 
-\bibitem{Cobbler15}Cobbler, https://cobbler.github.io, 2016.
+\bibitem{Chef15} (2015, Oct.) Chef. [Online]. Available: \url{https://docs.chef.io, 2015}.
 
-\bibitem{Vag15}Vagrant, https://www.vagrantup.com, 2016.
+\bibitem{Pupet15} (2015, Dec.) Puppet. [Online]. Available: \url{http://projects.puppetlabs.com/projects/puppet}.
 
-\bibitem{Salt15}SaltStack, http://saltstack.com/community, 2016.
+\bibitem{cfengine15} (2001, Sept.) Cfengine. [Online]. Available: \url{https://www.gnu.org/software/cfengine}.
 
-\bibitem{fielding00} Architectural Styles and
-the Design of Network-based Software Architectures, https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm, 2000.
+\bibitem{bcfg215} (2015, Jan) Bdfg2. [Online]. Available: \url{http://bcfg2.org}.
 
-\bibitem{fowler04} Inversion of Control Containers and the Dependency Injection pattern, http://martinfowler.com/articles/injection.html, 2004.
+\bibitem{Cobbler15} (2016, Feb.) Cobbler. [Online]. Available: \url{https://cobbler.github.io}.
 
-\bibitem{rfc2104}HMAC: Keyed-Hashing for Message Authentication, https://www.ietf.org/rfc/rfc2104.txt, 1997.
+\bibitem{smart16} (2009, Jan.) SmartFrog, [Online]. Available: \url{http://smartfrog.org/display/sf/SmartFrog+Home}.
 
-\bibitem{lxc16}Linux Containers, https://linuxcontainers.org, 2016..
+\bibitem{Vag15} (2016, Mar.) Vagrant. [Online]. Available: \url{https://www.vagrantup.com}.
 
-\bibitem{lxcubuntu16}LXC Templates Documentation, https://help.ubuntu.com/lts/serverguide/lxc.html, 2016.
+\bibitem{Salt15} (2016, Jan.) SaltStack. [Online]. Available: \url{http://saltstack.com/community}.
 
-\bibitem{docker16}Docker, https://docker.com, 2016.
+\bibitem{fielding00} (2000, Jun.) Architectural Styles and
+the Design of Network-based Software Architectures. [Online]. Available: \url{https://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf}.
 
-\bibitem{Xinyang09} REST - An Alternative to RPC for Web Services Architecture, http://web.uvic.ca/\~erikj/seng422/resources/rest\_paper.pdf, 2009.
+\bibitem{fowler04} (2004, Jan.) Inversion of Control Containers and the Dependency Injection pattern. [Online]. Available: \url{http://martinfowler.com/articles/injection.html}.
+
+\bibitem{rfc2104} (1997, Feb.) HMAC: Keyed-Hashing for Message Authentication. [Online]. Available: \url{https://www.ietf.org/rfc/rfc2104.txt}.
+
+\bibitem{lxc16} (2016, Jun.) Linux Containers. [Online]. Available: \url{https://linuxcontainers.org}.
+
+\bibitem{lxcubuntu16} (2016, Jun.) LXC Templates Documentation. [Online]. Available: \url{https://help.ubuntu.com/lts/serverguide/lxc.html}.
+
+\bibitem{docker16} (2016, Jul.) Docker. [Online]. Available: \url{https://docker.com}.
+
+\bibitem{Xinyang09} (2009, Dec) REST - An Alternative to RPC for Web Services Architecture. [Online]. Available: \url{http://web.uvic.ca/\~erikj/seng422/resources/rest\_paper.pdf}.
 
 
 
