@@ -10,12 +10,16 @@ SRC = tesis.tex
 article:
 	pdflatex articulo.tex
 	pdflatex articulo.tex
-	evince articulo.pdf
+	mv articulo.pdf Shortpaper#80.pdf
+	evince Shortpaper#80.pdf
 
 pdf: clean
 	pdflatex tesis.tex
 	pdflatex tesis.tex
 	evince tesis.pdf
+
+slides:
+	make -C presentation/
 
 clean:
 	rm -f *.log
@@ -32,6 +36,7 @@ clean:
 	rm -f *.idx
 	rm -f *.ind
 	rm -f *.ilg
+	cd presentation; make clean; cd ..
 
 clean2:
 	rm -f *.log
