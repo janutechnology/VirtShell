@@ -1,35 +1,53 @@
-\documentclass[xcolor=svgnames]{beamer}
+\documentclass[xcolor=dvipsnames]{beamer} % dvipsnames gives more built-in colors
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 
-\usetheme{Sybila} 
+\usetheme{Madrid}
+\useoutertheme{miniframes} % Alternatively: miniframes, infolines, split
+\useinnertheme{circles}
 
-\title[VirtShell]{VirtShell \\ Framework para aprovisionamiento de soluciones virtuales}
-\author{Carlos Alberto Llano R.}
+\definecolor{UBCblue}{rgb}{0.04706, 0.13725, 0.26667} % UBC Blue (primary)
+
+\usecolortheme[named=UBCblue]{structure}
+%\usecolortheme[named=Mahogany]{structure} % Sample dvipsnames color
+
+\title[VirtShell]{\textbf{VirtShell} \\ Framework para aprovisionamiento de soluciones virtuales}
 \date{\today}
+\titlegraphic{\includegraphics[width=1.0cm]{logo_univalle.pdf}}                                                                                                           \author[CALlanoR]{\textbf{Carlos Alberto Llano R.}}
+\institute[www.univalle.edu.co]{Escuela de Ingeniería de Sistemas y Computación \\ Maestría en Ingeniería con énfasis en Ingeniería de Sistemas}
 
 \begin{document}
-% --------------------------- SLIDE --------------------------------------------
-\frame[plain]{\titlepage}
-% --------------------------- SLIDE --------------------------------------------
-\begin{frame}
-	\frametitle{Arquitectura}
-\end{frame}
-% --------------------------- SLIDE --------------------------------------------
-\begin{frame}
-        \frametitle{Implementación}
-\end{frame}
-% --------------------------- SLIDE --------------------------------------------
-\begin{frame}
-        \frametitle{Pruebas y Resultados}
-\end{frame}
-% --------------------------- SLIDE --------------------------------------------
-\begin{frame}
-        \frametitle{Conclusiones}
-\end{frame}
-% --------------------------- SLIDE --------------------------------------------
-\begin{frame}
-        \frametitle{Recomendaciones}
-\end{frame}
+
+\frame{\titlepage}
+
+\frame{\frametitle{Contents}\tableofcontents}
+
+\logo{\hspace*{0.6\textwidth}\includegraphics[width=0.6cm]{logo_univalle}\hspace*{0.3cm}}
+
+\section{Arquitectura}
+\frame{ \frametitle{Arquitectura}
+...
+}
+
+\section{Implementación}
+\frame{ \frametitle{Implementación}
+...
+}
+
+
+\section{Pruebas y Resultados}
+\frame{ \frametitle{Pruebas y Resultados}
+...
+}
+
+\section{Conclusiones}
+\frame{ \frametitle{Conclusiones}
+...
+}
+
+\section{Recomendaciones}
+\frame{ \frametitle{Recomendaciones}
+...
+}
 
 \end{document}
