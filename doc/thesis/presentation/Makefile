@@ -29,3 +29,4 @@ clean:
 	rm -f *.ilg
 	rm -f *.nav
 	rm -f *.snm
+	rm -r *.vrb
