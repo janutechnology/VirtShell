@@ -1,0 +1,10 @@
+\frametitle {Ambientes de trabajo (Ejemplo)}
+\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
+curl -X POST http://virtshellsrv:80/enviroments/
+    -d "{\"name\":\"development\",
+         \"description\":\"Development enviroment\",
+         \"partition\": \"development_co\",
+         \"users\": [{\"login\": \"development_user\"},
+                     {\"login\": \"guest\"}]}"
+    -H "accept:application/json" | jq .
+\end{lstlisting}
