@@ -4,6 +4,8 @@
 \usepackage{xcolor}
 \usepackage{listings}
 \usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multicol}
 
 \usetheme{Madrid}
 \useoutertheme{miniframes} % Alternatively: miniframes, infolines, split
@@ -43,24 +45,118 @@
 %\usecolortheme[named=Mahogany]{structure} % Sample dvipsnames color
 
 \title[VirtShell]{\textbf{VirtShell} \\ Framework para aprovisionamiento de soluciones virtuales}
-\date{\today}
-\titlegraphic{\includegraphics[width=1.0cm]{logo_univalle.pdf}}                                                                                                           \author[CALlanoR]{\textbf{Carlos Alberto Llano R.}}
-\institute[www.univalle.edu.co]{Escuela de Ingeniería de Sistemas y Computación \\ Maestría en Ingeniería con énfasis en Ingeniería de Sistemas}
+\date{\tiny\today}
+\titlegraphic{\includegraphics[width=0.9cm]{logo_univalle.pdf}}
+\author[CALlanoR]{\textbf{Carlos Alberto Llano R.}}
+\institute[www.univalle.edu.co]{Escuela de Ingeniería de Sistemas y Computación \\ Maestría en Ingeniería con énfasis en Ingeniería de Sistemas y Computación \vspace{0.2cm} \\ Director: \\ \textbf{John Alexander Sanabria}}
 
 \begin{document}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TITLE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \frame{\titlepage}
 
+\setcounter{tocdepth}{1}  % Esto permite esconder las subsections
 \frame{\frametitle{Contents}\tableofcontents}
 
 \logo{\hspace*{0.6\textwidth}\includegraphics[width=0.6cm]{logo_univalle}\hspace*{0.3cm}}
 
-\section{Flujo de aprovisionamiento}
-\frame{ \frametitle{Flujo}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OBJETIVOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Objetivos}
+
+\frame{ \frametitle{Objetivos}
+\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+\begin{block}{General}
+Diseñar un framework web, que permita el aprovisionamiento de software automático, para ambientes virtualizados.
+\end{block}
+\pause
+\vspace{0.3cm}
+\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+\begin{block}{Específicos}
+	\begin{enumerate}
+		\item Evaluar diferentes técnicas y soluciones de aprovisionamiento que se utilizan en la actualidad.
+		\item Evaluar diferentes mecanismos de aprovisionamiento.
+		\item Realizar una ejemplificación del framework.
+	\end{enumerate}
+\end{block}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OBJETIVO #1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Técnicas y soluciones de aprovisionamiento actuales (Objetivo \#1)}
+
+\frame{ \frametitle{Técnicas de Virtualización}
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.4\textwidth}
+	\includegraphics[width=0.7\textwidth]{../../architecture/v1/diagrams/contenedores.jpg}
+	\caption*{Contenedores}
+	\end{subfigure}
+  \hspace{0.6cm}
+  \pause
+  \begin{subfigure}[t]{0.4\textwidth}
+    \includegraphics[width=0.7\textwidth]{../../architecture/v1/diagrams/virtualmachine.jpg}
+    \caption*{Máquinas Virtuales}
+  \end{subfigure}
+\end{figure}
+}
+
+\frame{ \frametitle{Soluciones de aprovisionamiento evaluadas}
+\begin{multicols}{2}
+\begin{itemize}
+\item Fabric
+\item Chef
+\item Puppet
+\item Juju
+\item CFEngine
+\item Bcfg2
+\item Ansible
+\item Cobbler
+\item SmartFrog
+\item Amazon EC2
+\item Docker composer
+\item SaltStack
+\item Vagrant
+\end{itemize}
+\end{multicols}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OBJETIVO #2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Evaluar diferentes mecanismos de aprovisionamiento. (Objetivo \#2)}
+
+\frame{ \frametitle{Estilos de servicios web}
+\begin{itemize}
+\item RPC
+\item REST
+\end{itemize}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OBJETIVO #3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Realizar una ejemplificación del framework. (Objetivo \#3)}
+
+\frame{ \frametitle{Framework}
+\begin{figure}
+	\includegraphics[width = 0.5\textwidth]{../../architecture/v1/diagrams/framework}
+\end{figure}
+}
+
+\frame{ \frametitle{Flujo de aprovisionamiento}
 \begin{figure}
 	\includegraphics[width = 0.9\textwidth]{../figures/general_workflow_provisioning}
 \end{figure}
-
 }
 
 \frame{ \frametitle{Particiones y Anfitriones}
@@ -118,35 +214,49 @@ curl -X POST http://virtshellsrv:80/enviroments/
 \frame{ \frametitle{Chequeo de tareas}
 }
 
-\section{Arquitectura}
-\frame{ \frametitle{Framework}
-\begin{figure}
-	\includegraphics[width = 0.5\textwidth]{../../architecture/v1/diagrams/framework}
-\end{figure}
-}
-
 \frame{ \frametitle{Vista de componentes}
 }
 
 \frame{ \frametitle{Vista de deployment}
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PRUEBAS Y RESULTADOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Pruebas y Resultados}
 \frame{ \frametitle{Pruebas y Resultados}
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONCLUSIONES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusiones}
 \frame{ \frametitle{Conclusiones}
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RECOMENDACIONES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section{Recomendaciones}
 \frame{ \frametitle{Recomendaciones}
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PREGUNTAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \frame{ \frametitle{Preguntas?}
 \begin{figure}
 	\includegraphics[width = 0.2\textwidth]{../figures/preguntas}
 \end{figure}
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
