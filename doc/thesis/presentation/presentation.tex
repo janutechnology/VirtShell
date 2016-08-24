@@ -1,4 +1,4 @@
-\documentclass[xcolor=dvipsnames]{beamer} % dvipsnames gives more built-in colors
+\documentclass[xcolor=dvipsnames,table]{beamer} % dvipsnames gives more built-in colors
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{xcolor}
@@ -6,13 +6,21 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{pbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONFIGURACIONES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usetheme{Madrid}
 \useoutertheme{miniframes} % Alternatively: miniframes, infolines, split
 \useinnertheme{circles}
 
 \definecolor{UBCblue}{rgb}{0.04706, 0.13725, 0.26667} % UBC Blue (primary)
-
+\definecolor{blueapi}{rgb}{0.74, 0.83, 0.9}
+\newcommand{\si}{\includegraphics[height=0.3cm]{../figures/ok-icon.png}}
+\newcommand{\no}{\includegraphics[height=0.3cm]{../figures/x-icon.jpg}}
 
 \lstset{ %
   backgroundcolor=\color{white}, 
@@ -53,7 +61,7 @@
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TITLE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TITULO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \frame{\titlepage}
@@ -70,20 +78,20 @@
 \section{Objetivos}
 
 \frame{ \frametitle{Objetivos}
-\setbeamercolor{block title}{fg=white,bg=blue!75!black}
-\begin{block}{General}
-Diseñar un framework web, que permita el aprovisionamiento de software automático, para ambientes virtualizados.
-\end{block}
-\pause
-\vspace{0.3cm}
-\setbeamercolor{block title}{fg=white,bg=blue!75!black}
-\begin{block}{Específicos}
-	\begin{enumerate}
-		\item Evaluar diferentes técnicas y soluciones de aprovisionamiento que se utilizan en la actualidad.
-		\item Evaluar diferentes mecanismos de aprovisionamiento.
-		\item Realizar una ejemplificación del framework.
-	\end{enumerate}
-\end{block}
+	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+	\begin{block}{General}
+	Diseñar un framework web, que permita el aprovisionamiento de software automático, para ambientes virtualizados.
+	\end{block}
+	\pause
+	\vspace{0.3cm}
+	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+	\begin{block}{Específicos}
+		\begin{enumerate}
+			\item Evaluar diferentes técnicas y soluciones de aprovisionamiento que se utilizan en la actualidad.
+			\item Evaluar diferentes mecanismos de aprovisionamiento.
+			\item Realizar una ejemplificación del framework.
+		\end{enumerate}
+	\end{block}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -92,40 +100,58 @@ Diseñar un framework web, que permita el aprovisionamiento de software automát
 
 \subsection{Técnicas y soluciones de aprovisionamiento actuales (Objetivo \#1)}
 
-\frame{ \frametitle{Técnicas de Virtualización}
-\begin{figure}
-	\centering
-	\begin{subfigure}[t]{0.4\textwidth}
-	\includegraphics[width=0.7\textwidth]{../../architecture/v1/diagrams/contenedores.jpg}
-	\caption*{Contenedores}
-	\end{subfigure}
-  \hspace{0.6cm}
-  \pause
-  \begin{subfigure}[t]{0.4\textwidth}
-    \includegraphics[width=0.7\textwidth]{../../architecture/v1/diagrams/virtualmachine.jpg}
-    \caption*{Máquinas Virtuales}
-  \end{subfigure}
-\end{figure}
+\frame{ \frametitle{Técnicas de Virtualización trabajadas}
+	\begin{figure}
+		\captionsetup[subfigure]{labelformat=empty}
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[height=5cm]{../../architecture/v1/diagrams/contenedores.jpg}
+			\caption{Contenedores}
+		\end{subfigure}%
+		\pause
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[height=5cm]{../../architecture/v1/diagrams/virtualmachine.jpg}
+			\caption{Máquinas Virtuales}
+		\end{subfigure}%
+	\end{figure}
 }
 
 \frame{ \frametitle{Soluciones de aprovisionamiento evaluadas}
 \begin{multicols}{2}
-\begin{itemize}
-\item Fabric
-\item Chef
-\item Puppet
-\item Juju
-\item CFEngine
-\item Bcfg2
-\item Ansible
-\item Cobbler
-\item SmartFrog
-\item Amazon EC2
-\item Docker composer
-\item SaltStack
-\item Vagrant
-\end{itemize}
+	\begin{itemize}
+		\item Fabric
+		\item Chef
+		\item Puppet
+		\item Juju
+		\item CFEngine
+		\item Bcfg2
+		\item Ansible
+		\item Cobbler
+		\item SmartFrog
+		\item Amazon EC2
+		\item Docker composer
+		\item SaltStack
+		\item Vagrant
+	\end{itemize}
 \end{multicols}
+}
+
+\frame{ \frametitle{Soluciones de aprovisionamiento evaluadas}
+\scriptsize
+\begin{tabular}{| l | l | l | l | l | l | l |}
+	\hline
+	\rowcolor{blueapi}
+	\textbf{Solución} & \textbf{Sop.Nubes} & \textbf{Curv.Apren} & \textbf{Crea} & \textbf{Aprov} & \textbf{API REST} & \textbf{Mult.SO} \\ [0.5ex]
+	\hline\hline
+	Chef          & Todas                           & Alta     & \si     & \si   & \si   & \si   \\ \hline
+	Juju          & \pbox{5cm}{OpenStack \\ MAAS}   & Baja     & \si     & \si   & \no   & \no   \\ \hline
+	Puppet        & La mayoria                      & Media    & \no     & \si   & \no   & \si   \\ \hline
+	Ansible       & \pbox{5cm}{Amazon \\ OpenStack} & Baja     & \no     & \si   & \no   & \si   \\ \hline
+	Amazon EC2    & Amazon                          & Media    & \si     & \si   & \si   & \si   \\ \hline
+	Docker        & \no                             & Media    & \si     & \si   & \si   & \si   \\ \hline
+	Vagrant       & \no                             & Baja     & \si     & \si   & \no   & \si   \\ \hline
+\end{tabular}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -218,6 +244,12 @@ curl -X POST http://virtshellsrv:80/enviroments/
 }
 
 \frame{ \frametitle{Vista de deployment}
+}
+
+\frame{ \frametitle{Demo}
+\begin{figure}
+	\includegraphics[width = 0.2\textwidth]{../figures/demo.jpg}
+\end{figure}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
