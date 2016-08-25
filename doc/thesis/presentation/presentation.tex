@@ -75,7 +75,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OBJETIVOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Objetivos}
+\section{Propósitos alcanzados}
 
 \frame{ \frametitle{Objetivos}
 	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
@@ -160,11 +160,71 @@
 
 \subsection{Evaluar diferentes mecanismos de aprovisionamiento. (Objetivo \#2)}
 
-\frame{ \frametitle{Estilos de servicios web}
-\begin{itemize}
-\item RPC
-\item REST
-\end{itemize}
+\frame{ \frametitle{Selección del mecanismo de aprovisionamiento}
+	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+	\begin{block}{Se evaluaron diferentes formas de escritura de scripts de aprovisionamiento}
+		\begin{itemize}
+			\item json
+			\item xml
+			\item yaml
+			\item archivos texto 
+			\item lenguajes de programación (ruby, python, etc.)
+			\item bash
+		\end{itemize}
+	\end{block}	
+}
+
+\frame{ \frametitle{Selección del mecanismo de aprovisionamiento}
+	\includegraphics[height=5cm]{../figures/and-the-winner-is.jpg}
+	\pause
+	\includegraphics[height=5cm]{../figures/bin-bash.png}
+}
+
+\frame{ \frametitle{Selección del mecanismo de aprovisionamiento}
+	\begin{center}
+		\includegraphics[height=3cm]{../figures/bash_on_windows.png}
+	\end{center}
+}
+
+\frame{ \frametitle{Selección del mecanismo de aprovisionamiento}
+	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+	\begin{block}{Se evaluaron diferentes formas de guardar los scripts en el sistema}
+		\begin{itemize}
+			\item repositorio central propio?
+			\item enviarlo en el momento del aprovisionamiento?
+		\end{itemize}
+	\end{block}
+}
+
+\frame{ \frametitle{Selección del mecanismo de aprovisionamiento}
+	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+	\begin{block}{Solución}
+		\begin{center}
+			\includegraphics[height=2cm]{../figures/git---github-logo.jpg}
+		\end{center}
+	\end{block}
+}
+
+\frame{ \frametitle{Evaluación y selección de un estilo arquitectural}
+	\begin{center}
+		\includegraphics[height=5.5cm]{../figures/restvssoap1.png}
+	\end{center}
+}
+
+\frame{ \frametitle{Evaluación y selección de un estilo arquitectural}
+	\begin{figure}
+		\centering
+		\includegraphics[height=2.5cm]{../figures/restvssoap2.png}
+		\caption*{Fuente: Google Trends}
+	\end{figure}	
+}
+
+\frame{ \frametitle{Evaluación y selección de un estilo arquitectural}
+	\begin{figure}
+		\centering
+		\includegraphics[height=2.5cm]{../figures/jsonvsxml.png}
+		\caption*{Fuente: Google Trends}
+	\end{figure}	
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -174,58 +234,64 @@
 \subsection{Realizar una ejemplificación del framework. (Objetivo \#3)}
 
 \frame{ \frametitle{Framework}
-\begin{figure}
-	\includegraphics[width = 0.5\textwidth]{../../architecture/v1/diagrams/framework}
-\end{figure}
+	\begin{figure}
+		\includegraphics[width = 0.5\textwidth]{../../architecture/v1/diagrams/framework}
+	\end{figure}
 }
 
-\frame{ \frametitle{Flujo de aprovisionamiento}
-\begin{figure}
-	\includegraphics[width = 0.9\textwidth]{../figures/general_workflow_provisioning}
-\end{figure}
+\frame{ \frametitle{Vista de componentes}
+}
+
+\frame{ \frametitle{Vista de deployment}
+}
+
+\section{Flujo de aprovisionamiento}
+	\frame{ \frametitle{Flujo de aprovisionamiento}
+	\begin{figure}
+		\includegraphics[width = 0.9\textwidth]{../figures/general_workflow_provisioning}
+	\end{figure}
 }
 
 \frame{ \frametitle{Particiones y Anfitriones}
-\begin{figure}
-	\includegraphics[width = 0.8\textwidth]{../figures/partitions_and_hosts}
-\end{figure}
+	\begin{figure}
+		\includegraphics[width = 0.8\textwidth]{../figures/partitions_and_hosts}
+	\end{figure}
 }
 
-
 \frame{ \frametitle{Particiones y Anfitriones}
-\begin{figure}
-	\includegraphics[width = 0.8\textwidth]{../figures/partitions_and_hosts2}
-\end{figure}
+	\begin{figure}
+		\includegraphics[width = 0.8\textwidth]{../figures/partitions_and_hosts2}
+	\end{figure}
 }
 
 \begin{frame}[fragile]
-\frametitle{Particiones y Anfitriones (Ejemplo)}
-\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
-curl -X POST http://virtshellsrv:80/partitions/ 
-    -d "{\"name\":\"development_co\",
-         \"description\":\"Collection of servers oriented to development team in Colombia.\"}" 
-    -H "accept:application/json" | jq .
-\end{lstlisting}
+	\frametitle{Particiones y Anfitriones (Ejemplo)}
+	\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
+	curl -X POST http://virtshellsrv:80/partitions/ 
+	    -d "{\"name\":\"development_co\",
+	         \"description\":\"Collection of servers oriented to development team in Colombia.\"}" 
+	    -H "accept:application/json" | jq .
+	\end{lstlisting}
 \end{frame}
 
 
 \frame{ \frametitle{Ambientes de trabajo}
-\begin{figure}
-	\includegraphics[width = 0.8\textwidth]{../figures/enviroments}
-\end{figure}
+	\begin{figure}
+		\includegraphics[width = 0.8\textwidth]{../figures/enviroments}
+	\end{figure}
 }
 
 \begin{frame}[fragile]
-\frametitle{Ambientes de trabajo (Ejemplo)}
-\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
-curl -X POST http://virtshellsrv:80/enviroments/ 
-    -d "{\"name\":\"development\",
-         \"description\":\"Development enviroment\", 
-         \"partition\": \"development_co\", 
-         \"users\": [{\"login\": \"development_user\"}, 
-                     {\"login\": \"guest\"}]}" 
-    -H "accept:application/json" | jq .
-\end{lstlisting}
+	\frametitle{Ambientes de trabajo (Ejemplo)}
+	\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
+	curl -X POST http://virtshellsrv:80/enviroments/ 
+	    -d "{\"name\":\"development\",
+	         \"description\":\"Development enviroment\", 
+	         \"partition\": \"development_co\", 
+	         \"users\": [{\"login\": \"development_user\"}, 
+	                     {\"login\": \"guest\"}]}" 
+	    -H "accept:application/json" | jq .
+	\end{lstlisting}
 \end{frame}
 
 \frame{ \frametitle{Imagenes}
@@ -240,16 +306,10 @@ curl -X POST http://virtshellsrv:80/enviroments/
 \frame{ \frametitle{Chequeo de tareas}
 }
 
-\frame{ \frametitle{Vista de componentes}
-}
-
-\frame{ \frametitle{Vista de deployment}
-}
-
 \frame{ \frametitle{Demo}
-\begin{figure}
-	\includegraphics[width = 0.2\textwidth]{../figures/demo.jpg}
-\end{figure}
+	\begin{figure}
+		\includegraphics[width = 0.2\textwidth]{../figures/demo.jpg}
+	\end{figure}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -282,9 +342,9 @@ curl -X POST http://virtshellsrv:80/enviroments/
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \frame{ \frametitle{Preguntas?}
-\begin{figure}
-	\includegraphics[width = 0.2\textwidth]{../figures/preguntas}
-\end{figure}
+	\begin{figure}
+		\includegraphics[width = 0.2\textwidth]{../figures/preguntas}
+	\end{figure}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
