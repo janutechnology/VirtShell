@@ -385,11 +385,10 @@
 		curl -sv -X POST http://virtshellsrv:80/images/ 
 		    -d "{\"name\":\"ubuntu_server_14.04_amd64\",
 		         \"type\":\"docker-container\",
-		         \"container_resource\":\"http://192.168.56.103/file/dockerfile_ubuntu_server_14.04\"}" 
+		         \"container_resource\":\"http://virtshellsrv/file/dockerfile_ubuntu_server_14.04\"}" 
 		    -H 'accept: application/json' | jq .
 	\end{lstlisting}
 \end{frame}
-
 
 \frame{ \frametitle{Aprovisionadores}
 	\begin{figure}
@@ -405,6 +404,25 @@
 		\url{https://github.com/CALlanoR/VirtShell_Generic_Provisioner_Simple_WebSite_Example}
 	\end{block}
 }
+
+\begin{frame}[fragile]
+	\frametitle{Aprovisionadores}
+	\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
+		curl -sv -X POST http://virtshellsrv:80/provisioners/ 
+		    -d "{\"name\": \"generic_simple_web_site\", 
+		         \"launch\": 1, 
+		         \"memory\": 4, 
+		         \"cpus\": 2, 
+		         \"hdsize\": 20, 
+		         \"image\": \"ubuntu_server_14.04_amd64\", 
+		         \"builder\": \"https://github.com/janutechnology/VirtShell_Generic_Provisioner_Simple_WebSite_Example.git\", 
+		         \"executor\": \"sh install.sh\", 
+		         \"tag\": \"backend\", 
+		         \"permissions\": \"xwrxwrxwr\", 
+		         \"description\": \"Installs/Configures a generic simple web site\"}"  
+		    -H 'accept: application/json' | jq .
+	\end{lstlisting}
+\end{frame}
 
 \frame{ \frametitle{Tipos de instancias}
 	\begin{figure}
