@@ -131,7 +131,7 @@ curl -sv -X POST http://192.168.56.103:80/provisioners/ -d "{\"name\": \"generic
 
 curl -sv -X POST http://192.168.56.103:80/provisioners/ -d "{\"name\": \"generic_web_site_for_centos\", \"launch\": 1, \"memory\": 4, \"cpus\": 2, \"hdsize\": 20, \"image\": \"centos_server_7_amd64\", \"builder\": \"https://github.com/janutechnology/VirtShell_Generic_Provisioner_Simple_WebSite_Example.git\", \"executor\": \"sh install.sh\", \"tag\": \"backend\", \"permissions\": \"xwrxwrxwr\", \"description\": \"Installs/Configures a simple web site for centos\"}"  -H 'accept: application/json' | jq .
 
-curl -sv -X DELETE http://192.168.56.103:80/provisioners/simple_web_site | jq .
+curl -sv -X DELETE http://192.168.56.103:80/provisioners/generic_simple_web_site | jq .
 
 #########################
 # Create instance tests #
@@ -144,7 +144,7 @@ curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website2\", \"
 
 curl -X POST http://192.168.56.103:80/instances/ -d "{\"name\": \"website3\", \"memory\": 1024, \"cpus\": 1, \"hdsize\": \"2GB\", \"description\": \"WebServer\", \"enviroment\": \"development\", \"provisioner\": \"generic_web_site_for_centos\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
 
-curl -X DELETE http://192.168.56.103:80/instances/website1  | jq .
+curl -X DELETE http://192.168.56.103:80/instances/website2  | jq .
 
 ###############
 # Check tasks #
