@@ -29,3 +29,4 @@ Roadmap
 
 + Intances
     - Add iptables for the enviroments (limit the access between machines of the same partition)
+    - When a new instance is created it should be added in enviroments
