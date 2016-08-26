@@ -247,7 +247,7 @@ def _get_ssh_key_rsa_pub():
     return _execute_command(['sudo', 'cat', config.RSA_PUB_KEY_LOCATION])
 
 def _clone_repository(user, ip, builder):
-    return _execute_command(['sudo', 'ssh', '-o', 'StrictHostKeyChecking=no', user+'@'+ip, 'git', 'clone', builder])
+    return _execute_command(['sudo', 'ssh', '-o', 'StrictHostKeyChecking=no', user+'@'+ip, 'git clone ' + builder])
 
 def _execute_provisioner(user, ip, repository_name, executor):
     return _execute_command(['sudo', 'ssh', '-o', 'StrictHostKeyChecking=no', user+'@'+ip, "cd " + repository_name + ";" + executor])

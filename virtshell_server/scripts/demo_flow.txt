@@ -41,14 +41,21 @@ tail -f /var/log/syslog
 #############################
 # 2. Start VirtShell-Server #
 #############################
-cd /var/janu/virtshell_server/virtshell_server
+cd /var/janu/virtshell_server
 sudo python3 server.py 
 
 ################################
 # 3. Start VirtShell-Dispacher #
 ################################
-cd /var/janu/virtshell_server/virtshell_server
+cd /var/janu/virtshell_dispatcher
 sudo python3 server.py
+
+##################
+# 4. Start Agent #
+##################
+sudo rm /var/janu/data/virtshell_provisioning_agent/vsprovagent.db
+cd /var/janu/virtshell_provisioning_agent/
+sudo python3 provisioning_agent.py
 
 #########################
 # Create partition test #
