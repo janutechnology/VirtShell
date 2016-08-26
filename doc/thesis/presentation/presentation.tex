@@ -239,6 +239,18 @@
 	\end{figure}
 }
 
+\frame{ \frametitle{Características del Framework}
+	\begin{itemize}
+		\item Programable
+		\item Repetible
+		\item Modular
+		\item Seguro
+		\item Extensible
+		\item Inyección de dependencias virtuales
+		\item Interoperable
+	\end{itemize}
+}
+
 \frame{ \frametitle{Vista de componentes}
 	\begin{figure}
 		\includegraphics[height=6.4cm]{../../architecture/v1/diagrams/components.jpg}
@@ -271,7 +283,7 @@
 }
 
 \begin{frame}[fragile]
-	\frametitle{Particiones y Anfitriones (Ejemplo)}
+	\frametitle{Creación de una partición (Ejemplo)}
 	\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
 	curl -X POST http://virtshellsrv:80/partitions/ 
 	    -d "{\"name\":\"development_co\",
@@ -280,6 +292,20 @@
 	\end{lstlisting}
 \end{frame}
 
+\begin{frame}[fragile]
+	\frametitle{Asociación de un anfitrión a una partición (Ejemplo)}
+	\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
+	curl -X POST http://virtshellsrv:80/hosts/ 
+	    -d "{\"name\": \"host-server-01\", 
+	         \"os\": \"ubuntu-14.04.4-amd64\", 
+	         \"memory\": \"2GB\", 
+	         \"partition\":\"development_co\", 
+	         \"type\": \"GeneralPurpose\", 
+	         \"local_ipv4\": \"192.168.56.101\", 
+	         \"drivers\": [\"docker\", \"lxc\"]}" 
+	    -H "accept:application/json" | jq .
+	\end{lstlisting}
+\end{frame}
 
 \frame{ \frametitle{Ambientes de trabajo}
 	\begin{figure}
@@ -300,17 +326,117 @@
 	\end{lstlisting}
 \end{frame}
 
-\frame{ \frametitle{Imagenes}
+\frame{ \frametitle{Imágenes}
+	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+	\begin{block}{De dos Tipos}
+		\begin{itemize}
+			\item ISO
+			\item Templates
+		\end{itemize}
+	\end{block}
 }
 
-\frame{ \frametitle{Aprovisionadores}
+\frame{ \frametitle{Imágenes (ISO)}
+	\url{https://github.com/CALlanoR/ubuntu-unattended}
 }
 
-\frame{ \frametitle{Creación de instancias}
+\begin{frame}[fragile]
+	\frametitle{Imágenes (ISO)}
+	\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
+		curl -sv -X PUT \
+		    -H 'accept: application/json' \
+		    -H "Content-Type: text/plain" \
+		    -H 'X-VirtShell-Authorization: UserId:Signature' \
+		    -d '{"name": "ubuntu_server_14.04.2_amd64",
+		         "type": "iso",
+		         "os": "ubuntu",
+		         "timezone": "America/Bogota", 
+		         "key": "/home/callanor/.ssh/id_rsa.pub",
+		         "preseed_url": "https://<host>:<port>/api/virtshell/v1/files/seeds/seed_ubuntu14-04.txt",
+		     "download_url": "http://releases.ubuntu.com/raring/ubuntu-14.04-server-amd64.iso"}' \
+		   'http://virtshellsrv:8080/api/virtshell/v1/image' | jq .
+	\end{lstlisting}
+\end{frame}
+
+\frame{ \frametitle{Imágenes (Template)}
+	\begin{figure}
+		\includegraphics[width = 0.67\textwidth]{../figures/dockerfile.jpg}
+	\end{figure}
 }
+
+\begin{frame}[fragile]
+	\frametitle{Primero el archivo (Ejemplo - Template)}
+	\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
+		curl -sv -X POST \ 
+		    -H 'accept: application/json' 
+		    -H "Content-Type: multipart/form-data" 
+		    -F "permissions=xwrxwrxwr" 
+		    -F "file=@/home/callanor/Documents/Tesis/Repositories/VirtShell/virtshell_server/tests/files/dockerfile_ubuntu_server_14.04" 
+		    http://virtshellsrv:80/files/  | jq .
+	\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Luego la imágen (Ejemplo - Template)}
+	\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
+		curl -sv -X POST http://virtshellsrv:80/images/ 
+		    -d "{\"name\":\"ubuntu_server_14.04_amd64\",
+		         \"type\":\"docker-container\",
+		         \"container_resource\":\"http://192.168.56.103/file/dockerfile_ubuntu_server_14.04\"}" 
+		    -H 'accept: application/json' | jq .
+	\end{lstlisting}
+\end{frame}
+
+
+\frame{ \frametitle{Aprovisionadores (BASH Puro)}
+	\url{https://github.com/CALlanoR/VirtShell_Provisioner_Simple_WebSite_Example}
+}
+
+\frame{ \frametitle{Aprovisionadores (BASH + VirtShell Commands)}
+	\url{https://github.com/CALlanoR/VirtShell_Generic_Provisioner_Simple_WebSite_Example}
+}
+
+\frame{ \frametitle{Tipos de instancias}
+	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+	\begin{block}{Tres Tipos}
+		\begin{itemize}
+			\item VirtualBox
+			\item Docker
+			\item LXC
+			\item Amazon (Under Construction...)
+		\end{itemize}
+	\end{block}
+}
+
+\begin{frame}[fragile]
+	\frametitle{Creación de una instancia (Ejemplo)}
+	\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
+		curl -X POST http://virtshellsrv:80/instances/ 
+		    -d "{\"name\": \"website2\", 
+		         \"memory\": 1024, 
+		         \"cpus\": 1, 
+		         \"hdsize\": \"2GB\", 
+		         \"description\": \"WebServer\", 
+		         \"enviroment\": \"development\", 
+		         \"provisioner\": \"generic_simple_web_site\", 
+		         \"host_type\": \"GeneralPurpose\", 
+		         \"driver\": \"docker\"}" 
+		    -H "accept:application/json" | jq .
+	\end{lstlisting}
+\end{frame}
 
 \frame{ \frametitle{Chequeo de tareas}
 }
+
+
+\begin{frame}[fragile]
+	\frametitle{Consultar una tarea (Ejemplo)}
+	\begin{lstlisting}[language=Bash,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{blue}]
+		curl -s http://192.168.56.103:80/tasks/b9bc6d72-cf78-4c92-bc34-c06809d4d52b | jq .
+	\end{lstlisting}
+\end{frame}
+
+
 
 \frame{ \frametitle{Demo}
 	\begin{figure}

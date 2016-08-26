@@ -42,3 +42,5 @@ RUN printf '[supervisord]\nnodaemon=true\n\n' >> /etc/supervisor/conf.d/supervis
 RUN printf '[program:sshd]\nautostart=true\ncommand=/usr/sbin/sshd -D' >> /etc/supervisor/conf.d/supervisord.conf
 
 CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+
+RUN apt-get update --fix-missing
