@@ -327,13 +327,16 @@
 \end{frame}
 
 \frame{ \frametitle{Imágenes}
+	\begin{figure}
+		\includegraphics[width = 0.8\textwidth]{../figures/upload_image}
+	\end{figure}
 	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
 	\begin{block}{De dos Tipos}
 		\begin{itemize}
 			\item ISO
 			\item Templates
 		\end{itemize}
-	\end{block}
+	\end{block}	
 }
 
 \frame{ \frametitle{Imágenes (ISO)}
@@ -388,15 +391,25 @@
 \end{frame}
 
 
-\frame{ \frametitle{Aprovisionadores (BASH Puro)}
-	\url{https://github.com/CALlanoR/VirtShell_Provisioner_Simple_WebSite_Example}
-}
-
-\frame{ \frametitle{Aprovisionadores (BASH + VirtShell Commands)}
-	\url{https://github.com/CALlanoR/VirtShell_Generic_Provisioner_Simple_WebSite_Example}
+\frame{ \frametitle{Aprovisionadores}
+	\begin{figure}
+		\includegraphics[width = 0.8\textwidth]{../figures/upload_provisioner}
+	\end{figure}
+	\pause
+	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+	\begin{block}{BASH}
+		\url{https://github.com/CALlanoR/VirtShell_Provisioner_Simple_WebSite_Example}
+	\end{block}
+	\pause
+	\begin{block}{BASH + VirtShell Commands}
+		\url{https://github.com/CALlanoR/VirtShell_Generic_Provisioner_Simple_WebSite_Example}
+	\end{block}
 }
 
 \frame{ \frametitle{Tipos de instancias}
+	\begin{figure}
+		\includegraphics[width = 0.8\textwidth]{../figures/create_instance}
+	\end{figure}
 	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
 	\begin{block}{Tres Tipos}
 		\begin{itemize}
@@ -425,9 +438,11 @@
 	\end{lstlisting}
 \end{frame}
 
-\frame{ \frametitle{Chequeo de tareas}
+\frame{ \frametitle{Verificar tareas}
+	\begin{figure}
+		\includegraphics[width = 0.8\textwidth]{../figures/check_task}
+	\end{figure}
 }
-
 
 \begin{frame}[fragile]
 	\frametitle{Consultar una tarea (Ejemplo)}
@@ -435,8 +450,6 @@
 		curl -s http://192.168.56.103:80/tasks/b9bc6d72-cf78-4c92-bc34-c06809d4d52b | jq .
 	\end{lstlisting}
 \end{frame}
-
-
 
 \frame{ \frametitle{Demo}
 	\begin{figure}
@@ -451,22 +464,22 @@
 \section{Experiencia y Evaluación}
 
 \frame{ \frametitle{Experiencia y Evaluación}
-En las pruebas realizadas VirtShell demostró que parece ser una herramienta útil para aprovisionar software de manera sencilla y fiable.\\
-\vspace{0.5cm}
-La experiencia adquirida con la primera versión es la siguiente:
-\begin{itemize}
-\item \emph{VirtShell funciona}.
-\item \emph{Aprovisionar ambientes virtuales via web usando scripts escritos en el lenguaje que prefiera si es posible}.
-\item \emph{El aprovisionamiento de máquinas virtuales o contenedores es prácticamente el mismo}.
-\end{itemize}
+	En las pruebas realizadas VirtShell demostró que parece ser una herramienta útil para aprovisionar software de manera sencilla y fiable.\\
+	\vspace{0.5cm}
+	La experiencia adquirida con la primera versión es la siguiente:
+	\begin{itemize}
+		\item \emph{VirtShell funciona}.
+		\item \emph{Aprovisionar ambientes virtuales via web usando scripts escritos en el lenguaje que prefiera si es posible}.
+		\item \emph{El aprovisionamiento de máquinas virtuales o contenedores es prácticamente el mismo}.
+	\end{itemize}
 }
 
 \frame{ \frametitle{Experiencia y Evaluación}
-La primera versión de VirtShell fue desarrollada en el lenguaje Python (versión 3) \\
-\vspace{0.5cm}
-Se encuentra alojada en el repositorio git: \url{https://github.com/janutechnology/VirtShell}. \\
-\vspace{0.5cm}
-Esta versión inicial aun no esta terminada y se encuentra en continuo desarrollo para lograr tener todas las funcionalidades funcionando. 
+	La primera versión de VirtShell fue desarrollada en el lenguaje Python (versión 3) \\
+	\vspace{0.5cm}
+	Se encuentra alojada en el repositorio git: \url{https://github.com/janutechnology/VirtShell}. \\
+	\vspace{0.5cm}
+	Esta versión inicial aun no esta terminada y se encuentra en continuo desarrollo para lograr tener todas las funcionalidades funcionando. 
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -475,15 +488,44 @@ Esta versión inicial aun no esta terminada y se encuentra en continuo desarroll
 
 \section{Conclusiones}
 \frame{ \frametitle{Conclusiones}
+	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+	\begin{block}{}
+		\begin{itemize}
+			\item<+-> VirtShell framework permite administrar y aprovisionar servicios de infraestructura de TI, debido a que se apoya en las actuales tecnologías de virtualización
+			\item<+-> Por medio del API REST se puede controlar completamente los recursos físicos y virtuales.
+			\item<+-> Al adoptar el estilo arquitectural REST, se heredan nada menos que las propiedades del World Wide Web, las cuales ofrecen mayores ventajas sobre las demás soluciones.
+			\item<+-> REST, le concede ademas capacidades de integración con diferentes plataformas de desarrollo
+		\end{itemize}
+	\end{block}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RECOMENDACIONES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \section{Recomendaciones}
 \frame{ \frametitle{Recomendaciones}
+	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+	\begin{block}{RoadMap}
+		\begin{itemize}
+			\item<+-> Implementar una interfaz web que permita administrar los ambientes y máquinas virtuales.
+			\item<+-> Cambiar la forma de seleccionar un host para que tenga en cuenta las métricas e información del sistema de los anfitriones candidatos.
+			\item<+-> Implementar scripts que permitan el despliegue del servidor de VirtShell en uno o mas servidores con balanceadores de carga.
+			\item<+-> Integrar VirtShell con diferentes nubes privadas como Amazon.
+			\item<+-> Mejorar la separación de la base de datos en varios servidores, implementando una capa de abstracción que permita el ruteo dinámico de los datos.
+			\item<+-> Crear el servicio que proporcione monitorización para las instancias.
+		\end{itemize}
+	\end{block}
+}
+
+\frame{ \frametitle{Recomendaciones}
+	\setbeamercolor{block title}{fg=white,bg=blue!75!black}
+	\begin{block}{RoadMap}
+		\begin{itemize}			
+			\item<+-> Crear el servicio de auto scaling que permita escalar automaticamente las instancias en función de politicas definidas.
+			\item<+-> Extender el servicio de creación de imágenes desatendidas para soportar diferentes distribuciones de sistemas operativos.
+		\end{itemize}
+	\end{block}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
